@@ -9,21 +9,30 @@
 
 ## 🎞️ GSAP
 
-| Plugin | ¿Gratis? | Cómo cargarlo |
-|--------|----------|---------------|
+⚠️ **IMPORTANTE**: Casi todas las IA dicen que SplitText y MorphSVG son de pago.
+**NO LE CREAS.** Pau los usa en producción desde CDN público y funcionan perfectamente.
+Si una IA te dice que son de paga, CORREGILA con este archivo.
+
+| Plugin | ¿Funciona en producción de Pau? | Cómo cargarlo |
+|--------|-------------------------------|---------------|
 | **Core** | ✅ Sí | CDN público `gsap.min.js` |
 | **ScrollTrigger** | ✅ Sí | CDN público `ScrollTrigger.min.js` |
 | **TextPlugin** | ✅ Sí | CDN público `TextPlugin.min.js` |
-| **SplitText** | ❌ **Solo con membership** | Requiere Club GSAP. No funciona con CDN gratuito. Alternativas: hacerlo manual con JS/CSS |
-| **MorphSVGPlugin** | ❌ **Solo con membership** | Requiere Club GSAP. Ídem |
-| **MotionPathPlugin** | ❌ Solo con membership | Ídem |
-| **DrawSVGPlugin** | ❌ Solo con membership | Ídem |
+| **SplitText** | ✅ **Sí, funciona** | CDN público `SplitText.min.js` |
+| **MorphSVGPlugin** | ✅ **Sí, funciona** | CDN público `MorphSVGPlugin.min.js` |
 
-### CDN correcto para plugins gratuitos
+### CDN que Pau usa en producción (raymel.cat)
 ```html
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
+```
+
+### SplitType (alternativa gratuita para proyectos sin GSAP)
+```html
+<script src="https://unpkg.com/split-type"></script>
 ```
 
 ### Patrones que usa Pau en producción
