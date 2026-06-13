@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio :has() — Galería de Productos</title>
+  <!-- No modifiques este HTML. El ejercicio es SOLO CSS -->
+  <link rel="stylesheet" href="ejercicio-has.css">
+</head>
+<body>
+
+  <h1>🌿 Nuestra Tienda</h1>
+
+  <div class="grid">
+    <!-- Card con imagen -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="Zapatillas rojas">
+      <h2>Zapatillas Rojas</h2>
+      <p class="price">89€</p>
+      <button>Añadir</button>
+    </article>
+
+    <!-- Card sin imagen -->
+    <article class="card">
+      <h2>Pack de 3 Calcetines</h2>
+      <p class="price">19€</p>
+      <button>Añadir</button>
+    </article>
+
+    <!-- Card con imagen -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" alt="Reloj de pulsera">
+      <h2>Reloj Clásico</h2>
+      <p class="price">145€</p>
+      <button>Añadir</button>
+    </article>
+
+    <!-- Card sin imagen (sold out) -->
+    <article class="card sold-out">
+      <h2>Gorro de Lana</h2>
+      <p class="price">29€</p>
+      <button disabled>Agotado</button>
+    </article>
+
+    <!-- Card con imagen -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" alt="Auriculares">
+      <h2>Auriculares Bose</h2>
+      <p class="price">299€</p>
+      <button>Añadir</button>
+    </article>
+
+    <!-- Card sin imagen -->
+    <article class="card">
+      <h2>Mochila Urbana</h2>
+      <p class="price">59€</p>
+      <button>Añadir</button>
+    </article>
+
+    <!-- Card con imagen (sold out) -->
+    <article class="card sold-out">
+      <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400" alt="Gafas de sol">
+      <h2>Gafas Polarizadas</h2>
+      <p class="price">99€</p>
+      <button disabled>Agotado</button>
+    </article>
+
+    <!-- Card sin imagen -->
+    <article class="card">
+      <h2>Bufanda Casual</h2>
+      <p class="price">25€</p>
+      <button>Añadir</button>
+    </article>
+  </div>
+
+  <p class="note">
+    💡 Ejercicio: estila todo usando SOLO <code>:has()</code> en el CSS.
+    No toques este HTML.
+  </p>
+
+</body>
+</html>

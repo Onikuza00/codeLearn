@@ -1,0 +1,13 @@
+# Sistema
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Node (por si acaso)
+node_modules/
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
