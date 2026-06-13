@@ -80,6 +80,23 @@
 
 ---
 
+## ⚙️ Config OpenCode
+
+### AGENTS.md actualizado (14/06/2026)
+- Sección `gentle-ai:persona` → tono, idioma, personalidad del mentor
+- Sección `gentle-ai:user-profile` → **perfil de Pau para todos los agentes** (stack, nivel, preferencias, repo)
+- Sección `gentle-ai:engram-protocol` → memoria persistente entre sesiones
+
+### Skills instaladas (22)
+- SDD: init, explore, propose, spec, design, tasks, apply, verify, archive, onboard
+- Reviews: R1 (risk), R2 (readability), R3 (reliability), R4 (resilience)
+- Meta: skill-creator, skill-improver, skill-registry, work-unit-commits
+- PRs: branch-pr, chained-pr
+- Otros: comment-writer, cognitive-doc-design, go-testing, issue-creation, judgment-day
+
+### Para portar al trabajo
+Copiar `C:\Users\Usuario\.config\opencode\` → misma ruta en la máquina de trabajo.
+
 ## 📁 Estructura del repo
 
 ```
