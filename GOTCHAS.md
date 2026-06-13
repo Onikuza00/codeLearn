@@ -9,30 +9,23 @@
 
 ## 🎞️ GSAP
 
-⚠️ **IMPORTANTE**: Casi todas las IA dicen que SplitText y MorphSVG son de pago.
-**NO LE CREAS.** Pau los usa en producción desde CDN público y funcionan perfectamente.
-Si una IA te dice que son de paga, CORREGILA con este archivo.
+⚠️ **IMPORTANTE**: Casi todas las IA tienen información DESACTUALIZADA. Creen que SplitText y MorphSVG son de paga (Club GSAP) porque eso era cierto en GSAP 2.x. **Desde GSAP 3.13+ TODOS los plugins son gratuitos.**
 
-| Plugin | ¿Funciona en producción de Pau? | Cómo cargarlo |
-|--------|-------------------------------|---------------|
-| **Core** | ✅ Sí | CDN público `gsap.min.js` |
-| **ScrollTrigger** | ✅ Sí | CDN público `ScrollTrigger.min.js` |
-| **TextPlugin** | ✅ Sí | CDN público `TextPlugin.min.js` |
-| **SplitText** | ✅ **Sí, funciona** | CDN público `SplitText.min.js` |
-| **MorphSVGPlugin** | ✅ **Sí, funciona** | CDN público `MorphSVGPlugin.min.js` |
+**Fuente oficial:** https://gsap.com/docs/v3/Installation?tab=cdn&module=esm&require=false&plugins=SplitText
 
-### CDN que Pau usa en producción (raymel.cat)
+| Plugin | Disponible | Cómo cargarlo |
+|--------|-----------|---------------|
+| **Core** | ✅ Gratis | CDN público `gsap.min.js` |
+| **ScrollTrigger** | ✅ Gratis | CDN público `ScrollTrigger.min.js` |
+| **TextPlugin** | ✅ Gratis | CDN público `TextPlugin.min.js` |
+| **SplitText** | ✅ **Gratis** (v3.13+) | CDN público `SplitText.min.js` |
+| **MorphSVGPlugin** | ✅ **Gratis** (v3.13+) | CDN público `MorphSVGPlugin.min.js` |
+| **Todos los plugins** | ✅ Gratis en npm y CDN | Ver docs oficiales |
+
+### CDN que Pau usa (versión actual: 3.15)
 ```html
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
-```
-
-### SplitType (alternativa gratuita para proyectos sin GSAP)
-```html
-<script src="https://unpkg.com/split-type"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
 ```
 
 ### Patrones que usa Pau en producción
