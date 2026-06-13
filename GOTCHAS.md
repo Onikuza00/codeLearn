@@ -31,7 +31,7 @@
 ### Patrones que usa Pau en producción
 - **Lenis + GSAP**: Siempre con `lenis.on('scroll', ScrollTrigger.update)` y `gsap.ticker.add()`
 - **MatchMedia**: Rutas de animación COMPLETAMENTE distintas para mobile y desktop (`gsap.matchMedia()`)
-- **SplitText alternativo**: Usar `SplitType` (librería gratuita: `https://unpkg.com/split-type`) para proyectos sin Club GSAP
+- **SplitText**: Siempre usar el de GSAP (`SplitText.min.js`), es gratuito desde v3.13+
 - **Hero entrance**: Usar `elastic.out()` para entradas llamativas
 - **Scroll horizontal con pin**: Calcular distancia dinámicamente con `scrollWidth - clientWidth`
 
