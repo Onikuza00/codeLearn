@@ -59,6 +59,7 @@
 - **Sin atribución AI**: nunca agregar "Co-Authored-By"
 - **Nombres**: camelCase para variables/funciones, PascalCase para clases
 - **Comentarios**: en catalán/castellano para código de aprendizaje, inglés para producción
+- **CSS: Mobile First SIEMPRE.** Todo CSS debe escribirse mobile-first: estilos base sin media query para mobile, `min-width` para breakpoints superiores. No usar `max-width` a menos que sea una excepción justificada. Si una IA genera código desktop-first, CORREGIRLA.
 
 ---
 
