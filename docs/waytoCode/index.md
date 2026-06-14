@@ -6,4 +6,4 @@
 
 ## Semanas
 
-- [Semana 1 (2026-06-08 — 2026-06-14)](semana-1.md)
+- [Semana 1 (2026-06-08 — 2026-06-14)](semana-1/index.md)

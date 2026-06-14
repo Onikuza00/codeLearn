@@ -32,7 +32,11 @@ nav:
   - Inicio: index.md
   - 🗺️ Way to Code:
     - waytoCode/index.md
-    - Semana 1: waytoCode/semana-1.md
+    - Semana 1:
+      - waytoCode/semana-1/index.md
+      - 2026-06-13: waytoCode/semana-1/2026-06-13.md
+      - 2026-06-14 — Symfony WC: waytoCode/semana-1/2026-06-14-sesion-1.md
+      - 2026-06-14 — CSS intensivo: waytoCode/semana-1/2026-06-14-sesion-2.md
   - CSS:
     - css/index.md
     - "Bloque 01: :has()":
