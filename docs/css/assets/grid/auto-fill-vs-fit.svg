@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 260" width="500" height="260">
+  <rect width="500" height="260" fill="#fafafa" rx="8"/>
+  <text x="250" y="20" text-anchor="middle" font-family="monospace" font-size="12" fill="#666">auto-fill vs auto-fit (5 items, espacio para 6)</text>
+
+  <!-- auto-fill -->
+  <rect x="30" y="35" width="440" height="90" fill="none" stroke="#aaa" stroke-width="1.5" rx="6"/>
+  <text x="250" y="55" text-anchor="middle" font-family="monospace" font-size="10" fill="#666">auto-fill: deja espacio vacío</text>
+
+  <rect x="40" y="65" width="58" height="48" fill="#00BCD4" rx="4"/>
+  <text x="69" y="93" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">1</text>
+  <rect x="104" y="65" width="58" height="48" fill="#26C6DA" rx="4"/>
+  <text x="133" y="93" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">2</text>
+  <rect x="168" y="65" width="58" height="48" fill="#4DD0E1" rx="4"/>
+  <text x="197" y="93" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">3</text>
+  <rect x="232" y="65" width="58" height="48" fill="#80DEEA" rx="4"/>
+  <text x="261" y="93" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">4</text>
+  <rect x="296" y="65" width="58" height="48" fill="#B2EBF2" rx="4"/>
+  <text x="325" y="93" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#00838f" font-weight="bold">5</text>
+  <!-- columna vacía -->
+  <rect x="360" y="65" width="58" height="48" fill="#e0e0e0" rx="4" stroke="#ccc" stroke-dasharray="3"/>
+  <text x="389" y="93" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#999">vacío</text>
+
+  <!-- auto-fit -->
+  <rect x="30" y="145" width="440" height="90" fill="none" stroke="#aaa" stroke-width="1.5" rx="6"/>
+  <text x="250" y="165" text-anchor="middle" font-family="monospace" font-size="10" fill="#666">auto-fit: colapsa vacíos, items se estiran</text>
+
+  <rect x="40" y="178" width="73" height="48" fill="#00BCD4" rx="4"/>
+  <text x="76" y="206" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">1</text>
+  <rect x="119" y="178" width="73" height="48" fill="#26C6DA" rx="4"/>
+  <text x="155" y="206" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">2</text>
+  <rect x="198" y="178" width="73" height="48" fill="#4DD0E1" rx="4"/>
+  <text x="234" y="206" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">3</text>
+  <rect x="277" y="178" width="73" height="48" fill="#80DEEA" rx="4"/>
+  <text x="313" y="206" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#fff" font-weight="bold">4</text>
+  <rect x="356" y="178" width="92" height="48" fill="#B2EBF2" rx="4"/>
+  <text x="402" y="206" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#00838f" font-weight="bold">5₁</text>
+</svg>

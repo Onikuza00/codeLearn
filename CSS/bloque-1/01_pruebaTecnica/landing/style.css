@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} 
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #cbdadf;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+
+}
+header ul {
+    display:flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+header ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+header ul li a:hover {
+    color: #0e3968;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    header ul {
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+}
+
+
+main {
+    padding: 5rem 3rem;
+    background-color: #d8e8fd;
+    
+}
+
+article {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+article h1 {
+    font-size: 2.5rem;
+    color: #0e3968;
+    margin-bottom: 1rem;
+}
+
+.boxes {
+    display:flex;
+    justify-content: space-around;
+    flex-direction: row;
+    margin-top:3rem;
+}
+
+@media (max-width: 768px) {
+
+    article{
+         text-align: center;
+         gap:2rem;
+    }
+    .boxes {
+        flex-direction: column;
+        align-items: center;
+         text-align: center;
+    }
+}
+
+ .boxes div{
+        background-color: #e0f1f7;
+        padding: 1rem;
+        width: 100%;
+        margin: 1rem;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 300px;
+        height: auto;
+        gap: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+
+    footer {
+        
+        background-color: #cbdadf;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    }

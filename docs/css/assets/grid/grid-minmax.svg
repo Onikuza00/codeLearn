@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 170" width="500" height="170">
+  <rect width="500" height="170" fill="#fafafa" rx="8"/>
+  <text x="250" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">minmax(200px, 1fr) — mínimo 200px, máximo 1fr</text>
+
+  <!-- Cuándo hay poco espacio -->
+  <rect x="30" y="35" width="440" height="55" fill="none" stroke="#aaa" stroke-width="1.5" rx="6"/>
+  <text x="250" y="50" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#999">Poco espacio → cada columna mide 200px (mínimo)</text>
+  <rect x="45" y="58" width="120" height="25" fill="#00BCD4" rx="4"/>
+  <text x="105" y="75" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#fff" font-weight="bold">200px</text>
+  <rect x="180" y="58" width="120" height="25" fill="#26C6DA" rx="4"/>
+  <text x="240" y="75" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#fff" font-weight="bold">200px</text>
+  <rect x="315" y="58" width="120" height="25" fill="#4DD0E1" rx="4"/>
+  <text x="375" y="75" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#fff" font-weight="bold">200px</text>
+
+  <!-- Mucho espacio -->
+  <rect x="30" y="100" width="440" height="55" fill="none" stroke="#aaa" stroke-width="1.5" rx="6"/>
+  <text x="250" y="115" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#999">Mucho espacio → las columnas crecen (1fr cada una)</text>
+  <rect x="45" y="123" width="126" height="25" fill="#00BCD4" rx="4"/>
+  <rect x="186" y="123" width="126" height="25" fill="#26C6DA" rx="4"/>
+  <rect x="327" y="123" width="126" height="25" fill="#4DD0E1" rx="4"/>
+</svg>

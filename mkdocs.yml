@@ -1,0 +1,99 @@
+site_name: CodeLearn — Pau
+site_author: Pau Crosas Batista
+site_description: Documentación de aprendizaje — CSS, Frontend, Backend, GSAP, DevOps
+site_url: https://codelearn.pau.dev
+
+theme:
+  name: material
+  language: es
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Modo oscuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - content.code.copy
+
+nav:
+  - Inicio: index.md
+  - 🗺️ Way to Code: waytoCode.md
+  - CSS:
+    - css/index.md
+    - "Bloque 01: :has()":
+      - css/01-has.md
+    - Container Queries: css/02-container-queries.md
+    - CSS Layers: css/03-layers.md
+    - "Bloque 04 - Flexbox":
+      - css/04-flexbox/index.md
+      - Conceptos: css/04-flexbox/conceptos.md
+      - Alineación: css/04-flexbox/alineacion.md
+      - Items flexibles: css/04-flexbox/items.md
+    - "Bloque 05 - Grid":
+      - css/05-grid/index.md
+      - Conceptos: css/05-grid/conceptos.md
+      - Ubicación: css/05-grid/ubicacion.md
+      - Auto Layout: css/05-grid/auto.md
+  - Frontend:
+    - frontend/index.md
+    - JS Vanilla:
+      - frontend/01-js-vanilla/index.md
+    - Vue:
+      - frontend/02-vue/index.md
+  - Backend:
+    - backend/index.md
+    - PHP:
+      - backend/01-php/index.md
+    - Symfony:
+      - backend/02-symfony/index.md
+      - "Bloque 01 - Web Components":
+        - Arquitectura: backend/02-symfony/web-components/arquitectura.md
+        - TwigComponents: backend/02-symfony/web-components/twig-components.md
+        - LiveComponents: backend/02-symfony/web-components/live-components.md
+        - Stimulus: backend/02-symfony/web-components/stimulus.md
+  - GSAP:
+    - gsap/index.md
+  - DevOps:
+    - devops/index.md
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - def_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - admonition
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Onikuza00
+
+copyright: Copyright &copy; 2026 Pau Crosas Batista

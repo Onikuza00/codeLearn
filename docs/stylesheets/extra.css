@@ -1,0 +1,281 @@
+/* ─── Títulos de sección ─── */
+
+h1 {
+    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    padding-bottom: 0.4em;
+    padding-right: 0.1em;
+    font-size: 2.4rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    display: inline-block;
+}
+
+/* Línea decorativa debajo del h1 (proporcional al texto) */
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 3px;
+    animation: lineGrow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 12px rgba(124, 77, 255, 0.3);
+}
+
+/* Animación de entrada */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+        filter: blur(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* Animación de la línea */
+@keyframes lineGrow {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+    to {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+/* ─── Variaciones de color por sección ─── */
+
+/* Arquitectura */
+.section-architecture {
+    background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-architecture::after {
+    background: linear-gradient(90deg, #3949ab, #5c6bc0);
+}
+.section-architecture:hover {
+    background: linear-gradient(135deg, #5c6bc0 0%, #3949ab 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Twig Components */
+.section-twig {
+    background: linear-gradient(135deg, #536dfe 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-twig::after {
+    background: linear-gradient(90deg, #536dfe, #7c4dff);
+}
+
+/* Live Components */
+.section-live {
+    background: linear-gradient(135deg, #7c4dff 0%, #aa00ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-live::after {
+    background: linear-gradient(90deg, #7c4dff, #aa00ff);
+}
+
+/* Stimulus */
+.section-stimulus {
+    background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-stimulus::after {
+    background: linear-gradient(90deg, #9c27b0, #e040fb);
+}
+
+/* Énfasis hover: invierte gradiente */
+.section-twig:hover {
+    background: linear-gradient(135deg, #7c4dff 0%, #536dfe 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+.section-live:hover {
+    background: linear-gradient(135deg, #aa00ff 0%, #7c4dff 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+.section-stimulus:hover {
+    background: linear-gradient(135deg, #e040fb 0%, #9c27b0 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Admonitions ─── */
+
+.admonition {
+    border-radius: 10px !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07) !important;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.admonition:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ─── Variaciones de color por sección (continuación) ─── */
+
+/* Flexbox */
+.section-flex {
+    background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-flex::after {
+    background: linear-gradient(90deg, #FF6D00, #FF9100);
+}
+.section-flex:hover {
+    background: linear-gradient(135deg, #FF9100 0%, #FF6D00 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Grid */
+.section-grid {
+    background: linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-grid::after {
+    background: linear-gradient(90deg, #00BCD4, #26C6DA);
+}
+.section-grid:hover {
+    background: linear-gradient(135deg, #26C6DA 0%, #00BCD4 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Admonitions personalizadas por tecnología ─── */
+
+/* Arquitectura */
+.admonition.architecture {
+    border-left: 4px solid #3949ab !important;
+}
+.admonition.architecture .admonition-title {
+    background: rgba(57, 73, 171, 0.1) !important;
+    color: #3949ab !important;
+    font-weight: 700;
+}
+.admonition.architecture .admonition-title::before {
+    color: #3949ab !important;
+}
+
+/* Twig */
+.admonition.twig {
+    border-left: 4px solid #536dfe !important;
+}
+.admonition.twig .admonition-title {
+    background: rgba(83, 109, 254, 0.1) !important;
+    color: #536dfe !important;
+    font-weight: 700;
+}
+.admonition.twig .admonition-title::before {
+    color: #536dfe !important;
+}
+
+/* Live */
+.admonition.live {
+    border-left: 4px solid #7c4dff !important;
+}
+.admonition.live .admonition-title {
+    background: rgba(124, 77, 255, 0.1) !important;
+    color: #7c4dff !important;
+    font-weight: 700;
+}
+.admonition.live .admonition-title::before {
+    color: #7c4dff !important;
+}
+
+/* Stimulus */
+.admonition.stimulus {
+    border-left: 4px solid #e040fb !important;
+}
+.admonition.stimulus .admonition-title {
+    background: rgba(224, 64, 251, 0.1) !important;
+    color: #c026d3 !important;
+    font-weight: 700;
+}
+.admonition.stimulus .admonition-title::before {
+    color: #e040fb !important;
+}
+
+/* Flex */
+.admonition.flex {
+    border-left: 4px solid #FF6D00 !important;
+}
+.admonition.flex .admonition-title {
+    background: rgba(255, 109, 0, 0.1) !important;
+    color: #e65100 !important;
+    font-weight: 700;
+}
+.admonition.flex .admonition-title::before {
+    color: #FF6D00 !important;
+}
+
+/* Grid */
+.admonition.grid {
+    border-left: 4px solid #00BCD4 !important;
+}
+.admonition.grid .admonition-title {
+    background: rgba(0, 188, 212, 0.1) !important;
+    color: #00838f !important;
+    font-weight: 700;
+}
+.admonition.grid .admonition-title::before {
+    color: #00BCD4 !important;
+}
+
+/* ─── Bloques de código ─── */
+
+.highlight {
+    border-radius: 10px;
+}
+
+/* ─── Tabs ─── */
+
+.tabbed-set {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* ─── Hover en cards ─── */
+
+.md-typeset .grid.cards > ol > li,
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > ol > li,
+.md-typeset .grid > ul > li {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.md-typeset .grid.cards > ol > li:hover,
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > ol > li:hover,
+.md-typeset .grid > ul > li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}

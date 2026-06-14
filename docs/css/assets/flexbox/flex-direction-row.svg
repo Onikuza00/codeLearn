@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" width="500" height="120">
+  <rect width="500" height="120" fill="#fafafa" rx="8"/>
+  <text x="250" y="20" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">flex-direction: row</text>
+
+  <!-- Contenedor -->
+  <rect x="30" y="30" width="440" height="60" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4" rx="6"/>
+
+  <!-- Flecha de dirección -->
+  <line x1="40" y1="85" x2="460" y2="85" stroke="#FF6D00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <defs>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8" fill="#FF6D00"/>
+    </marker>
+  </defs>
+  <text x="240" y="100" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#FF6D00">Eje principal →</text>
+
+  <!-- Items -->
+  <rect x="50" y="42" width="70" height="36" fill="#FF6D00" rx="4"/>
+  <text x="85" y="65" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#fff" font-weight="bold">1</text>
+
+  <rect x="140" y="42" width="70" height="36" fill="#FF9100" rx="4"/>
+  <text x="175" y="65" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#fff" font-weight="bold">2</text>
+
+  <rect x="230" y="42" width="70" height="36" fill="#FFB74D" rx="4"/>
+  <text x="265" y="65" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#fff" font-weight="bold">3</text>
+</svg>
