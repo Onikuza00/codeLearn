@@ -25,4 +25,4 @@ codeLearn/
 
 ## Última sesión
 
-**2026-06-14** — Symfony Web Components + CSS `:has()` → [Ver progreso](waytoCode.md)
+**2026-06-14** — Symfony Web Components + CSS `:has()` → [Ver progreso](waytoCode/index.md)

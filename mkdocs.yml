@@ -30,7 +30,9 @@ theme:
 
 nav:
   - Inicio: index.md
-  - 🗺️ Way to Code: waytoCode.md
+  - 🗺️ Way to Code:
+    - waytoCode/index.md
+    - Semana 1: waytoCode/semana-1.md
   - CSS:
     - css/index.md
     - "Bloque 01: :has()":
