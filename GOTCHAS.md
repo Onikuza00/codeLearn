@@ -98,6 +98,14 @@
 - `margin-left: 0 auto` no existe — confundir `margin-left` con `margin: 0 auto`.
 - `transition: .5 ease-in-out` — falta la `s` en `.5s`.
 - `border: 0.5 grey solid` — `0.5` sin unidad no es válido.
+- `box-sizing: 0` — debe ser `box-sizing: border-box;`, no `0`.
+- `font-family: "Sans-serif"` — debe ser `sans-serif` (minúscula, sin comillas).
+- `grid-template-areas: "card" "card2"` — cada FILA va entre comillas dobles: `"card card2"`, no cada celda individual.
+- `repeat (3, 1fr)` con espacio antes de `(` — no válido, debe ser `repeat(3, 1fr)`.
+- `@media (width < 400)` sin unidad — debe ser `(width < 400px)`.
+- `box-shadow: 1px 5px 10px(#000)` — no se usa coma ni paréntesis así. Debe ser `box-shadow: 0 4px 12px rgba(0,0,0,0.15)`.
+- `grid-direction: column` — no existe. Usar `grid-template-columns: 1fr`.
+- Hijos del grid deben ser DIRECTOS del contenedor que define `grid-template-areas`.
 
 ---
 

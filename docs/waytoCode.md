@@ -34,6 +34,60 @@
 - ✅ Docs Symfony WC reestructurados: 10 secciones (Arquitectura, Twig, Live, Props/Eventos, Stimulus, UX React/Vue, UX Toolkit, Web Components Navegador, Árbol Decisión, Recursos)
 - ✅ Leído y entendido Component Architecture CookBook de ux.symfony.com
 
+---
+
+### 🎯 Sesión 2 — CSS intensivo: Flexbox + Grid
+
+#### Evaluación de nivel
+
+Se realizaron **3 ejercicios de diagnóstico** (Flexbox) y **4 ejercicios de Grid** para medir el nivel real:
+
+| # | Ejercicio | Tema | Tiempo | Nota |
+|---|-----------|------|--------|------|
+| 1 | Header con Flexbox | Flexbox | 15' (no terminó) | 4/10 |
+| 2 | Hero con Flexbox | Flexbox | 15' (sobraron 2') | 6.5/10 |
+| 3 | Landing page | Flexbox | 20' (justo) | 7/10 |
+| 4 | Galería responsive | Grid `auto-fit` | 20' | 8/10 |
+| 5 | Dashboard | Grid `areas` | 20' (falló) | — |
+| 6 | Revista digital | Grid `areas` | 20' | 7/10 |
+| 7 | Hero con Grid | Grid `areas` | 20' | 6/10 |
+| 8 | Pricing cards | Grid `areas` | 15' | 7/10 |
+
+**Progresión**: 4/10 → 7/10 en 8 ejercicios. Notable mejora.
+
+#### Fortalezas detectadas ✅
+- Entiende y aplica `display: flex` con `justify-content` / `align-items`
+- Captó rápido `repeat(auto-fit, minmax(..., 1fr))` — el combo responsive sin media queries
+- `grid-template-areas` con nombres sin comillas
+- Estructura HTML semántica consistente
+- Reset global automático
+
+#### Debilidades detectadas 🔴
+- Errores de sintaxis CSS repetitivos: `0.5` sin unidad, `transition: .5` sin `s`, `calc()` en vez de `clamp()`
+- `grid-template-areas` con comillas incorrectas (poner cada celda entre comillas en vez de cada fila)
+- `repeat (4,1fr)` con espacio antes de `()` — no válido
+- Hijos del grid no directos — no coincide el `grid-area` con el contenedor real
+- `box-sizing: 0` en vez de `border-box`
+- Olvida `display: flex` antes de usar `flex-direction`
+
+#### CSS documentación creada
+- **Flexbox** (4 páginas): conceptos, alineación, items flexibles — con 18 SVGs
+- **Grid** (4 páginas): conceptos, ubicación, auto layout — con 9 SVGs
+- **27 SVGs visuales** para propiedades de layout
+- **Nav actualizado** en mkdocs.yml con bloques 04 y 05
+- **Referencias**: midudev, lenguajecss.com, CSS-Tricks, MDN
+
+#### Configuración de herramientas
+- ✅ Emmet configurado con `triggerExpansionOnTab: true`
+- ✅ Snippets VS Code: 5 HTML + 8 CSS
+- ✅ `editor.suggestOnTriggerCharacters: false` en HTML y CSS para evitar interferencias
+- ✅ Live Server recomendado para preview
+
+#### Próximos pasos
+- Terminar bloques CSS pendientes (`:has()`, Container Queries, `@layer`)
+- Proyecto integrador CSS (bloque 06)
+- Grid avanzado con subgrid
+
 ### Recursos
 - Documentación local: `http://localhost:8000`
 - Código: `C:\xampp\htdocs\codeLearn`
