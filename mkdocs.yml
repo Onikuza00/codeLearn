@@ -37,10 +37,7 @@ nav:
       - 2026-06-13: waytoCode/semana-1/2026-06-13.md
       - 2026-06-14 — Symfony WC: waytoCode/semana-1/2026-06-14-sesion-1.md
       - 2026-06-14 — CSS intensivo: waytoCode/semana-1/2026-06-14-sesion-2.md
-  - 🧪 Way to Learn:
-    - waytoLearn/index.md
-    - waytoLearn/plantilla.md
-    - "01 — Landing Flex+Grid": waytoLearn/01-landing-flex-grid.md
+      - 🎯 Ejercicio activo: waytoCode/ejercicio.md
   - CSS:
     - css/index.md
     - "Bloque 01: :has()":
