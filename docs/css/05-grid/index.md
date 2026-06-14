@@ -48,3 +48,5 @@
 
 - [MDN: Grid CSS](https://developer.mozilla.org/es/docs/Web/CSS/CSS_grid_layout)
 - [CSS-Tricks: Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
+- 🎥 [midudev — Aprende Grid CSS en 30 minutos](https://www.youtube.com/watch?v=TlJbu0BMLaY)
+- 📖 [lenguajecss.com — Grid CSS](https://lenguajecss.com/css/grid/que-es-grid/)
