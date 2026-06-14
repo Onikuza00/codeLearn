@@ -11,5 +11,5 @@
 
 ## Enlaces
 
-- [Web Components — Bloque 01](web-components.md)
-- [React vs Symfony WC](react-vs-symfony-wc.md)
+- [Web Components — Bloque 01](web-components/arquitectura.md)
+- React vs Symfony WC *(pendiente)*

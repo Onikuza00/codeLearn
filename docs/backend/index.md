@@ -12,4 +12,4 @@
 
 ## Progreso
 
-- [Web Components: teoría inicial](02-symfony/web-components.md)
+- [Web Components: arquitectura](02-symfony/web-components/arquitectura.md)
