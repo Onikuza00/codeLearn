@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — CSS Assessment</title>
+  <link rel="stylesheet" href="pricing.css">
+</head>
+<body>
+  <section class="pricing">
+    <header class="pricing__header">
+      <h2 class="pricing__title">Planes adaptados a tu proyecto</h2>
+      <p class="pricing__subtitle">Elegí el plan que mejor se adapte al tamaño de tu equipo. Sin sorpresas, cancelá cuando quieras.</p>
+    </header>
+
+    <div class="pricing__grid">
+      <!-- Card 1: Básico -->
+      <article class="pricing-card">
+        <div class="pricing-card__icon">🪐</div>
+        <h3 class="pricing-card__title">Básico</h3>
+        <p class="pricing-card__price">$9 <span class="pricing-card__period">/ mes</span></p>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature">1 proyecto</li>
+          <li class="pricing-card__feature">5 GB almacenamiento</li>
+          <li class="pricing-card__feature">Soporte por email</li>
+        </ul>
+        <a href="#" class="pricing-card__cta">Elegir plan</a>
+      </article>
+
+      <!-- Card 2: Pro (destacada) -->
+      <article class="pricing-card pricing-card--featured">
+        <span class="pricing-card__badge">Más popular</span>
+        <div class="pricing-card__icon">🚀</div>
+        <h3 class="pricing-card__title">Pro</h3>
+        <p class="pricing-card__price">$29 <span class="pricing-card__period">/ mes</span></p>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature">10 proyectos</li>
+          <li class="pricing-card__feature">50 GB almacenamiento</li>
+          <li class="pricing-card__feature">Soporte prioritario</li>
+          <li class="pricing-card__feature">API access</li>
+        </ul>
+        <a href="#" class="pricing-card__cta">Elegir plan</a>
+      </article>
+
+      <!-- Card 3: Enterprise -->
+      <article class="pricing-card">
+        <div class="pricing-card__icon">💎</div>
+        <h3 class="pricing-card__title">Enterprise</h3>
+        <p class="pricing-card__price">$99 <span class="pricing-card__period">/ mes</span></p>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feature">Proyectos ilimitados</li>
+          <li class="pricing-card__feature">500 GB almacenamiento</li>
+          <li class="pricing-card__feature">Soporte 24/7</li>
+          <li class="pricing-card__feature">SSO + auditoría</li>
+        </ul>
+        <a href="#" class="pricing-card__cta">Elegir plan</a>
+      </article>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Práctico JS — Task Dashboard | CodeLearn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    h1 { font-size: 2rem; border-bottom: 4px solid var(--accent-js); padding-bottom: .5rem; margin-bottom: .5rem; }
+    h1 span { color: var(--accent-js); }
+    h2 {
+      font-size: 1.25rem;
+      color: var(--accent-js);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .25rem;
+      border-bottom: 2px solid var(--accent-js-dim);
+    }
+    .requisito {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: .75rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: .5rem 0;
+      border-left: 4px solid var(--accent-js);
+    }
+    .requisito strong { color: var(--accent-js); }
+    .nota {
+      background: #1e1a0a;
+      padding: .5rem 1rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--accent-js);
+      font-size: .9rem;
+      color: #f0d060;
+    }
+    .checklist {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+    .checklist h3 { margin-top: 0; color: var(--text-primary); }
+    .checklist ul { padding-left: 1.25rem; }
+    .checklist li { margin-bottom: .25rem; }
+    .meta-bar--exam {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #1e1a0a;
+      border: 1px solid #3a2e0a;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-size: .875rem;
+    }
+    .meta-bar--exam strong { color: var(--accent-js); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Nexus Agency
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Examen final</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main class="container">
+
+<h1>📋 Examen Práctico JS — <span>Task Dashboard</span></h1>
+<p><strong>Contexto:</strong> Tenés que construir un dashboard de gestión de tareas desde cero. Sin frameworks, sin librerías, sin copiar código. JavaScript vanilla 100%.</p>
+<p><strong>Tiempo estimado:</strong> 50–65 min.</p>
+<p><strong>Reglas:</strong> <code>const</code> por defecto, <code>let</code> solo si reasignás. Nada de <code>var</code>. Early returns. Funciones de &lt;= 20 líneas. Sin innerHTML para crear elementos (usá createElement).</p>
+<p><strong>Archivos:</strong> <code>dashboard.html</code> + <code>dashboard.js</code>. Todo desde cero.</p>
+<p><strong>Datos iniciales (copialos en tu JS):</strong></p>
+<pre style="background:var(--bg-elevated);padding:.75rem;border-radius:var(--radius-sm);font-size:.8rem;border:1px solid var(--border);overflow-x:auto;color:var(--text-secondary);">const tasks = [
+  { id: 1, title: 'Diseñar header responsive', category: 'CSS', completed: true },
+  { id: 2, title: 'Implementar grid de servicios', category: 'CSS', completed: true },
+  { id: 3, title: 'Agregar animaciones con GSAP', category: 'JS', completed: false },
+  { id: 4, title: 'Crear endpoint de usuarios', category: 'PHP', completed: false },
+  { id: 5, title: 'Revisar accesibilidad', category: 'CSS', completed: false },
+  { id: 6, title: 'Optimizar imágenes', category: 'UX', completed: true },
+];</pre>
+
+<hr>
+
+<h2>Feature 1 — Estructura inicial <span class="tag tag--dom">DOM</span></h2>
+
+<div class="requisito">
+  <strong>Renderizar el dashboard</strong> — Creá toda la estructura HTML desde JavaScript usando <code>createElement</code> y <code>appendChild</code>.
+</div>
+
+<ul>
+  <li>Creá un <code>&lt;header&gt;</code> con un título "Task Dashboard 🔥" y un subtítulo con el total de tareas.</li>
+  <li>Creá un <code>&lt;section class="filters"&gt;</code> con 3 botones de filtro: "Todas", "Pendientes", "Completadas".</li>
+  <li>Creá un <code>&lt;section class="stats"&gt;</code> que muestre: Total, Completadas, Pendientes (solo los números).</li>
+  <li>Creá un <code>&lt;main class="task-list"&gt;</code> vacío donde se renderizarán las cards de tareas.</li>
+  <li>Creá un <code>&lt;form class="add-task"&gt;</code> con un input de texto, un select de categorías (CSS, JS, PHP, UX) y un botón "Agregar".</li>
+  <li>Todo debe crearse desde JS. El HTML solo tiene <code>&lt;div id="app"&gt;&lt;/div&gt;</code>.</li>
+</ul>
+
+<h2>Feature 2 — Renderizar tareas <span class="tag tag--array">Arrays</span> <span class="tag tag--dom">DOM</span></h2>
+
+<div class="requisito">
+  <strong>Mostrar las tareas</strong> — Función <code>renderTasks(array)</code> que recibe un array y pinta las cards en el DOM.
+</div>
+
+<ul>
+  <li>Cada card debe tener: checkbox de completada, título, categoría (con un color distinto por categoría), y botón "Eliminar".</li>
+  <li>Usá <code>map()</code> + <code>join('')</code> o createElement por cada tarea. La que prefieras.</li>
+  <li>Si la tarea está completada, la card debe tener una clase <code>.task--done</code> que la opaque o tache el texto.</li>
+  <li>Renderizá todo llamando a <code>renderTasks(tasks)</code> al cargar la página.</li>
+  <li>BONUS: Usá <code>dataset</code> para guardar el <code>id</code> de cada tarea en la card.</li>
+</ul>
+
+<h2>Feature 3 — Filtrar tareas <span class="tag tag--array">Filter</span> <span class="tag tag--dom">Events</span></h2>
+
+<div class="requisito">
+  <strong>Filtros funcionales</strong> — Al clickear un botón de filtro, mostrar solo las tareas correspondientes.
+</div>
+
+<ul>
+  <li>"Todas": muestra todas.</li>
+  <li>"Pendientes": <code>filter(t => !t.completed)</code>.</li>
+  <li>"Completadas": <code>filter(t => t.completed)</code>.</li>
+  <li>El botón activo debe tener una clase visual distinta (ej: <code>.filter--active</code>).</li>
+  <li>Usá delegación de eventos o event listeners separados — como prefieras, pero explicá por qué elegiste uno u otro.</li>
+  <li>Al cambiar el filtro, actualizá también las stats (Feature 5).</li>
+</ul>
+
+<h2>Feature 4 — Agregar tareas <span class="tag tag--dom">Events</span> <span class="tag tag--dom">createElement</span></h2>
+
+<div class="requisito">
+  <strong>Formulario funcional</strong> — Al enviar el formulario, crear una nueva tarea y agregarla al array.
+</div>
+
+<ul>
+  <li>Escuchá el evento <code>submit</code> del formulario.</li>
+  <li>Prevení el comportamiento por defecto (<code>e.preventDefault()</code>).</li>
+  <li>Creá un objeto tarea con: <code>id</code> (Date.now() o Math.random), <code>title</code>, <code>category</code>, <code>completed: false</code>.</li>
+  <li>Agregalo al array con spread operator: <code>tasks = [...tasks, newTask]</code> (o push si usás let).</li>
+  <li>Re-renderizá con el filtro actual activo.</li>
+  <li>Limpiá el input después de agregar.</li>
+  <li>Validá que el input no esté vacío — si está vacío, mostrá un mensaje o agregá <code>:has(:invalid)</code> si también estilás con CSS.</li>
+</ul>
+
+<h2>Feature 5 — Stats en vivo <span class="tag tag--array">Reduce</span></h2>
+
+<div class="requisito">
+  <strong>Estadísticas actualizadas</strong> — Función <code>updateStats()</code> que calcula total, completadas y pendientes con <code>reduce()</code>.
+</div>
+
+<ul>
+  <li>Usá <code>reduce()</code> para contar: <code>tasks.reduce((acc, t) => { t.completed ? acc.done++ : acc.pending++; return acc; }, { done: 0, pending: 0 })</code>.</li>
+  <li>Actualizá el contenido de <code>.stats</code> cada vez que se rendericen tareas.</li>
+</ul>
+
+<h2>Feature 6 — Async: cargar tareas externas <span class="tag tag--async">Fetch</span> <span class="tag tag--async">Async/Await</span></h2>
+
+<div class="requisito">
+  <strong>Cargar tareas desde una API</strong> — Al inicio, intentar cargar tareas desde <code>https://jsonplaceholder.typicode.com/todos?_limit=5</code>.
+</div>
+
+<ul>
+  <li>Creá una función <code>async function loadExternalTasks()</code>.</li>
+  <li>Usá <code>fetch()</code> con <code>await</code>.</li>
+  <li>Mapeá la respuesta al formato de tus tareas: <code>{ id, title, category: 'API', completed }</code>.</li>
+  <li>Si la API responde bien, combiná las tareas externas con las locales usando spread.</li>
+  <li>Si la API falla (try/catch), usá solo las tareas locales y mostrá un mensaje en consola.</li>
+  <li>Llamá a <code>loadExternalTasks()</code> al inicio y después renderizá.</li>
+  <li>BONUS: Mostrá un indicador de carga mientras se resuelve el fetch.</li>
+</ul>
+
+<h2>Feature 7 — Eliminar tareas <span class="tag tag--array">Filter</span> <span class="tag tag--dom">Events</span></h2>
+
+<div class="requisito">
+  <strong>Botón eliminar funcional</strong> — Al clickear "Eliminar" en una card, sacar la tarea del array y re-renderizar.
+</div>
+
+<ul>
+  <li>Usá <code>filter()</code> para crear un nuevo array sin la tarea eliminada.</li>
+  <li>Identificá la tarea por su <code>id</code> (usá <code>dataset.id</code> o <code>dataset.taskId</code>).</li>
+  <li>Antes de eliminar, mostrá un <code>confirm('¿Eliminar tarea?')</code>.</li>
+  <li>Re-renderizá después de eliminar.</li>
+</ul>
+
+<h2>Bonus — Persistencia <span class="tag tag--es6">localStorage</span></h2>
+
+<div class="requisito">
+  <strong>Opcional</strong> — Guardar las tareas en localStorage y recuperarlas al recargar.
+</div>
+
+<ul>
+  <li>Al modificar el array (agregar, eliminar, toggle), guardalo con <code>localStorage.setItem('tasks', JSON.stringify(tasks))</code>.</li>
+  <li>Al cargar la página, revisá si hay tareas guardadas con <code>JSON.parse(localStorage.getItem('tasks'))</code>.</li>
+  <li>Si hay datos guardados, usalos en vez del array inicial. Si no, usá el array de ejemplo.</li>
+  <li>Esto demuestra que entendés persistencia en el navegador.</li>
+</ul>
+
+<hr>
+
+<div class="nota">
+  ⏱️ Priorizá las features en orden. Si no llegás a todo, que esté completo hasta Feature 4 como mínimo. El Bonus es solo si sobra tiempo.
+</div>
+
+<hr>
+
+<div class="checklist">
+  <h3>✅ Checklist de conceptos evaluados</h3>
+  <ul>
+    <li>☐ createElement / appendChild para construir el DOM desde cero</li>
+    <li>☐ map(), filter(), reduce() para manipular arrays de datos</li>
+    <li>☐ Event listeners (submit, click) y delegación</li>
+    <li>☐ Spread operator para agregar items sin mutar</li>
+    <li>☐ dataset para guardar datos en el DOM</li>
+    <li>☐ async / await + fetch + try/catch</li>
+    <li>☐ filter() para eliminar elementos</li>
+    <li>☐ reduce() para acumular valores</li>
+    <li>☐ const/let, template literals, arrow functions</li>
+    <li>☐ localStorage para persistencia (bonus)</li>
+  </ul>
+  <p style="margin-top:1rem;font-weight:700;color:var(--accent-js);">🔥 Features 1 a 4 obligatorias para aprobar. Features 5 a 7 suben nota. Bonus es opcional.</p>
+</div>
+
+<div class="footer-note">
+  CodeLearn Assessment — 19/07/2026
+</div>
+
+</main>
+
+<script>
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
+
+</body>
+</html>

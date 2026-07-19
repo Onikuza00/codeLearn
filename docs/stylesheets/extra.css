@@ -1,3 +1,62 @@
+/* Ocultar ¶ de anclas en headings en todos lados */
+.headerlink,
+.md-typeset .headerlink {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+
+
+/* ─── Nav: títulos de sección más visibles ─── */
+
+.md-nav__item--nested > .md-nav__link {
+    font-weight: 650;
+    letter-spacing: 0.01em;
+}
+
+/* ─── Intro blockquote de cada sección ─── */
+
+h1[class^="section-"] + blockquote {
+    font-size: 0.95rem;
+    font-weight: 450;
+    line-height: 1.55;
+    padding: 0.85rem 1.25rem;
+    margin: 0.75rem 0 1.5rem;
+    border: none;
+    border-left: 4px solid transparent;
+    background: linear-gradient(135deg, rgba(124, 77, 255, 0.08) 0%, rgba(124, 77, 255, 0.02) 50%, transparent 100%);
+    border-radius: 0 12px 12px 0;
+    color: var(--md-typeset-color);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+
+/* Gradiente en el borde izquierdo del intro */
+h1[class^="section-"] + blockquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--md-primary-fg-color), #e040fb);
+    border-radius: 2px 0 0 2px;
+}
+
+/* Asegurar contraste en inline code dentro de blockquote */
+h1[class^="section-"] + blockquote code {
+    background: var(--md-code-bg-color, #f5f5f5);
+    color: var(--md-code-fg-color, #e91e63);
+    font-weight: 600;
+}
+
+/* Quitar fondo de inline code dentro de títulos de sección */
+h1[class^="section-"] code {
+    background: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
 /* ─── Títulos de sección ─── */
 
 h1 {
@@ -134,6 +193,42 @@ h1::after {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Arquitectura — h2 */
+h1.section-architecture ~ h2 {
+    background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Twig — h2 */
+h1.section-twig ~ h2 {
+    background: linear-gradient(135deg, #536dfe 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Live — h2 */
+h1.section-live ~ h2 {
+    background: linear-gradient(135deg, #7c4dff 0%, #aa00ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Stimulus — h2 */
+h1.section-stimulus ~ h2 {
+    background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
 /* ─── Variaciones de color por sección (continuación) ─── */
 
 /* Flexbox */
@@ -168,6 +263,241 @@ h1::after {
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
+}
+
+/* Flexbox — h2 */
+h1.section-flex ~ h2 {
+    background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Grid — h2 */
+h1.section-grid ~ h2 {
+    background: linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* :has() — h1 */
+.section-has {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-has::after {
+    background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.section-has:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* :has() — h2 */
+h1.section-has ~ h2 {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Container Queries — h1 */
+.section-cq {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-cq::after {
+    background: linear-gradient(90deg, #047857, #34D399);
+}
+.section-cq:hover {
+    background: linear-gradient(135deg, #34D399 0%, #047857 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Container Queries — h2 */
+h1.section-cq ~ h2 {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* CSS Layers — h1 */
+.section-layers {
+    background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-layers::after {
+    background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+.section-layers:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* CSS Layers — h2 */
+h1.section-layers ~ h2 {
+    background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* ─── Categorías CSS ─── */
+
+/* Selectores — h1 */
+.section-selectores {
+    background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-selectores::after {
+    background: linear-gradient(90deg, #6366f1, #a5b4fc);
+}
+.section-selectores:hover {
+    background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Selectores — h2 */
+h1.section-selectores ~ h2 {
+    background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Layout — h1 */
+.section-layout {
+    background: linear-gradient(135deg, #e65100 0%, #00acc1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-layout::after {
+    background: linear-gradient(90deg, #e65100, #00acc1);
+}
+.section-layout:hover {
+    background: linear-gradient(135deg, #00acc1 0%, #e65100 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Layout — h2 */
+h1.section-layout ~ h2 {
+    background: linear-gradient(135deg, #e65100 0%, #00acc1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Responsive — h1 */
+.section-responsive {
+    background: linear-gradient(135deg, #00796b 0%, #4db6ac 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-responsive::after {
+    background: linear-gradient(90deg, #00796b, #4db6ac);
+}
+.section-responsive:hover {
+    background: linear-gradient(135deg, #4db6ac 0%, #00796b 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Responsive — h2 */
+h1.section-responsive ~ h2 {
+    background: linear-gradient(135deg, #00796b 0%, #4db6ac 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Quitar fondo de inline code dentro de h2 con degradado */
+h1[class^="section-"] ~ h2 code {
+    background: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
+/* Arquitectura — h1 */
+.section-arquitectura {
+    background: linear-gradient(135deg, #4527a0 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-arquitectura::after {
+    background: linear-gradient(90deg, #4527a0, #7c4dff);
+}
+.section-arquitectura:hover {
+    background: linear-gradient(135deg, #7c4dff 0%, #4527a0 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Arquitectura — h2 */
+h1.section-arquitectura ~ h2 {
+    background: linear-gradient(135deg, #4527a0 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* BEM — h1 */
+.section-bem {
+    background: linear-gradient(135deg, #7b1fa2 0%, #ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-bem::after {
+    background: linear-gradient(90deg, #7b1fa2, #ce93d8);
+}
+.section-bem:hover {
+    background: linear-gradient(135deg, #ce93d8 0%, #7b1fa2 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* BEM — h2 */
+h1.section-bem ~ h2 {
+    background: linear-gradient(135deg, #7b1fa2 0%, #ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
 }
 
 /* ─── Admonitions personalizadas por tecnología ─── */

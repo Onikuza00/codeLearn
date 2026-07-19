@@ -5,6 +5,7 @@ site_url: https://codelearn.pau.dev
 
 theme:
   name: material
+  custom_dir: overrides
   language: es
   palette:
     - scheme: default
@@ -30,30 +31,52 @@ theme:
 
 nav:
   - Inicio: index.md
+  - 🗺️ Planes:
+    - planning/index.md
+    - Próxima Sesión: planning/aprendizaje.md
   - 🗺️ Way to Code:
     - waytoCode/index.md
-    - Semana 1:
-      - waytoCode/semana-1/index.md
-      - 2026-06-13: waytoCode/semana-1/2026-06-13.md
-      - 2026-06-14 — Symfony WC: waytoCode/semana-1/2026-06-14-sesion-1.md
-      - 2026-06-14 — CSS intensivo: waytoCode/semana-1/2026-06-14-sesion-2.md
-      - 🎯 Ejercicio activo: waytoCode/ejercicio.md
+    - 🎯 Ejercicio activo: waytoCode/ejercicio.md
+    - 2026:
+      - waytoCode/2026/index.md
+      - "Mes 06 — Junio":
+        - waytoCode/2026/06/index.md
+        - "Semana 01 — Setup y diagnóstico":
+          - 2026-06-13: waytoCode/2026/06/semana-1/2026-06-13.md
+          - 2026-06-14 — Symfony WC: waytoCode/2026/06/semana-1/2026-06-14-sesion-1.md
+          - 2026-06-14 — CSS intensivo: waytoCode/2026/06/semana-1/2026-06-14-sesion-2.md
+        - "Semana 02 — Finde intensivo CSS":
+          - 2026-06-27 — Día 1 CSS: waytoCode/2026/06/semana-2/2026-06-27.md
+      - "Mes 07 — Julio":
+        - waytoCode/2026/07/index.md
+        - "Semana 03 — CSS & JS":
+          - "Sábado 18 — CSS intensivo": waytoCode/2026/07/semana-3/2026-07-18.md
+          - "Domingo 19 — Examen CSS": waytoCode/2026/07/semana-3/2026-07-19.md
   - CSS:
     - css/index.md
-    - "Bloque 01: :has()":
-      - css/01-has.md
-    - Container Queries: css/02-container-queries.md
-    - CSS Layers: css/03-layers.md
-    - "Bloque 04 - Flexbox":
-      - css/04-flexbox/index.md
-      - Conceptos: css/04-flexbox/conceptos.md
-      - Alineación: css/04-flexbox/alineacion.md
-      - Items flexibles: css/04-flexbox/items.md
-    - "Bloque 05 - Grid":
-      - css/05-grid/index.md
-      - Conceptos: css/05-grid/conceptos.md
-      - Ubicación: css/05-grid/ubicacion.md
-      - Auto Layout: css/05-grid/auto.md
+    - "Selectores":
+      - css/selectores/index.md
+      - ":has()": css/selectores/01-has/index.md
+    - "Layout":
+      - css/layout/index.md
+      - Flexbox:
+        - css/layout/04-flexbox/index.md
+        - Conceptos: css/layout/04-flexbox/conceptos.md
+        - Alineación: css/layout/04-flexbox/alineacion.md
+        - Items flexibles: css/layout/04-flexbox/items.md
+      - Grid:
+        - css/layout/05-grid/index.md
+        - Conceptos: css/layout/05-grid/conceptos.md
+        - Ubicación: css/layout/05-grid/ubicacion.md
+        - Auto Layout: css/layout/05-grid/auto.md
+    - "Responsive":
+      - css/responsive/index.md
+      - "Container Queries": css/responsive/02-container-queries/index.md
+      - "Funciones responsive": css/responsive/funciones-responsive.md
+    - "Arquitectura":
+      - css/arquitectura/index.md
+      - BEM: css/arquitectura/bem.md
+      - "CSS Layers": css/arquitectura/03-layers/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -75,9 +98,16 @@ nav:
     - gsap/index.md
   - DevOps:
     - devops/index.md
+  - SDD:
+    - sdd/index.md
+    - Fases: sdd/fases.md
 
 markdown_extensions:
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:
@@ -98,6 +128,9 @@ markdown_extensions:
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/nav-toggle.js
 
 extra:
   social:

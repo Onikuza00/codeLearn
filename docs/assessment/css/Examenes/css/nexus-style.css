@@ -1,0 +1,133 @@
+@import "root.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+body {
+    font-family: var(--ff-body);
+    font-size: var(--normal);
+    font-weight: 400;
+    color: var(--c-gray);
+    background-color: var(--c-white);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: var(--c-blue-plus);
+    color: var(--c-way);
+    padding: var(--space-s) var(--space-l);
+    gap: var(--space-m);
+}
+
+.header__logo {
+    font-family: var(--ff-logo);
+    font-size: var(--base);
+    font-weight: 500;
+}
+
+.header__menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-l);
+    text-align: right;
+}
+
+.header__link {
+    color: var(--c-way);
+    font-size: var(--small-xm);
+}
+
+.header__nav li {
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--small-xm);
+}
+
+.header__nav li:hover::after {
+    list-style: square;
+    position: absolute;
+    padding-left: var(--space-xs);
+    list-style-position: inside;
+    font-size: var(--small-xm);
+    content: "◂";
+    color: var(--c-active);
+}
+
+.header__link:hover {
+    color: var(--c-active);
+}
+
+.header__btn {
+    background: var(--c-white);
+    color: var(--c-blue);
+    border-radius: var(--radius-s);
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--small-xm);
+    font-weight: bolder;
+    transition: color var(--tr-normal) ease, transform var(--tr-normal) ease;
+}
+
+.header__btn:hover {
+    background-color: var(--c-active);
+    color: var(--c-black);
+    transform: translateY(-2px);
+}
+
+.header__link:focus-visible {
+    outline: 2px solid var(--c-active);
+    outline-offset: 4px;
+    border-radius: var(--radius-xs);
+}
+
+.header__btn:focus-visible {
+    outline: 2px solid var(--c-active);
+    outline-offset: 3px;
+}
+
+@media (width > 768px) {
+
+    .header {
+        padding: var(--space-s) var(--space-xl);
+    }
+
+    .header__menu {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .header__nav {
+        margin: 0 auto;
+    }
+
+    .header__nav ul {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-m);
+    }
+
+    .header__link {
+        color: var(--c-way);
+        font-weight: bolder;
+        padding-top: var(--spaces-s);
+    }
+
+}

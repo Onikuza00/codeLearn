@@ -1,0 +1,204 @@
+/*
+ * EJERCICIO :has() + :not()
+ *
+ * Dashboard de servicios con estados.
+ * Sin IA, sin ayudín.
+ *
+ * ─── TIEMPO: 25 minutos ───
+ *
+ * ─── REQUISITOS ───
+ *
+ * 1. Reset + variables (colores, spacing, font-primary, radius)
+ *
+ * 2. Grid responsive:
+ *    - Mobile: 1 columna
+ *    - ≥640px: 2 columnas
+ *    - ≥1024px: 4 columnas
+ *
+ * 3. BEM obligatorio: dashboard, status-card, etc.
+ *
+ * 4. Status indicator:
+ *    --active  → fondo/background verde
+ *    --error   → rojo
+ *    --paused  → amarillo
+ *
+ * 5. :has() en .dashboard__grid:
+ *    Si ALGUNA card tiene --error, el grid entero
+ *    tiene un outline rojo de 3px.
+ *
+ * 6. :has() + :not() en .status-card:
+ *    Las cards que NO tienen --active deben tener
+ *    opacidad reducida (0.7).
+ *
+ * 7. clamp() en .dashboard__title:
+ *    font-size: clamp(1.3rem, 3vw, 2.2rem)
+ *
+ * 8. :focus-visible en .status-card (la card entera es clickeable):
+ *    outline: 3px solid con outline-offset: 2px
+ *
+ * 9. prefers-reduced-motion:
+ *    Si está activo, sacar todas las transiciones
+ *
+ * 10. Animación extra (fácil):
+ *     Cuando una card está en hover, elevala con translateY(-4px)
+ *     y transición suave.
+ */
+
+ * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+}
+
+:root{
+    /* Colors */
+    --c-primary: #090a09;
+    --c-secondary: #ffffff;
+    --c-success: #4CAF50;
+    --c-error: #F44336;
+    --c-paused: #FFEB3B;
+    --c-bg: #f5f5f5;
+    --bg-black: #000000;
+    --bg-white: #ffffff;
+    --bg-light: #f5f5f5;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-xxl: 4rem;
+   
+    /* Font */
+    --font-primary: 'Arial', sans-serif;
+    --font-secondary: 'Helvetica', sans-serif;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    /* Transitions */
+    --transition-fast: 0.2s ease-in-out;
+    --transition-medium: 0.5s ease-in-out;
+    --transition-slow: 1s ease-in-out;
+
+    /* Size */
+    --size-xs: clamp(0.75rem, calc(1vw + 0.25rem), 1rem);
+    --size-sm: clamp(1rem, calc(1vw + 0.5rem), 1.25rem);
+    --size-md: clamp(1.25rem, calc(1vw + 0.75rem), 1.5rem);
+    --size-lg: clamp(1.5rem, calc(1vw + 1rem), 2rem);
+    --size-xl: clamp(2rem, calc(1vw + 1.25rem), 2.5rem);
+    --size-xxl: clamp(2.5rem, calc(1vw + 1.5rem), 3rem);
+}
+
+
+    /* Header */
+    
+    .dashboard__header {
+        background-color: var(--c-primary);
+        color: var(--c-secondary);
+        padding: var(--spacing-md);
+        text-align: center;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+.dashboard__grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+}
+
+@media (min-width: 640px) {
+    .dashboard__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .dashboard__grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Status Card */
+.status-card {
+    background-color: var(--c-);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    border:solid 1px var(--bg-black);
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+    cursor:pointer;
+}
+
+.status-card:focus-visible {
+    outline: 3px solid var(--c-primary);
+    outline-offset: 2px;
+}
+
+.status-card:hover {
+    transform: translateY(-4px);
+}
+
+.status-card__status {
+    border: solid 1px var(--bg-black);
+    padding: var(--spacing-xs) var(--spacing-md);
+    color: var(--bg-white);
+    background-color: var(--bg-black);
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    font-size: var(--size-xs);
+}
+
+.status-card__status--error {
+    background-color: var(--c-error);
+}
+
+.status-card__status--active {
+    background-color: var(--c-success);
+}
+
+.status-card__status--paused{
+    background-color: var(--c-paused);
+    color: var(--c-primary);
+    font-weight: 600;
+}
+
+.dashboard__grid:has(.status-card__status--error){
+    outline: 3px solid var(--c-error);
+}
+
+.status-card:not(:has(.status-card__status--active)){
+    opacity: 0.7;
+}
+
+.dashboard__title {
+     font-size: clamp(1.3rem, 3vw, 2.2rem);
+    margin-bottom: var(--spacing-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .status-card {
+        transition: none;
+    }
+}
+
+.status-card__icon {
+    font-size: var(--size-xxl);
+    margin-bottom: var(--spacing-sm);
+}

@@ -1,0 +1,406 @@
+/* ============================================================
+   CodeLearn Assessment — Shared Styles
+   Dark theme + Megamenu nav + Base components
+   ============================================================ */
+
+/* ---------- Dark Theme Variables ---------- */
+:root {
+  --bg-base: #0a0a14;
+  --bg-surface: #12121e;
+  --bg-elevated: #1a1a2e;
+  --bg-hover: #242440;
+  --bg-active: #2e2e50;
+  --border: #2a2a44;
+  --border-light: #3a3a5a;
+  --text-primary: #e4e4f0;
+  --text-secondary: #9494b0;
+  --text-muted: #5c5c78;
+  --accent-css: #38bdf8;
+  --accent-css-dim: #1e3a5f;
+  --accent-js: #facc15;
+  --accent-js-dim: #4a3f0a;
+  --accent-green: #22c55e;
+  --accent-green-dim: #0a3a1e;
+  --accent-red: #ef4444;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 16px rgba(0,0,0,.3);
+  --font: system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Nav ---------- */
+.nav {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav__logo {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -.02em;
+  flex-shrink: 0;
+}
+.nav__logo span { color: var(--accent-css); }
+
+.nav__list {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  height: 100%;
+  flex: 1;
+}
+
+/* ---------- Nav Item with Dropdown ---------- */
+.nav__item {
+  position: relative;
+  height: 100%;
+}
+
+.nav__btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 500;
+  padding: 0 1.25rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.nav__btn:hover { color: var(--text-primary); }
+.nav__btn--active {
+  color: var(--accent-css);
+  border-bottom-color: var(--accent-css);
+}
+.nav__btn--active-js {
+  color: var(--accent-js);
+  border-bottom-color: var(--accent-js);
+}
+.nav__btn .arrow {
+  font-size: .6rem;
+  transition: transform .2s;
+  display: inline-block;
+}
+.nav__btn--open .arrow { transform: rotate(180deg); }
+
+/* ---------- Megamenu ---------- */
+.megamenu {
+  display: none;
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  min-width: 240px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: .75rem;
+  box-shadow: var(--shadow);
+  z-index: 1001;
+}
+.megamenu--open { display: block; }
+
+.megamenu__title {
+  font-size: .65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+  padding: .25rem .5rem .5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: .5rem;
+}
+
+.megamenu__link {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .6rem .75rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: .85rem;
+  transition: background .15s, color .15s;
+}
+.megamenu__link:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+.megamenu__link .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  flex-shrink: 0;
+}
+.megamenu__link .icon--css { background: var(--accent-css-dim); color: var(--accent-css); }
+.megamenu__link .icon--js { background: var(--accent-js-dim); color: var(--accent-js); }
+.megamenu__link .icon--done { background: var(--accent-green-dim); color: var(--accent-green); }
+
+.megamenu__link .link-text {
+  display: flex;
+  flex-direction: column;
+}
+.megamenu__link .link-text .sub {
+  font-size: .7rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Container ---------- */
+.container { max-width: 860px; margin: 0 auto; padding: 2rem; }
+
+/* ---------- Tags ---------- */
+.tag {
+  display: inline-block;
+  font-size: .68rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  color: #fff;
+}
+.tag--flex { background: #16213e; }
+.tag--grid { background: #e94560; }
+.tag--rwd { background: #0f3460; }
+.tag--modern { background: #533483; }
+.tag--bem { background: #0b8457; }
+.tag--vars { background: #6366f1; }
+.tag--func { background: #0891b2; }
+.tag--array { background: #059669; }
+.tag--obj { background: #d97706; }
+.tag--dom { background: #7c3aed; }
+.tag--async { background: #dc2626; }
+.tag--es6 { background: #0f3460; }
+
+/* ---------- Meta Bar ---------- */
+.meta-bar {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  font-size: .875rem;
+}
+.meta-bar--css { background: #0a1a2e; border: 1px solid #1a3a5e; }
+.meta-bar--js { background: #1e1a0a; border: 1px solid #3a2e0a; }
+.meta-bar strong { color: var(--text-primary); }
+
+/* ---------- Question Card ---------- */
+.question {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  transition: border-color .15s;
+}
+.question:hover { border-color: var(--border-light); }
+.question__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .5rem;
+  gap: .5rem;
+}
+.question__num {
+  font-weight: 700;
+  font-size: .85rem;
+}
+.question__num--css { color: var(--accent-css); }
+.question__num--js { color: var(--accent-js); }
+.question__tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.question__text { margin-bottom: .5rem; }
+.question__text p { margin-bottom: .5rem; }
+.question__tip {
+  background: #0a1a2e;
+  border-left: 3px solid var(--accent-css);
+  padding: .5rem .75rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: .85rem;
+  color: #8ab4f8;
+  margin-top: .5rem;
+}
+.question__note {
+  background: #0a1e0a;
+  border-left: 3px solid var(--accent-green);
+  padding: .5rem .75rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: .85rem;
+  color: #6ee7b7;
+  margin-top: .5rem;
+}
+
+/* ---------- Checklist ---------- */
+.checklist {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin: 2rem 0;
+}
+.checklist h3 { margin-top: 0; color: var(--text-primary); }
+.checklist ul { padding-left: 1.25rem; }
+.checklist li { margin-bottom: .25rem; }
+
+/* ---------- Footer ---------- */
+.footer-note {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .85rem;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+/* ---------- Utility ---------- */
+hr { margin: 2rem 0; border: none; border-top: 1px dashed var(--border); }
+code {
+  background: var(--bg-hover);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: .85em;
+}
+
+/* ---------- Tip box ---------- */
+.tip-box {
+  background: #0e1a2a;
+  padding: .75rem 1rem;
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--accent-css);
+  font-size: .9rem;
+  color: #8ab4f8;
+  margin-bottom: 2rem;
+}
+.tip-box--js {
+  border-left-color: var(--accent-js);
+  color: #f0d060;
+}
+
+/* ---------- Section Titles ---------- */
+h2.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 2.5rem 0 1rem;
+  color: var(--text-primary);
+}
+
+/* ---------- History Table ---------- */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.history-table th {
+  background: var(--bg-elevated);
+  padding: .75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.history-table td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.history-table .empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem 1rem;
+  font-style: italic;
+}
+.score { font-weight: 700; }
+.score--pass { color: var(--accent-green); }
+.score--fail { color: var(--accent-red); }
+.score--pending { color: var(--accent-js); }
+
+/* ---------- Card Grid ---------- */
+.card-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.exam-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: border-color .2s, transform .2s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.exam-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+.exam-card__tag {
+  display: inline-block;
+  font-size: .68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: .75rem;
+}
+.exam-card__tag--css { background: var(--accent-css-dim); color: var(--accent-css); }
+.exam-card__tag--js { background: var(--accent-js-dim); color: var(--accent-js); }
+.exam-card__tag--done { background: var(--accent-green-dim); color: var(--accent-green); }
+.exam-card h2 { font-size: 1.15rem; margin-bottom: .5rem; color: var(--text-primary); }
+.exam-card p { font-size: .85rem; color: var(--text-secondary); margin-bottom: 1rem; }
+.exam-card__meta {
+  display: flex;
+  gap: 1rem;
+  font-size: .78rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.exam-card__meta span { display: flex; align-items: center; gap: 4px; }
+
+/* ---------- Overlay for megamenu ---------- */
+.megamenu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+.megamenu-overlay--visible { display: block; }

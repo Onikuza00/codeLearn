@@ -1,0 +1,124 @@
+/*
+ * MINI EJERCICIO — Container Query
+ *
+ * Una misma card se ve distinta según el ancho de su contenedor.
+ *
+ * ─── TIEMPO: 10 minutos ───
+ *
+ * ─── REQUISITOS ───
+ *
+ * 1. Variables: --color-primary, --spacing-md, --radius-md
+ *
+ * 2. .showcase: flex row con gap
+ *    - .showcase__wide: flex: 3 (ocupa 3/4)
+ *    - .showcase__narrow: flex: 1 (ocupa 1/4)
+ *    - border a cada uno para ver los límites
+ *
+ * 3. .media-card es un container:
+ *    - container-type: inline-size
+ *    - container-name: card
+ *
+ * 4. @container card (min-width: 400px) {
+ *       .media-card { flex-direction: row; }
+ *       .media-card__img { width: 200px; }
+ *   }
+ *
+ * 5. @container card (max-width: 399px) {
+ *       .media-card { flex-direction: column; }
+ *       .media-card__img { width: 100%; }
+ *   }
+ *
+ * 6. .media-card base:
+ *    - display: flex (column por defecto)
+ *    - gap, padding, border, radius, background
+ *
+ * 7. .media-card__img: border-radius, object-fit
+ *
+ * 8. .media-card__content: display flex column con gap
+ */
+
+
+/* -- Variables */
+:root {
+   /* Colores */
+   --c-black: #000;
+   --c-white: #fff;
+   --c-grey: #999696;
+
+   /* Tamaños */
+   --f-xs: 0.2rem;
+   --f-s: 0.5rem;
+   --f-xm: 0.75rem;
+   --fs-m: 1rem;
+   --fs-as:
+
+      /*Spaces*/
+      --sp-s: .5rem;
+   --sp-m: 1rem;
+   --sp-l: 2rem;
+
+   /*Bordes*/
+   --rd-sm: 5px;
+   --rd-md: 10px;
+   --rd-lg: 15px;
+
+   /*Transitions*/
+   --tr-fast: 0.2s ease;
+   --tr-normal: 0.4s ease;
+   --tr-slow: 0.6s ease;
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+.showcase {
+   display: flex;
+   gap: var(--sp-m);
+}
+
+.showcase__wide,
+.showcase__narrow {
+   border: solid var(--c-black) 1px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   gap: var(--sp-m);
+}
+
+.showcase__wide {
+   flex: 3;
+}
+
+.showcase__narrow {
+   flex: 1;
+}
+
+.media-card {
+   container: card / inline-size;
+}
+
+@container card (width < 400px) {
+   .media-card {
+      display: flex;
+      flex-direction: column;
+   }
+
+   .media-card__img {
+      width: 200px;
+   }
+}
+
+@container card (width > 400px) {
+   .media-card {
+      flex-direction: row;
+   }
+
+   .media-card__img {
+      width: 100%;
+   }
+}

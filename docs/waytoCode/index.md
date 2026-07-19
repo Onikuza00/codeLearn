@@ -1,9 +1,10 @@
 # 🗺️ Way to Code — Pau
 
-> Línea de tiempo de tu progreso. Organizado por semanas. Cada sesión registra lo aprendido, practicado y el nivel alcanzado.
+> Línea de tiempo de tu progreso. Organizado por años, meses y semanas.
+> Cada día registra qué trabajamos, qué mejoramos y en qué fallamos.
 
 ---
 
-## Semanas
+## Años
 
-- [Semana 1 (2026-06-08 — 2026-06-14)](semana-1/index.md)
+- [2026](2026/index.md)

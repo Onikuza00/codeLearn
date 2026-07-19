@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment — CodeLearn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    h1 { font-size: 2rem; margin-bottom: .25rem; }
+    h1 span { color: var(--accent-css); }
+    .subtitle { color: var(--text-muted); margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Fundamentos CSS
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Examen final</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- Overlay for closing megamenu on outside click -->
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main class="container">
+  <h1>🧪 <span>Assessment</span> Center</h1>
+  <p class="subtitle">Exámenes para medir conocimientos reales, sin IA, sin ayuda. Cada examen tiene un tiempo límite y un criterio claro.</p>
+
+  <section>
+    <div class="card-grid">
+      <a href="css-fundamentos.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--css">CSS</span>
+        <h2>Nexus Agency</h2>
+        <p>Landing page completa con Flexbox, Grid responsive, :has(), CQ, BEM, a11y. Maquetación real sin frameworks.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 60–75 min</span>
+          <span>📐 6 secciones</span>
+          <span>🎯 Todo o nada</span>
+        </div>
+      </a>
+
+      <a href="../CSS/assessment/examen-final-objetivos.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--done">Completado</span>
+        <h2>NomadStay — Landing</h2>
+        <p>Examen final práctico: landing page completa con BEM, Grid, Flex, CQ, :has(), a11y.</p>
+        <div class="exam-card__meta">
+          <span>📅 18/07/2026</span>
+          <span>⏱ 45–60 min</span>
+          <span><span class="score score--pending">⏳ Pendiente</span></span>
+        </div>
+      </a>
+
+      <a href="js-vanilla.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--js">JS</span>
+        <h2>Task Dashboard</h2>
+        <p>Dashboard de tareas desde cero: DOM, arrays, fetch, async, eventos, localStorage. Sin frameworks, sin IA.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 50–65 min</span>
+          <span>📐 7 features</span>
+          <span>🎯 Features 1-4</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">📊 Historial de assessments</h2>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Examen</th>
+          <th>Puntuación</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>18/07/2026</td>
+          <td>CSS — Landing NomadStay (práctico)</td>
+          <td class="score score--pending">—</td>
+          <td>⏳ Pendiente de calificar</td>
+        </tr>
+        <tr>
+          <td colspan="4" class="empty">Los nuevos resultados aparecerán aquí al completar cada examen.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
+
+</body>
+</html>

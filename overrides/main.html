@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('.md-nav__item--nested > .md-nav__link');
+        if (!link) return;
+
+        var item = link.parentElement;
+        var input = item.querySelector('.md-nav__toggle');
+        if (!input) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        var isExpanded = input.checked || input.classList.contains('md-toggle--indeterminate');
+        if (isExpanded) {
+          input.checked = false;
+          input.classList.remove('md-toggle--indeterminate');
+        } else {
+          input.checked = true;
+          input.classList.add('md-toggle--indeterminate');
+        }
+      }, true);
+    });
+  </script>
+{% endblock %}

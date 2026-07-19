@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Status — :has() Practice</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <section class="dashboard">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title">Estado de servicios</h2>
+      <p class="dashboard__subtitle">Monitoreo en tiempo real de todos los servicios activos</p>
+    </header>
+
+    <div class="dashboard__grid">
+      <article class="status-card">
+        <div class="status-card__icon">🔌</div>
+        <h3 class="status-card__title">API Principal</h3>
+        <span class="status-card__status status-card__status--active">Activo</span>
+        <p class="status-card__info">Respuesta: 45ms · Uptime: 99.9%</p>
+      </article>
+
+      <article class="status-card">
+        <div class="status-card__icon">🗄️</div>
+        <h3 class="status-card__title">Base de Datos</h3>
+        <span class="status-card__status status-card__status--error">Error</span>
+        <p class="status-card__info">Conexión perdida · Reintentando...</p>
+      </article>
+
+      <article class="status-card">
+        <div class="status-card__icon">⚡</div>
+        <h3 class="status-card__title">Caché</h3>
+        <span class="status-card__status status-card__status--paused">Pausado</span>
+        <p class="status-card__info">Mantenimiento programado</p>
+      </article>
+
+      <article class="status-card">
+        <div class="status-card__icon">📧</div>
+        <h3 class="status-card__title">Email Service</h3>
+        <span class="status-card__status status-card__status--error">Error</span>
+        <p class="status-card__info">SMTP timeout · Cola: 12 mensajes</p>
+      </article>
+    </div>
+  </section>
+</body>
+</html>

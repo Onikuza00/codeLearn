@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  font-size: clamp(1rem, calc(5vh +0.8rem), 1.5rem);
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "layout layout layout"
+    "footer footer footer ";
+    min-height: 100vh;
+}
+
+
+header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  color: #fff;
+  padding: 1rem 4rem;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+}
+nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+}
+
+header button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  background: #fdf;
+
+}
+
+.layout {
+  grid-area: layout;
+  display: flex;
+  align-items: center;
+  padding: 2rem 3rem;
+  gap:2rem;
+
+}
+
+.sidebar {
+  grid-area: sidebar;
+  width: 250px;
+  padding: 2rem 3rem;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column; 
+}
+
+.sidebar ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 1rem;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: rgb(3, 3, 3);
+  font-size: 1.1rem;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  padding: 2rem 3rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 30vh;
+  background: radial-gradient(circle at center,blue, yellow);
+  padding: 2rem 3rem;
+}
+
+.cards-section {
+   padding: 2rem 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, maxmin(250px, 1fr));
+  padding: 2rem 3rem;
+  gap: 4rem;
+}
+
+.card {
+  border: 1px solid grey;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  display: grid;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  color:#fff;
+}
+

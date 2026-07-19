@@ -1,0 +1,38 @@
+@import "root.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    font-family: var(--ff-body);
+    font-size: var(--normal);
+    font-weight: 400;
+    color: var(--c-gray);
+    background-color: var(--c-white);
+}
+
+header {
+    display: flex;
+    width: 100%;
+    background: var(--c-blue-plus);
+    color: var(--c-way);
+    padding: var(--space-l) var(--space-m);
+    gap: var(--space-m);
+}
+
+.header__logo {
+    background-image: url(../assets/logos/logo.png);
+    font-family: var(--ff-title);
+    font-size: var(--large);
+    font-weight: 700;
+}
+
+.header__menu {
+    display: flex;
+    flex-direction: row;
+}

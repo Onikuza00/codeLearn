@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Eye glow -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Eye gradient -->
+    <radialGradient id="eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a8d4ff"/>
+      <stop offset="30%" stop-color="#5b9bd5"/>
+      <stop offset="70%" stop-color="#2b78b0"/>
+      <stop offset="100%" stop-color="#1a4d7a"/>
+    </radialGradient>
+    <!-- Head gradient -->
+    <linearGradient id="head" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f5f7fa"/>
+      <stop offset="100%" stop-color="#d5dce6"/>
+    </linearGradient>
+    <!-- Head border gradient -->
+    <linearGradient id="head-border" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e8ecf2"/>
+      <stop offset="100%" stop-color="#bcc4d4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- === HEAD SHAPE === -->
+  <!-- Wider at top, rounded chin -->
+  <path d="M120 170 
+           C120 70, 148 48, 200 48 
+           C252 48, 280 70, 280 170 
+           C280 230, 258 252, 200 252 
+           C142 252, 120 230, 120 170 Z"
+        fill="url(#head)" stroke="url(#head-border)" stroke-width="2"/>
+
+  <!-- === EARS (side panels) === -->
+  <!-- Left ear -->
+  <path d="M120 148 L108 148 L104 172 L108 196 L120 196 Z"
+        fill="#264665" stroke="#1c344e" stroke-width="1"/>
+  <!-- Left ear inner dark -->
+  <rect x="112" y="156" width="3" height="32" rx="1.5" fill="#1c344e"/>
+  <!-- Left ear accent line -->
+  <line x1="117" y1="158" x2="117" y2="186" stroke="#5b90c4" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Right ear -->
+  <path d="M280 148 L292 148 L296 172 L292 196 L280 196 Z"
+        fill="#264665" stroke="#1c344e" stroke-width="1"/>
+  <!-- Right ear inner dark -->
+  <rect x="285" y="156" width="3" height="32" rx="1.5" fill="#1c344e"/>
+  <!-- Right ear accent line -->
+  <line x1="283" y1="158" x2="283" y2="186" stroke="#5b90c4" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- === FOREHEAD ACCENT === -->
+  <path d="M160 78 Q200 70 240 78" fill="none" stroke="#4170a0" stroke-width="1.5" opacity="0.15"/>
+
+  <!-- === EYES === -->
+  <!-- Left eye shadow -->
+  <ellipse cx="178" cy="148" rx="17" ry="15" fill="#1c344e" opacity="0.08"/>
+  <!-- Left eye -->
+  <ellipse cx="178" cy="147" rx="16" ry="14" fill="url(#eye)" filter="url(#glow)"/>
+  <!-- Left eye highlight -->
+  <ellipse cx="173" cy="141" rx="5" ry="4" fill="#ffffff" opacity="0.5"/>
+  <!-- Left eye inner glow -->
+  <ellipse cx="180" cy="150" rx="4" ry="3" fill="#a8d4ff" opacity="0.3"/>
+
+  <!-- Right eye shadow -->
+  <ellipse cx="222" cy="148" rx="17" ry="15" fill="#1c344e" opacity="0.08"/>
+  <!-- Right eye -->
+  <ellipse cx="222" cy="147" rx="16" ry="14" fill="url(#eye)" filter="url(#glow)"/>
+  <!-- Right eye highlight -->
+  <ellipse cx="217" cy="141" rx="5" ry="4" fill="#ffffff" opacity="0.5"/>
+  <!-- Right eye inner glow -->
+  <ellipse cx="224" cy="150" rx="4" ry="3" fill="#a8d4ff" opacity="0.3"/>
+
+  <!-- SMILE -->
+  <path d="M177 192 Q200 208 223 192" fill="none" stroke="#1c344e" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Smile highlight -->
+  <path d="M179 191 Q200 206 221 191" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- === TOP HEAD HIGHLIGHT === -->
+  <path d="M140 145 C140 80, 158 62, 200 62 C242 62, 260 80, 260 145"
+        fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+
+  <!-- === BOTTOM SHADOW === -->
+  <path d="M130 220 C150 248, 250 248, 270 220"
+        fill="none" stroke="#1c344e" stroke-width="0.5" opacity="0.08"/>
+</svg>

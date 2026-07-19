@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+  <rect width="400" height="225" fill="#1a1a2e"/>
+  <text x="200" y="110" text-anchor="middle" fill="#555" font-family="monospace" font-size="14">proximamente</text>
+  <rect x="140" y="120" width="120" height="2" rx="1" fill="#333"/>
+</svg>
