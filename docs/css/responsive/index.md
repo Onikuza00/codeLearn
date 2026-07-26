@@ -6,7 +6,7 @@
 
 ## ¿Qué problema resuelven?
 
-El responsive clásico con **Media Queries** pregunta "¿qué ancho tiene la ventana?". Y funciona para el layout general. Pero cuando tenés componentes reutilizables que se mueven entre contextos, las media queries no alcanzan.
+El responsive clásico con **Media Queries** pregunta "¿qué ancho tiene la ventana?". Y funciona para el layout general. Pero cuando tienes componentes reutilizables que se mueven entre contextos, las media queries no alcanzan.
 
 **Container Queries** resuelven eso: preguntan "¿qué ancho tiene el contenedor?" en vez de "¿qué ancho tiene la pantalla?".
 

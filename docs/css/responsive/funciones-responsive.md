@@ -95,7 +95,7 @@ grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 ```
 
-**Regla clave:** el `@container` solo puede estilar **descendientes** del contenedor, no al contenedor mismo. Si el contenedor es `.grid`, no podés hacer `@container { .grid { ... } }`.
+**Regla clave:** el `@container` solo puede estilar **descendientes** del contenedor, no al contenedor mismo. Si el contenedor es `.grid`, no puedes hacer `@container { .grid { ... } }`.
 
 ### Container en el grid (recomendado)
 
@@ -140,4 +140,4 @@ Selecciona la card **solo si** contiene un `.badge`. Útil para destacar cards c
 2. `calc(50% - gap)` es necesario porque `flex-basis` no descuenta el gap automáticamente
 3. `auto-fit` ≠ `auto-fill`: el primero colapsa columnas vacías, el segundo las mantiene
 4. En Container Queries, el contenedor mide el inline-size del **elemento contenedor**, no del viewport. Un breakpoint de 500px en el grid se dispara con 700px+ de pantalla (el grid suele ser ~viewport menos padding)
-5. `rgb()` no acepta opacidad → usá `rgba()` para colores con transparencia
+5. `rgb()` no acepta opacidad → usa `rgba()` para colores con transparencia

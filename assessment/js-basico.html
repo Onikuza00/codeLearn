@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Básico JS — Fundamentos | CodeLearn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    h1 { font-size: 2rem; border-bottom: 4px solid var(--accent-js); padding-bottom: .5rem; margin-bottom: .5rem; }
+    h1 span { color: var(--accent-js); }
+    h2 {
+      font-size: 1.25rem;
+      color: var(--accent-js);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .25rem;
+      border-bottom: 2px solid var(--accent-js-dim);
+    }
+    .ejercicio {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      margin: .5rem 0;
+      border-left: 4px solid var(--accent-js);
+    }
+    .ejercicio strong { color: var(--accent-js); }
+    .nota {
+      background: #1e1a0a;
+      padding: .5rem 1rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--accent-js);
+      font-size: .9rem;
+      color: #f0d060;
+      margin: 1rem 0;
+    }
+    .checklist {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+    .checklist h3 { margin-top: 0; color: var(--text-primary); }
+    .checklist ul { padding-left: 1.25rem; }
+    .checklist li { margin-bottom: .25rem; }
+    .meta-bar--exam {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #1e1a0a;
+      border: 1px solid #3a2e0a;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-size: .875rem;
+    }
+    .meta-bar--exam strong { color: var(--accent-js); }
+    pre code {
+      display: block;
+      background: var(--bg-elevated);
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      font-size: .85rem;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Nexus Agency
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Examen final</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="js-basico.html" class="megamenu__link">
+          <span class="icon icon--js">⚡</span>
+          <span class="link-text">
+            JS Básico — Fundamentos
+            <span class="sub">Variables, funciones, arrays</span>
+          </span>
+        </a>
+        <a href="js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main class="container">
+
+<h1>⚡ Examen JS — <span>Fundamentos</span></h1>
+<p><strong>Contexto:</strong> 8 ejercicios cortos de JavaScript vanilla. Sin DOM, sin fetch, sin librerías. Solo lógica pura.</p>
+<p><strong>Tiempo estimado:</strong> 20–30 min.</p>
+<p><strong>Reglas:</strong> <code>const</code> por defecto, <code>let</code> solo si reasignas. Nada de <code>var</code>. Early returns. Sin IA, sin copiar.</p>
+<p><strong>Formato:</strong> Escribe cada función en un archivo <code>basico.js</code>. Puedes ir probando con <code>console.log()</code>.</p>
+
+<div class="meta-bar--exam">
+  <span>⚡ <strong>8</strong> ejercicios</span>
+  <span>⏱ <strong>20–30 min</strong></span>
+  <span>🎯 <strong>6/8</strong> para aprobar</span>
+  <span>📁 <code>basico.js</code></span>
+</div>
+
+<hr>
+
+<!-- Ejercicio 1 -->
+<h2>1 — Hola, mundo <span class="tag tag--func">Función</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>saludar(nombre)</code> que reciba un nombre y devuelva <code>"Hola, " + nombre + "!"</code>.
+</div>
+
+<ul>
+  <li>Si no se pasa nombre, debe devolver <code>"Hola, desconocido!"</code>.</li>
+  <li>Usa un parámetro por defecto.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+saludar("Ana")   // → "Hola, Ana!"
+saludar()        // → "Hola, desconocido!"</code></pre>
+
+<!-- Ejercicio 2 -->
+<h2>2 — ¿Es mayor de edad? <span class="tag tag--func">Condicional</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>esMayor(edad)</code> que devuelva <code>true</code> si la edad es 18 o más, y <code>false</code> en caso contrario.
+</div>
+
+<ul>
+  <li>Si la edad es menor que 0 o no es un número, devuelve <code>null</code>.</li>
+  <li>Usa un early return para los casos inválidos.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+esMayor(20)   // → true
+esMayor(15)   // → false
+esMayor(-5)   // → null</code></pre>
+
+<!-- Ejercicio 3 -->
+<h2>3 — Números pares <span class="tag tag--array">Bucles</span> <span class="tag tag--array">Arrays</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>numerosPares(n)</code> que reciba un número <code>n</code> y devuelva un array con los números pares desde 0 hasta <code>n</code> (incluyendo <code>n</code> si es par).
+</div>
+
+<ul>
+  <li>Usa un bucle <code>for</code>.</li>
+  <li>Si <code>n</code> es menor que 0, devuelve un array vacío.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+numerosPares(10)  // → [0, 2, 4, 6, 8, 10]
+numerosPares(7)   // → [0, 2, 4, 6]
+numerosPares(-3)  // → []</code></pre>
+
+<!-- Ejercicio 4 -->
+<h2>4 — Sumar array <span class="tag tag--array">Bucles</span> <span class="tag tag--array">Arrays</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>sumarArray(numeros)</code> que reciba un array de números y devuelva la suma total.
+</div>
+
+<ul>
+  <li>Si el array está vacío, devuelve 0.</li>
+  <li>Puedes usar un bucle <code>for</code> clásico o <code>for...of</code>.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+sumarArray([1, 2, 3, 4, 5])  // → 15
+sumarArray([])                // → 0
+sumarArray([10, -2, 8])      // → 16</code></pre>
+
+<!-- Ejercicio 5 -->
+<h2>5 — Invertir texto <span class="tag tag--func">String</span> <span class="tag tag--array">Métodos</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>invertirTexto(texto)</code> que devuelva el texto al revés.
+</div>
+
+<ul>
+  <li>No uses <code>reverse()</code> de arrays — hazlo con un bucle.</li>
+  <li>Si el texto está vacío o no es un string, devuelve <code>""</code>.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+invertirTexto("hola")  // → "aloh"
+invertirTexto("JS")    // → "SJ"
+invertirTexto("")      // → ""</code></pre>
+
+<!-- Ejercicio 6 -->
+<h2>6 — Contar vocales <span class="tag tag--func">String</span> <span class="tag tag--func">Bucles</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>contarVocales(texto)</code> que devuelva el número de vocales (a, e, i, o, u) en un string.
+</div>
+
+<ul>
+  <li>Debe contar tanto mayúsculas como minúsculas.</li>
+  <li>Ignora acentos (asume texto sin acentos).</li>
+  <li>Si el texto está vacío, devuelve 0.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+contarVocales("Hola mundo")  // → 4  (o, a, u, o)
+contarVocales("JavaScript")  // → 3  (a, a, i)
+contarVocales("")            // → 0</code></pre>
+
+<!-- Ejercicio 7 -->
+<h2>7 — Encontrar el mayor <span class="tag tag--array">Arrays</span> <span class="tag tag--func">Bucles</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>encontrarMayor(numeros)</code> que devuelva el número más grande de un array.
+</div>
+
+<ul>
+  <li>Si el array está vacío, devuelve <code>null</code>.</li>
+  <li>No uses <code>Math.max()</code> — hazlo con un bucle.</li>
+  <li>Usa un early return para el caso vacío.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+encontrarMayor([3, 7, 2, 9, 5])  // → 9
+encontrarMayor([-5, -2, -8])     // → -2
+encontrarMayor([])               // → null</code></pre>
+
+<!-- Ejercicio 8 -->
+<h2>8 — FizzBuzz <span class="tag tag--func">Bucles</span> <span class="tag tag--func">Condicional</span></h2>
+
+<div class="ejercicio">
+  <strong>Crea una función</strong> <code>fizzBuzz(n)</code> que imprima los números del 1 al <code>n</code> con estas reglas:
+</div>
+
+<ul>
+  <li>Si el número es múltiplo de 3, imprime <code>"Fizz"</code>.</li>
+  <li>Si es múltiplo de 5, imprime <code>"Buzz"</code>.</li>
+  <li>Si es múltiplo de ambos (3 y 5), imprime <code>"FizzBuzz"</code>.</li>
+  <li>Si no, imprime el número.</li>
+  <li>La función debe devolver un array con los resultados.</li>
+</ul>
+
+<pre><code>// Ejemplo:
+fizzBuzz(5)
+// → [1, 2, "Fizz", 4, "Buzz"]
+
+fizzBuzz(15)
+// → [1, 2, "Fizz", 4, "Buzz", "Fizz", 7, 8, "Fizz", "Buzz", 11, "Fizz", 13, 14, "FizzBuzz"]</code></pre>
+
+<hr>
+
+<div class="nota">
+  ⏱️ Prioriza en orden. Si te atascas en uno, pasa al siguiente. 6/8 para aprobar. El 8 (FizzBuzz) es el más difícil.
+</div>
+
+<hr>
+
+<div class="checklist">
+  <h3>✅ Checklist de conceptos evaluados</h3>
+  <ul>
+    <li>☐ Funciones con parámetros por defecto</li>
+    <li>☐ Condicionales con early returns</li>
+    <li>☐ Bucles for para generar arrays</li>
+    <li>☐ Bucles for...of para recorrer arrays</li>
+    <li>☐ Manipulación de strings (length, acceso por índice)</li>
+    <li>☐ Operador módulo (%)</li>
+    <li>☐ const / let</li>
+    <li>☐ Arrow functions o function declaration</li>
+  </ul>
+  <p style="margin-top:1rem;font-weight:700;color:var(--accent-js);">🔥 6/8 para aprobar. Todo sin IA, sin copiar.</p>
+</div>
+
+<div class="footer-note">
+  CodeLearn Assessment — 25/07/2026
+</div>
+
+</main>
+
+<script>
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
+
+</body>
+</html>

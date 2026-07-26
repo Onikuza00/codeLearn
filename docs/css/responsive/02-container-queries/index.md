@@ -6,7 +6,7 @@
 
 ## El problema que resuelven
 
-Con Media Queries preguntás: "¿qué ancho tiene la pantalla?"
+Con Media Queries preguntas: "¿qué ancho tiene la pantalla?"
 
 ```
 @media (width >= 768px) { ... }
@@ -45,7 +45,7 @@ El elemento PADRE debe declararse como contenedor:
 | Propiedad | Valores | Significado |
 |-----------|---------|-------------|
 | `container-type` | `inline-size` / `size` / `normal` | `inline-size` solo mira el ancho (la más usada). `size` mira ancho y alto. |
-| `container-name` | Nombre opcional | Le ponés nombre para referirte a él en el `@container` |
+| `container-name` | Nombre opcional | Le pones nombre para referirte a él en el `@container` |
 
 También existe el shorthand:
 
@@ -82,10 +82,10 @@ También existe el shorthand:
 |-------------|-----------------|
 | Mira la ventana (viewport) | Mira el contenedor padre |
 | Global para toda la página | Local al componente |
-| No cambia si movés el componente | Se adapta automáticamente |
+| No cambia si mueves el componente | Se adapta automáticamente |
 | Ideal para layout general | Ideal para componentes reutilizables |
 
-**Conviven, no compiten.** Usá media queries para el layout general (header, sidebar, main) y container queries para componentes que se mueven entre contextos (cards, modales, tabs).
+**Conviven, no compiten.** Usa media queries para el layout general (header, sidebar, main) y container queries para componentes que se mueven entre contextos (cards, modales, tabs).
 
 ---
 
@@ -167,7 +167,7 @@ Una misma card se ve distinta si está en el grid principal o en un related-post
 
 ## Unit `cqw` (Container Query Width)
 
-Además de `@container`, tenés unidades basadas en el contenedor:
+Además de `@container`, tienes unidades basadas en el contenedor:
 
 | Unidad | Significado |
 |--------|-------------|
@@ -191,12 +191,12 @@ Ejemplo:
 
 ## Buenas prácticas
 
-### ✅ Hacé
+### ✅ Haz
 
-- Usá `container-type: inline-size` por defecto (solo mira ancho, mejor rendimiento)
-- Poné nombre a los contenedores si tenés varios
-- Combiná media queries (layout global) + container queries (componentes)
-- Usá `cqw` para tipografía que escale con el contenedor
+- Usa `container-type: inline-size` por defecto (solo mira ancho, mejor rendimiento)
+- Pon nombre a los contenedores si tienes varios
+- Combina media queries (layout global) + container queries (componentes)
+- Usa `cqw` para tipografía que escale con el contenedor
 
 ### ❌ No hagas
 

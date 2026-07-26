@@ -12,11 +12,11 @@ Controla cuánto **crece** un item respecto a los otros cuando sobra espacio.
 - `1`: ocupa el espacio sobrante equitativamente.
 - `2`: ocupa el DOBLE de espacio que un item con `grow: 1`.
 
-![flex-grow: 0 — sobra espacio](../assets/flexbox/flex-grow-0.svg)
+![flex-grow: 0 — sobra espacio](../../assets/flexbox/flex-grow-0.svg)
 
-![flex-grow: 1 — todos se reparten el espacio](../assets/flexbox/flex-grow-1.svg)
+![flex-grow: 1 — todos se reparten el espacio](../../assets/flexbox/flex-grow-1.svg)
 
-![flex-grow: 2 — el item central ocupa el doble](../assets/flexbox/flex-grow-2.svg)
+![flex-grow: 2 — el item central ocupa el doble](../../assets/flexbox/flex-grow-2.svg)
 
 ```css
 .item { flex-grow: 1; }   /* todos se reparten el espacio */
@@ -39,7 +39,8 @@ Controla cuánto **crece** un item respecto a los otros cuando sobra espacio.
     </div>
     ```
 
-!!! tip "Sidebar + contenido" { .flex }
+!!! tip "Sidebar + contenido"
+    { .flex }
     ```css
     .sidebar { flex-grow: 0; flex-basis: 250px; }
     .contenido { flex-grow: 1; }
@@ -56,14 +57,15 @@ Controla cuánto se **encoge** un item cuando **falta espacio**.
 - `0`: NO se encoge nunca (se desborda o fuerza scroll).
 - `2`: se encoge el doble que los demás.
 
-![flex-shrink: 0 evita que el item se comprima](../assets/flexbox/flex-shrink.svg)
+![flex-shrink: 0 evita que el item se comprima](../../assets/flexbox/flex-shrink.svg)
 
 ```css
 .item-no-compresible { flex-shrink: 0; }
 ```
 
-!!! warning "`flex-shrink: 0` es aliado" { .flex }
-    Si tenés una imagen o un botón que no debe deformarse, poné `flex-shrink: 0`. Así evitás que se comprima.
+!!! warning "`flex-shrink: 0` es aliado"
+    { .flex }
+    Si tienes una imagen o un botón que no debe deformarse, pon `flex-shrink: 0`. Así evitas que se comprima.
 
 ---
 
@@ -71,7 +73,7 @@ Controla cuánto se **encoge** un item cuando **falta espacio**.
 
 Define el **tamaño inicial** de un item ANTES de aplicar grow o shrink.
 
-![flex-basis: el item 2 empieza con 200px](../assets/flexbox/flex-basis.svg)
+![flex-basis: el item 2 empieza con 200px](../../assets/flexbox/flex-basis.svg)
 
 - `auto` (default): usa el ancho del contenido o el `width` definido.
 - valor fijo: `200px`, `50%`, `10rem`.
@@ -119,7 +121,8 @@ flex: grow shrink basis;
 .item-con-base { flex: 1 1 200px; } /* base 200px, crece si puede */
 ```
 
-!!! tip "`flex: 1` es tu aliado" { .flex }
+!!! tip "`flex: 1` es tu aliado"
+    { .flex }
     Es el shorthand más usado: el item ocupa **todo el espacio disponible** partiendo de 0, compartiendo con otros items que tengan `flex: 1`.
 
 ---
@@ -128,7 +131,7 @@ flex: grow shrink basis;
 
 Cambia el orden visual sin modificar el HTML.
 
-![order: reorden visual](../assets/flexbox/order.svg)
+![order: reorden visual](../../assets/flexbox/order.svg)
 
 ```css
 .item-ultimo { order: 2; }
@@ -146,8 +149,9 @@ Cambia el orden visual sin modificar el HTML.
 .item-c { order: 2; }
 ```
 
-!!! warning "`order` con cuidado" { .flex }
-    Solo usar para ajustes visuales menores. No para cambiar el flujo de lectura. Si un elemento necesita estar antes en el orden visual pero después en DOM, reconsiderá el HTML.
+!!! warning "`order` con cuidado"
+    { .flex }
+    Solo usar para ajustes visuales menores. No para cambiar el flujo de lectura. Si un elemento necesita estar antes en el orden visual pero después en DOM, reconsidera el HTML.
 
 ---
 

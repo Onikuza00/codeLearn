@@ -1,6 +1,6 @@
 # Layout CSS { .section-layout }
 
-> Layout es **cómo distribuís los elementos** en una página. Flexbox para una dimensión, Grid para dos. Son las dos herramientas modernas que reemplazan floats, tables y position absoluto.
+> Layout es **cómo distribuyes los elementos** en una página. Flexbox para una dimensión, Grid para dos. Son las dos herramientas modernas que reemplazan floats, tables y position absoluto.
 
 ---
 
@@ -8,7 +8,7 @@
 
 Antes de Flexbox y Grid, hacer un layout de 3 columnas iguales requería floats con clearfix o tablas HTML. Era frágil, complicado y nada responsivo.
 
-Hoy tenés dos sistemas:
+Hoy tienes dos sistemas:
 
 | Sistema | Para qué | Analogía |
 |---------|----------|----------|

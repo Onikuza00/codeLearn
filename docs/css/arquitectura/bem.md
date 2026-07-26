@@ -1,6 +1,6 @@
 # BEM { .section-bem }
 
-> **B**lock **E**lement **M**odifier es una metodología de nomenclatura para clases CSS. No es una tecnología — no necesitás instalar nada. Es solo una **convención para nombrar clases** de forma que el CSS sea predecible, escalable y mantenible.
+> **B**lock **E**lement **M**odifier es una metodología de nomenclatura para clases CSS. No es una tecnología — no necesitas instalar nada. Es solo una **convención para nombrar clases** de forma que el CSS sea predecible, escalable y mantenible.
 
 ---
 
@@ -19,9 +19,9 @@ Sin convención, los nombres de clase son un caos:
 
 - ¿`.title` es de la card o del header?
 - ¿`.featured-card` es una variante o otra cosa?
-- Si querés cambiar el estilo de un título, ¿buscás `.title`, `.card-title`, `.featured-title`?
+- Si quieres cambiar el estilo de un título, ¿buscas `.title`, `.card-title`, `.featured-title`?
 
-**BEM responde: cada clase tiene un rol fijo y sabés exactamente qué pinta.**
+**BEM responde: cada clase tiene un rol fijo y sabes exactamente qué pinta.**
 
 ---
 
@@ -89,7 +89,7 @@ Una **variante** del bloque o elemento. Se separa con `--`
 .feature-card--compact { }
 ```
 
-No repetís todo el bloque — solo escribís **lo que cambia**:
+No repites todo el bloque — solo escribes **lo que cambia**:
 
 ```css
 .feature-card--featured {
@@ -173,10 +173,10 @@ No repetís todo el bloque — solo escribís **lo que cambia**:
 
 | Ventaja | Explicación |
 |---------|-------------|
-| **Legibilidad** | Sabés qué hace una clase solo con leerla |
+| **Legibilidad** | Sabes qué hace una clase solo con leerla |
 | **Especificidad plana** | Todas las clases tienen especificidad 0-1-0. Sin guerras de `!important` |
-| **Reutilización** | Movés una card a otro lado y los estilos la siguen |
-| **Sin anidamiento** | No necesitás Sass/SCSS para tener CSS limpio |
+| **Reutilización** | Mueves una card a otro lado y los estilos la siguen |
+| **Sin anidamiento** | No necesitas Sass/SCSS para tener CSS limpio |
 | **Escalable** | 10 o 1000 componentes funcionan igual |
 
 ---
@@ -209,9 +209,9 @@ BEM no compite con nada — convive con todo:
 
 ## Buenas prácticas
 
-### ✅ Hacé
+### ✅ Haz
 
-- Usá nombres semánticos: `.feature-card__title`, no `.feature-card__t`
+- Usa nombres semánticos: `.feature-card__title`, no `.feature-card__t`
 - Un solo nivel de elemento: `card__title`, no `card__title__wrapper`
 - Los modificadores SOLOS no existen: `.feature-card--featured` sin `.feature-card` no pinta nada
 

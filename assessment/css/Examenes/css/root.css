@@ -7,6 +7,7 @@
     --c-gray: #666;
     --c-red: #900;
     --c-blue: #044d8d;
+    --c-blue-plus: #002a47;
     --c-success: #088808;
     --c-active: #ecc100;
     --hero-deg: linear-gradient(135deg, var(--c-way), #60c3f1);
@@ -37,9 +38,9 @@
 
     /*font-size*/
     --small-xs: 0.7rem;
-    --small: clamp(0.5rem, calc(1vh +0.4rem), 0.8rem);
-    --normal: clamp(0.875rem, calc(2vh +0.25rem), 1.125rem);
-    --large: clamp(1.5rem, calc(3vh +0.5rem), 1.75rem);
+    --small: clamp(0.5rem, calc(1vh + 0.4rem), 0.8rem);
+    --normal: clamp(0.875rem, calc(2vh + 0.25rem), 1.125rem);
+    --large: clamp(1.5rem, calc(3vh + 0.5rem), 1.75rem);
     --base0: clamp(1.5rem, calc(3vh + 0.8rem), 1.70rem);
     --base: clamp(1.5rem, calc(3.5vh + 0.8rem), 2.10rem);
     --extra-large: clamp(2.5rem, calc(5vh + 1rem), 4rem);
@@ -52,5 +53,5 @@
     --radius-xl: 16px;
     --radius-2xl: 24px;
     --radius-3xl: 32px;
-    --radius-full: 9999px
+    --radius-full: 9999px;
 }

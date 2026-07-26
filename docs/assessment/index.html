@@ -22,10 +22,17 @@
       </button>
       <div class="megamenu" id="dropdown-css">
         <div class="megamenu__title">CSS</div>
+        <a href="css-final.html" class="megamenu__link">
+          <span class="icon icon--css">🔥</span>
+          <span class="link-text">
+            SaaSPro — Final CSS
+            <span class="sub">Todo CSS en un solo examen</span>
+          </span>
+        </a>
         <a href="css-fundamentos.html" class="megamenu__link">
           <span class="icon icon--css">🎨</span>
           <span class="link-text">
-            Fundamentos CSS
+            Nexus Agency
             <span class="sub">Flex, Grid, RWD, Moderno</span>
           </span>
         </a>
@@ -44,6 +51,13 @@
       </button>
       <div class="megamenu" id="dropdown-js">
         <div class="megamenu__title">JavaScript</div>
+        <a href="js-basico.html" class="megamenu__link">
+          <span class="icon icon--js">⚡</span>
+          <span class="link-text">
+            JS Básico — Fundamentos
+            <span class="sub">Variables, funciones, arrays</span>
+          </span>
+        </a>
         <a href="js-vanilla.html" class="megamenu__link">
           <span class="icon icon--js">📋</span>
           <span class="link-text">
@@ -53,7 +67,23 @@
         </a>
       </div>
     </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--ejercicios" data-dropdown="ejercicios" aria-haspopup="true">
+        🏋️ Ejercicios JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-ejercicios">
+        <div class="megamenu__title">Ejercicios</div>
+        <a href="js/ejercicios/conceptos-basicos.html" class="megamenu__link">
+          <span class="icon icon--js">💡</span>
+          <span class="link-text">
+            Conceptos básicos
+            <span class="sub">Lógica, bucles, arrays, strings</span>
+          </span>
+        </a>
+      </div>
+    </li>
   </ul>
+  <a href="/" class="nav__back">← Docs</a>
 </nav>
 
 <!-- Overlay for closing megamenu on outside click -->
@@ -65,6 +95,17 @@
 
   <section>
     <div class="card-grid">
+      <a href="css-final.html" class="exam-card" style="border-color:var(--accent-css);">
+        <span class="exam-card__tag exam-card__tag--css" style="background:var(--accent-css);color:#000;">🔥 Final</span>
+        <h2>SaaSPro — Examen Final CSS</h2>
+        <p>Landing completa con Flexbox, Grid, BEM, :has(), CQ, formulario, clamp(), :focus-visible, prefers-reduced-motion. Todo lo trabajado.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 50–60 min</span>
+          <span>📐 4 secciones + form</span>
+          <span>🎯 Todo obligatorio</span>
+        </div>
+      </a>
+
       <a href="css-fundamentos.html" class="exam-card">
         <span class="exam-card__tag exam-card__tag--css">CSS</span>
         <h2>Nexus Agency</h2>
@@ -84,6 +125,17 @@
           <span>📅 18/07/2026</span>
           <span>⏱ 45–60 min</span>
           <span><span class="score score--pending">⏳ Pendiente</span></span>
+        </div>
+      </a>
+
+      <a href="js-basico.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--js">JS</span>
+        <h2>JS Básico — Fundamentos</h2>
+        <p>8 ejercicios de lógica pura: variables, funciones, condicionales, bucles, arrays, strings. Sin DOM, sin fetch.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 20–30 min</span>
+          <span>📐 8 ejercicios</span>
+          <span>🎯 6/8 para aprobar</span>
         </div>
       </a>
 

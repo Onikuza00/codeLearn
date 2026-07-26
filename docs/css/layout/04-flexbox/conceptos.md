@@ -12,7 +12,8 @@ Para activar Flexbox, el contenedor declara `display: flex`. Sus hijos directos 
 }
 ```
 
-!!! tip "Analogía" { .flex }
+!!! tip "Analogía"
+    { .flex }
     Pensá en Flexbox como un **estante**: el contenedor es la balda, los items son los objetos que ponés encima. Podés decidir si se ordenan de izquierda a derecha (`row`), de derecha a izquierda (`row-reverse`), de arriba a abajo (`column`), o al revés (`column-reverse`).
 
 ---
@@ -39,7 +40,8 @@ En `flex-direction: row` (default), el eje principal es horizontal. En `column`,
 }
 ```
 
-!!! warning "No confundas" { .flex }
+!!! warning "No confundas"
+    { .flex }
     `flex-direction: column` NO apila verticalmente con `justify-content: center` para centrar en el medio. En column, el **eje principal es vertical**, así que `justify-content: center` centra verticalmente y `align-items: center` centra horizontalmente. Al revés que en row.
 
 ---
@@ -55,11 +57,11 @@ Define la dirección del eje principal.
 | `column` | ↓ Vertical | Items en columna, arriba a abajo |
 | `column-reverse` | ↑ Vertical | Items en columna, abajo a arriba |
 
-![flex-direction: row](../assets/flexbox/flex-direction-row.svg)
-![flex-direction: row-reverse](../assets/flexbox/flex-direction-row-reverse.svg)
+![flex-direction: row](../../assets/flexbox/flex-direction-row.svg)
+![flex-direction: row-reverse](../../assets/flexbox/flex-direction-row-reverse.svg)
 
-![flex-direction: column](../assets/flexbox/flex-direction-column.svg)
-![flex-direction: column-reverse](../assets/flexbox/flex-direction-column-reverse.svg)
+![flex-direction: column](../../assets/flexbox/flex-direction-column.svg)
+![flex-direction: column-reverse](../../assets/flexbox/flex-direction-column-reverse.svg)
 
 === "CSS"
     ```css
@@ -88,11 +90,11 @@ Por defecto, los items se comprimen para entrar en una línea (`nowrap`). Con `f
 | `wrap` | Saltan a la siguiente línea cuando no caben |
 | `wrap-reverse` | Saltan, pero en dirección opuesta |
 
-![flex-wrap: nowrap](../assets/flexbox/flex-wrap-nowrap.svg)
+![flex-wrap: nowrap](../../assets/flexbox/flex-wrap-nowrap.svg)
 
-![flex-wrap: wrap](../assets/flexbox/flex-wrap-wrap.svg)
+![flex-wrap: wrap](../../assets/flexbox/flex-wrap-wrap.svg)
 
-![flex-wrap: wrap-reverse](../assets/flexbox/flex-wrap-wrap-reverse.svg)
+![flex-wrap: wrap-reverse](../../assets/flexbox/flex-wrap-wrap-reverse.svg)
 
 ```css
 .contenedor {
@@ -102,7 +104,8 @@ Por defecto, los items se comprimen para entrar en una línea (`nowrap`). Con `f
 }
 ```
 
-!!! tip "El combo layout flexible" { .flex }
+!!! tip "El combo layout flexible"
+    { .flex }
     `flex-wrap: wrap` + `flex: 1 1 200px` en los items te da un layout responsive **sin media queries**. Los items miden 200px, pero si hay espacio crecen (`flex-grow: 1`), y si no caben, saltan a la siguiente línea.
 
 ---

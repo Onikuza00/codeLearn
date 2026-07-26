@@ -77,13 +77,13 @@ Define el tamaño de las filas.
 }
 ```
 
-Si no definís `grid-template-rows`, las filas se crean automáticamente con `auto` (se ajustan al contenido).
+Si no defines `grid-template-rows`, las filas se crean automáticamente con `auto` (se ajustan al contenido).
 
 ---
 
 ## Repeat()
 
-Evitá escribir columnas repetitivas a mano.
+Evita escribir columnas repetitivas a mano.
 
 ```css
 /* En vez de: */
@@ -110,49 +110,30 @@ grid-template-columns: 1fr repeat(2, 2fr) 1fr; /* mezclado */
 
 !!! success "Siempre `gap`"
     { .grid }
-    Igual que en flexbox: nunca margenes en los hijos para separarlos. Usá `gap` en el contenedor.
+    Igual que en flexbox: nunca margenes en los hijos para separarlos. Usa `gap` en el contenedor.
 
-!!! tip "Centrar la última card cuando sobra una"
+!!! warning "Limitación: centrar la última card"
     { .grid }
-    Con `repeat(auto-fit, minmax(200px, 1fr))` si tenés 5 items en 3 columnas, la última queda sola a la izquierda. Usá `justify-content: center` en el contenedor para centrarla:
+    Con `repeat(auto-fit, minmax(200px, 1fr))`, si tienes 5 items y entran 3 por fila, la última queda sola a la izquierda. **`justify-content: center` NO funciona aquí** porque `1fr` ocupa todo el ancho disponible — no sobra espacio para distribuir.
+
+    **Grid no tiene una forma limpia de centrar items parciales en la última fila.** Es una limitación conocida del spec.
+
+    La solución real es cambiar a **Flexbox**:
 
     ```css
     .contenedor {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        justify-content: center; /* ← centra la que queda sola */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 1rem;
+    }
+    .contenedor > * {
+        flex: 1 1 200px;
+        max-width: 300px;
     }
     ```
 
-    Esto centra el track sobrante sin romper el grid. Si usás `auto-fill` en vez de `auto-fit`, tenés que combinarlo con `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` y el mismo `justify-content: center`.
-
----
-
-## Layout básico con Grid
-
-```css
-.layout {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
-    gap: 0;
-}
-```
-
-```
-┌──────────┬────────────────────────┐
-│  HEADER  │      HEADER            │
-├──────────┼────────────────────────┤
-│ SIDEBAR  │      MAIN              │
-│          │                        │
-├──────────┼────────────────────────┤
-│  FOOTER  │      FOOTER            │
-└──────────┴────────────────────────┘
-```
-
-Pero esto es feo: header y footer debieran ocupar todo el ancho. Para eso necesitás **grid-template-areas** (lo vemos en la [siguiente página](ubicacion.md)).
+    Flex sí centra los items sueltos de la última fila con `justify-content: center`.
 
 ---
 
@@ -172,7 +153,7 @@ Pero esto es feo: header y footer debieran ocupar todo el ancho. Para eso necesi
 | Flexbox | Grid |
 |---------|------|
 | Los items se empujan | Los items ocupan celdas |
-| No sabés cuántas columnas hay hasta que wrappean | Vos definís las columnas |
+| No sabes cuántas columnas hay hasta que wrappean | Tú defines las columnas |
 | Ideal para componentes | Ideal para layouts completos |
 
 ---

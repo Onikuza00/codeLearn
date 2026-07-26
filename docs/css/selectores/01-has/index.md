@@ -41,7 +41,7 @@ Antes de `:has()`, si querías que un `.card` se viera distinto cuando contenía
 
 ### 1. Cards con imagen vs sin imagen
 
-El caso más clásico. Cuando tenés una grilla de productos y algunos tienen foto y otros no:
+El caso más clásico. Cuando tienes una grilla de productos y algunos tienen foto y otros no:
 
 ```css
 /* Card CON imagen */
@@ -146,7 +146,7 @@ nav li:has(a.active) {
 .card:has(> img) { }
 ```
 
-Usá `>` cuando sepas que el elemento es hijo directo. Es más específico y el navegador lo resuelve más rápido.
+Usa `>` cuando sepas que el elemento es hijo directo. Es más específico y el navegador lo resuelve más rápido.
 
 ---
 
@@ -163,11 +163,11 @@ Usá `>` cuando sepas que el elemento es hijo directo. Es más específico y el 
 
 ## Buenas prácticas
 
-### ✅ Hacé
+### ✅ Haz
 
-- Usá `:has()` para estilos condicionales sin JavaScript
-- Preferí `:has(> .directo)` sobre `:has(.descendiente)` cuando puedas
-- Combiná con `:not()` para los casos inversos
+- Usa `:has()` para estilos condicionales sin JavaScript
+- Prefiere `:has(> .directo)` sobre `:has(.descendiente)` cuando puedas
+- Combina con `:not()` para los casos inversos
 
 ### ❌ No hagas
 
@@ -185,7 +185,7 @@ Usá `>` cuando sepas que el elemento es hijo directo. Es más específico y el 
 
 **Cobertura global**: ~94% — se puede usar en producción con progressive enhancement.
 
-Para navegadores viejos, usá `@supports`:
+Para navegadores viejos, usa `@supports`:
 
 ```css
 @supports selector(:has(*)) {

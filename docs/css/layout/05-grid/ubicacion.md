@@ -1,6 +1,6 @@
 # Ubicación y áreas en Grid { .section-grid }
 
-> Esto es lo que hace a Grid **realmente poderoso**: podés decidir dónde empieza y termina cada item, creando layouts que con flexbox serían imposibles o muy rebuscados.
+> Esto es lo que hace a Grid **realmente poderoso**: puedes decidir dónde empieza y termina cada item, creando layouts que con flexbox serían imposibles o muy rebuscados.
 
 ---
 
@@ -43,7 +43,8 @@ Controlan desde qué línea hasta qué línea ocupa un item.
     </div>
     ```
 
-!!! tip "Líneas negativas" { .grid }
+!!! tip "Líneas negativas"
+    { .grid }
     `-1` es siempre la **última línea** del grid. `1 / -1` significa "de la primera a la última línea", equivalente a "ocupa todo el ancho".
 
 ![grid-column: posiciones por número de línea](/css/assets/grid/grid-column-positions.svg)
@@ -52,7 +53,7 @@ Controlan desde qué línea hasta qué línea ocupa un item.
 
 ## Grid-template-areas
 
-La forma más LEGIBLE de definir layouts. Asignás nombres a las áreas y después los items los usan.
+La forma más LEGIBLE de definir layouts. Asignas nombres a las áreas y después los items los usan.
 
 ```css
 .layout {
@@ -85,8 +86,9 @@ grid-template-areas:
     "footer  footer  footer";
 ```
 
-!!! warning "Consistencia" { .grid }
-    Cada área debe formar un **rectángulo contiguo**. No podés tener áreas en L o separadas — es HTML+CSS, no TETRIS.
+!!! warning "Consistencia"
+    { .grid }
+    Cada área debe formar un **rectángulo contiguo**. No puedes tener áreas en L o separadas — es HTML+CSS, no TETRIS.
 
 ---
 
@@ -119,8 +121,9 @@ Cambiando `grid-template-areas` en media queries, reordenás todo sin tocar HTML
     }
     ```
 
-!!! success "El poder real de Grid" { .grid }
-    Con `grid-template-areas` cambiás **completamente** el layout en mobile con solo 5 líneas CSS. Sin tocar el HTML. Eso es imposible con flexbox puro.
+!!! success "El poder real de Grid"
+    { .grid }
+    Con `grid-template-areas` cambias **completamente** el layout en mobile con solo 5 líneas CSS. Sin tocar el HTML. Eso es imposible con flexbox puro.
 
 ---
 

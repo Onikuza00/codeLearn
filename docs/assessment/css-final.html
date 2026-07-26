@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Final CSS — Landing SaaSPro | CodeLearn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    h1 { font-size: 2rem; border-bottom: 4px solid var(--accent-css); padding-bottom: .5rem; margin-bottom: .5rem; }
+    h1 span { color: var(--accent-css); }
+    h2 {
+      font-size: 1.25rem;
+      color: var(--accent-css);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .25rem;
+      border-bottom: 2px solid var(--accent-css-dim);
+    }
+    .requisito {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: .75rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: .5rem 0;
+      border-left: 4px solid var(--accent-css);
+    }
+    .requisito strong { color: var(--accent-css); }
+    .nota {
+      background: #0e1a2e;
+      padding: .5rem 1rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--accent-css);
+      font-size: .9rem;
+      color: #8ab4f8;
+      margin: 1rem 0;
+    }
+    .checklist {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+    .checklist h3 { margin-top: 0; color: var(--text-primary); }
+    .checklist ul { padding-left: 1.25rem; }
+    .checklist li { margin-bottom: .25rem; }
+    .meta-bar--exam {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #0a1a2e;
+      border: 1px solid #1a3a5e;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-size: .875rem;
+    }
+    .meta-bar--exam strong { color: var(--accent-css); }
+    .estructura {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      font-size: .85rem;
+      font-family: monospace;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    .estructura .tag-html { color: var(--accent-css); }
+    pre code {
+      display: block;
+      background: var(--bg-elevated);
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      font-size: .85rem;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="css-final.html" class="megamenu__link">
+          <span class="icon icon--css">🔥</span>
+          <span class="link-text">
+            SaaSPro — Final CSS
+            <span class="sub">Todo CSS en un solo examen</span>
+          </span>
+        </a>
+        <a href="css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Nexus Agency
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Completado</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="js-basico.html" class="megamenu__link">
+          <span class="icon icon--js">⚡</span>
+          <span class="link-text">
+            JS Básico — Fundamentos
+            <span class="sub">Variables, funciones, arrays</span>
+          </span>
+        </a>
+        <a href="js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--ejercicios" data-dropdown="ejercicios" aria-haspopup="true">
+        🏋️ Ejercicios JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-ejercicios">
+        <div class="megamenu__title">Ejercicios</div>
+        <a href="js/ejercicios/conceptos-basicos.html" class="megamenu__link">
+          <span class="icon icon--js">💡</span>
+          <span class="link-text">
+            Conceptos básicos
+            <span class="sub">Lógica, bucles, arrays, strings</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="/" class="nav__back">← Docs</a>
+</nav>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main class="container">
+
+<h1>🔥 Examen Final CSS — <span>SaaSPro</span></h1>
+<p><strong>Contexto:</strong> Landing page completa para un SaaS de productividad. 4 secciones + formulario + header/footer. Este examen cubre <strong>todo</strong> lo trabajado: Flexbox, Grid, BEM, Mobile First, <code>:has()</code>, Container Queries, variables, <code>clamp()</code>, formularios, <code>:focus-visible</code>, transiciones y <code>prefers-reduced-motion</code>.</p>
+<p><strong>Tiempo estimado:</strong> 50–60 min.</p>
+<p><strong>Reglas:</strong> <code>const</code> por defecto, <code>let</code> solo si reasignas. Nada de <code>var</code>. Early returns. Sin IA, sin copiar.</p>
+<p><strong>Archivos:</strong> <code>saaspro.html</code> + <code>saaspro.css</code> + <code>root.css</code> (variables). Todo desde cero.</p>
+
+<div class="meta-bar--exam">
+  <span>🔥 <strong>4</strong> secciones + formulario</span>
+  <span>⏱ <strong>50–60 min</strong></span>
+  <span>🎯 <strong>Todas las secciones</strong> para aprobar</span>
+  <span>📁 <code>saaspro.html</code> + <code>saaspro.css</code></span>
+</div>
+
+<hr>
+
+<h2>📐 Estructura HTML</h2>
+
+<div class="estructura">
+<span class="tag-html">&lt;body&gt;</span>
+│
+├── <span class="tag-html">&lt;header class="header"&gt;</span>
+│   ├── &lt;a class="header__logo"&gt;SaaSPro&lt;/a&gt;
+│   ├── &lt;nav class="header__nav"&gt;
+│   │   └── &lt;ul class="header__list"&gt;
+│   │       ├── &lt;li&gt;&lt;a&gt;Características&lt;/a&gt;&lt;/li&gt;
+│   │       ├── &lt;li&gt;&lt;a&gt;Precios&lt;/a&gt;&lt;/li&gt;
+│   │       └── &lt;li&gt;&lt;a&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+│   │   &lt;/ul&gt;
+│   ├── &lt;a class="header__cta"&gt;Empezar&lt;/a&gt;
+│
+├── <span class="tag-html">&lt;section class="hero"&gt;</span>
+│   ├── &lt;h1 class="hero__title"&gt; ... &lt;/h1&gt;
+│   ├── &lt;p class="hero__desc"&gt; ... &lt;/p&gt;
+│   └── &lt;a class="hero__cta"&gt;Probar gratis&lt;/a&gt;
+│
+├── <span class="tag-html">&lt;section class="features"&gt;</span>
+│   └── 6× &lt;article class="feature-card"&gt;
+│       ├── &lt;span class="feature-card__icon"&gt;🚀&lt;/span&gt;
+│       ├── &lt;h3 class="feature-card__title"&gt; ... &lt;/h3&gt;
+│       └── &lt;p class="feature-card__desc"&gt; ... &lt;/p&gt;
+│
+├── <span class="tag-html">&lt;section class="pricing"&gt;</span>
+│   └── 3× &lt;article class="pricing__card"&gt;
+│       ├── &lt;span class="pricing__badge"&gt;Más popular&lt;/span&gt;  (solo en 1)
+│       ├── &lt;h3 class="pricing__name"&gt; ... &lt;/h3&gt;
+│       ├── &lt;p class="pricing__price"&gt; ... &lt;/p&gt;
+│       ├── &lt;ul class="pricing__features"&gt; ... &lt;/ul&gt;
+│       └── &lt;a class="pricing__cta"&gt;Elegir plan&lt;/a&gt;
+│
+├── <span class="tag-html">&lt;section class="contact"&gt;</span>
+│   └── &lt;form class="contact__form"&gt;
+│       ├── &lt;label&gt;Nombre &lt;input&gt;&lt;/label&gt;
+│       ├── &lt;label&gt;Email &lt;input type="email"&gt;&lt;/label&gt;
+│       ├── &lt;label&gt;Asunto &lt;select&gt;&lt;/label&gt;
+│       ├── &lt;label&gt;Mensaje &lt;textarea&gt;&lt;/label&gt;
+│       └── &lt;button&gt;Enviar&lt;/button&gt;
+│
+└── <span class="tag-html">&lt;footer class="footer"&gt;</span>
+    ├── &lt;nav&gt;4 enlaces&lt;/nav&gt;
+    └── &lt;p&gt;© 2026 SaaSPro&lt;/p&gt;
+</div>
+
+<hr>
+
+<!-- SECCIÓN 1: HEADER -->
+<h2>1 — Header <span class="tag tag--flex">Flexbox</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>Header fijo con logo, navegación y CTA.</strong>
+</div>
+
+<ul>
+  <li>Logo a la izquierda, nav centrado, botón CTA a la derecha con <code>display: flex; justify-content: space-between; align-items: center;</code>.</li>
+  <li>Header con <code>position: sticky; top: 0;</code> y <code>z-index</code> para que flote sobre el contenido.</li>
+  <li>Fondo semi-transparente con <code>backdrop-filter: blur()</code> o color sólido con opacidad.</li>
+  <li>Enlaces del nav con <code>:focus-visible</code>.</li>
+  <li><strong>Mobile:</strong> nav se oculta, solo quedan logo + CTA + un ☰ (hamburguesa puramente visual, sin JS).</li>
+  <li><strong>Desktop (≥ 768px):</strong> nav visible completo.</li>
+  <li>BEM estricto: todo bajo bloque <code>.header</code>.</li>
+</ul>
+
+<hr>
+
+<!-- SECCIÓN 2: HERO -->
+<h2>2 — Hero <span class="tag tag--flex">Flexbox</span> <span class="tag tag--rwd">clamp()</span></h2>
+
+<div class="requisito">
+  <strong>Sección principal con llamado a la acción.</strong>
+</div>
+
+<ul>
+  <li><code>min-height: 80vh</code> (en mobile que ocupe al menos 70vh).</li>
+  <li>Flexbox centrado en ambos ejes.</li>
+  <li>Fondo con gradiente (<code>linear-gradient</code>), que se vea bien en mobile y desktop.</li>
+  <li>Título con <code>clamp()</code> para tamaño fluido.</li>
+  <li>Descripción con <code>max-width</code> para que no sea demasiado ancha en desktop.</li>
+  <li>CTA con <code>transition</code> en hover (cambio de color, escala o sombra).</li>
+  <li><code>prefers-reduced-motion</code> para desactivar transiciones si el usuario lo prefiere.</li>
+</ul>
+
+<hr>
+
+<!-- SECCIÓN 3: FEATURES -->
+<h2>3 — Features <span class="tag tag--grid">Grid</span> <span class="tag tag--modern">:has()</span></h2>
+
+<div class="requisito">
+  <strong>Cuadrícula de 6 tarjetas con efecto hover.</strong>
+</div>
+
+<ul>
+  <li>Grid responsive con <code>repeat(auto-fit, minmax(280px, 1fr))</code>.</li>
+  <li>6 <code>&lt;article class="feature-card"&gt;</code> con icono, título y descripción.</li>
+  <li><strong>Efecto :has():</strong> al hacer hover sobre una card, las demás se atenúan:
+    <pre><code>.features:has(.feature-card:hover) .feature-card:not(:hover) {
+  opacity: 0.6;
+  filter: grayscale(0.3);
+}</code></pre>
+  </li>
+  <li>Cada card con <code>transition</code> suave en <code>opacity</code> y <code>filter</code>.</li>
+  <li>BEM consistente: todo bajo bloque <code>.feature-card</code>.</li>
+  <li>Sin media queries para el grid (el <code>auto-fit</code> ya lo hace responsive).</li>
+</ul>
+
+<hr>
+
+<!-- SECCIÓN 4: PRICING -->
+<h2>4 — Pricing <span class="tag tag--grid">Grid areas</span> <span class="tag tag--modern">CQ</span> <span class="tag tag--modern">:has()</span></h2>
+
+<div class="requisito">
+  <strong>Tres planes en grid con plan destacado y Container Queries.</strong>
+</div>
+
+<ul>
+  <li><code>grid-template-areas</code> para los 3 planes.</li>
+  <li><strong>Mobile:</strong> los 3 planes en una columna (stacked).</li>
+  <li><strong>Desktop (≥ 768px):</strong> 3 columnas, el plan del medio (Popular) un poco más grande o elevado (<code>transform: scale(1.05)</code>).</li>
+  <li>El plan "Popular" se detecta con <code>:has(.pricing__badge)</code> para darle estilo diferenciado (borde de otro color, sombra más grande).</li>
+  <li><strong>Container Queries:</strong> <code>.pricing__grid</code> tiene <code>container-type: inline-size</code>. Dentro, un breakpoint a 250px cambia el padding o layout de las <code>.pricing__card</code> (que son hijas del container, no el container mismo).</li>
+  <li>Transiciones en hover de las cards.</li>
+  <li><code>:focus-visible</code> en los botones CTA de cada plan.</li>
+  <li>BEM estricto: todo bajo bloque <code>.pricing</code>.</li>
+</ul>
+
+<hr>
+
+<!-- SECCIÓN 5: CONTACTO -->
+<h2>5 — Contacto <span class="tag tag--rwd">Formulario</span> <span class="tag tag--modern">:has()</span></h2>
+
+<div class="requisito">
+  <strong>Formulario de contacto completo con validación visual.</strong>
+</div>
+
+<ul>
+  <li>Campos: Nombre (<code>text</code>), Email (<code>email</code>), Asunto (<code>select</code> con 3 opciones), Mensaje (<code>textarea</code>).</li>
+  <li>Todos los campos requeridos (<code>required</code>).</li>
+  <li>Labels sobre los inputs (no placeholder como label).</li>
+  <li>Inputs y textarea con <code>:focus-visible</code> y <code>transition</code> en el borde.</li>
+  <li><strong>:has() para validación (opcional pero suma):</strong> si un campo <code>:invalid</code> está dentro del form, mostrar un mensaje o borde rojo:
+    <pre><code>.contact__form:has(:invalid) .contact__error {
+  display: block;
+}</code></pre>
+  </li>
+  <li>Botón "Enviar" con hover transition.</li>
+  <li>Form responsive: en mobile los campos apilados, en desktop el nombre y email pueden ir en una fila con grid de 2 columnas.</li>
+</ul>
+
+<hr>
+
+<!-- SECCIÓN 6: FOOTER -->
+<h2>6 — Footer <span class="tag tag--flex">Flexbox</span></h2>
+
+<div class="requisito">
+  <strong>Footer simple con enlaces y copyright.</strong>
+</div>
+
+<ul>
+  <li>Flexbox o grid simple.</li>
+  <li>Enlaces de navegación (4) + copyright.</li>
+  <li>Mobile: centrado, apilado.</li>
+  <li>Desktop: enlaces en fila, copyright a la derecha o segunda línea.</li>
+</ul>
+
+<hr>
+
+<h2>🎯 Resumen de conceptos evaluados</h2>
+
+<table class="history-table" style="margin-bottom:2rem;">
+  <thead>
+    <tr>
+      <th>Concepto</th>
+      <th>Sección</th>
+      <th>Obligatorio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Flexbox (header, hero, footer)</td><td>1, 2, 6</td><td>✅</td></tr>
+    <tr><td>Grid auto-fit / minmax</td><td>3</td><td>✅</td></tr>
+    <tr><td>Grid template-areas</td><td>4</td><td>✅</td></tr>
+    <tr><td>BEM consistente</td><td>Todas</td><td>✅</td></tr>
+    <tr><td>Mobile First (base=mobile, @media min-width)</td><td>Todas</td><td>✅</td></tr>
+    <tr><td>Variables CSS en :root</td><td>root.css</td><td>✅</td></tr>
+    <tr><td>clamp() para tipografía fluida</td><td>2</td><td>✅</td></tr>
+    <tr><td>:has() para hover en features</td><td>3</td><td>✅</td></tr>
+    <tr><td>:has() para destacar plan popular</td><td>4</td><td>✅</td></tr>
+    <tr><td>Container Queries (inline-size)</td><td>4</td><td>✅</td></tr>
+    <tr><td>Formulario con estilos</td><td>5</td><td>✅</td></tr>
+    <tr><td>:focus-visible</td><td>1, 2, 4, 5</td><td>✅</td></tr>
+    <tr><td>Transiciones (hover, focus)</td><td>Todas</td><td>✅</td></tr>
+    <tr><td>prefers-reduced-motion</td><td>Global</td><td>✅</td></tr>
+    <tr><td>:has() validación formulario</td><td>5</td><td>⭐ Bonus</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<div class="nota">
+  ⏱️ Prioriza en orden: Header → Hero → Features → Pricing → Contacto → Footer. Si algo no te sale, saltalo y seguí. El Pricing con CQ es la parte más compleja. El formulario con :has() de validación es bonus.
+</div>
+
+<hr>
+
+<div class="checklist">
+  <h3>✅ Checklist final</h3>
+  <ul>
+    <li>☐ <strong>Sección 1:</strong> Header sticky con flexbox, nav centrado, CTA, hamburguesa en mobile</li>
+    <li>☐ <strong>Sección 2:</strong> Hero 80vh, flex centrado, gradiente, título con clamp(), CTA con transición</li>
+    <li>☐ <strong>Sección 3:</strong> Features grid responsive, 6 cards, :has() hover que atenúa las demás</li>
+    <li>☐ <strong>Sección 4:</strong> Pricing grid areas 3 columnas, plan Popular con :has(), CQ en cards</li>
+    <li>☐ <strong>Sección 5:</strong> Formulario con nombre, email, asunto, mensaje. Campos requeridos. :focus-visible</li>
+    <li>☐ <strong>Sección 6:</strong> Footer con enlaces + copyright, responsive</li>
+    <li>☐ <strong>Global:</strong> Variables en root.css, Mobile First, BEM, prefers-reduced-motion</li>
+    <li>☐ <strong>⭐ Bonus:</strong> :has() para validación visual del formulario</li>
+  </ul>
+  <p style="margin-top:1rem;font-weight:700;color:var(--accent-css);">🔥 Todas las secciones obligatorias para aprobar CSS y pasar a JS. Sin IA.</p>
+</div>
+
+<div class="footer-note">
+  CodeLearn Assessment — Julio 2026 · Examen Final CSS
+</div>
+
+</main>
+
+<script>
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
+
+</body>
+</html>

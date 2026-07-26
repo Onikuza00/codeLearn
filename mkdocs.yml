@@ -52,10 +52,12 @@ nav:
         - "Semana 03 — CSS & JS":
           - "Sábado 18 — CSS intensivo": waytoCode/2026/07/semana-3/2026-07-18.md
           - "Domingo 19 — Examen CSS": waytoCode/2026/07/semana-3/2026-07-19.md
+        - "Semana 04 — CSS + JS":
+          - "Jueves 23 — CSS Grid": waytoCode/2026/07/semana-4/2026-07-23.md
+          - "Sábado 25 — Repaso CSS": waytoCode/2026/07/semana-4/2026-07-25.md
   - CSS:
     - css/index.md
     - "Selectores":
-      - css/selectores/index.md
       - ":has()": css/selectores/01-has/index.md
     - "Layout":
       - css/layout/index.md
@@ -77,6 +79,9 @@ nav:
       - css/arquitectura/index.md
       - BEM: css/arquitectura/bem.md
       - "CSS Layers": css/arquitectura/03-layers/index.md
+  - JS:
+    - js/index.md
+    - "JS Básico": js/01-basico/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:

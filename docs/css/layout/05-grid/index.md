@@ -15,7 +15,8 @@
 | Dashboard con áreas irregulares | ❌ Difícil | ✅ Ideal |
 | Layout 2D (filas Y columnas juntos) | ❌ No puede | ✅ Nació para eso |
 
-!!! tip "La regla de oro" { .grid }
+!!! tip "La regla de oro"
+    { .grid }
     **Una dimensión** (fila o columna) → Flexbox.  
     **Dos dimensiones** (filas y columnas) → Grid.
 

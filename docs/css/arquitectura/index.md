@@ -1,6 +1,6 @@
 # Arquitectura CSS { .section-arquitectura }
 
-> CSS escala mal por defecto. Sin organización, un proyecto grande se vuelve ingobernable: especificidad cruzada, estilos que se pisan, clases que no sabés si se usan. **Arquitectura CSS** es cómo escribís CSS que no explote cuando crece.
+> CSS escala mal por defecto. Sin organización, un proyecto grande se vuelve ingobernable: especificidad cruzada, estilos que se pisan, clases que no sabes si se usan. **Arquitectura CSS** es cómo escribes CSS que no explote cuando crece.
 
 ---
 
@@ -10,7 +10,7 @@ Escribir CSS es fácil. **Mantenerlo** es lo difícil. Sin convenciones ni estru
 
 - Un archivo de 3000 líneas
 - Nombres de clase como `.left`, `.red`, `.big`
-- `!important` por todos lados porque no sabés qué pisa qué
+- `!important` por todos lados porque no sabes qué pisa qué
 
 Las herramientas de arquitectura CSS ponen orden en el caos:
 

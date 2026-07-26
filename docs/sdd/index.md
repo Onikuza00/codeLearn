@@ -22,7 +22,7 @@ Porque Pau programa sin IA no es lo mismo que Pau programa **con** IA. SDD te da
 - Separar "estoy explorando" de "estoy implementando"
 - No olvidarte casos borde
 - Poder retomar un cambio semanas después sin perder contexto
-- Que la IA haga lo que mejor sabe (generar código mecánico) y vos hagas lo que mejor sabés (decidir, diseñar, corregir)
+- Que la IA haga lo que mejor sabe (generar código mecánico) y tú hagas lo que mejor sabes (decidir, diseñar, corregir)
 
 ---
 

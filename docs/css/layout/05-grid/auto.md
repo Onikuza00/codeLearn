@@ -61,7 +61,8 @@ Con 5 items y espacio para 6 columnas:
 └──────┘└──────┘└──────┘└──────┘└──────────────┘
 ```
 
-!!! tip "¿Cuál usar?" { .grid }
+!!! tip "¿Cuál usar?"
+    { .grid }
     **Casi siempre `auto-fit`.** A menos que necesites que cierta cantidad de columnas se mantenga aunque falten items (muy raro). Con `auto-fit` los items se estiran y no quedan huecos feos.
 
 ![auto-fill vs auto-fit](/css/assets/grid/auto-fill-vs-fit.svg)
@@ -149,7 +150,8 @@ Si querés que midan según el contenido, usá `auto` (default). Si querés que 
     </div>
     ```
 
-!!! success "El patrón definitivo" { .grid }
+!!! success "El patrón definitivo"
+    { .grid }
     `repeat(auto-fit, minmax(250px, 1fr))` es el patrón responsive que más vas a usar en tu vida. Memorizalo.
 
 ---

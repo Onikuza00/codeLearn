@@ -12,7 +12,8 @@ Son los componentes base de Symfony UX. Se renderizan **una vez** en el servidor
 | La clase PHP | "Symfony, esta es la lógica del componente" |
 | El template Twig | "Symfony, este es el HTML del componente" |
 
-!!! tip "Analogía con Vue" { .twig }
+!!! tip "Analogía con Vue"
+    { .twig }
     Es como un componente Vue que **no tiene reactividad**: recibe props, renderiza HTML, y listo. No hay estado, no hay eventos, no hay ciclos de vida del lado del cliente.
 
 ---
