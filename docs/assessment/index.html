@@ -7,8 +7,102 @@
   <link rel="stylesheet" href="style.css">
   <style>
     h1 { font-size: 2rem; margin-bottom: .25rem; }
-    h1 span { color: var(--accent-css); }
+    h1 span { color: var(--accent-js); }
     .subtitle { color: var(--text-muted); margin-bottom: 2rem; }
+
+    .track-tabs {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .track-tab {
+      padding: .5rem 1.2rem;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--text-secondary);
+    }
+    .track-tab:hover { border-color: var(--accent-js); color: var(--text-primary); }
+    .track-tab.is-active {
+      background: var(--accent-js-dim);
+      border-color: var(--accent-js);
+      color: var(--accent-js);
+    }
+    .track-tab.is-active-css {
+      background: #818cf822;
+      border-color: var(--accent-css);
+      color: var(--accent-css);
+    }
+    .track-section {
+      display: none;
+    }
+    .track-section.is-visible {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .section-title small {
+      font-size: .8rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .week-badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .15rem .6rem;
+      border-radius: 100px;
+      background: var(--accent-js-dim);
+      color: var(--accent-js);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .week-badge.css {
+      background: #818cf822;
+      color: var(--accent-css);
+    }
+    .week-badge.done {
+      background: #22c55e22;
+      color: #22c55e;
+    }
+    .week-badge.pending {
+      background: #64748b22;
+      color: #64748b;
+    }
+    .exam-card .coming-soon {
+      opacity: .5;
+      pointer-events: none;
+    }
+    .exam-card .coming-soon .exam-card__tag {
+      background: var(--text-muted);
+      color: var(--bg-surface);
+    }
+
+    .exam-card[data-empty] {
+      border-style: dashed;
+      opacity: .7;
+      cursor: default;
+    }
+    .exam-card[data-empty]:hover {
+      border-color: var(--border);
+      transform: none;
+    }
+    .exam-card[data-empty] h2 {
+      font-size: .95rem;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
@@ -16,6 +110,28 @@
 <nav class="nav">
   <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
   <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+        🗓️ Agosto 2026 <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">Ruta de Agosto</div>
+        <a href="#track-js" class="megamenu__link" onclick="switchTab('js')">
+          <span class="icon icon--js">🔵</span>
+          <span class="link-text">
+            JS Progression
+            <span class="sub">Arrays → Objetos → DOM → Proyecto</span>
+          </span>
+        </a>
+        <a href="#track-css" class="megamenu__link" onclick="switchTab('css')">
+          <span class="icon icon--css">🟢</span>
+          <span class="link-text">
+            CSS + Tailwind
+            <span class="sub">Tailwind desde 0 → Landing</span>
+          </span>
+        </a>
+      </div>
+    </li>
     <li class="nav__item">
       <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
         Exámenes CSS <span class="arrow">▼</span>
@@ -46,10 +162,10 @@
       </div>
     </li>
     <li class="nav__item">
-      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+      <button class="nav__btn" data-dropdown="examenes" aria-haspopup="true">
         Exámenes JS <span class="arrow">▼</span>
       </button>
-      <div class="megamenu" id="dropdown-js">
+      <div class="megamenu" id="dropdown-examenes">
         <div class="megamenu__title">JavaScript</div>
         <a href="js-basico.html" class="megamenu__link">
           <span class="icon icon--js">⚡</span>
@@ -65,19 +181,11 @@
             <span class="sub">DOM, Arrays, Async</span>
           </span>
         </a>
-      </div>
-    </li>
-    <li class="nav__item">
-      <button class="nav__btn nav__btn--ejercicios" data-dropdown="ejercicios" aria-haspopup="true">
-        🏋️ Ejercicios JS <span class="arrow">▼</span>
-      </button>
-      <div class="megamenu" id="dropdown-ejercicios">
-        <div class="megamenu__title">Ejercicios</div>
         <a href="js/ejercicios/conceptos-basicos.html" class="megamenu__link">
-          <span class="icon icon--js">💡</span>
+          <span class="icon icon--js">🌐</span>
           <span class="link-text">
-            Conceptos básicos
-            <span class="sub">Lógica, bucles, arrays, strings</span>
+            Conceptos Básicos
+            <span class="sub">10 ejercicios de lógica web</span>
           </span>
         </a>
       </div>
@@ -90,11 +198,184 @@
 <div class="megamenu-overlay" id="megamenu-overlay"></div>
 
 <main class="container">
-  <h1>🧪 <span>Assessment</span> Center</h1>
-  <p class="subtitle">Exámenes para medir conocimientos reales, sin IA, sin ayuda. Cada examen tiene un tiempo límite y un criterio claro.</p>
 
-  <section>
+  <!-- ============ HEADER ============ -->
+  <h1>🧪 <span>Assessment</span> Center</h1>
+  <p class="subtitle">Ruta de aprendizaje · Agosto 2026. Cada concepto JS está elegido para que mapee directamente a React y Node.</p>
+
+  <!-- ============ TRACK TABS ============ -->
+  <div class="track-tabs">
+    <button class="track-tab is-active" onclick="switchTab('js')" data-tab="js">🔵 JS Progression</button>
+    <button class="track-tab" onclick="switchTab('css')" data-tab="css">🟢 CSS + Tailwind</button>
+    <button class="track-tab" onclick="switchTab('library')" data-tab="library">📋 Assessment Library</button>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TRACK: JS                                                        -->
+  <!-- ================================================================ -->
+  <div class="track-section is-visible" id="track-js">
+
+    <h2 class="section-title">🔵 JS — Progresión Agosto <small>enfocado a React + Node</small></h2>
+
     <div class="card-grid">
+
+      <!-- WEEK 1 -->
+      <a href="js/ejercicios/conceptos-basicos.html" class="exam-card" style="border-color:var(--accent-js);">
+        <span class="exam-card__tag exam-card__tag--js" style="background:var(--accent-js);color:#000;">Activo</span>
+        <span class="week-badge">Semana 1</span>
+        <h2 style="margin-top:.5rem;">Arrays + Métodos</h2>
+        <p><code>map</code>, <code>filter</code>, <code>forEach</code>, mutabilidad, spread. La base para renderizar listas en React.</p>
+        <div class="exam-card__meta">
+          <span>📅 3-7 agosto</span>
+          <span>🏁 E9-E10 pendientes</span>
+          <span>🎯 React lists</span>
+        </div>
+      </a>
+
+      <!-- WEEK 2 -->
+      <div class="exam-card" data-empty>
+        <span class="exam-card__tag exam-card__tag--js">Semana 2</span>
+        <h2>🔜 Objetos + Callbacks</h2>
+        <p>Clave-valor, spreads, funciones como valor, closures. La base de props, hooks y event handlers en React.</p>
+        <div class="exam-card__meta">
+          <span>📅 10-14 agosto</span>
+          <span>🏗️ En preparación</span>
+        </div>
+      </div>
+
+      <!-- WEEK 3 -->
+      <div class="exam-card" data-empty>
+        <span class="exam-card__tag exam-card__tag--js">Semana 3</span>
+        <h2>🔜 DOM + Async</h2>
+        <p>Promises, fetch, async/await, DOM events. La base de useEffect y del core de Node.js.</p>
+        <div class="exam-card__meta">
+          <span>📅 17-21 agosto</span>
+          <span>🏗️ En preparación</span>
+        </div>
+      </div>
+
+      <!-- WEEK 4 -->
+      <div class="exam-card" data-empty>
+        <span class="exam-card__tag exam-card__tag--js">Semana 4</span>
+        <h2>🔜 Mini-proyecto JS</h2>
+        <p>Unir fetch + DOM + métodos + Tailwind en una app funcional. El paso previo a React.</p>
+        <div class="exam-card__meta">
+          <span>📅 24-28 agosto</span>
+          <span>🏗️ En preparación</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- JS Warm-up drills -->
+    <h3 class="section-title" style="font-size:1.1rem;margin-top:2rem;">⚡ Warm-up drills</h3>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1rem;">
+      Cada día arranca con 30 min de ejercicios cortos para matar errores recurrentes (off-by-one, splice vs slice, flags).
+      Se generan según los fallos de la sesión anterior.
+    </p>
+
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TRACK: CSS + TAILWIND                                            -->
+  <!-- ================================================================ -->
+  <div class="track-section" id="track-css">
+
+    <h2 class="section-title">🟢 CSS + Tailwind — Agosto</h2>
+
+    <div class="card-grid">
+
+      <div class="exam-card" data-empty>
+        <span class="week-badge css">Semana 1</span>
+        <h2 style="margin-top:.5rem;">🔜 Tailwind Fundamentals</h2>
+        <p>Utility-first, spacing, colors, typography, flexbox con TW. Tu CSS ya es fuerte — Tailwind entra solo.</p>
+        <div class="exam-card__meta">
+          <span>📅 Mar 4 - Jue 6 agosto</span>
+          <span>🎯 2 componentes</span>
+        </div>
+      </div>
+
+      <div class="exam-card" data-empty>
+        <span class="week-badge css">Semana 2</span>
+        <h2 style="margin-top:.5rem;">🔜 Tailwind Components</h2>
+        <p>Componentes reutilizables, <code>@apply</code>, responsive design system. Pensando en React components.</p>
+        <div class="exam-card__meta">
+          <span>📅 Mar 11 - Jue 13 agosto</span>
+          <span>🎯 Biblioteca de UI</span>
+        </div>
+      </div>
+
+      <div class="exam-card" data-empty>
+        <span class="week-badge css">Semana 3</span>
+        <h2 style="margin-top:.5rem;">🔜 Landing Page con TW</h2>
+        <p>Landing completa solo con Tailwind. Dark mode, responsive, sin CSS puro.</p>
+        <div class="exam-card__meta">
+          <span>📅 Mar 18 - Jue 20 agosto</span>
+          <span>🎯 Landing funcional</span>
+        </div>
+      </div>
+
+      <div class="exam-card" data-empty>
+        <span class="week-badge css">Semana 4</span>
+        <h2 style="margin-top:.5rem;">🔜 CSS Moderno + TW</h2>
+        <p>CSS Nesting, subgrid, text-wrap: balance. Refinar lo que ya sabés para subir a 8.5/10.</p>
+        <div class="exam-card__meta">
+          <span>📅 Mar 25 - Jue 27 agosto</span>
+          <span>🎯 Cerrar CSS</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Existing CSS exams -->
+    <h3 class="section-title" style="font-size:1.1rem;margin-top:2.5rem;">📋 Exámenes CSS anteriores</h3>
+
+    <div class="card-grid">
+      <a href="css-final.html" class="exam-card" style="border-color:var(--accent-css);">
+        <span class="exam-card__tag exam-card__tag--css" style="background:var(--accent-css);color:#000;">🔥 Final</span>
+        <h2>SaaSPro — Examen Final CSS</h2>
+        <p>Landing completa con Flexbox, Grid, BEM, :has(), CQ, formulario, clamp(), :focus-visible, prefers-reduced-motion.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 50–60 min</span>
+          <span>📐 4 secciones + form</span>
+          <span>🎯 8.3/10 ✅</span>
+        </div>
+      </a>
+
+      <a href="css-fundamentos.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--css">CSS</span>
+        <h2>Nexus Agency</h2>
+        <p>Landing page completa con Flexbox, Grid responsive, :has(), CQ, BEM, a11y. Maquetación real sin frameworks.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 60–75 min</span>
+          <span>📐 6 secciones</span>
+          <span>🎯 Todo o nada</span>
+        </div>
+      </a>
+
+      <a href="../CSS/assessment/examen-final-objetivos.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--done">Completado</span>
+        <h2>NomadStay — Landing</h2>
+        <p>Examen final práctico: landing page completa con BEM, Grid, Flex, CQ, :has(), a11y.</p>
+        <div class="exam-card__meta">
+          <span>📅 18/07/2026</span>
+          <span>⏱ 45–60 min</span>
+          <span><span class="score score--pending">⏳ Pendiente</span></span>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TRACK: ASSESSMENT LIBRARY                                        -->
+  <!-- ================================================================ -->
+  <div class="track-section" id="track-library">
+
+    <h2 class="section-title">📋 Assessment Library <small>todos los exámenes disponibles</small></h2>
+
+    <div class="card-grid">
+
       <a href="css-final.html" class="exam-card" style="border-color:var(--accent-css);">
         <span class="exam-card__tag exam-card__tag--css" style="background:var(--accent-css);color:#000;">🔥 Final</span>
         <h2>SaaSPro — Examen Final CSS</h2>
@@ -149,10 +430,24 @@
           <span>🎯 Features 1-4</span>
         </div>
       </a>
-    </div>
-  </section>
 
-  <section>
+      <a href="js/ejercicios/conceptos-basicos.html" class="exam-card">
+        <span class="exam-card__tag exam-card__tag--js" style="background:#ffd700;color:#000;">🆕 Semana 05</span>
+        <h2>Conceptos Básicos — Lógica Web</h2>
+        <p>10 ejercicios de lógica orientada a web: validaciones, formateo, agrupación, ordenamiento. Basado en errores reales de sesiones anteriores.</p>
+        <div class="exam-card__meta">
+          <span>⏱ 30–45 min</span>
+          <span>📐 10 ejercicios</span>
+          <span>🎯 7/10 para aprobar</span>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- ============ HISTORIAL ============ -->
+  <section style="margin-top:3rem;">
     <h2 class="section-title">📊 Historial de assessments</h2>
     <table class="history-table">
       <thead>
@@ -171,14 +466,22 @@
           <td>⏳ Pendiente de calificar</td>
         </tr>
         <tr>
+          <td>25/07/2026</td>
+          <td>CSS — SaaSPro Final</td>
+          <td class="score score--done">8.3/10</td>
+          <td>✅ Aprobado</td>
+        </tr>
+        <tr>
           <td colspan="4" class="empty">Los nuevos resultados aparecerán aquí al completar cada examen.</td>
         </tr>
       </tbody>
     </table>
   </section>
+
 </main>
 
 <script>
+// Megamenu
 const overlay = document.getElementById('megamenu-overlay');
 let openDropdown = null;
 
@@ -206,6 +509,25 @@ overlay.addEventListener('click', () => {
   overlay.classList.remove('megamenu-overlay--visible');
   openDropdown = null;
 });
+
+// Tab switching
+function switchTab(tab) {
+  document.querySelectorAll('.track-section').forEach(el => el.classList.remove('is-visible'));
+  document.getElementById('track-' + tab).classList.add('is-visible');
+
+  document.querySelectorAll('.track-tab').forEach(el => {
+    el.classList.remove('is-active', 'is-active-css');
+    if (el.dataset.tab === tab) {
+      el.classList.add(tab === 'css' ? 'is-active-css' : 'is-active');
+    }
+  });
+}
+
+// Hash-based initial tab
+const hash = window.location.hash.replace('#track-', '');
+if (hash && ['js','css','library'].includes(hash)) {
+  switchTab(hash);
+}
 </script>
 
 </body>

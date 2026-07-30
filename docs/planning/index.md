@@ -1,79 +1,149 @@
-# 🗺️ Plan de aprendizaje
+# 🗺️ Plan de aprendizaje — Agosto 2026
+
+> Mes completo disponible · Mañanas 5-6h · 5 días/semana
 
 ---
 
-## 🎯 Objetivos de aprendizaje
+## 🧠 Tu contexto actual
 
-> Sección fija — representa el plan general. Se actualiza cuando cambian las prioridades.
+| Stack | Dónde estás | Lo que sabés | Lo que te falta |
+|-------|:-----------:|--------------|-----------------|
+| **Vue** | Intermedio | Componentes, templates, reactive data, directives | Entender qué hace Vue por debajo (reactividad = getters/setters) |
+| **Symfony** | Intermedio | MVC, routing, Doctrine, JWT, Twig | PHP OOP sólido, tests |
+| **CSS** | **8/10** | Flex, Grid, BEM, CQ, `:has()`, `@layer`, GSAP | Tailwind, CSS Nesting |
+| **JS puro** | **5.5/10** | Loops, split/join, includes, indexOf, early returns | Métodos arrays, objetos como estructuras, callbacks, closures, async |
 
-### Prioridades actuales
-
-| Prioridad | Stack | Tema | Estado |
-|-----------|-------|------|--------|
-| 🔴 Alta | **CSS** | Maquetación sólida (Flexbox, Grid, responsive, `:has()`, CQ, `@layer`) | En curso |
-| 🔴 Alta | **JS** | Práctica deliberada sin IA — lógica, DOM, fetch | Pendiente |
-| 🟡 Media | **PHP** | Sintaxis, PDO, formularios — sin framework | Pendiente |
-| 🟡 Media | **Symfony** | Mantener hábito (Web Components) | Rotación 30% |
-| 🟢 Futuro | **React + Tailwind** | Cuando la base esté sólida | Pendiente |
-
-### Roadmap de verano
-
-1. **CSS moderno** — maquetación fluida sin IA
-2. **JS evaluación** — medir fluidez sin frameworks
-3. **PHP base** — lo básico sólido
-4. **PortfolioPC** — terminar y dejar presentable
-5. **Symfony** — rotación para no perder práctica
-6. **React + Tailwind + Astro** — cuando la base esté sólida
-
-### Horario semanal
-- Finde intensivo: 12h sábado + 12h domingo (proyecto integrador)
-- Semana: 3-4h x 3 días (práctica focalizada)
-- Agosto: mes completo disponible
+**El diagnóstico:** Vue y Symfony te enseñaron "qué se puede hacer", pero no "cómo funciona por dentro". Para React y Node necesitás el *cómo funciona*.
 
 ---
 
-## 📅 Última sesión — Sábado 18/07
+## 🎯 Meta de agosto: JS 7.5/10 + Tailwind
 
-### Mañana — CSS avanzado (3h)
+Cada concepto JS está elegido porque **mapea directamente** a React o Node:
 
-**Objetivo:** Examen final práctico — Landing page NomadStay
+| Concepto JS | Para qué sirve en React | Para qué sirve en Node |
+|------------|------------------------|------------------------|
+| `map`/`filter`/`reduce` | Renderizar listas en JSX | Procesar arrays de datos |
+| Objetos + spreads | Props, useState, manejo de estado inmutable | Config, request/response |
+| Callbacks + closures | useEffect, event handlers, hooks | Async patterns, middleware |
+| Promises + async/await | fetch, efectos secundarios | El CORE de Node |
+| Destructuring | Props `{nombre, precio}` | `require`, modules |
+| Modules import/export | Cualquier componente React | Cualquier archivo Node |
 
-**Conceptos evaluados:**
-- BEM estricto (con anidación permitida)
-- Mobile First con una media query `min-width: 768px`
-- Flexbox (header, nav)
-- Grid (servicios 1fr → 3fr, destinos, footer)
-- Variables CSS en :root
-- `clamp()` para tipografía fluida
-- `:focus-visible` en enlaces y botones
-- `prefers-reduced-motion` global
-- Transiciones sin `all`
+---
 
-**Estado:** Parcial — header y hero completos, servicios con HTML+CSS básico. Pendiente CSS de destinos (CQ + :has()), testimonios y footer.
+## 📐 Estructura semanal
 
-### Carencias confirmadas
-| Concepto | Nivel |
-|----------|-------|
-| BEM naming consistente | ✅ Aprobado |
-| Mobile First | ✅ Aprobado |
-| Variables CSS | ✅ Aprobado |
-| `:focus-visible` | ✅ Aprobado |
-| `prefers-reduced-motion` | ✅ Aprobado |
-| `clamp()` | ✅ Aprobado |
-| Grid / Flexbox | ⚠️ Aplicado, pendiente revisión destinos |
-| Container Queries | ❌ Pendiente de aplicar |
-| `:has()` | ❌ Pendiente de aplicar |
-| Sintaxis CSS (typos) | ⚠️ Mejorando (calmp, focsus-visible) |
-| HTML ↔ CSS connection | ⚠️ Se pierde a veces, clases que no matchean |
+| Día | Tema | Horas |
+|-----|------|:-----:|
+| **Lunes** | 🔵 JS — Arrays + métodos (base para React lists) | ~5h |
+| **Martes** | 🟢 CSS + Tailwind | ~5h |
+| **Miércoles** | 🔵 JS — Objetos + callbacks (base para React props/hooks) | ~5h |
+| **Jueves** | 🟢 CSS + Tailwind (proyecto) | ~5h |
+| **Viernes** | 🔵 JS — DOM + async (base para Node/efectos) | ~5h |
 
-## 📅 Próxima sesión
+### Ritmo diario
 
-**Pendiente — Examen NomadStay:**
-1. CSS de destinos (grid + CQ + :has())
-2. CSS de testimonios (flex wrap, avatar circular)
-3. CSS de footer (grid 1fr → 3fr)
-4. Revisión final completa
+```
+🕐 0:00–0:30  Warm-up JS (drills de errores recurrentes)
+🕐 0:30–3:30  Core topic del día
+🕐 3:30–4:00  ☕ Corte
+🕐 4:00–5:00  Proyecto / Consolidación
+🕐 5:00–5:30  Review + daily log
+```
 
-**Siguiente fase (si aprueba):**
-- Fase 2: `@layer` (teoría + práctica)
-- Refactor del ejercicio pricing con todo consolidado
+---
+
+## 📅 Semana 1 — Arrays + métodos (React lists) (3 - 7 agosto)
+
+| Día | Concepto | Por qué sirve | Proyecto |
+|-----|----------|---------------|----------|
+| **Lun** 🔵 | Arrays: `map`, `filter`, `forEach` | **React**: `{datos.map(x => <li>{x}</li>)}` | Terminar E9-E10, refactor ejercicios viejos con métodos |
+| **Mar** 🟢 | Tailwind: utility-first, spacing, colors | **React**: Tailwind es el stack por defecto con React | Mini-tarjeta de producto con TW |
+| **Mié** 🔵 | `slice` vs `splice`, spread operator `[...arr]`, mutabilidad | **React**: estado inmutable, nunca mutar arrays | Sistema de carrito sin mutar original |
+| **Jue** 🟢 | Tailwind: flexbox, grid, responsive | **React**: layout responsivo en componentes | Hero responsive con TW |
+| **Vie** 🔵 | DOM básico + combinar con métodos array | **React**: entender cómo React renderiza listas sin vanilla | Renderizar catálogo en HTML desde array |
+
+### 🧠 Concepto clave de la semana
+> **"No mutar, crear nuevo"** — Es lo único que tenés que saber para entender useState.
+
+---
+
+## 📅 Semana 2 — Objetos + callbacks (React hooks/props) (10 - 14 agosto)
+
+| Día | Concepto | Por qué sirve | Proyecto |
+|-----|----------|---------------|----------|
+| **Lun** 🔵 | Objetos: clave-valor, `Object.keys/values/entries`, spread en objetos | **React**: `setState({...obj, key: val})`, props | Sistema de puntuación con objetos |
+| **Mar** 🟢 | Tailwind: componentes, `@apply`, diseño system | **React**: así se piensan los componentes en React | Biblioteca de componentes TW |
+| **Mié** 🔵 | Funciones como valor, callbacks, closures | **React**: `onClick={handleClick}`, `useEffect` depende de closures | Temporizador + contadores |
+| **Jue** 🟢 | CSS Nesting + Tailwind combinados | **Vue SFC**: `<style scoped>` ya usa nesting | Componente TW con nesting |
+| **Vie** 🔵 | `reduce`, `find`, `some`, `every` | **Node**: procesamiento de datos, validaciones, ETL ligero | Pipeline de transformación de datos |
+
+### 🧠 Concepto clave de la semana
+> **"Las funciones son valores"** — Cuando entiendas esto, `onClick={handleClick}` deja de ser magia.
+
+---
+
+## 📅 Semana 3 — DOM + async (Node y efectos) (17 - 21 agosto)
+
+| Día | Concepto | Por qué sirve | Proyecto |
+|-----|----------|---------------|----------|
+| **Lun** 🔵 | Promises, `fetch`, `async/await` | **Node**: toda la stdlib es async. **React**: useEffect + fetch | Cargar datos de API pública |
+| **Mar** 🟢 | Tailwind landing page completa | **Portfolio**: tener una landing 100% TW | Landing propia |
+| **Mié** 🔵 | DOM: crear elementos, eventos, formularios | **React**: entender por qué React virtualiza el DOM | Formulario con feedback en tiempo real |
+| **Jue** 🟢 | CSS moderno: `subgrid`, `text-wrap`, `scroll-snap` | **CSS**: cerrar CSS moderno, subir a 8.5/10 | Galería con scroll-snap |
+| **Vie** 🔵 | Proyecto: unir fetch + DOM + métodos | **Node + React**: el flujo completo (datos → transformar → renderizar) | Dashboard con API externa |
+
+### 🧠 Concepto clave de la semana
+> **"Async no es magia, es un timer que ejecuta una función después"** — Cuando clicks y fetches compartan el mismo modelo mental, Node no te da miedo.
+
+---
+
+## 📅 Semana 4 — Mini-proyecto integrador (24 - 28 agosto)
+
+**Unir TODO:** Tailwind + JS puro + fetch + DOM.
+
+Las ideas están pensadas para que el código se parezca a una app React sin React:
+
+| Día | Qué | Por qué |
+|-----|-----|---------|
+| **Lun** 🔵 | Planificar + estructura de datos | **React**: pensar en componentes y estado antes de escribir |
+| **Mar** 🟢 | Maquetar con Tailwind | **React**: así se empieza cualquier proyecto |
+| **Mié** 🔵 | Lógica JS (filtros, búsqueda, ordenación) | **React**: la lógica es la misma, cambia el render |
+| **Jue** 🟢 | Refinar UI + responsive | **CSS+TW**: cerrar el mes |
+| **Vie** 🔵 | Evaluación + decidir septiembre | ¿Estoy listo para React? |
+
+### Ideas para el proyecto
+- **Catálogo de productos** con fetch, filtros, búsqueda, carrito → calcado a lo que sería una app React
+- **Dashboard de clima** con API gratuita → datos externos + renderizado condicional
+- **Clon minimalista de Trello** con drag (opcional) → estado como array de objetos
+
+---
+
+## 📊 Criterios realistas para pasar a React
+
+Más que nota numérica, esto:
+
+| Criterio | Lo mide |
+|----------|---------|
+| Resolvés un ejercicio nuevo sin ayuda | Sesiones de código |
+| Usás `map/filter/find` natural, sin caer en `for` | Code review |
+| 3 sesiones sin off-by-one ni splice/slice | Registro de errores |
+| Hacés fetch + render sin drama | Proyecto semana 4 |
+| Explicás qué es un closure | Conversación |
+
+✅ **4/5** → React no te va a costar. Si llegás con 3/5, estás cerca igual.
+
+---
+
+## 🔄 Recordatorio semanal
+
+```
+Lun  🔵 JS (arrays → React lists)
+Mar  🟢 TW + CSS
+Mié  🔵 JS (objetos + funciones → React hooks/props)  
+Jue  🟢 TW + CSS (proyecto)
+Vie  🔵 JS (DOM + async → Node)
+```
+
+**Fines de semana:** Recuperación, proyecto personal, o planificar. Sin presiones.

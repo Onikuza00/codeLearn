@@ -314,6 +314,8 @@ for (let i = 0; i < string.length; i++) {
 
 ### Bucles
 - **Off-by-one:** al definir un loop, preguntarme "¿incluyo o excluyo el límite?" → `<` vs `<=`
+- **Doble for (bubble sort):** el for interno mueve cada elemento 1 lugar; el externo repite las pasadas. Sin el externo, un elemento al fondo nunca llega al principio.
+- **Swap:** `temp = a; a = b; b = temp` — guardás el que pisás, pisás, recuperás en la posición contraria.
 
 ### Operadores
 - **`!` ≠ `!==`:** `!` niega un booleano. `!==` pregunta "es distinto". No confundirlos.
@@ -327,6 +329,9 @@ for (let i = 0; i < string.length; i++) {
 - **Mirar "para atrás":** `array[i-1]` o `string[i-1]` para contexto local.
 - **Primos:** si encuentro un divisor → no es primo. Si termino el loop sin encontrar → es primo.
 - **Adyacentes:** comparar `array[i]` con `array[i+1]`, loop hasta `length - 1`.
+- **Bubble sort:** doble for. El interno mueve elementos 1 lugar. El externo repite pasadas. Sin externo no termina de ordenar.
+- **Swap:** `temp = a; a = b; b = temp` — guardás el que pisás, pisás, recuperás en la posición contraria.
+- **Objeto como agrupador:** mismo patrón que objeto-contador pero con `.push()` en vez de `++`. `objeto[clave] ? objeto[clave].push(item) : objeto[clave] = [item]`.
 
 ---
 

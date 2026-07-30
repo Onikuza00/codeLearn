@@ -630,6 +630,421 @@
       </div>
     </div>
 
+    <!-- ============================================= -->
+    <!-- SESIÓN 30/07/2026 — Web Logic II (Semana 05) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🌐 30/07/2026 — Web Logic II <span style="font-size:.8rem;color:var(--text-muted);">(4 ejercicios · Bubble + objetos)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">2✅</span>
+          <span style="font-size:.75rem;color:#22c55e;">4✅</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E11 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🟡 <code>agruparPorLetra(palabras)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Array de strings → objeto agrupado por <strong>primera letra</strong>. Cada clave es una letra, cada valor un array de palabras.</p>
+          <div class="ex-samples">
+            agruparPorLetra([<span class="str">"hola"</span>, <span class="str">"mundo"</span>, <span class="str">"hielo"</span>, <span class="str">"moto"</span>]) <span class="arrow-sample">→</span> { h: [<span class="str">"hola"</span>, <span class="str">"hielo"</span>], m: [<span class="str">"mundo"</span>, <span class="str">"moto"</span>] }
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agruparPorLetra</span>(palabras) {
+  <span class="kw">let</span> grupos = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; palabras.length; i++) {
+    <span class="kw">let</span> letra = palabras[i][0];
+    <span class="kw">if</span> (grupos[letra]) {
+      grupos[letra].push(palabras[i]);
+    } <span class="kw">else</span> {
+      grupos[letra] = [palabras[i]];
+    }
+  }
+  <span class="kw">return</span> grupos;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E12 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">12</span> 🟡 <code>mediaAprobados(estudiantes)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, nota }</code> → <strong>media</strong> de los que aprobaron (nota &gt;= 5). Si nadie aprueba → <code>null</code>.</p>
+          <div class="ex-samples">
+            mediaAprobados([{nombre:<span class="str">"Ana"</span>, nota:7}, {nombre:<span class="str">"Luis"</span>, nota:4}, {nombre:<span class="str">"Pau"</span>, nota:6}]) <span class="arrow-sample">→</span> 6.5<br>
+            mediaAprobados([{nombre:<span class="str">"Luis"</span>, nota:4}]) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">mediaAprobados</span>(estudiantes) {
+  <span class="kw">let</span> suma = 0, count = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; estudiantes.length; i++) {
+    <span class="kw">if</span> (estudiantes[i].nota &gt;= 5) {
+      suma += estudiantes[i].nota;
+      count++;
+    }
+  }
+  <span class="kw">return</span> count === 0 ? <span class="kw">null</span> : suma / count;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E13 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">13</span> 🟡 <code>eliminarDuplicados(arr)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Devuelve un nuevo array <strong>sin duplicados</strong>, mismo orden de primera aparición. Sin Set.</p>
+          <div class="ex-samples">
+            eliminarDuplicados([3, 1, 2, 1, 3, 4, 2]) <span class="arrow-sample">→</span> [3, 1, 2, 4]<br>
+            eliminarDuplicados([<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"a"</span>]) <span class="arrow-sample">→</span> [<span class="str">"a"</span>, <span class="str">"b"</span>]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">eliminarDuplicados</span>(arr) {
+  <span class="kw">let</span> vistos = {};
+  <span class="kw">let</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {
+    <span class="kw">if</span> (!vistos[arr[i]]) {
+      vistos[arr[i]] = <span class="kw">true</span>;
+      resultado.push(arr[i]);
+    }
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E14 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">14</span> 🟡 <code>sumarMatriz(matriz)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Array de arrays de números → suma <strong>total</strong> de todos los números. Doble for.</p>
+          <div class="ex-samples">
+            sumarMatriz([[1, 2], [3, 4, 5], [6]]) <span class="arrow-sample">→</span> 21<br>
+            sumarMatriz([[1], []]) <span class="arrow-sample">→</span> 1
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sumarMatriz</span>(matriz) {
+  <span class="kw">let</span> total = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; matriz.length; i++) {
+    <span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; matriz[i].length; j++) {
+      total += matriz[i][j];
+    }
+  }
+  <span class="kw">return</span> total;
+}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SESIÓN 28/07/2026 — Web Logic (Semana 05)   -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🌐 28/07/2026 — Web Logic <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios · Semana 05)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">2✅</span>
+          <span style="font-size:.75rem;color:#64748b;">8⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>extraerDominio(email)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve solo el <strong>dominio</strong> de un email (lo que va después del <code>@</code>). Si no tiene <code>@</code> o está vacío, devuelve <code>null</code>.</p>
+          <div class="ex-samples">
+            extraerDominio(<span class="str">"pau@gmail.com"</span>) <span class="arrow-sample">→</span> <span class="str">"gmail.com"</span><br>
+            extraerDominio(<span class="str">"hola@empresa.co"</span>) <span class="arrow-sample">→</span> <span class="str">"empresa.co"</span><br>
+            extraerDominio(<span class="str">"sinarroba"</span>) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">extraerDominio</span>(email) {
+  <span class="kw">if</span> (<span class="kw">typeof</span> email !== <span class="str">"string"</span> || email.length === 0) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">let</span> pos = email.indexOf(<span class="str">"@"</span>);
+  <span class="kw">if</span> (pos === -1) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">return</span> email.slice(pos + 1);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>esSlugValido(slug)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">¿El slug solo tiene <strong>minúsculas, números y guiones</strong>? Sin espacios, mayúsculas ni especiales. Sin regex.</p>
+          <div class="ex-samples">
+            esSlugValido(<span class="str">"mi-articulo-1"</span>) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            esSlugValido(<span class="str">"Mi Articulo"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            esSlugValido(<span class="str">""</span>) <span class="arrow-sample">→</span> <span class="kw">false</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">esSlugValido</span>(slug) {
+  <span class="kw">if</span> (slug.length === 0) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; slug.length; i++) {
+    <span class="kw">let</span> c = slug[i];
+    <span class="kw">if</span> (c &gt;= <span class="str">"a"</span> && c &lt;= <span class="str">"z"</span>) <span class="kw">continue</span>;
+    <span class="kw">if</span> (c &gt;= <span class="str">"0"</span> && c &lt;= <span class="str">"9"</span>) <span class="kw">continue</span>;
+    <span class="kw">if</span> (c === <span class="str">"-"</span>) <span class="kw">continue</span>;
+    <span class="kw">return</span> <span class="kw">false</span>;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟢 <code>formatearFecha(fecha)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe <code>"AAAA-MM-DD"</code> → devuelve <code>"DD de mes del AAAA"</code>. Usá array de meses.</p>
+          <div class="ex-samples">
+            formatearFecha(<span class="str">"2026-07-28"</span>) <span class="arrow-sample">→</span> <span class="str">"28 de julio del 2026"</span><br>
+            formatearFecha(<span class="str">""</span>) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">formatearFecha</span>(fecha) {
+  <span class="kw">if</span> (!fecha || fecha.length === 0) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">const</span> meses = [<span class="str">"enero"</span>, <span class="str">"febrero"</span>, <span class="str">"marzo"</span>, <span class="str">"abril"</span>, <span class="str">"mayo"</span>, <span class="str">"junio"</span>, <span class="str">"julio"</span>, <span class="str">"agosto"</span>, <span class="str">"septiembre"</span>, <span class="str">"octubre"</span>, <span class="str">"noviembre"</span>, <span class="str">"diciembre"</span>];
+  <span class="kw">let</span> partes = fecha.split(<span class="str">"-"</span>);
+  <span class="kw">return</span> partes[2] + <span class="str">" de "</span> + meses[partes[1] - 1] + <span class="str">" del "</span> + partes[0];
+}</pre>
+          </div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>productoMasCaro(productos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, precio }</code> → el <strong>nombre</strong> del más caro. Sin <code>Math.max</code>. Vacío → <code>null</code>.</p>
+          <div class="ex-samples">
+            productoMasCaro([{nombre:<span class="str">"Mouse"</span>, precio:25}, {nombre:<span class="str">"Monitor"</span>, precio:250}]) <span class="arrow-sample">→</span> <span class="str">"Monitor"</span><br>
+            productoMasCaro([]) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">productoMasCaro</span>(productos) {
+  <span class="kw">if</span> (productos.length === 0) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">let</span> maxPrecio = productos[0].precio;
+  <span class="kw">let</span> maxNombre = productos[0].nombre;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt; productos.length; i++) {
+    <span class="kw">if</span> (productos[i].precio &gt; maxPrecio) {
+      maxPrecio = productos[i].precio;
+      maxNombre = productos[i].nombre;
+    }
+  }
+  <span class="kw">return</span> maxNombre;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>esContrasenaSegura(pwd)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">¿Cumple <strong>todas</strong>? 8+ caracteres, 1 mayúscula, 1 número, 1 especial (<code>!@#$%</code>).</p>
+          <div class="ex-samples">
+            esContrasenaSegura(<span class="str">"Hola123!"</span>) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            esContrasenaSegura(<span class="str">"hola123!"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            esContrasenaSegura(<span class="str">"HOLA1234"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">esContrasenaSegura</span>(pwd) {
+  <span class="kw">if</span> (pwd.length &lt; 8) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">let</span> mayus = <span class="kw">false</span>, num = <span class="kw">false</span>, special = <span class="kw">false</span>;
+  <span class="kw">const</span> especiales = <span class="str">"!@#$%"</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; pwd.length; i++) {
+    <span class="kw">let</span> c = pwd[i];
+    <span class="kw">if</span> (c &gt;= <span class="str">"A"</span> && c &lt;= <span class="str">"Z"</span>) mayus = <span class="kw">true</span>;
+    <span class="kw">if</span> (c &gt;= <span class="str">"0"</span> && c &lt;= <span class="str">"9"</span>) num = <span class="kw">true</span>;
+    <span class="kw">if</span> (especiales.includes(c)) special = <span class="kw">true</span>;
+  }
+  <span class="kw">return</span> mayus && num && special;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>agruparPorCategoria(productos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, categoria }</code> → objeto con categorías como claves y arrays de nombres como valores.</p>
+          <div class="ex-samples">
+            agruparPorCategoria([{nombre:<span class="str">"Laptop"</span>, categoria:<span class="str">"electronica"</span>}, {nombre:<span class="str">"Mesa"</span>, categoria:<span class="str">"hogar"</span>}]) <span class="arrow-sample">→</span> { electronica: [<span class="str">"Laptop"</span>], hogar: [<span class="str">"Mesa"</span>] }
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agruparPorCategoria</span>(productos) {
+  <span class="kw">let</span> grupos = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; productos.length; i++) {
+    <span class="kw">let</span> cat = productos[i].categoria;
+    <span class="kw">if</span> (grupos[cat]) {
+      grupos[cat].push(productos[i].nombre);
+    } <span class="kw">else</span> {
+      grupos[cat] = [productos[i].nombre];
+    }
+  }
+  <span class="kw">return</span> grupos;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟡 <code>totalCarrito(items)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, precio, cantidad }</code> → total. Si supera 100€, 10% descuento. Vacío → 0.</p>
+          <div class="ex-samples">
+            totalCarrito([{nombre:<span class="str">"Mouse"</span>, precio:25, cantidad:2}, {nombre:<span class="str">"Teclado"</span>, precio:80, cantidad:1}]) <span class="arrow-sample">→</span> 117<br>
+            totalCarrito([]) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">totalCarrito</span>(items) {
+  <span class="kw">if</span> (items.length === 0) <span class="kw">return</span> 0;
+  <span class="kw">let</span> total = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; items.length; i++) {
+    total += items[i].precio * items[i].cantidad;
+  }
+  <span class="kw">if</span> (total &gt; 100) total -= total * 10 / 100;
+  <span class="kw">return</span> total;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🟡 <code>limpiarEspacios(texto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Elimina espacios múltiples dejando solo uno entre palabras. Sin <code>trim()</code>, sin regex, sin <code>replace()</code>.</p>
+          <div class="ex-samples">
+            limpiarEspacios(<span class="str">"  hola   mundo  "</span>) <span class="arrow-sample">→</span> <span class="str">"hola mundo"</span><br>
+            limpiarEspacios(<span class="str">""</span>) <span class="arrow-sample">→</span> <span class="str">""</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">limpiarEspacios</span>(texto) {
+  <span class="kw">let</span> res = <span class="str">""</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; texto.length; i++) {
+    <span class="kw">if</span> (texto[i] === <span class="str">" "</span> && texto[i - 1] === <span class="str">" "</span>) <span class="kw">continue</span>;
+    res += texto[i];
+  }
+  <span class="kw">if</span> (res[0] === <span class="str">" "</span>) res = res.slice(1);
+  <span class="kw">if</span> (res[res.length - 1] === <span class="str">" "</span>) res = res.slice(0, -1);
+  <span class="kw">return</span> res;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🔴 <code>frecuenciaCaracteres(texto)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Objeto con la <strong>frecuencia</strong> de cada caracter (solo letras, sin espacios).</p>
+          <div class="ex-samples">
+            frecuenciaCaracteres(<span class="str">"hola"</span>) <span class="arrow-sample">→</span> { h: 1, o: 1, l: 1, a: 1 }<br>
+            frecuenciaCaracteres(<span class="str">"javascript"</span>) <span class="arrow-sample">→</span> { j: 1, a: 2, v: 1, s: 1, c: 1, r: 1, i: 1, p: 1, t: 1 }
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">frecuenciaCaracteres</span>(texto) {
+  <span class="kw">let</span> freq = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; texto.length; i++) {
+    <span class="kw">let</span> c = texto[i];
+    <span class="kw">if</span> (c === <span class="str">" "</span>) <span class="kw">continue</span>;
+    <span class="kw">if</span> (freq[c]) freq[c]++;
+    <span class="kw">else</span> freq[c] = 1;
+  }
+  <span class="kw">return</span> freq;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🔴 <code>ordenarPorPrecio(productos)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Bubble sort. Ordená <code>{ nombre, precio }</code> de menor a mayor. Sin <code>.sort()</code>. Sin mutar original.</p>
+          <div class="ex-samples">
+            ordenarPorPrecio([{nombre:<span class="str">"Monitor"</span>, precio:250}, {nombre:<span class="str">"Mouse"</span>, precio:25}]) <span class="arrow-sample">→</span> [{nombre:<span class="str">"Mouse"</span>, precio:25}, {nombre:<span class="str">"Monitor"</span>, precio:250}]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">ordenarPorPrecio</span>(productos) {
+  <span class="kw">let</span> res = [...productos];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; res.length; i++) {
+    <span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; res.length - 1; j++) {
+      <span class="kw">if</span> (res[j].precio &gt; res[j + 1].precio) {
+        <span class="kw">let</span> temp = res[j];
+        res[j] = res[j + 1];
+        res[j + 1] = temp;
+      }
+    }
+  }
+  <span class="kw">return</span> res;
+}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <div class="exercise-footer">
       CodeLearn Assessment — Julio 2026 · Sesión de práctica JS
     </div>
