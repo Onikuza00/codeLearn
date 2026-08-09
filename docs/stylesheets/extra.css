@@ -848,6 +848,49 @@ h1.bloque-js:hover {
     font-weight: 800;
 }
 
+/* ─── Bloque IA — h1 en degradado naranja terracota (color de marca de Claude) ─── */
+
+h1.bloque-ia {
+    background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-ia::after {
+    background: linear-gradient(90deg, #C15F3C, #E8927C) !important;
+}
+
+h1.bloque-ia:hover {
+    background: linear-gradient(135deg, #E8927C 0%, #C15F3C 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque IA — h2 unificado (terracota), gana a .topic-title gris ─── */
+
+.md-typeset .bloque-ia ~ h2,
+.md-typeset .bloque-ia ~ h2.topic-title {
+    background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-ia ~ h2::after,
+.md-typeset .bloque-ia ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #C15F3C, #E8927C);
+}
+
+.md-typeset .bloque-ia ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
 /* ─── Tabla compacta Haz / No hagas (celdas en vez de listas largas) ─── */
 
 .md-typeset table.pros-cons,

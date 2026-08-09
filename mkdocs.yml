@@ -143,6 +143,20 @@ nav:
   - SDD:
     - sdd/index.md
     - Fases: sdd/fases.md
+  - IA:
+    - ia/index.md
+    - "Claude":
+      - ia/claude/index.md
+      - "Claude Code in Action":
+        - ia/claude/01-claude-code-in-action/index.md
+        - "Dirigir sesiones largas": ia/claude/01-claude-code-in-action/02-dirigir-sesiones/index.md
+        - "Un CLAUDE.md que se sigue": ia/claude/01-claude-code-in-action/03-claude-md/index.md
+        - "Verificación y permisos": ia/claude/01-claude-code-in-action/04-verificacion-permisos/index.md
+        - "Hooks": ia/claude/01-claude-code-in-action/05-hooks/index.md
+        - "Automatización": ia/claude/01-claude-code-in-action/06-automatizacion/index.md
+        - "Verificar sin supervisión": ia/claude/01-claude-code-in-action/07-verificar-sin-supervision/index.md
+        - "Plugins": ia/claude/01-claude-code-in-action/08-plugins/index.md
+        - "Aplicado a landings y animaciones": ia/claude/01-claude-code-in-action/09-aplicado-landings-animaciones/index.md
   - Ejercicios: http://localhost:8000/assessment/index.html
 
 markdown_extensions:
