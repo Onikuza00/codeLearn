@@ -105,8 +105,20 @@ nav:
       - "Keyframes y animation": css/animaciones/02-keyframes/index.md
   - JS:
     - js/index.md
-    - "JS Básico": js/01-basico/index.md
-    - "Arrays + Métodos": js/02-arrays/index.md
+    - "Fundamentos":
+      - js/01-basico/index.md
+      - "Variables y tipos de datos": js/01-basico/01-variables-tipos/index.md
+      - "Estructuras de control": js/01-basico/02-estructuras-control/index.md
+      - "Funciones": js/01-basico/03-funciones/index.md
+    - "Arrays":
+      - "Fundamentos de los Arrays": js/02-arrays/index.md
+      - "Métodos básicos": js/02-arrays/02-metodos-basicos/index.md
+      - "Iteración": js/02-arrays/03-iteracion/index.md
+      - "Transformación": js/02-arrays/04-transformacion/index.md
+      - "Buscar": js/02-arrays/05-buscar/index.md
+      - "Ordenar": js/02-arrays/06-ordenar/index.md
+      - "Matrices": js/02-arrays/07-matrices/index.md
+      - "Algoritmos": js/02-arrays/08-algoritmos/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -162,6 +174,7 @@ extra_css:
 
 extra_javascript:
   - javascripts/nav-toggle.js
+  - javascripts/array-demo.js
 
 extra:
   social:

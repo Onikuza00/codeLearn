@@ -1,10 +1,14 @@
-# JS Básico — Conceptos clave
+# JS Básico — Conceptos clave { .section-js .bloque-js }
 
 > Lecciones, errores comunes y patrones personales a vigilar durante el aprendizaje de JavaScript.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/Z34BF9PCfYg" title="Curso completo de JavaScript — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ---
 
-## 🔢 Operadores
+## 🔢 Operadores {: .topic-title }
 
 ### Módulo (`%`)
 
@@ -57,7 +61,7 @@ x !== 3    → true    // !== pregunta "son distintos?"
 
 ---
 
-## 📦 Strings
+## 📦 Strings {: .topic-title }
 
 ### `split()` según el separador
 
@@ -73,7 +77,7 @@ El separador **desaparece** del resultado.
 
 ### Acceso por índice — `string[i]`
 
-Podés acceder y también **mirar atrás/adelante**:
+Puedes acceder y también **mirar atrás/adelante**:
 
 ```js
 let str = "hola";
@@ -82,7 +86,7 @@ str[2-1]   → "o"       // el anterior
 str[2+1]   → "a"       // el siguiente
 ```
 
-**Aplicación:** en `limpiarEspacios`, mirás `str[i-1]` para saber si el espacio anterior era igual.
+**Aplicación:** en `limpiarEspacios`, miras `str[i-1]` para saber si el espacio anterior era igual.
 
 ### `.toUpperCase()` en espacios
 
@@ -94,7 +98,7 @@ Los espacios **no tienen mayúscula/minúscula**, pero `toUpperCase()` devuelve 
 
 ---
 
-## 📊 Arrays
+## 📊 Arrays {: .topic-title }
 
 ### `.length` según el tipo
 
@@ -118,7 +122,7 @@ Usar SIEMPRE `length - 1`. El último elemento no tiene "siguiente".
 
 ---
 
-## 🔁 Bucles
+## 🔁 Bucles {: .topic-title }
 
 ### Off-by-one: `<` vs `<=`
 
@@ -139,7 +143,7 @@ Para `limpiarEspacios`, Pau usó `count++` que nunca se reiniciaba. No sirve.
 
 ---
 
-## 🧩 Lógica
+## 🧩 Lógica {: .topic-title }
 
 ### Números primos
 
@@ -157,6 +161,60 @@ function esPrimo(n) {
 
 ---
 
+## 🎭 Truthy / Falsy {: .topic-title }
+
+### Los 6 valores falsy de JS
+
+Solo existen **6** valores que se evalúan como `false` en una condición. **Todo lo demás es truthy.**
+
+| Valor | `if (valor)` | Nota |
+|-------|:------------:|------|
+| `false` | falsy | el booleano |
+| `0` | falsy | el número cero |
+| `""` | falsy | string vacío |
+| `null` | falsy | "sin valor" |
+| `undefined` | falsy | "no definido" |
+| `NaN` | falsy | "no es un número" |
+
+Y lo que **sorprende a todos** — estos son truthy:
+
+```js
+if ([])   → truthy   // array vacío
+if ({})   → truthy   // objeto vacío
+if ("0")  → truthy   // string con el carácter 0
+if ("false") → truthy // string con la palabra false
+```
+
+🧠 Un **array vacío es truthy**. Por eso `![]` es `false`. Para saber si un array está vacío, NO preguntes `if (!array)` — preguntá por su `.length`.
+
+### Error real (Día 02 — E6 `promedioAprobados`)
+
+```js
+if (!estudiantes.filter(e => e.nota >= 5)) return null;  // ❌ NUNCA dispara
+```
+
+`filter()` devuelve un array (aunque sea vacío), y los arrays son siempre truthy. La condición nunca es cierta.
+
+✅ Correcto:
+
+```js
+if (notas.length === 0) return null;   // preguntás por el CONTENIDO, no por la existencia
+```
+
+### Regla de oro
+
+Preguntate siempre: **¿estoy preguntando por el valor o por la existencia?**
+
+| Código | Pregunta real | Resultado |
+|--------|---------------|-----------|
+| `if (array)` | ¿existe el array? | siempre `true` si es array |
+| `if (array.length)` | ¿tiene elementos? | `0` es falsy → "no" |
+| `if (objeto.count)` | ¿count es distinto de 0? | `0` es falsy → "no" |
+| `if (objeto)` | ¿existe el objeto? | siempre `true` si es objeto |
+| `if (str)` | ¿el string no está vacío? | `""` es falsy → "no" |
+
+---
+
 ## 🔍 Patrones personales a vigilar
 
 | # | Patrón | Ejemplo incorrecto | Solución |
@@ -169,6 +227,7 @@ function esPrimo(n) {
 | 6 | Primos: condición siempre true | `n % n == 0` | Loop de 2 a n-1 |
 | 7 | Condición imposible | `array[i] + 1 < array[i]` | `array[i] > array[i + 1]` |
 | 8 | No filtrar espacios | `letra === letra.toUpperCase()` | Agregar `&& letra !== " "` |
+| 9 | `!array` para detectar vacío | `if (!array.filter(...))` | `array.length === 0` — los arrays son siempre truthy |
 
 ---
 

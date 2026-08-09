@@ -5,6 +5,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.addEventListener('click', function(e) {
+        if (e.target.closest('.md-nav__container > a.md-nav__link[href]')) return;
+
         var link = e.target.closest('.md-nav__item--nested > .md-nav__link');
         if (!link) return;
 
