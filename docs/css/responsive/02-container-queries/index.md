@@ -1,10 +1,14 @@
-# Container Queries { .section-cq }
+# Container Queries { .section-cq .bloque-css }
 
 > Las Container Queries permiten aplicar estilos basados en el tamaño del **contenedor padre**, no de la ventana. Es responsive a nivel de componente.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/cihfapXEqOs" title="Container Queries — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ---
 
-## El problema que resuelven
+## El problema que resuelven {: .topic-title }
 
 Con Media Queries preguntas: "¿qué ancho tiene la pantalla?"
 
@@ -27,9 +31,31 @@ Con media queries la card se ve igual en los dos sitios porque el navegador solo
 }
 ```
 
+<div class="demo-box">
+<p class="demo-box__label">Vista previa — la misma card, dos contenedores</p>
+<div class="demo-cq-wrap demo-cq-wrap--narrow">
+  <div class="demo-cq-card"><span>📦</span><p>Card</p></div>
+</div>
+<div class="demo-cq-wrap demo-cq-wrap--wide">
+  <div class="demo-cq-card"><span>📦</span><p>Card</p></div>
+</div>
+<p class="demo-box__caption">Contenedor angosto (160px) → columna. Contenedor ancho (420px) → fila. Es el <strong>mismo CSS</strong> con <code>@container</code>, sin media queries.</p>
+</div>
+
+<style>
+.demo-cq-wrap { container-type: inline-size; border: 1px dashed var(--md-default-fg-color--lighter); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.6rem; }
+.demo-cq-wrap--narrow { width: 160px; }
+.demo-cq-wrap--wide { width: 100%; max-width: 420px; }
+.demo-cq-card { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; background: rgba(4, 120, 87, 0.08); border-radius: 6px; padding: 0.5rem; }
+.demo-cq-card p { margin: 0; font-size: 0.8rem; }
+@container (min-width: 300px) {
+  .demo-cq-card { flex-direction: row; justify-content: center; }
+}
+</style>
+
 ---
 
-## Sintaxis
+## Sintaxis {: .topic-title }
 
 ### 1. Declarar el contenedor
 
@@ -72,11 +98,12 @@ También existe el shorthand:
 }
 ```
 
-**Importante**: los estilos dentro de `@container` se aplican a los HIJOS del contenedor, no al contenedor mismo.
+!!! warning "Los estilos aplican a los HIJOS, no al contenedor"
+    Lo que declares dentro de `@container` se aplica a los **hijos** del elemento contenedor, nunca al contenedor mismo. Si el contenedor es `.grid`, no puedes hacer `@container { .grid { ... } }`.
 
 ---
 
-## Container Queries vs Media Queries
+## Container Queries vs Media Queries {: .topic-title }
 
 | Media Query | Container Query |
 |-------------|-----------------|
@@ -89,7 +116,7 @@ También existe el shorthand:
 
 ---
 
-## Casos de uso
+## Casos de uso {: .topic-title }
 
 ### 1. Cards responsive por contexto
 
@@ -165,7 +192,7 @@ Una misma card se ve distinta si está en el grid principal o en un related-post
 
 ---
 
-## Unit `cqw` (Container Query Width)
+## Unit `cqw` (Container Query Width) {: .topic-title }
 
 Además de `@container`, tienes unidades basadas en el contenedor:
 
@@ -189,24 +216,21 @@ Ejemplo:
 
 ---
 
-## Buenas prácticas
+## Buenas prácticas {: .topic-title }
 
-### ✅ Haz
+<div class="pros-cons" markdown="1">
 
-- Usa `container-type: inline-size` por defecto (solo mira ancho, mejor rendimiento)
-- Pon nombre a los contenedores si tienes varios
-- Combina media queries (layout global) + container queries (componentes)
-- Usa `cqw` para tipografía que escale con el contenedor
-
-### ❌ No hagas
-
-- `container-type: size` a menos que necesites alto y ancho (peor rendimiento)
-- Anidar container queries sin necesidad
-- Usar container queries para el layout general (para eso están las media queries)
+| ✅ Haz | ❌ No hagas |
+|---|---|
+| Usa `container-type: inline-size` por defecto (solo mira ancho, mejor rendimiento) | `container-type: size` a menos que necesites alto y ancho (peor rendimiento) |
+| Pon nombre a los contenedores si tienes varios | Anidar container queries sin necesidad |
+| Combina media queries (layout global) + container queries (componentes) | Usar container queries para el layout general (para eso están las media queries) |
+| Usa `cqw` para tipografía que escale con el contenedor | |
+</div>
 
 ---
 
-## Soporte (2026)
+## Soporte (2026) {: .topic-title }
 
 | Chrome | Firefox | Safari | Edge |
 |:------:|:-------:|:------:|:----:|

@@ -1,8 +1,12 @@
-# Conceptos básicos de Grid { .section-grid }
+# Conceptos básicos de Grid { .section-grid .bloque-css }
+
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/iTjkiI8QQsM?start=63" title="Grid — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
 
 ---
 
-## Display: Grid
+## Display: Grid {: .topic-title }
 
 ```css
 .contenedor {
@@ -10,11 +14,11 @@
 }
 ```
 
-Los hijos directos se convierten en **items de grid**, pero a diferencia de flexbox, por defecto se apilan uno encima del otro (uno por celda). Necesitás definir las columnas.
+Los hijos directos se convierten en **items de grid**, pero a diferencia de flexbox, por defecto se apilan uno encima del otro (uno por celda). Necesitas definir las columnas.
 
 ---
 
-## Grid-template-columns
+## Grid-template-columns {: .topic-title }
 
 Define el **número y tamaño de las columnas**.
 
@@ -65,7 +69,7 @@ Define el **número y tamaño de las columnas**.
 
 ---
 
-## Grid-template-rows
+## Grid-template-rows {: .topic-title }
 
 Define el tamaño de las filas.
 
@@ -81,7 +85,7 @@ Si no defines `grid-template-rows`, las filas se crean automáticamente con `aut
 
 ---
 
-## Repeat()
+## Repeat() {: .topic-title }
 
 Evita escribir columnas repetitivas a mano.
 
@@ -89,7 +93,7 @@ Evita escribir columnas repetitivas a mano.
 /* En vez de: */
 grid-template-columns: 1fr 1fr 1fr 1fr;
 
-/* Usá: */
+/* Usa: */
 grid-template-columns: repeat(4, 1fr);   /* 4 columnas iguales */
 grid-template-columns: repeat(3, 200px); /* 3 columnas fijas de 200px */
 grid-template-columns: 1fr repeat(2, 2fr) 1fr; /* mezclado */
@@ -97,7 +101,7 @@ grid-template-columns: 1fr repeat(2, 2fr) 1fr; /* mezclado */
 
 ---
 
-## Gap — Espaciado
+## Gap — Espaciado {: .topic-title }
 
 ```css
 .contenedor {
@@ -137,7 +141,7 @@ grid-template-columns: 1fr repeat(2, 2fr) 1fr; /* mezclado */
 
 ---
 
-## Diferencia clave con Flexbox
+## Diferencia clave con Flexbox {: .topic-title }
 
 ```css
 /* FLEXBOX — una fila, los items se estiran */

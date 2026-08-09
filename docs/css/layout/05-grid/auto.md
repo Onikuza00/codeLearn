@@ -1,10 +1,10 @@
-# Auto layout responsive con Grid { .section-grid }
+# Auto layout responsive con Grid { .section-grid .bloque-css }
 
 > Lo mejor de Grid para maquetación real: layouts responsive **sin media queries** usando `auto-fill`, `auto-fit` y `minmax()`.
 
 ---
 
-## Minmax()
+## Minmax() {: .topic-title }
 
 Define un tamaño **mínimo** y **máximo** para las columnas.
 
@@ -19,7 +19,7 @@ Cada columna mide al menos 200px, pero si hay espacio, crece hasta 1fr.
 
 ---
 
-## Auto-fill y Auto-fit
+## Auto-fill y Auto-fit {: .topic-title }
 
 Estas dos keywords hacen que Grid cree **tantas columnas como quepan** según el tamaño definido.
 
@@ -69,7 +69,7 @@ Con 5 items y espacio para 6 columnas:
 
 ---
 
-## El combo responsive sin media queries
+## El combo responsive sin media queries {: .topic-title }
 
 ```css
 .galeria {
@@ -92,7 +92,7 @@ Con 5 items y espacio para 6 columnas:
 
 ---
 
-## Auto-rows
+## Auto-rows {: .topic-title }
 
 Controla el tamaño de las filas que se crean automáticamente.
 
@@ -107,11 +107,13 @@ Controla el tamaño de las filas que se crean automáticamente.
 }
 ```
 
-Si querés que midan según el contenido, usá `auto` (default). Si querés que sean todas iguales, poné un valor fijo.
+!!! tip "auto vs valor fijo"
+    { .grid }
+    Si quieres que midan según el contenido, usa `auto` (default). Si quieres que sean todas iguales, pon un valor fijo como `250px`.
 
 ---
 
-## Ejemplo completo: Galería responsive
+## Ejemplo completo: Galería responsive {: .topic-title }
 
 === "CSS"
     ```css
@@ -152,11 +154,11 @@ Si querés que midan según el contenido, usá `auto` (default). Si querés que 
 
 !!! success "El patrón definitivo"
     { .grid }
-    `repeat(auto-fit, minmax(250px, 1fr))` es el patrón responsive que más vas a usar en tu vida. Memorizalo.
+    `repeat(auto-fit, minmax(250px, 1fr))` es el patrón responsive que más vas a usar en tu vida. Memorízalo.
 
 ---
 
-## Guía rápida
+## Guía rápida {: .topic-title }
 
 | Quiero... | Uso |
 |-----------|-----|

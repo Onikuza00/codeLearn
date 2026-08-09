@@ -1,4 +1,4 @@
-site_name: CodeLearn — Pau
+﻿site_name: CodeLearn — Pau
 site_author: Pau Crosas Batista
 site_description: Documentación de aprendizaje — CSS, Frontend, Backend, GSAP, DevOps
 site_url: https://codelearn.pau.dev
@@ -22,8 +22,7 @@ theme:
         name: Modo claro
   features:
     - navigation.tabs
-    - navigation.sections
-    - navigation.expand
+    - navigation.indexes
     - navigation.top
     - toc.follow
     - search.suggest
@@ -55,10 +54,25 @@ nav:
         - "Semana 04 — CSS + JS":
           - "Jueves 23 — CSS Grid": waytoCode/2026/07/semana-4/2026-07-23.md
           - "Sábado 25 — Repaso CSS": waytoCode/2026/07/semana-4/2026-07-25.md
+          - "Domingo 26 — JS todo el día": waytoCode/2026/07/semana-4/2026-07-26.md
+        - "Semana 05 — Lógica JS":
+          - "Martes 28 — Lógica JS": waytoCode/2026/07/semana-5/2026-07-28.md
+          - "Jueves 30 — Lógica JS": waytoCode/2026/07/semana-5/2026-07-30.md
+      - "Mes 08 — Agosto":
+        - "Semana 01 — Arrays + Métodos":
+          - "Domingo 02 — Arrays + Métodos JS": waytoCode/2026/08/semana-1/2026-08-02.md
+          - "Miércoles 05 — Array vacío + reduce": waytoCode/2026/08/semana-1/2026-08-05.md
+          - "Sábado 08 — Repaso métodos de arrays": waytoCode/2026/08/semana-1/2026-08-08.md
+          - "Domingo 09 — Repaso general": waytoCode/2026/08/semana-1/2026-08-09.md
   - CSS:
     - css/index.md
     - "Selectores":
+      - css/selectores/index.md
       - ":has()": css/selectores/01-has/index.md
+      - ":not()": css/selectores/02-not/index.md
+      - ":is() y :where()": css/selectores/03-is-where/index.md
+      - ":nth-child() avanzado": css/selectores/04-nth-child/index.md
+      - "::before y ::after": css/selectores/05-pseudo-elementos/index.md
     - "Layout":
       - css/layout/index.md
       - Flexbox:
@@ -73,15 +87,26 @@ nav:
         - Auto Layout: css/layout/05-grid/auto.md
     - "Responsive":
       - css/responsive/index.md
+      - "Media Queries": css/responsive/01-media-queries/index.md
       - "Container Queries": css/responsive/02-container-queries/index.md
       - "Funciones responsive": css/responsive/funciones-responsive.md
     - "Arquitectura":
       - css/arquitectura/index.md
+      - "Variables nativas": css/arquitectura/02-variables/index.md
       - BEM: css/arquitectura/bem.md
       - "CSS Layers": css/arquitectura/03-layers/index.md
+      - "CSS Nesting": css/arquitectura/04-nesting/index.md
+    - "Comportamiento":
+      - css/comportamiento/index.md
+      - "Scroll Snap": css/comportamiento/01-scroll-snap/index.md
+    - "Animaciones":
+      - css/animaciones/index.md
+      - Transitions: css/animaciones/01-transitions/index.md
+      - "Keyframes y animation": css/animaciones/02-keyframes/index.md
   - JS:
     - js/index.md
     - "JS Básico": js/01-basico/index.md
+    - "Arrays + Métodos": js/02-arrays/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -106,6 +131,7 @@ nav:
   - SDD:
     - sdd/index.md
     - Fases: sdd/fases.md
+  - Ejercicios: http://localhost:8000/assessment/index.html
 
 markdown_extensions:
   - pymdownx.superfences:

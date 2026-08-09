@@ -1,4 +1,4 @@
-# BEM { .section-bem }
+# BEM { .section-bem .bloque-css }
 
 > **B**lock **E**lement **M**odifier es una metodología de nomenclatura para clases CSS. No es una tecnología — no necesitas instalar nada. Es solo una **convención para nombrar clases** de forma que el CSS sea predecible, escalable y mantenible.
 
@@ -66,8 +66,6 @@ Una **parte** del bloque que NO tiene sentido fuera de él. Se separa con `__`
 .feature-card__link { }
 ```
 
-La regla de oro: **nunca anides selectores**. No importa si el título está dentro de un `<h3>` o un `<div>`, la clase ya sabe qué es.
-
 ```css
 /* ❌ MAL — atado al tag y a la jerarquía */
 .feature-card h3 { }
@@ -75,6 +73,9 @@ La regla de oro: **nunca anides selectores**. No importa si el título está den
 /* ✅ BIEN — la clase es autosuficiente */
 .feature-card__title { }
 ```
+
+!!! tip "Regla de oro: nunca anides selectores"
+    No importa si el título está dentro de un `<h3>` o un `<div>`, la clase ya sabe qué es.
 
 ---
 
@@ -157,15 +158,14 @@ No repites todo el bloque — solo escribes **lo que cambia**:
 .card__btn-primary { }     /* Un botón es su propio bloque, no un elemento de card */
 ```
 
-**Cuando un elemento merece ser su propio componente**, separate:
-
 ```html
 <article class="feature-card">
   <button class="btn btn--primary">Comprar</button>
 </article>
 ```
 
-`.btn` es un bloque independiente que se REUTILIZA. No es parte de `feature-card`.
+!!! tip "¿Cuándo separar en su propio bloque?"
+    Cuando un elemento se reutiliza fuera de su contenedor original, sepáralo. `.btn` es un bloque independiente que se REUTILIZA — no es parte de `feature-card`.
 
 ---
 
@@ -209,17 +209,14 @@ BEM no compite con nada — convive con todo:
 
 ## Buenas prácticas
 
-### ✅ Haz
+<div class="pros-cons" markdown="1">
 
-- Usa nombres semánticos: `.feature-card__title`, no `.feature-card__t`
-- Un solo nivel de elemento: `card__title`, no `card__title__wrapper`
-- Los modificadores SOLOS no existen: `.feature-card--featured` sin `.feature-card` no pinta nada
-
-### ❌ No hagas
-
-- `feature-card__title__span` — no existe elemento de elemento
-- `.card__btn--primary` si el botón se reusa fuera de la card
-- BEM en componentes que ya encapsulan CSS (Vue SFC, Web Components)
+| ✅ Haz | ❌ No hagas |
+|---|---|
+| Usa nombres semánticos: `.feature-card__title`, no `.feature-card__t` | `feature-card__title__span` — no existe elemento de elemento |
+| Un solo nivel de elemento: `card__title`, no `card__title__wrapper` | `.card__btn--primary` si el botón se reusa fuera de la card |
+| Los modificadores SOLOS no existen: `.feature-card--featured` sin `.feature-card` no pinta nada | BEM en componentes que ya encapsulan CSS (Vue SFC, Web Components) |
+</div>
 
 ---
 

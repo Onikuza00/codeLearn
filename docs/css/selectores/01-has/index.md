@@ -1,10 +1,10 @@
-# :has() { .section-has }
+# :has() { .section-has .bloque-css }
 
 > `:has()` permite seleccionar un elemento **si contiene** otro elemento específico. Es conocido como "el selector padre" porque podemos estilar un contenedor según lo que tenga adentro.
 
 ---
 
-## ¿Para qué sirve?
+## ¿Para qué sirve? {: .topic-title }
 
 Antes de `:has()`, si querías que un `.card` se viera distinto cuando contenía una imagen, necesitabas JavaScript. Ahora:
 
@@ -14,14 +14,14 @@ Antes de `:has()`, si querías que un `.card` se viera distinto cuando contenía
 }
 ```
 
-":has" en inglés significa "tiene". Se lee natural: *seleccioná el .card que tiene un img*.
+":has" en inglés significa "tiene". Se lee natural: *selecciona el .card que tiene un img*.
 
 ---
 
-## Sintaxis básica
+## Sintaxis básica {: .topic-title }
 
 ```css
-/* Seleccioná el PADRE si contiene un HIJO que cumpla X */
+/* Selecciona el PADRE si contiene un HIJO que cumpla X */
 .padre:has(.hijo) {
     /* estilos para el padre */
 }
@@ -37,7 +37,7 @@ Antes de `:has()`, si querías que un `.card` se viera distinto cuando contenía
 
 ---
 
-## Casos de uso principales
+## Casos de uso principales {: .topic-title }
 
 ### 1. Cards con imagen vs sin imagen
 
@@ -105,7 +105,7 @@ nav li:has(a.active) {
 
 ---
 
-## Combinar condiciones
+## Combinar condiciones {: .topic-title }
 
 ### AND — varias condiciones (se concatenan)
 
@@ -136,7 +136,7 @@ nav li:has(a.active) {
 
 ---
 
-## Hijos directos vs cualquier descendiente
+## Hijos directos vs cualquier descendiente {: .topic-title }
 
 ```css
 /* CUALQUIER descendiente (más lento) */
@@ -146,38 +146,39 @@ nav li:has(a.active) {
 .card:has(> img) { }
 ```
 
-Usa `>` cuando sepas que el elemento es hijo directo. Es más específico y el navegador lo resuelve más rápido.
+!!! tip "Prefiere el hijo directo cuando puedas"
+    Usa `>` cuando sepas que el elemento es hijo directo. Es más específico y el navegador lo resuelve más rápido.
 
 ---
 
-## Especificidad
+## Especificidad {: .topic-title }
 
 `:has()` toma la especificidad del selector más específico que tenga adentro:
 
 ```css
 .card:has(img) { }        /* específicidad: 0-1-1 */
-.card:has(#hero) { }      /* específicidad: 1-1-1 — OJO! */
+.card:has(#hero) { }      /* específicidad: 1-1-1 */
 ```
 
----
-
-## Buenas prácticas
-
-### ✅ Haz
-
-- Usa `:has()` para estilos condicionales sin JavaScript
-- Prefiere `:has(> .directo)` sobre `:has(.descendiente)` cuando puedas
-- Combina con `:not()` para los casos inversos
-
-### ❌ No hagas
-
-- `body:has(*)` — revisa TODO el documento, es muy lento
-- `:has(:has(img))` — no se puede anidar
-- Selectores demasiado profundos — afectan rendimiento
+!!! warning "Un ID adentro de `:has()` dispara la especificidad"
+    Si metes un selector de ID dentro de `:has()`, la regla entera hereda esa especificidad alta (1-1-1 en vez de 0-1-1). Puede ser difícil de sobrescribir después sin otro ID o `!important`.
 
 ---
 
-## Soporte (2026)
+## Buenas prácticas {: .topic-title }
+
+<div class="pros-cons" markdown="1">
+
+| ✅ Haz | ❌ No hagas |
+|---|---|
+| Usa `:has()` para estilos condicionales sin JavaScript | `body:has(*)` — revisa TODO el documento, es muy lento |
+| Prefiere `:has(> .directo)` sobre `:has(.descendiente)` cuando puedas | `:has(:has(img))` — no se puede anidar |
+| Combina con `:not()` para los casos inversos | Selectores demasiado profundos — afectan rendimiento |
+</div>
+
+---
+
+## Soporte (2026) {: .topic-title }
 
 | Chrome | Firefox | Safari | Edge |
 |:------:|:-------:|:------:|:----:|
@@ -185,15 +186,16 @@ Usa `>` cuando sepas que el elemento es hijo directo. Es más específico y el n
 
 **Cobertura global**: ~94% — se puede usar en producción con progressive enhancement.
 
-Para navegadores viejos, usa `@supports`:
+!!! info "Fallback para navegadores viejos"
+    Usa `@supports` para comprobar si el navegador soporta `:has()` antes de aplicar los estilos:
 
-```css
-@supports selector(:has(*)) {
-    .card:has(img) {
-        border: 2px solid gold;
+    ```css
+    @supports selector(:has(*)) {
+        .card:has(img) {
+            border: 2px solid gold;
+        }
     }
-}
-```
+    ```
 
 ---
 

@@ -1,10 +1,10 @@
-# Alineación en Flexbox { .section-flex }
+# Alineación en Flexbox { .section-flex .bloque-css }
 
 > Una vez que los items están en el eje correcto, necesitas controlar **dónde** se colocan. Flexbox tiene propiedades específicas para el eje principal y el cruzado.
 
 ---
 
-## Propiedades del contenedor
+## Propiedades del contenedor {: .topic-title }
 
 ### Justify-content — Eje principal
 
@@ -145,7 +145,7 @@ Separa los items sin depender de márgenes que rompen el layout.
 
 ---
 
-## Propiedades del item
+## Propiedades del item {: .topic-title }
 
 ### Align-self — Eje cruzado individual
 
@@ -173,7 +173,7 @@ Sobrescribe `align-items` para un item concreto.
 
 ---
 
-## Shorthand: Place-items
+## Shorthand: Place-items {: .topic-title }
 
 Aplica `align-items` y `justify-items` (no flexbox, pero útil):
 
@@ -192,14 +192,15 @@ Es equivalente a:
 }
 ```
 
-Para centrado perfecto en flexbox, usa:
-```css
-.contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-```
+!!! tip "Centrado perfecto en flexbox"
+    { .flex }
+    ```css
+    .contenedor {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    ```
 
 ---
 

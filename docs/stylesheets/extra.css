@@ -17,30 +17,25 @@
 /* ─── Intro blockquote de cada sección ─── */
 
 h1[class^="section-"] + blockquote {
-    font-size: 0.95rem;
-    font-weight: 450;
-    line-height: 1.55;
-    padding: 0.85rem 1.25rem;
-    margin: 0.75rem 0 1.5rem;
+    font-size: 0.82rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    padding: 0.5rem 0.9rem;
+    margin: 0.4rem 0 1.25rem;
     border: none;
-    border-left: 4px solid transparent;
-    background: linear-gradient(135deg, rgba(124, 77, 255, 0.08) 0%, rgba(124, 77, 255, 0.02) 50%, transparent 100%);
-    border-radius: 0 12px 12px 0;
-    color: var(--md-typeset-color);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border-left: 2px solid var(--md-default-fg-color--lighter);
+    background: none;
+    border-radius: 0;
+    color: var(--md-default-fg-color--light);
+    box-shadow: none;
     position: relative;
+    max-width: 60em;
 }
 
 /* Gradiente en el borde izquierdo del intro */
 h1[class^="section-"] + blockquote::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, var(--md-primary-fg-color), #e040fb);
-    border-radius: 2px 0 0 2px;
+    content: none;
 }
 
 /* Asegurar contraste en inline code dentro de blockquote */
@@ -448,6 +443,40 @@ h1[class^="section-"] ~ h2 code {
     font-weight: inherit;
 }
 
+/* ─── Bloque Arrays — h1 ─── */
+.section-arrays {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-arrays::after {
+    background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.section-arrays:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque JS — h1 (mismo azul del bloque Arrays, un color por bloque) ─── */
+.section-js {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-js::after {
+    background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.section-js:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
 /* Arquitectura — h1 */
 .section-arquitectura {
     background: linear-gradient(135deg, #4527a0 0%, #7c4dff 100%);
@@ -591,6 +620,265 @@ h1.section-bem ~ h2 {
 .tabbed-set {
     border-radius: 10px;
     overflow: hidden;
+}
+
+/* ─── Modo claro: los contenedores de contenido se diferencian del fondo ─── */
+/* En slate (oscuro) ya hay contraste de sobra contra el fondo casi negro; */
+/* en default (claro), fondo blanco y bloques quedaban casi al mismo tono. */
+
+[data-md-color-scheme="default"] .md-typeset .highlight {
+    background: #f6f7f9;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+[data-md-color-scheme="default"] .md-typeset table {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+[data-md-color-scheme="default"] .md-typeset .tabbed-set {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-md-color-scheme="default"] .md-typeset .admonition {
+    border: 1px solid rgba(0, 0, 0, 0.07) !important;
+}
+
+/* ─── Títulos de método (arrays: forEach / map / filter / reduce) ─── */
+
+.md-typeset h2.method-title {
+    margin: 1.25rem 0 0.9rem !important;
+    padding-bottom: 0.4em;
+    font-size: 1.18rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    position: relative;
+}
+
+/* Degradado unificado sutil blanco → gris en el texto */
+.md-typeset h2.method-title {
+    background: linear-gradient(135deg, #d6d6d6 0%, #636b6b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Línea decorativa degradada debajo del título */
+.md-typeset h2.method-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #b8b8b8, #7a8484);
+}
+
+/* Nombre del método (code) con degradado amarillo */
+.md-typeset h2.method-title code {
+    background: transparent;
+    background: linear-gradient(135deg, #f9d423 0%, #ff8c00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 800;
+    padding: 0;
+}
+
+/* Icono referencial moderno (SVG, estilo lucide) a la izquierda del título */
+.md-typeset h2.method-title::before {
+    content: '';
+    display: inline-block;
+    width: 1.15em;
+    height: 1.15em;
+    margin-right: 0.35em;
+    vertical-align: -0.18em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* forEach — loop/repeat */
+.md-typeset h2.method-title.method-foreach::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 1l4 4-4 4'/%3E%3Cpath d='M3 11V9a4 4 0 0 1 4-4h14'/%3E%3Cpath d='M7 23l-4-4 4-4'/%3E%3Cpath d='M21 13v2a4 4 0 0 1-4 4H3'/%3E%3C/svg%3E");
+}
+
+/* map — transformación (shuffle) */
+.md-typeset h2.method-title.method-map::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 3h5v5'/%3E%3Cpath d='M4 20L21 3'/%3E%3Cpath d='M21 16v5h-5'/%3E%3Cpath d='M15 15l6 6'/%3E%3Cpath d='M4 4l5 5'/%3E%3C/svg%3E");
+}
+
+/* filter — embudo */
+.md-typeset h2.method-title.method-filter::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 3H2l8 9.46V19l4 2v-8.54L22 3z'/%3E%3C/svg%3E");
+}
+
+/* reduce — destilar hacia abajo */
+.md-typeset h2.method-title.method-reduce::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14'/%3E%3Cpath d='M19 12l-7 7-7-7'/%3E%3C/svg%3E");
+}
+
+/* ─── Títulos de tema (topic-title) — teoría general ─── */
+
+.md-typeset h2.topic-title {
+    margin: 1.5rem 0 0.9rem !important;
+    padding-bottom: 0.4em;
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    position: relative;
+    background: linear-gradient(135deg, #d6d6d6 0%, #636b6b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Línea inferior degradada */
+.md-typeset h2.topic-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #b8b8b8, #7a8484);
+}
+
+.md-typeset h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Bloque CSS — h1 también en verde unificado (gana al color propio de section-X) ─── */
+
+h1.bloque-css {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-css::after {
+    background: linear-gradient(90deg, #047857, #34D399) !important;
+}
+
+h1.bloque-css:hover {
+    background: linear-gradient(135deg, #34D399 0%, #047857 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque CSS — h2 unificado (verde), gana a .topic-title gris y al color propio del h1 ─── */
+
+.md-typeset .bloque-css ~ h2,
+.md-typeset .bloque-css ~ h2.topic-title {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-css ~ h2::after,
+.md-typeset .bloque-css ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #047857, #34D399);
+}
+
+.md-typeset .bloque-css ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Tabla compacta Haz / No hagas (celdas en vez de listas largas) ─── */
+
+.md-typeset table.pros-cons,
+.md-typeset .pros-cons table {
+    font-size: 0.72rem;
+}
+
+.md-typeset table.pros-cons th,
+.md-typeset .pros-cons table th {
+    font-size: 0.68rem;
+}
+
+.md-typeset table.pros-cons td,
+.md-typeset .pros-cons table td {
+    padding: 0.35rem 0.6rem;
+    line-height: 1.3;
+}
+
+.md-typeset table.pros-cons th:first-child,
+.md-typeset table.pros-cons td:first-child,
+.md-typeset .pros-cons table th:first-child,
+.md-typeset .pros-cons table td:first-child {
+    background: rgba(52, 211, 153, 0.08);
+}
+
+.md-typeset table.pros-cons th:last-child,
+.md-typeset table.pros-cons td:last-child,
+.md-typeset .pros-cons table th:last-child,
+.md-typeset .pros-cons table td:last-child {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+/* ─── Video embebido en la intro de un temario ─── */
+
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0.5rem 0 1.5rem;
+    background: #000;
+}
+
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ─── Demo en vivo (mini ejemplo gráfico del efecto de un selector) ─── */
+
+.demo-box {
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0 1.5rem;
+    background: var(--md-code-bg-color, #f5f5f5);
+}
+
+.demo-box__label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--md-default-fg-color--light);
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+}
+
+.demo-box__caption {
+    font-size: 0.78rem;
+    color: var(--md-default-fg-color--light);
+    margin: 0.6rem 0 0;
 }
 
 /* ─── Hover en cards ─── */

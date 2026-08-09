@@ -1,10 +1,10 @@
-# Items flexibles { .section-flex }
+# Items flexibles { .section-flex .bloque-css }
 
 > Lo que hace único a Flexbox es cómo los items pueden **crecer**, **encogerse** y **distribuirse** según el espacio disponible.
 
 ---
 
-## Flex-grow — Factor de crecimiento
+## Flex-grow — Factor de crecimiento {: .topic-title }
 
 Controla cuánto **crece** un item respecto a los otros cuando sobra espacio.
 
@@ -49,7 +49,7 @@ Controla cuánto **crece** un item respecto a los otros cuando sobra espacio.
 
 ---
 
-## Flex-shrink — Factor de encogimiento
+## Flex-shrink — Factor de encogimiento {: .topic-title }
 
 Controla cuánto se **encoge** un item cuando **falta espacio**.
 
@@ -69,7 +69,7 @@ Controla cuánto se **encoge** un item cuando **falta espacio**.
 
 ---
 
-## Flex-basis — Tamaño base
+## Flex-basis — Tamaño base {: .topic-title }
 
 Define el **tamaño inicial** de un item ANTES de aplicar grow o shrink.
 
@@ -98,7 +98,7 @@ Diferencia con `width`:
 
 ---
 
-## Flex — Shorthand
+## Flex — Shorthand {: .topic-title }
 
 Junta `flex-grow`, `flex-shrink` y `flex-basis` en una sola línea.
 
@@ -127,7 +127,7 @@ flex: grow shrink basis;
 
 ---
 
-## Order — Orden visual
+## Order — Orden visual {: .topic-title }
 
 Cambia el orden visual sin modificar el HTML.
 
@@ -155,7 +155,7 @@ Cambia el orden visual sin modificar el HTML.
 
 ---
 
-## Guía rápida
+## Guía rápida {: .topic-title }
 
 | Quiero... | Uso |
 |-----------|-----|

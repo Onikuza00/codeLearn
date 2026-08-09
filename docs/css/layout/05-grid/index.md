@@ -1,4 +1,4 @@
-# Grid CSS { .section-grid }
+# Grid CSS { .section-grid .bloque-css }
 
 > Grid es un sistema de layout **bidimensional** — trabaja en filas **y** columnas al mismo tiempo. Ideal para páginas completas, dashboards, galerías y layouts complejos.
 
@@ -49,5 +49,5 @@
 
 - [MDN: Grid CSS](https://developer.mozilla.org/es/docs/Web/CSS/CSS_grid_layout)
 - [CSS-Tricks: Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
-- 🎥 [midudev — Aprende Grid CSS en 30 minutos](https://www.youtube.com/watch?v=TlJbu0BMLaY)
+- 🎥 [midudev — Grid CSS](https://www.youtube.com/watch?v=iTjkiI8QQsM)
 - 📖 [lenguajecss.com — Grid CSS](https://lenguajecss.com/css/grid/que-es-grid/)

@@ -1,4 +1,4 @@
-# Layout CSS { .section-layout }
+# Layout CSS { .section-layout .bloque-css }
 
 > Layout es **cómo distribuyes los elementos** en una página. Flexbox para una dimensión, Grid para dos. Son las dos herramientas modernas que reemplazan floats, tables y position absoluto.
 
@@ -19,12 +19,12 @@ No compiten. **Flexbox para componentes, Grid para páginas.**
 
 ---
 
-## Bloques
+## Temario
 
-| Bloque | Concepto | Estado |
-|--------|----------|--------|
-| **Flexbox** | Layout unidimensional (filas o columnas) | ✅ Completo |
-| **Grid** | Layout bidimensional (filas Y columnas) | ✅ Completo |
+| Temario | Concepto | Estado |
+|---------|----------|--------|
+| [**Flexbox**](04-flexbox/index.md) | Layout unidimensional (filas o columnas) | ✅ Completo |
+| [**Grid**](05-grid/index.md) | Layout bidimensional (filas Y columnas) | ✅ Completo |
 
 ---
 
@@ -32,7 +32,7 @@ No compiten. **Flexbox para componentes, Grid para páginas.**
 
 - 📘 **MDN — Flexbox** — https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox
 - 📘 **MDN — Grid** — https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grid
-- 🎥 **midudev — Flexbox** — https://www.youtube.com/watch?v=Vqd96mD4hjA
-- 🎥 **midudev — Grid** — https://www.youtube.com/watch?v=HBm1oFJwVvs
+- 🎥 **midudev — Flexbox** — https://www.youtube.com/watch?v=PSwlAuRbv_A
+- 🎥 **midudev — Grid** — https://www.youtube.com/watch?v=iTjkiI8QQsM
 - 🎮 **Flexbox Froggy** — https://flexboxfroggy.com/
 - 🎮 **Grid Garden** — https://cssgridgarden.com/

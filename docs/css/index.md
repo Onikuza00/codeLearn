@@ -2,26 +2,32 @@
 
 > CSS moderno desde los fundamentos hasta arquitectura escalable.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/TlJbu0BMLaY" title="Curso completo de CSS — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ## Categorías
 
 | Categoría | Qué cubre | Estado |
 |-----------|-----------|--------|
-| [**Selectores**](selectores/) | `:has()`, `:not()`, `:is()` | ✅ `:has()` completo |
-| [**Layout**](layout/) | Flexbox, Grid | ✅ Flexbox + Grid completos |
-| [**Responsive**](responsive/) | Container Queries, Media Queries | ✅ CQ completo |
-| [**Arquitectura**](arquitectura/) | BEM, `@layer`, variables, organización | ✅ BEM nuevo |
+| [**Selectores**](selectores/) | `:has()`, `:not()`, `:is()`/`:where()`, `:nth-child()`, `::before`/`::after` | ✅ Completo |
+| [**Layout**](layout/) | Flexbox, Grid | ✅ Completo |
+| [**Responsive**](responsive/) | Media Queries, Container Queries, funciones responsive | ✅ Completo |
+| [**Arquitectura**](arquitectura/) | Variables nativas, BEM, `@layer`, CSS Nesting | ✅ Completo |
+| [**Comportamiento**](comportamiento/) | Scroll Snap, text-wrap, interacciones | ✅ scroll-snap nuevo |
+| [**Animaciones**](animaciones/) | Transitions, `@keyframes`/`animation` | ✅ Completo |
 
 ---
 
 ## Ruta de aprendizaje
 
 ```
-Selectores  →  Layout  →  Responsive  →  Arquitectura
-  :has()        Flexbox    Container     BEM
-  :not()        Grid       Queries       @layer
+Selectores → Layout → Responsive → Arquitectura → Comportamiento → Animaciones
+  :has()      Flexbox   Media Q.     Variables      Scroll Snap     Transitions
+  :not()      Grid      Container Q. BEM/@layer     text-wrap       Keyframes
 ```
 
-Cada bloque asume que dominás el anterior. Si algo no queda claro, volvé atrás.
+Cada bloque asume que dominas el anterior. Si algo no queda claro, vuelve atrás.
 
 ---
 

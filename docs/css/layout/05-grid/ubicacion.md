@@ -1,10 +1,10 @@
-# Ubicación y áreas en Grid { .section-grid }
+# Ubicación y áreas en Grid { .section-grid .bloque-css }
 
 > Esto es lo que hace a Grid **realmente poderoso**: puedes decidir dónde empieza y termina cada item, creando layouts que con flexbox serían imposibles o muy rebuscados.
 
 ---
 
-## Grid-column / Grid-row
+## Grid-column / Grid-row {: .topic-title }
 
 Controlan desde qué línea hasta qué línea ocupa un item.
 
@@ -51,7 +51,7 @@ Controlan desde qué línea hasta qué línea ocupa un item.
 
 ---
 
-## Grid-template-areas
+## Grid-template-areas {: .topic-title }
 
 La forma más LEGIBLE de definir layouts. Asignas nombres a las áreas y después los items los usan.
 
@@ -92,7 +92,7 @@ grid-template-areas:
 
 ---
 
-## Responsive con áreas
+## Responsive con áreas {: .topic-title }
 
 Cambiando `grid-template-areas` en media queries, reordenás todo sin tocar HTML.
 
@@ -127,7 +127,7 @@ Cambiando `grid-template-areas` en media queries, reordenás todo sin tocar HTML
 
 ---
 
-## Grid-column / Grid-row con span
+## Grid-column / Grid-row con span {: .topic-title }
 
 ```css
 .item-destacado {
@@ -152,7 +152,7 @@ Cambiando `grid-template-areas` en media queries, reordenás todo sin tocar HTML
 
 ---
 
-## Guía rápida
+## Guía rápida {: .topic-title }
 
 | Quiero... | Uso |
 |-----------|-----|

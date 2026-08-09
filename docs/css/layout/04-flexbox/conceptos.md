@@ -1,8 +1,12 @@
-# Conceptos básicos de Flexbox { .section-flex }
+# Conceptos básicos de Flexbox { .section-flex .bloque-css }
+
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/PSwlAuRbv_A?start=2726" title="Flexbox — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
 
 ---
 
-## Display: Flex
+## Display: Flex {: .topic-title }
 
 Para activar Flexbox, el contenedor declara `display: flex`. Sus hijos directos se convierten en **items flexibles**.
 
@@ -14,11 +18,11 @@ Para activar Flexbox, el contenedor declara `display: flex`. Sus hijos directos 
 
 !!! tip "Analogía"
     { .flex }
-    Pensá en Flexbox como un **estante**: el contenedor es la balda, los items son los objetos que ponés encima. Podés decidir si se ordenan de izquierda a derecha (`row`), de derecha a izquierda (`row-reverse`), de arriba a abajo (`column`), o al revés (`column-reverse`).
+    Piensa en Flexbox como un **estante**: el contenedor es la balda, los items son los objetos que pones encima. Puedes decidir si se ordenan de izquierda a derecha (`row`), de derecha a izquierda (`row-reverse`), de arriba a abajo (`column`), o al revés (`column-reverse`).
 
 ---
 
-## Ejes
+## Ejes {: .topic-title }
 
 Flexbox tiene dos ejes:
 
@@ -46,7 +50,7 @@ En `flex-direction: row` (default), el eje principal es horizontal. En `column`,
 
 ---
 
-## Flex-direction
+## Flex-direction {: .topic-title }
 
 Define la dirección del eje principal.
 
@@ -80,7 +84,7 @@ Define la dirección del eje principal.
 
 ---
 
-## Flex-wrap
+## Flex-wrap {: .topic-title }
 
 Por defecto, los items se comprimen para entrar en una línea (`nowrap`). Con `flex-wrap: wrap`, los items saltan a la siguiente línea si no entran.
 
@@ -110,7 +114,7 @@ Por defecto, los items se comprimen para entrar en una línea (`nowrap`). Con `f
 
 ---
 
-## Flex-flow
+## Flex-flow {: .topic-title }
 
 Shorthand de `flex-direction` + `flex-wrap`.
 
@@ -123,7 +127,7 @@ Shorthand de `flex-direction` + `flex-wrap`.
 
 ---
 
-## Resumen visual
+## Resumen visual {: .topic-title }
 
 ```
 flex-direction: row (default)

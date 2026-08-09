@@ -1,4 +1,4 @@
-# Flexbox { .section-flex }
+# Flexbox { .section-flex .bloque-css }
 
 > Flexbox es un sistema de layout unidimensional — trabaja en una sola dirección (fila **o** columna). Ideal para componentes, navs, centrados, y distribución equitativa.
 

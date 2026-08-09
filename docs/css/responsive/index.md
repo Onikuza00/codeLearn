@@ -1,6 +1,10 @@
-# Responsive CSS { .section-responsive }
+# Responsive CSS { .section-responsive .bloque-css }
 
 > Diseño responsive significa que el layout se adapta al contexto del usuario. Ya sea una pantalla de 320px o un monitor 4K, el contenido debe verse bien sin importar el dispositivo.
+
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/hrxjBqZWsb0" title="Responsive Design — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
 
 ---
 
@@ -12,18 +16,18 @@ El responsive clásico con **Media Queries** pregunta "¿qué ancho tiene la ven
 
 ---
 
-## Bloques
+## Temario
 
-| Bloque | Concepto | Estado |
-|--------|----------|--------|
-| **Container Queries** | Responsive a nivel de componente | ✅ Completo |
+| Temario | Concepto |
+|---------|----------|
+| [**Media Queries**](01-media-queries/index.md) | La base: responsive según viewport y preferencias del usuario |
+| [**Container Queries**](02-container-queries/index.md) | Responsive a nivel de componente |
+| [**Funciones responsive**](funciones-responsive.md) | Patrones con `flex`, `grid`, `clamp()` que se adaptan sin media queries |
 
 ---
 
 ## Próximos
 
-- Media Queries avanzadas (`@media (hover:)`, `@media (prefers-reduced-motion:)`)
-- Unidades responsive (`min()`, `max()`, `clamp()`)
 - `picture` y `srcset` para imágenes responsive
 
 ---
@@ -32,4 +36,4 @@ El responsive clásico con **Media Queries** pregunta "¿qué ancho tiene la ven
 
 - 📘 **MDN — Responsive Design** — https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design
 - 📘 **MDN — Container Queries** — https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries
-- 🎥 **midudev — Responsive Design** — https://www.youtube.com/watch?v=4vMlsWQkRWo
+- 🎥 **midudev — Responsive Design** — https://www.youtube.com/watch?v=hrxjBqZWsb0
