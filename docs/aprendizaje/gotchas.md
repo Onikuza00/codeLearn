@@ -300,6 +300,30 @@ for (let i = 0; i < string.length; i++) {
 
 ---
 
+# 🌙 TARDE — JS · 02/08/2026 (Día 02 — Arrays + Métodos)
+
+### Fallo 10: `promedioAprobados` — los arrays SIEMPRE son truthy
+
+**❌ Código original:**
+```js
+if (!estudiantes.filter(n => n.nota >= 5)) return null;  // nunca dispara
+```
+
+**✅ Mejora:**
+```js
+let cont = 0;
+estudiantes.forEach(estudi => {
+  if (estudi.nota >= 5) { suma += estudi.nota; cont++; }
+});
+return cont === 0 ? null : suma / cont;
+```
+
+**🧠 Teoría:** `filter()` devuelve un array, y los arrays (incluso vacíos) son **siempre truthy**. `![]` es `false` → el `if` nunca corre. Para detectar vacío: `array.length === 0` (o contar aprobados dentro del loop, patrón E12). Además: `filter` no modifica el original ni sirve como condición por sí solo.
+
+**Estado:** 🔁 Repasar
+
+---
+
 ## ✅ PATRONES QUE DOMINO
 
 - `forEach` para recorrer arrays

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuevos Conceptos CSS — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-css); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-css); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+    }
+    .exercise-card.is-open .exercise-card-header .arrow-fold { transform: rotate(180deg); }
+    .exercise-card:not(.is-open) .exercise-card-body { display: none; }
+    .exercise-card-body { padding: 0 1.5rem 1.5rem; cursor: default; }
+    .ex {
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 1rem;
+      margin-bottom: .75rem;
+    }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .5rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title { font-weight: 600; font-size: .95rem; }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--accent-css-dim);
+      color: var(--accent-css);
+      font-size: .75rem;
+      font-weight: 700;
+      margin-right: .25rem;
+    }
+    .ex-status {
+      font-size: .75rem;
+      padding: .15rem .5rem;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .ex-status.pending { background: #3b3b1a; color: #facc15; }
+    .ex-status.done { background: #1a3b1a; color: #4ade80; }
+    .ex-desc { margin: 0 0 .5rem; font-size: .88rem; line-height: 1.5; }
+    .ex-demo { font-size: .82rem; color: var(--text-muted); margin-bottom: .5rem; }
+    .ex-html {
+      background: #1a1a2e;
+      border-radius: 6px;
+      padding: .75rem;
+      font-size: .82rem;
+      margin-bottom: .75rem;
+      overflow-x: auto;
+    }
+    .ex-html code { font-family: 'JetBrains Mono', monospace; }
+    .ex-samples {
+      background: #0f0f1a;
+      border-radius: 6px;
+      padding: .75rem;
+      margin-bottom: .5rem;
+      font-size: .82rem;
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ex-tag { 
+      color: #e879f9; 
+    }
+    .ex-class { color: #facc15; }
+    .ex-prop { color: #38bdf8; }
+    .ex-val { color: #4ade80; }
+    .ex-comment { color: #64748b; font-style: italic; }
+    .ex-solution-btn {
+      background: var(--accent-css-dim);
+      color: var(--accent-css);
+      border: 1px solid var(--accent-css);
+      padding: .35rem .85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .8rem;
+      transition: all .2s;
+    }
+    .ex-solution-btn:hover { background: var(--accent-css); color: #000; }
+    .ex-code {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, opacity .3s ease;
+      opacity: 0;
+    }
+    .ex-code.is-visible {
+      max-height: 2000px;
+      opacity: 1;
+      margin-top: .75rem;
+    }
+    .ex-code pre {
+      background: #0f0f1a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .75rem;
+      overflow-x: auto;
+      font-size: .82rem;
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ex-code pre .kw { color: #e879f9; }
+    .ex-code pre .sel { color: #facc15; }
+    .ex-code pre .prop { color: #38bdf8; }
+    .ex-code pre .val { color: #4ade80; }
+    .ex-code pre .unit { color: #f97316; }
+    .ex-code pre .fn { color: #22d3ee; }
+    .ex-code pre .cm { color: #64748b; font-style: italic; }
+    .ex-code pre .at { color: #e879f9; }
+    .ex-code pre .num { color: #f97316; }
+    .lesson {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin-top: .75rem;
+      padding: .5rem .75rem;
+      border-left: 3px solid var(--accent-css);
+      background: rgba(56, 189, 248, 0.05);
+      border-radius: 0 6px 6px 0;
+    }
+    .lesson strong { color: var(--text-primary); }
+    .exercise-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <div style="max-width: 860px; margin: 0 auto; padding: 0 1rem 3rem;">
+
+    <div class="hero-exercise">
+      <h1>🎨 <span>CSS</span> — Nuevos conceptos</h1>
+      <p class="subtitle">🧪 mezcla de conceptos nuevos + repaso de fallos anteriores • 8 ejercicios</p>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SESIÓN 26/07 — NUEVOS CONCEPTOS CSS           -->
+    <!-- ============================================= -->
+    <div class="exercise-card is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📐 26/07/2026 — Nuevos conceptos CSS <span style="font-size:.8rem;color:var(--text-muted);">(8 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#64748b;">8⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">⬤</span> nuevos
+          <span style="color:#3b82f6;">⬤</span> repaso
+          <span style="color:#ec4899;">⬤</span> mixto
+        </p>
+
+        <!-- ============================================= -->
+        <!-- E1 — Container Queries (repaso)               -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>@container</code> — Container Queries</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Hacé que una <code>.card</code> cambie a fondo oscuro cuando su contenedor mida más de 400px de ancho.</p>
+          <p class="ex-demo">💡 Repaso del fallo del 25/07: container NO se estila a sí mismo</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">card-wrapper</span>"&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">card</span>"&gt;Card&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &lt;/<span class="ex-tag">div</span>&gt;
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* wrapper 300px → .card fondo blanco */</span><br>
+            <span class="ex-comment">/* wrapper 500px → .card fondo #1a1a2e */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Error clásico: container en la misma card */</span>
+<span class="sel">.card</span> { <span class="prop">container-type</span>: <span class="val">inline-size</span>; }
+<span class="at">@container</span> (<span class="prop">min-width</span>: <span class="num">400</span><span class="unit">px</span>) {
+  <span class="sel">.card</span> { <span class="prop">background</span>: <span class="val">#1a1a2e</span>; } <span class="cm">/* ❌ .card no es descendiente de sí misma */</span>
+}
+
+<span class="cm">/* ✅ Correcto: container en el WRAPPER, .card es descendiente */</span>
+<span class="sel">.card-wrapper</span> { <span class="prop">container-type</span>: <span class="val">inline-size</span>; }
+<span class="at">@container</span> (<span class="prop">min-width</span>: <span class="num">400</span><span class="unit">px</span>) {
+  <span class="sel">.card</span> { <span class="prop">background</span>: <span class="val">#1a1a2e</span>; }
+}</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>@container</strong> solo afecta a <strong>descendientes</strong> del contenedor. El container query nunca puede estilar al contenedor mismo. Poné <code>container-type</code> en un wrapper, y <code>@container</code> apunta a los hijos.
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E2 — :has() + formularios (repaso)           -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>:has()</code> — Formularios con feedback visual</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cambiá el borde de un <code>.form-group</code> a verde cuando su <code>input</code> esté en foco.</p>
+          <p class="ex-demo">💡 Repaso de :has() del 25/07 — conectar padre e hijo sin JS</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">form-group</span>"&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">label</span>&gt;Email&lt;/<span class="ex-tag">label</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">input</span> <span class="ex-class">type</span>="<span class="ex-val">email</span>"&gt;<br>
+              &lt;/<span class="ex-tag">div</span>&gt;
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* input sin foco → .form-group borde gris */</span><br>
+            <span class="ex-comment">/* input :focus → .form-group borde verde */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Pau: estilar el input directamente */</span>
+<span class="sel">.form-group input</span>:<span class="sel">focus</span> { <span class="prop">border-color</span>: <span class="val">#4ade80</span>; }
+
+<span class="cm">/* ✅ Con :has() estilás el PADRE cuando el hijo tiene foco */</span>
+<span class="sel">.form-group:has(input:focus)</span> {
+  <span class="prop">border-color</span>: <span class="val">#4ade80</span>;
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">0</span> <span class="num">8</span><span class="unit">px</span> <span class="fn">rgba</span>(<span class="num">74</span>, <span class="num">222</span>, <span class="num">128</span>, <span class="num">0.3</span>);
+}</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>:has()</strong> permite estilar un elemento según el estado de sus hijos. No hace falta JS para feedback visual en formularios.
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E3 — CSS Nesting (nuevo)                     -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>&</code> — CSS Nesting nativo</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Reescribí este CSS plano usando <strong>nesting nativo</strong> con <code>&</code>.</p>
+          <p class="ex-demo">💡 Nuevo: CSS Nesting está soportado en navegadores modernos</p>
+          <div class="ex-html">
+            <code>
+              <span class="ex-comment">/* CSS plano para anidar */</span><br>
+              .card { }<br>
+              .card__title { }<br>
+              .card__title:hover { }<br>
+              .card__body { }<br>
+              .card--featured { }
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* Usá & para referirte al padre dentro del bloque */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Sin nesting — selectores planos */</span>
+<span class="sel">.card</span> { }
+<span class="sel">.card__title</span> { }
+<span class="sel">.card__title:hover</span> { }
+<span class="sel">.card__body</span> { }
+<span class="sel">.card--featured</span> { }
+
+<span class="cm">/* ✅ Nesting nativo */</span>
+<span class="sel">.card</span> {
+  <span class="sel">&amp;__title</span> { }
+  <span class="sel">&amp;__title:hover</span> { }
+  <span class="sel">&amp;__body</span> { }
+  <span class="sel">&amp;--featured</span> { }
+}</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>CSS Nesting</strong> (<code>&</code>) funciona como Sass pero sin compilador. El <code>&</code> se reemplaza por el selector padre. <code>&__title</code> → <code>.card__title</code>. No necesitás Sass.
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E4 — @layer (nuevo)                          -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🔴 <code>@layer</code> — Control de cascada</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Creá tres capas en orden: <code>base</code>, <code>components</code>, <code>utilities</code>. La clase <code>.btn-primary</code> debe ganar siempre aunque el selector de <code>components</code> sea menos específico.</p>
+          <p class="ex-demo">💡 Nuevo: @layer da control total sobre el orden de cascada</p>
+          <div class="ex-html">
+            <code>
+              <span class="ex-comment">/* En components: */</span><br>
+              .btn { background: gray; }<br><br>
+              <span class="ex-comment">/* En utilities: */</span><br>
+              .bg-primary { background: blue; }
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* &lt;button class="btn bg-primary"&gt; → debe ganar bg-primary pese a tener misma especificidad */</span><br>
+            <span class="ex-comment">/* Si utilities va última, .bg-primary gana a .btn */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Sin @layer: el orden en el archivo decide (frágil) */</span>
+<span class="sel">.btn</span> { <span class="prop">background</span>: <span class="val">gray</span>; }
+<span class="sel">.bg-primary</span> { <span class="prop">background</span>: <span class="val">blue</span>; } <span class="cm">/* gana porque va después */</span>
+
+<span class="cm">/* ✅ Con @layer: orden explícito */</span>
+<span class="at">@layer</span> <span class="fn">base</span>, <span class="fn">components</span>, <span class="fn">utilities</span>;
+
+<span class="at">@layer</span> <span class="fn">components</span> {
+  <span class="sel">.btn</span> { <span class="prop">background</span>: <span class="val">gray</span>; }
+}
+
+<span class="at">@layer</span> <span class="fn">utilities</span> {
+  <span class="sel">.bg-primary</span> { <span class="prop">background</span>: <span class="val">blue</span>; }
+}
+
+<span class="cm">/* utilities gana porque se declaró última en @layer */</span></pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>@layer</strong> gana a la especificidad normal. La capa declarada ÚLTIMA gana aunque los selectores tengan la misma especificidad. Ideal para utilities que siempre deben sobreescribir.
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E5 — scroll-snap (nuevo)                     -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟢 <code>scroll-snap</code> — Slider horizontal</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Creá un slider horizontal de cards que "snappe" a cada card al hacer scroll.</p>
+          <p class="ex-demo">💡 Nuevo: scroll-snap sin JS — CSS nativo</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">slider</span>"&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">slide</span>"&gt;1&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">slide</span>"&gt;2&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">slide</span>"&gt;3&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &lt;/<span class="ex-tag">div</span>&gt;
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* Scroll horizontal, cada slide de 300px, snap al centro */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Pau: slider sin snap o con JS */</span>
+<span class="sel">.slider</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">overflow-x</span>: <span class="val">auto</span>;
+}
+<span class="sel">.slide</span> { <span class="prop">min-width</span>: <span class="num">300</span><span class="unit">px</span>; }
+
+<span class="cm">/* ✅ Con scroll-snap nativo */</span>
+<span class="sel">.slider</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+  <span class="prop">overflow-x</span>: <span class="val">auto</span>;
+  <span class="prop">scroll-snap-type</span>: <span class="val">x mandatory</span>;
+}
+<span class="sel">.slide</span> {
+  <span class="prop">min-width</span>: <span class="num">300</span><span class="unit">px</span>;
+  <span class="prop">scroll-snap-align</span>: <span class="val">center</span>;
+}</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>scroll-snap-type</strong> en el contenedor define la dirección y si es obligatorio. <strong>scroll-snap-align</strong> en los hijos define dónde "snappean" (start, center, end). Sin JS.
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E6 — text-wrap: balance (nuevo)               -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>text-wrap</code> — Títulos equilibrados</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un título de 2 líneas como <code>"Transformá tu presencia online con diseño moderno"</code> debe partirse de forma equilibrada.</p>
+          <p class="ex-demo">💡 Nuevo: text-wrap:balance evita viudas y不均等</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">h1</span> <span class="ex-class">class</span>="<span class="ex-val">hero__title</span>"&gt;<br>
+              &nbsp;&nbsp;Transformá tu presencia online con diseño moderno<br>
+              &lt;/<span class="ex-tag">h1</span>&gt;
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* Sin text-wrap: 1 palabra suelta en segunda línea */</span><br>
+            <span class="ex-comment">/* Con text-wrap:balance → 3 y 3 palabras o similar */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Sin text-wrap: el navegador corta donde quiere */</span>
+<span class="sel">.hero__title</span> { <span class="prop">font-size</span>: <span class="num">2.5</span><span class="unit">rem</span>; }
+
+<span class="cm">/* ✅ Con text-wrap: el navegador equilibra las líneas */</span>
+<span class="sel">.hero__title</span> {
+  <span class="prop">font-size</span>: <span class="num">2.5</span><span class="unit">rem</span>;
+  <span class="prop">text-wrap</span>: <span class="val">balance</span>;
+  <span class="prop">max-width</span>: <span class="num">20</span><span class="unit">ch</span>; <span class="cm">/* opcional: controlar ancho */</span>
+}
+
+<span class="cm">/* Tip: text-wrap:pretty es menos agresivo que balance */</span></pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>text-wrap: balance</strong> hace que el navegador elija el mejor punto de quiebre para que todas las líneas tengan longitud similar. Adiós a las viudas (1 palabra sola en la última línea).
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E7 — Subgrid (nuevo)                         -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟡 <code>subgrid</code> — Alinear grids anidados</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Dos cards dentro de un grid de 2 columnas. Cada card tiene título + descripción. Usá <code>subgrid</code> para que las descripciones se alineen entre sí.</p>
+          <p class="ex-demo">💡 Nuevo: subgrid hereda las tracks del grid padre</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">grid</span>"&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>="<span class="ex-val">card</span>"&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">h3</span>&gt;Título&lt;/<span class="ex-tag">h3</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">p</span>&gt;Descripción&lt;/<span class="ex-tag">p</span>&gt;<br>
+              &nbsp;&nbsp;&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;(...)<br>
+              &lt;/<span class="ex-tag">div</span>&gt;
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* grid padre: 2 columnas iguales */</span><br>
+            <span class="ex-comment">/* .card usa subgrid para que filas de título y descripción se alineen */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Sin subgrid: cada card tiene su propio grid interno */</span>
+<span class="sel">.grid</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="num">1</span><span class="unit">fr</span> <span class="num">1</span><span class="unit">fr</span>;
+}
+<span class="sel">.card</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-rows</span>: <span class="fn">auto</span> <span class="num">1</span><span class="unit">fr</span>;  <span class="cm">/* cada card independiente */</span>
+}
+
+<span class="cm">/* ✅ Con subgrid: hereda rows del padre */</span>
+<span class="sel">.grid</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="num">1</span><span class="unit">fr</span> <span class="num">1</span><span class="unit">fr</span>;
+  <span class="prop">grid-template-rows</span>: <span class="fn">auto</span> <span class="num">1</span><span class="unit">fr</span>;
+}
+<span class="sel">.card</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-row</span>: <span class="fn">span</span> <span class="num">2</span>;         <span class="cm">/* cada card ocupa 2 filas */</span>
+  <span class="prop">grid-template-rows</span>: <span class="fn">subgrid</span>;  <span class="cm">/* hereda tracks del padre */</span>
+}</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>subgrid</strong> hace que elementos hijos se alineen con el grid del abuelo. El padre define las tracks, el hijo usa <code>grid-template-rows: subgrid</code> en vez de valores fijos. Perfecto para cards que deben mantener alineación horizontal.
+          </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- E8 — Variables + calc() (repaso)             -->
+        <!-- ============================================= -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🟢 <code>calc()</code> + Variables — Sistema de espaciado</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Usando una variable base <code>--space: 0.5rem</code>, creá las variables <code>--s-1</code> a <code>--s-4</code> multiplicando con <code>calc()</code>.</p>
+          <p class="ex-demo">💡 Repaso: variables + calc para sistemas consistentes</p>
+          <div class="ex-html">
+            <code>
+              <span class="ex-comment">/* ⚡ Sin valores mágicos, todo desde una variable base */</span>
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* --s-1 = 0.5rem */</span><br>
+            <span class="ex-comment">/* --s-2 = 1rem */</span><br>
+            <span class="ex-comment">/* --s-3 = 2rem */</span><br>
+            <span class="ex-comment">/* --s-4 = 4rem */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cm">/* ❌ Pau: valores mágicos hardcodeados */</span>
+<span class="sel">:root</span> {
+  <span class="prop">--s-1</span>: <span class="num">0.5</span><span class="unit">rem</span>;
+  <span class="prop">--s-2</span>: <span class="num">1</span><span class="unit">rem</span>;
+  <span class="prop">--s-3</span>: <span class="num">2</span><span class="unit">rem</span>;
+  <span class="prop">--s-4</span>: <span class="num">4</span><span class="unit">rem</span>;
+}
+
+<span class="cm">/* ✅ Con calc() desde una variable base */</span>
+<span class="sel">:root</span> {
+  <span class="prop">--space</span>: <span class="num">0.5</span><span class="unit">rem</span>;
+  <span class="prop">--s-1</span>: <span class="fn">calc</span>(<span class="prop">--space</span> * <span class="num">1</span>);  <span class="cm">/* 0.5rem */</span>
+  <span class="prop">--s-2</span>: <span class="fn">calc</span>(<span class="prop">--space</span> * <span class="num">2</span>);  <span class="cm">/* 1rem */</span>
+  <span class="prop">--s-3</span>: <span class="fn">calc</span>(<span class="prop">--space</span> * <span class="num">4</span>);  <span class="cm">/* 2rem */</span>
+  <span class="prop">--s-4</span>: <span class="fn">calc</span>(<span class="prop">--space</span> * <span class="num">8</span>);  <span class="cm">/* 4rem */</span>
+}
+
+<span class="cm">/* Beneficio: cambiando --space: 0.25rem escalás todo el sistema */</span></pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>calc() + variables</strong> = sistema de espaciado escalable. Cambiás un solo valor y todo se actualiza. Adiós a valores mágicos. La convención de múltiplos de 2 (1, 2, 4, 8) mantiene consistencia visual.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Julio 2026 · Nuevos conceptos CSS
+    </div>
+  </div>
+</main>
+
+<script>
+// Toggle card (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (click en botón "Ver solución")
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>

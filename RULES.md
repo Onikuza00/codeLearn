@@ -61,6 +61,16 @@
 
 ### Estilos personalizados (`extra.css`)
 - **Colores por sección**: definir clase en el h1 vía `{# .section-algo }` (requiere `attr_list` en mkdocs.yml). CSS usa `h1.section-algo` con gradient text + proportional underline.
+- **Norma de títulos (08/08/2026)** — aplicar en TODA documentación nueva de ahora en adelante:
+  - **h1 general de cada bloque** → degradado propio por bloque vía `{: .section-<bloque> }` en el h1 (`attr_list`). Ej: bloque Arrays = `section-arrays` azul `#0284c7 → #38bdf8`. Cada bloque tiene UN color que se reutiliza en TODAS sus páginas.
+  - **Títulos de método/tema dentro del bloque** (h2) → NO usan el degradado del bloque. Usan la clase doble `{: .method-title .method-<nombre> }` con:
+    - Texto: degradado gris sutil unificado `#d6d6d6 → #636b6b` (todos los métodos iguales).
+    - Nombre clave (el `code` del método) → degradado **amarillo** `#f9d423 → #ff8c00`.
+    - Icono SVG moderno (estilo lucide) en **gris sólido `#6b6b6b` SIN degradado**, referencial a la acción, vía `::before` con `data:image/svg+xml`.
+    - Línea inferior degradada fina (`#b8b8b8 → #7a8484`).
+    - Título corto y conciso (frase que referencia el crédito clave del tema).
+  - Reglas: la clase `method-title` NO lleva `section-*`; los h2 que no son de método (subsecciones) NO llevan `method-title`. Iconos siempre en gris sólido, sin degradado.
+  - Reutilizables: para repetir en otro bloque basta copiar el CSS de `method-title` + `method-<nombre>`; para un bloque nuevo, copiar `section-<bloque>` con otro color.
 - **Admonitions personalizadas**: clases CSS para cada tecnología: `.architecture`, `.twig`, `.live`, `.stimulus` — cada una con `border-left-color`, fondo del `admonition-title` y color del `::before` icon.
 - **Probado**: la sintaxis `!!! tip "Tít" { .clase }` se usa con `attr_list`, pero si no funciona, ir a HTML directo: `<div class="admonition twig"><p class="admonition-title">Tít</p><p>Contenido</p></div>`.
 

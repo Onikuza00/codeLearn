@@ -300,6 +300,171 @@ for (let i = 0; i < string.length; i++) {
 
 ---
 
+# 🌙 TARDE — JS · 02/08/2026 (Día 02 — Arrays + Métodos)
+
+### Fallo 10: `promedioAprobados` — los arrays SIEMPRE son truthy
+
+**❌ Código original:**
+```js
+if (!estudiantes.filter(n => n.nota >= 5)) return null;  // nunca dispara
+```
+
+**✅ Mejora:**
+```js
+let cont = 0;
+estudiantes.forEach(estudi => {
+  if (estudi.nota >= 5) { suma += estudi.nota; cont++; }
+});
+return cont === 0 ? null : suma / cont;
+```
+
+**🧠 Teoría:** `filter()` devuelve un array, y los arrays (incluso vacíos) son **siempre truthy**. `![]` es `false` → el `if` nunca corre. Para detectar vacío: `array.length === 0` (o contar aprobados dentro del loop, patrón E12). Además: `filter` no modifica el original ni sirve como condición por sí solo.
+
+**Estado:** 🔁 Repasar
+
+---
+
+# 🌙 TARDE — JS · 05/08/2026 (Día 05 — Repaso retención)
+
+### Fallo 11: `frecuenciaCaracteres` — `return` dentro del loop
+
+**❌ Código original:**
+```js
+function frecuenciaCaracteres(texto) {
+  let lista = {};
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === " ") continue;
+    if (lista[texto[i]])
+      lista[texto[i]]++;
+    else
+      lista[texto[i]] = 1;
+    return lista;  // sale en la primera iteración
+  }
+}
+```
+
+**✅ Mejora:**
+```js
+function frecuenciaCaracteres(texto) {
+  let lista = {};
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === " ") continue;
+    if (lista[texto[i]])
+      lista[texto[i]]++;
+    else
+      lista[texto[i]] = 1;
+  }
+  return lista;  // fuera del loop, al nivel de la función
+}
+```
+
+**🧠 Teoría:** un `return` dentro de un loop solo sirve para salir ANTES de tiempo (encontré lo que buscaba / error). Si querés el resultado de recorrer TODO, el `return` va DESPUÉS de la llave del for. Antídoto: trace mental con un caso simple antes de guardar — si en la primera vuelta ya salís de la función, el loop no va a terminar.
+
+**Estado:** ✅ Completado
+
+### Fallo 12: `agruparPorLetra` — guard de espacios "copiado" + naming
+
+**❌ Código original:**
+```js
+if (palabras[i][0] === " ") continue;  // el enunciado no pide ignorar espacios acá
+```
+
+**🧠 Teoría:** el `continue` para espacios venía "copiado" del R1, donde SÍ tenía sentido. Acá el enunciado no lo pide → código extra = comportamiento imprevisto (una palabra que arranque con espacio se descartaría silenciosamente). Regla: el código debe hacer exactamente lo que pide el enunciado, ni más ni menos. También naming: `lista` no describe un objeto de grupos → mejor `grupos`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 13: `ordenarPorPrecio` (bubble sort) — incoherencia swap vs condición
+
+**❌ Código original (2° intento):**
+```js
+for (let j = 0; j < productos.length; j++) {       // falta length - 1
+  if (productos[j].precio > productos[j + 1].precio) {
+    valor = productos[i];                          // compara j pero swapea i
+    productos[i] = productos[i + 1];
+  }
+}
+```
+
+**✅ Mejora:**
+```js
+for (let i = 0; i < productos.length; i++) {
+  for (let j = 0; j < productos.length - 1; j++) {
+    if (productos[j].precio > productos[j + 1].precio) {
+      valor = productos[j];
+      productos[j] = productos[j + 1];
+      productos[j + 1] = valor;
+    }
+  }
+}
+```
+
+**🧠 Teoría:**
+1. **Swap y condición deben usar LOS MISMOS índices.** "Lo que comparás, lo que intercambiás" — si detectás que (j, j+1) está desordenado, intercambiás (j, j+1), no otra pareja.
+2. **Comparar adyacentes → loop hasta `length - 1`** (el último no tiene siguiente; `productos[length]` es `undefined` → `undefined.precio` revienta). Mismo gotcha que Fallo 7 `estaOrdenado`.
+3. **El `i` del loop externo no se usa** — no es error. El externo es la "máquina de repeticiones": cada pasada empuja el mayor al final como una burbuja. Una sola pasada no alcanza. Optimización posible: `j < length - 1 - i` (los últimos i ya quedaron ordenados).
+
+**Estado:** ✅ Completado
+
+---
+
+# 🌙 MAÑANA — JS · 10/08/2026 (Día 10 — Objetos)
+
+### Fallo 14: `clavesConValor` — los pares de `Object.entries` son arrays, no objetos
+
+**❌ Intentos previos:**
+```js
+return lista.filter(valorBuscado);                     // filter necesita una función, no un valor suelto
+return lista.filter(n => n.values === valorBuscado);    // los pares NO tienen propiedad .values
+return Object.keys(buscados);                           // Object.keys sobre un array da sus índices (0,1...), no las claves de adentro
+```
+
+**✅ Versión final (con guía):**
+```js
+function clavesConValor(objeto, valorBuscado) {
+  let lista = Object.entries(objeto);
+  let buscados = lista.filter(([clave, valor]) => valor === valorBuscado);
+  return buscados.map(([clave, valor]) => clave);
+}
+```
+
+**🧠 Teoría:** `Object.entries()` devuelve un array de pares `[clave, valor]` — cada par ES un array de 2 posiciones (`par[0]` = clave, `par[1]` = valor), no un objeto con propiedades con nombre tipo `.values`. Se accede por índice o por destructuring (`([clave, valor]) => ...`), nunca con notación de punto. Y ojo: `Object.keys/values/entries` siempre operan sobre el objeto que les pasás directamente — si ya tenés un ARRAY (de pares, filtrado o no) y querés extraer algo de adentro de cada elemento, la herramienta es `map`/`filter` (arrays), no volver a llamar a `Object.keys` sobre ese array.
+
+**Estado:** ✅ Completado (con guía paso a paso)
+
+---
+
+### Fallo 15: `jugadorGanador` — confundir la sintaxis de `reduce` y pensar que "acumular" es solo sumar
+
+**❌ Intento 1:** creer que `reduce(acu, item)` es la forma de llamar a `reduce` (dos argumentos separados), en vez de pasarle UNA función callback que a su vez tiene esos dos parámetros.
+
+**❌ Intento 2:** pensar que el acumulador de `reduce` solo sirve para sumar/agregar — no para comparar y quedarte con uno de los dos (patrón "buscar el mejor").
+
+**❌ Intento 3 (el que rompía el código):** guardar el resultado de `.reduce()` sin valor inicial y recién ahí chequear si el sistema estaba vacío — pero `[].reduce(...)` sin inicial **explota antes** de llegar a ese chequeo.
+
+```js
+// ❌ el chequeo llega demasiado tarde
+let ganador = players.reduce((mejor, i) => i[1] > mejor[1] ? i : mejor);  // 💥 TypeError si players=[]
+return ganador ? ganador[0] : null;
+```
+
+**✅ Versión final:**
+```js
+function jugadorGanador(sistema) {
+  let players = Object.entries(sistema);
+  if (players.length === 0) return null;   // ✅ chequeo ANTES de reduce
+  let ganador = players.reduce((mejor, i) => i[1] > mejor[1] ? i : mejor);
+  return ganador[0];
+}
+```
+
+**🧠 Teoría:** `reduce` recibe una función callback como argumento — `acumulador` y `elementoActual` son los PARÁMETROS de esa función, no argumentos sueltos de `reduce`. Y "acumular" no es sinónimo de sumar: el acumulador también sirve para comparar y elegir uno solo (patrón "buscar el mejor"), sin sumar ni agregar nada. Documentado en `docs/js/02-arrays/04-transformacion/index.md` (sección "Acumular no es sinónimo de sumar"). Además, sin valor inicial, el chequeo de array vacío va SIEMPRE antes de llamar `reduce`, nunca como condición sobre el resultado.
+
+**Estado:** ✅ Completado (con guía paso a paso)
+
+---
+
 ## ✅ PATRONES QUE DOMINO
 
 - `forEach` para recorrer arrays
@@ -315,6 +480,10 @@ for (let i = 0; i < string.length; i++) {
 ### Bucles
 - **Off-by-one:** al definir un loop, preguntarme "¿incluyo o excluyo el límite?" → `<` vs `<=`
 
+### Condiciones que aciertan por casualidad (nuevo, 10/08)
+- **Chequear la variable equivocada:** antes de escribir un `if`/ternario para "¿está vacío?" o "¿existe?", preguntarme *"¿esta condición responde literalmente la pregunta, o solo da el resultado correcto por casualidad matemática?"* — pasó 3 veces en un mismo día (E1, E5, P3 del 10/08): chequear un valor derivado (`propiedades.length !== 0`, la suma total) en vez de la propiedad real (`.length === 0`, `sistema[jugador]`).
+- **`??` + operaciones aritméticas:** cuando combino `??` con `+`/`-`/etc, usar paréntesis explícitos SIEMPRE — `??` tiene menos precedencia, y `undefined ?? 0` seguido de operación puede dar `NaN` en vez del default esperado si no encierro `(valor ?? default)` antes de operar.
+
 ### Operadores
 - **`!` ≠ `!==`:** `!` niega un booleano. `!==` pregunta "es distinto". No confundirlos.
 - **Precedencia:** usar paréntesis cuando haya dudas. `(i % 2 !== 0)` y no `!i % 2`
@@ -328,6 +497,10 @@ for (let i = 0; i < string.length; i++) {
 - **Primos:** si encuentro un divisor → no es primo. Si termino el loop sin encontrar → es primo.
 - **Adyacentes:** comparar `array[i]` con `array[i+1]`, loop hasta `length - 1`.
 
+### Objetos
+- **Los pares de `Object.entries()` son arrays, no objetos:** `[clave, valor]` se accede por índice (`par[0]`/`par[1]`) o destructuring, nunca con `.values` ni notación de punto inventada.
+- **`Object.keys/values/entries` operan sobre lo que les pasás directamente:** si ya tenés un array (filtrado, mapeado) y necesitás algo de adentro de cada elemento, la herramienta es `map`/`filter`, no volver a llamar `Object.keys` sobre ese array.
+
 ---
 
-*Próxima sesión: corregir Fallos 6, 7, 8, 9.*
+*Próxima sesión (Día 06): resolver V2-V4 de la card "Día 05 · Array vacío + reduce" — `primeroSeguro` (early return con `.length === 0`), `sumarEdades` (reduce con valor inicial `0`), `precioTotalPerecederos` (reduce con condición adentro). Teoría de reduce ya está en `docs/js/02-arrays/index.md`.*

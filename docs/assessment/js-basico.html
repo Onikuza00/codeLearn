@@ -69,70 +69,7 @@
 </head>
 <body>
 
-<nav class="nav">
-  <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
-  <ul class="nav__list">
-    <li class="nav__item">
-      <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
-        Exámenes CSS <span class="arrow">▼</span>
-      </button>
-      <div class="megamenu" id="dropdown-css">
-        <div class="megamenu__title">CSS</div>
-        <a href="css-fundamentos.html" class="megamenu__link">
-          <span class="icon icon--css">🎨</span>
-          <span class="link-text">
-            Nexus Agency
-            <span class="sub">Flex, Grid, RWD, Moderno</span>
-          </span>
-        </a>
-        <a href="../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
-          <span class="icon icon--done">🏕️</span>
-          <span class="link-text">
-            NomadStay — Landing
-            <span class="sub">18/07/2026 · Examen final</span>
-          </span>
-        </a>
-      </div>
-    </li>
-    <li class="nav__item">
-      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
-        Exámenes JS <span class="arrow">▼</span>
-      </button>
-      <div class="megamenu" id="dropdown-js">
-        <div class="megamenu__title">JavaScript</div>
-        <a href="js-basico.html" class="megamenu__link">
-          <span class="icon icon--js">⚡</span>
-          <span class="link-text">
-            JS Básico — Fundamentos
-            <span class="sub">Variables, funciones, arrays</span>
-          </span>
-        </a>
-        <a href="js-vanilla.html" class="megamenu__link">
-          <span class="icon icon--js">📋</span>
-          <span class="link-text">
-            Task Dashboard
-            <span class="sub">DOM, Arrays, Async</span>
-          </span>
-        </a>
-      </div>
-    </li>
-    <li class="nav__item">
-      <button class="nav__btn nav__btn--ejercicios" data-dropdown="ejercicios" aria-haspopup="true">
-        🏋️ Ejercicios JS <span class="arrow">▼</span>
-      </button>
-      <div class="megamenu" id="dropdown-ejercicios">
-        <div class="megamenu__title">Ejercicios</div>
-        <a href="js/ejercicios/conceptos-basicos.html" class="megamenu__link">
-          <span class="icon icon--js">💡</span>
-          <span class="link-text">
-            Conceptos básicos
-            <span class="sub">Lógica, bucles, arrays, strings</span>
-          </span>
-        </a>
-      </div>
-    </li>
-  </ul>
-</nav>
+<div id="site-nav"></div>
 
 <div class="megamenu-overlay" id="megamenu-overlay"></div>
 
@@ -324,31 +261,7 @@ fizzBuzz(15)
 
 </main>
 
-<script>
-const overlay = document.getElementById('megamenu-overlay');
-let openDropdown = null;
-document.querySelectorAll('[data-dropdown]').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const id = btn.getAttribute('data-dropdown');
-    const menu = document.getElementById('dropdown-' + id);
-    if (openDropdown && openDropdown !== menu) {
-      openDropdown.classList.remove('megamenu--open');
-      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
-    }
-    const isOpen = menu.classList.toggle('megamenu--open');
-    btn.classList.toggle('nav__btn--open', isOpen);
-    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
-    openDropdown = isOpen ? menu : null;
-  });
-});
-overlay.addEventListener('click', () => {
-  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
-  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
-  overlay.classList.remove('megamenu-overlay--visible');
-  openDropdown = null;
-});
-</script>
+<script src="nav.js"></script>
 
 </body>
 </html>

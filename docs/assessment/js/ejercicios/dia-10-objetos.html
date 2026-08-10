@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Día 10 — Objetos — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-js); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-js); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open .exercise-card-body {
+      display: block;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-js-dim);
+      color: var(--accent-js);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-js-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-js-dim);
+      border: 1px solid var(--accent-js);
+      color: var(--accent-js);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-js);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🏋️ <span>Día 10 — Objetos</span></h1>
+    <p class="subtitle">Cards plegables, solución oculta y un panel que ejecuta tu script <code>dia-10-objetos-soluciones.js</code>.</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ============================================= -->
+    <!-- DÍA 10/08/2026 — Objetos -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 10/08/2026 — Día 10 · Objetos</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>contarPropiedades(objeto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve cuántas propiedades tiene el objeto. Usá <code>Object.keys</code>.</p>
+          <p class="ex-explanation"><code>Object.keys</code> devuelve un array con las claves — de ahí sacás <code>.length</code>, igual que contarías elementos en cualquier array.</p>
+          <div class="ex-samples">
+            contarPropiedades({a:1, b:2, c:3}) <span class="arrow-sample">→</span> 3<br>
+            contarPropiedades({}) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">contarPropiedades</span>(objeto) {
+  <span class="kw">return</span> Object.keys(objeto).length;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="contarPropiedades">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>tieneValor(objeto, valorBuscado)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve <code>true</code> si algún valor del objeto es igual a <code>valorBuscado</code>. Usá <code>Object.values</code> + algún método de array (pista: no es <code>forEach</code>).</p>
+          <p class="ex-explanation"><code>Object.values</code> te da un array de valores — a partir de ahí es el mismo problema que "¿este array contiene X?" que ya resolviste con arrays de números.</p>
+          <div class="ex-samples">
+            tieneValor({a:1, b:2}, 2) <span class="arrow-sample">→</span> true<br>
+            tieneValor({a:1, b:2}, 5) <span class="arrow-sample">→</span> false
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">tieneValor</span>(objeto, valorBuscado) {
+  <span class="kw">return</span> Object.values(objeto).includes(valorBuscado);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="tieneValor">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>clavesConValor(objeto, valorBuscado)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve un array con las claves cuyo valor sea exactamente <code>valorBuscado</code>. Usá <code>Object.entries</code>.</p>
+          <p class="ex-explanation"><code>Object.entries</code> te da pares <code>[clave, valor]</code>. Filtrás los pares donde el valor coincide, y te quedás solo con la clave de cada par que sobrevivió.</p>
+          <div class="ex-samples">
+            clavesConValor({a:true, b:false, c:true}, true) <span class="arrow-sample">→</span> ["a", "c"]<br>
+            clavesConValor({a:1, b:2}, 5) <span class="arrow-sample">→</span> []
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">clavesConValor</span>(objeto, valorBuscado) {
+  <span class="kw">return</span> Object.entries(objeto)
+    .filter(([clave, valor]) =&gt; valor === valorBuscado)
+    .map(([clave, valor]) =&gt; clave);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="clavesConValor">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟢 <code>datosPersona(persona)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe <code>{ nombre, edad }</code>. Si no tiene <code>edad</code>, usá <code>30</code> por defecto. Devuelve <code>"${nombre} tiene ${edad} años"</code>. Usá destructuring con valor por defecto.</p>
+          <p class="ex-explanation">Destructuring con valor por defecto: <code>const { nombre, edad = 30 } = persona</code>. El default solo se aplica si la propiedad es <code>undefined</code> (no existe), no si es <code>0</code> o <code>false</code>.</p>
+          <div class="ex-samples">
+            datosPersona({nombre:<span class="str">"Pau"</span>, edad:24}) <span class="arrow-sample">→</span> "Pau tiene 24 años"<br>
+            datosPersona({nombre:<span class="str">"Ana"</span>}) <span class="arrow-sample">→</span> "Ana tiene 30 años"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">datosPersona</span>(persona) {
+  <span class="kw">const</span> { nombre, edad = <span class="num">30</span> } = persona;
+  <span class="kw">return</span> <span class="str">`${nombre} tiene ${edad} años`</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="datosPersona">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>ciudadSegura(persona)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve <code>persona.direccion.ciudad</code>. Si <code>persona</code> no tiene <code>direccion</code>, devolvé <code>"Desconocida"</code> en vez de explotar. Usá optional chaining <code>?.</code>.</p>
+          <p class="ex-explanation"><code>persona?.direccion?.ciudad</code> corta en el primer <code>undefined</code>/<code>null</code> de la cadena y devuelve <code>undefined</code> sin tirar error. Combinalo con <code>??</code> o un operador ternario para poner el valor por defecto.</p>
+          <div class="ex-samples">
+            ciudadSegura({direccion:{ciudad:<span class="str">"Girona"</span>}}) <span class="arrow-sample">→</span> "Girona"<br>
+            ciudadSegura({nombre:<span class="str">"Pau"</span>}) <span class="arrow-sample">→</span> "Desconocida"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">ciudadSegura</span>(persona) {
+  <span class="kw">return</span> persona?.direccion?.ciudad ?? <span class="str">"Desconocida"</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="ciudadSegura">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>actualizarEdad(persona, nuevaEdad)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve un objeto <strong>nuevo</strong> igual a <code>persona</code> pero con <code>edad</code> actualizada. NO mutes <code>persona</code>. Usá spread.</p>
+          <p class="ex-explanation">"No mutar, crear nuevo" aplicado a objetos: <code>{ ...persona, edad: nuevaEdad }</code> copia todas las propiedades y pisa <code>edad</code> con el nuevo valor. Revisá con <code>console.log(persona)</code> después de llamar tu función que el original sigue intacto.</p>
+          <div class="ex-samples">
+            actualizarEdad({nombre:<span class="str">"Pau"</span>, edad:24}, 25) <span class="arrow-sample">→</span> {nombre:<span class="str">"Pau"</span>, edad:25}<br>
+            actualizarEdad({nombre:<span class="str">"Ana"</span>, edad:30}, 31) <span class="arrow-sample">→</span> {nombre:<span class="str">"Ana"</span>, edad:31}
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">actualizarEdad</span>(persona, nuevaEdad) {
+  <span class="kw">return</span> { ...persona, edad: nuevaEdad };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="actualizarEdad">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- PROYECTO — Sistema de puntuación con objetos -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🛠 Proyecto — Sistema de puntuación con objetos</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>4</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <p style="color:var(--text-secondary);margin-bottom:1rem;font-size:.9rem;line-height:1.5;">
+          Consolidación del bloque: un sistema de puntuación es un objeto <code>{ jugador: puntos }</code>. Las 4 funciones combinan spread, <code>Object.entries</code>, <code>Object.values</code> y destructuring con optional chaining — todo lo de hoy, en un solo mini-sistema.
+        </p>
+
+        <!-- P1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">P1</span> 🟢 <code>sumarPuntos(sistema, jugador, puntos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve un sistema <strong>nuevo</strong> con los puntos de <code>jugador</code> incrementados. Si el jugador no existe todavía, se crea arrancando en 0. NO mutes <code>sistema</code>. Usá spread.</p>
+          <p class="ex-explanation">Mismo patrón que <code>actualizarEdad</code> (E6), pero la clave a actualizar es dinámica (viene de una variable, no la escribís literal) — necesitás notación de corchetes dentro del spread: <code>{ ...sistema, [jugador]: nuevoValor }</code>.</p>
+          <div class="ex-samples">
+            sumarPuntos({ana:15}, <span class="str">"ana"</span>, 5) <span class="arrow-sample">→</span> {ana:20}<br>
+            sumarPuntos({ana:15}, <span class="str">"bruno"</span>, 5) <span class="arrow-sample">→</span> {ana:15, bruno:5}
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sumarPuntos</span>(sistema, jugador, puntos) {
+  <span class="kw">const</span> actual = sistema[jugador] ?? <span class="num">0</span>;
+  <span class="kw">return</span> { ...sistema, [jugador]: actual + puntos };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="sumarPuntos">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- P2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">P2</span> 🟡 <code>jugadorGanador(sistema)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve el nombre del jugador con más puntos. Si el sistema está vacío, devolvé <code>null</code>. Usá <code>Object.entries</code>.</p>
+          <p class="ex-explanation">Recorré los pares <code>[jugador, puntos]</code> con <code>reduce</code> (o un <code>for</code>), quedándote con el par de mayor puntos, y al final devolvé solo el nombre (posición 0). Es el mismo problema que "buscar el máximo", solo que sobre pares en vez de números sueltos.</p>
+          <div class="ex-samples">
+            jugadorGanador({ana:15, bruno:22, carla:8}) <span class="arrow-sample">→</span> "bruno"<br>
+            jugadorGanador({}) <span class="arrow-sample">→</span> null
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">jugadorGanador</span>(sistema) {
+  <span class="kw">const</span> pares = Object.entries(sistema);
+  <span class="kw">if</span> (pares.length === <span class="num">0</span>) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">const</span> ganador = pares.reduce((mejor, actual) =&gt;
+    actual[<span class="num">1</span>] &gt; mejor[<span class="num">1</span>] ? actual : mejor
+  );
+  <span class="kw">return</span> ganador[<span class="num">0</span>];
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="jugadorGanador">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- P3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">P3</span> 🟡 <code>promedioPuntos(sistema)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve el promedio de puntos de todos los jugadores. Si el sistema está vacío, devolvé 0. Usá <code>Object.values</code>.</p>
+          <p class="ex-explanation"><code>Object.values</code> te da un array de números — de ahí en más es exactamente <code>sumarEdades</code>/<code>promedioAprobados</code> que ya resolviste con arrays, solo que la fuente de datos es un objeto en vez de un array de partida.</p>
+          <div class="ex-samples">
+            promedioPuntos({ana:10, bruno:20}) <span class="arrow-sample">→</span> 15<br>
+            promedioPuntos({}) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">promedioPuntos</span>(sistema) {
+  <span class="kw">const</span> valores = Object.values(sistema);
+  <span class="kw">if</span> (valores.length === <span class="num">0</span>) <span class="kw">return</span> <span class="num">0</span>;
+  <span class="kw">const</span> suma = valores.reduce((acum, n) =&gt; acum + n, <span class="num">0</span>);
+  <span class="kw">return</span> suma / valores.length;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="promedioPuntos">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- P4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">P4</span> 🟡 <code>perfilJugador(jugador)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe <code>{ nombre, puntos, equipo }</code> (<code>equipo</code> es opcional). Devuelve <code>"nombre: puntos pts (equipo)"</code>, o <code>"(sin equipo)"</code> si no tiene equipo. Combiná destructuring con optional chaining.</p>
+          <p class="ex-explanation">Este junta E4 (destructuring) y E5 (optional chaining/<code>??</code>) en un solo ejercicio: desestructurá <code>nombre</code> y <code>puntos</code> directo, y para <code>equipo</code> usá <code>??</code> con el texto por defecto.</p>
+          <div class="ex-samples">
+            perfilJugador({nombre:<span class="str">"Ana"</span>, puntos:15, equipo:<span class="str">"Rojo"</span>}) <span class="arrow-sample">→</span> "Ana: 15 pts (Rojo)"<br>
+            perfilJugador({nombre:<span class="str">"Bruno"</span>, puntos:22}) <span class="arrow-sample">→</span> "Bruno: 22 pts (sin equipo)"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">perfilJugador</span>(jugador) {
+  <span class="kw">const</span> { nombre, puntos, equipo } = jugador;
+  <span class="kw">return</span> <span class="str">`${nombre}: ${puntos} pts (${equipo ?? "sin equipo"})`</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="perfilJugador">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Agosto 2026 · Día 10 — Objetos
+    </div>
+  </div>
+</main>
+
+<script src="dia-10-objetos-soluciones.js"></script>
+<script src="dia-10-objetos-runner.js"></script>
+
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>

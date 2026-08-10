@@ -64,6 +64,8 @@ nav:
           - "Miércoles 05 — Array vacío + reduce": waytoCode/2026/08/semana-1/2026-08-05.md
           - "Sábado 08 — Repaso métodos de arrays": waytoCode/2026/08/semana-1/2026-08-08.md
           - "Domingo 09 — Repaso general": waytoCode/2026/08/semana-1/2026-08-09.md
+        - "Semana 02 — Objetos + callbacks":
+          - "Lunes 10 — Objetos": waytoCode/2026/08/semana-2/2026-08-10.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -119,6 +121,12 @@ nav:
       - "Ordenar": js/02-arrays/06-ordenar/index.md
       - "Matrices": js/02-arrays/07-matrices/index.md
       - "Algoritmos": js/02-arrays/08-algoritmos/index.md
+    - "Objetos":
+      - "Objetos": js/03-objetos/index.md
+      - "Atajos y propiedades computadas": js/03-objetos/02-atajos/index.md
+      - "Iteración": js/03-objetos/03-iterar/index.md
+      - "Optional chaining": js/03-objetos/04-optional-chaining/index.md
+      - "Spread Operator": js/03-objetos/05-spread/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -157,6 +165,8 @@ nav:
         - "Verificar sin supervisión": ia/claude/01-claude-code-in-action/07-verificar-sin-supervision/index.md
         - "Plugins": ia/claude/01-claude-code-in-action/08-plugins/index.md
         - "Aplicado a landings y animaciones": ia/claude/01-claude-code-in-action/09-aplicado-landings-animaciones/index.md
+      - "Claude API":
+        - ia/claude/02-claude-api/index.md
   - Ejercicios: http://localhost:8000/assessment/index.html
 
 markdown_extensions:

@@ -52,6 +52,75 @@ h1[class^="section-"] code {
     font-weight: inherit;
 }
 
+/* ─── Intro blockquote — chip "Definición" con degradado de sección ───
+   Aplica a bloques CSS/JS/IA (via .bloque-X, cubre todas sus sub-secciones)
+   y a las páginas standalone de Symfony Web Components (sin wrapper .bloque-X).
+   NO aplica a .section-responsive suelto (daily logs de waytoCode reusan esa
+   clase solo por el gradiente del título, su blockquote es metadata de horas,
+   no una definición — se queda con el estilo genérico de arriba). */
+h1.bloque-css + blockquote,
+h1.bloque-js + blockquote,
+h1.bloque-ia + blockquote,
+h1.section-architecture + blockquote,
+h1.section-twig + blockquote,
+h1.section-live + blockquote,
+h1.section-stimulus + blockquote {
+    position: relative;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0.5rem 0 1.25rem;
+    font-size: 0.74rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--md-default-fg-color--light);
+    max-width: 42em;
+}
+
+h1.bloque-css + blockquote::before,
+h1.bloque-js + blockquote::before,
+h1.bloque-ia + blockquote::before,
+h1.section-architecture + blockquote::before,
+h1.section-twig + blockquote::before,
+h1.section-live + blockquote::before,
+h1.section-stimulus + blockquote::before {
+    content: "Definición";
+    display: block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Color del chip — mismo degradado que ya usa cada bloque/sección para su h1/h2 */
+h1.bloque-css + blockquote::before {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+}
+h1.bloque-js + blockquote::before {
+    background: linear-gradient(135deg, #eab308 0%, #fbbf24 100%);
+}
+h1.bloque-ia + blockquote::before {
+    background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%);
+}
+h1.section-architecture + blockquote::before {
+    background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+}
+h1.section-twig + blockquote::before {
+    background: linear-gradient(135deg, #536dfe 0%, #7c4dff 100%);
+}
+h1.section-live + blockquote::before {
+    background: linear-gradient(135deg, #7c4dff 0%, #aa00ff 100%);
+}
+h1.section-stimulus + blockquote::before {
+    background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
+}
+
 /* ─── Títulos de sección ─── */
 
 h1 {
@@ -472,6 +541,23 @@ h1[class^="section-"] ~ h2 code {
 }
 .section-js:hover {
     background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque Objetos — h1 (verde, un color por subbloque) ─── */
+.section-objetos {
+    background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-objetos::after {
+    background: linear-gradient(90deg, #059669, #34d399);
+}
+.section-objetos:hover {
+    background: linear-gradient(135deg, #34d399 0%, #059669 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;

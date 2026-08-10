@@ -404,6 +404,33 @@ let total = items.reduce((acum, item) => {
 
 🧠 **Ojo:** el `return acum` va SIEMPRE, incluso cuando no entras al `if`. Si lo pones solo adentro del `if`, en las vueltas que no cumple devuelves `undefined` y el acumulador se rompe.
 
+### ⚠️ "Acumular" no es sinónimo de "sumar"
+
+El error mental más común con `reduce`: pensar que el acumulador solo sirve para ir **sumando/agregando** cosas (un número que crece, un objeto que se llena, un array que se agranda). Pero el acumulador también puede usarse para **comparar y quedarte con uno solo** — nada se suma ni se agrega, en cada vuelta decidís "¿me quedo con lo que traía o con el actual?".
+
+```js
+let jugadores = [
+  { nombre: "ana",   puntos: 15 },
+  { nombre: "bruno", puntos: 22 },
+  { nombre: "carla", puntos: 8  },
+];
+
+let ganador = jugadores.reduce((mejor, actual) =>
+  actual.puntos > mejor.puntos ? actual : mejor
+);
+// { nombre: "bruno", puntos: 22 }
+```
+
+| Vuelta | `mejor` (acumulador) | `actual` | ¿Gana `actual`? | nuevo `mejor` |
+|--------|:---:|:---:|:---:|:---:|
+| — | (arranca en `jugadores[0]`, sin inicial) | | | `{ana, 15}` |
+| 1 | `{ana, 15}` | `{bruno, 22}` | `22 > 15` → sí | `{bruno, 22}` |
+| 2 | `{bruno, 22}` | `{carla, 8}` | `8 > 22` → no | `{bruno, 22}` |
+
+🧠 Fijate que **no hay valor inicial** (`, 0` o `, {}`) — acá no tiene sentido inventar uno: el primer elemento real YA es un candidato válido a "mejor hasta ahora". Cuando omitís el inicial, `reduce` usa `jugadores[0]` como arranque y compara desde el segundo. Mismo gotcha de siempre: sin inicial, **truena en array vacío** — si tu array puede estar vacío, chequealo ANTES de llamar `reduce` (`if (jugadores.length === 0) return null;`).
+
+**Regla general:** el acumulador es "lo que llevás construyendo hasta ahora" — construir puede ser sumar, agregar a un objeto/array, **o elegir uno entre dos**. Las tres son la misma mecánica de `reduce`, solo cambia qué hacés con `acum` y `actual` dentro del callback.
+
 ### Cuándo NO usarlo
 
 - Para **transformar todos los elementos** (mismo largo) → `map`.

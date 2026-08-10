@@ -174,7 +174,85 @@
 </head>
 <body>
 
-<div id="site-nav"></div>
+<nav class="nav">
+  <a href="../../index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="../../css-final.html" class="megamenu__link">
+          <span class="icon icon--css">🔥</span>
+          <span class="link-text">
+            SaaSPro — Final CSS
+            <span class="sub">Todo CSS en un solo examen</span>
+          </span>
+        </a>
+        <a href="../../css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Nexus Agency
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="../../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Examen final</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active-js" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="../../js-basico.html" class="megamenu__link">
+          <span class="icon icon--js">⚡</span>
+          <span class="link-text">
+            JS Básico — Fundamentos
+            <span class="sub">Variables, funciones, arrays</span>
+          </span>
+        </a>
+        <a href="../../js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--ejercicios" data-dropdown="ejercicios" aria-haspopup="true">
+        🏋️ Ejercicios JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-ejercicios">
+        <div class="megamenu__title">Ejercicios</div>
+        <a href="conceptos-basicos.html" class="megamenu__link megamenu__link--active">
+          <span class="icon icon--js">💡</span>
+          <span class="link-text">
+            Conceptos básicos
+            <span class="sub">Lógica, bucles, arrays, strings</span>
+          </span>
+        </a>
+        <a href="../../../../aprendizaje/gotchas.html" class="megamenu__link">
+          <span class="icon icon--js">📓</span>
+          <span class="link-text">
+            GOTCHAS — Teoría y fallos
+            <span class="sub">Errores, teoría nueva, mejoras</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+  <a href="/" class="nav__back">← Docs</a>
+</nav>
 
 <div class="megamenu-overlay" id="megamenu-overlay"></div>
 
@@ -553,143 +631,13 @@
     </div>
 
     <!-- ============================================= -->
-    <!-- SESIÓN 30/07/2026 — Web Logic II (Semana 05) -->
-    <!-- ============================================= -->
-    <div class="exercise-card">
-      <div class="exercise-card-header" onclick="toggleExercise(this)">
-        <h3>🌐 30/07/2026 — Web Logic II <span style="font-size:.8rem;color:var(--text-muted);">(4 ejercicios · Bubble + objetos)</span></h3>
-        <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;">2✅</span>
-          <span style="font-size:.75rem;color:#22c55e;">4✅</span>
-          <span class="arrow-fold">▼</span>
-        </span>
-      </div>
-      <div class="exercise-card-body">
-
-        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
-          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
-          <span style="color:#22c55e;">●</span> completado
-          <span style="color:#eab308;">●</span> repasar
-          <span style="color:#64748b;">●</span> pendiente
-        </p>
-
-        <!-- E11 -->
-        <div class="ex" data-done>
-          <div class="ex-head">
-            <span class="ex-title"><span class="ex-num">11</span> 🟡 <code>agruparPorLetra(palabras)</code></span>
-            <span class="ex-status done">✅ Completado</span>
-          </div>
-          <p class="ex-desc">Array de strings → objeto agrupado por <strong>primera letra</strong>. Cada clave es una letra, cada valor un array de palabras.</p>
-          <div class="ex-samples">
-            agruparPorLetra([<span class="str">"hola"</span>, <span class="str">"mundo"</span>, <span class="str">"hielo"</span>, <span class="str">"moto"</span>]) <span class="arrow-sample">→</span> { h: [<span class="str">"hola"</span>, <span class="str">"hielo"</span>], m: [<span class="str">"mundo"</span>, <span class="str">"moto"</span>] }
-          </div>
-          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
-          <div class="ex-code">
-<pre><span class="kw">function</span> <span class="fn">agruparPorLetra</span>(palabras) {
-  <span class="kw">let</span> grupos = {};
-  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; palabras.length; i++) {
-    <span class="kw">let</span> letra = palabras[i][0];
-    <span class="kw">if</span> (grupos[letra]) {
-      grupos[letra].push(palabras[i]);
-    } <span class="kw">else</span> {
-      grupos[letra] = [palabras[i]];
-    }
-  }
-  <span class="kw">return</span> grupos;
-}</pre>
-          </div>
-        </div>
-
-        <!-- E12 -->
-        <div class="ex" data-done>
-          <div class="ex-head">
-            <span class="ex-title"><span class="ex-num">12</span> 🟡 <code>mediaAprobados(estudiantes)</code></span>
-            <span class="ex-status done">✅ Completado</span>
-          </div>
-          <p class="ex-desc">Array de <code>{ nombre, nota }</code> → <strong>media</strong> de los que aprobaron (nota &gt;= 5). Si nadie aprueba → <code>null</code>.</p>
-          <div class="ex-samples">
-            mediaAprobados([{nombre:<span class="str">"Ana"</span>, nota:7}, {nombre:<span class="str">"Luis"</span>, nota:4}, {nombre:<span class="str">"Pau"</span>, nota:6}]) <span class="arrow-sample">→</span> 6.5<br>
-            mediaAprobados([{nombre:<span class="str">"Luis"</span>, nota:4}]) <span class="arrow-sample">→</span> <span class="kw">null</span>
-          </div>
-          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
-          <div class="ex-code">
-<pre><span class="kw">function</span> <span class="fn">mediaAprobados</span>(estudiantes) {
-  <span class="kw">let</span> suma = 0, count = 0;
-  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; estudiantes.length; i++) {
-    <span class="kw">if</span> (estudiantes[i].nota &gt;= 5) {
-      suma += estudiantes[i].nota;
-      count++;
-    }
-  }
-  <span class="kw">return</span> count === 0 ? <span class="kw">null</span> : suma / count;
-}</pre>
-          </div>
-        </div>
-
-        <!-- E13 -->
-        <div class="ex" data-done>
-          <div class="ex-head">
-            <span class="ex-title"><span class="ex-num">13</span> 🟡 <code>eliminarDuplicados(arr)</code></span>
-            <span class="ex-status done">✅ Completado</span>
-          </div>
-          <p class="ex-desc">Devuelve un nuevo array <strong>sin duplicados</strong>, mismo orden de primera aparición. Sin Set.</p>
-          <div class="ex-samples">
-            eliminarDuplicados([3, 1, 2, 1, 3, 4, 2]) <span class="arrow-sample">→</span> [3, 1, 2, 4]<br>
-            eliminarDuplicados([<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"a"</span>]) <span class="arrow-sample">→</span> [<span class="str">"a"</span>, <span class="str">"b"</span>]
-          </div>
-          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
-          <div class="ex-code">
-<pre><span class="kw">function</span> <span class="fn">eliminarDuplicados</span>(arr) {
-  <span class="kw">let</span> vistos = {};
-  <span class="kw">let</span> resultado = [];
-  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {
-    <span class="kw">if</span> (!vistos[arr[i]]) {
-      vistos[arr[i]] = <span class="kw">true</span>;
-      resultado.push(arr[i]);
-    }
-  }
-  <span class="kw">return</span> resultado;
-}</pre>
-          </div>
-        </div>
-
-        <!-- E14 -->
-        <div class="ex" data-done>
-          <div class="ex-head">
-            <span class="ex-title"><span class="ex-num">14</span> 🟡 <code>sumarMatriz(matriz)</code></span>
-            <span class="ex-status done">✅ Completado</span>
-          </div>
-          <p class="ex-desc">Array de arrays de números → suma <strong>total</strong> de todos los números. Doble for.</p>
-          <div class="ex-samples">
-            sumarMatriz([[1, 2], [3, 4, 5], [6]]) <span class="arrow-sample">→</span> 21<br>
-            sumarMatriz([[1], []]) <span class="arrow-sample">→</span> 1
-          </div>
-          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
-          <div class="ex-code">
-<pre><span class="kw">function</span> <span class="fn">sumarMatriz</span>(matriz) {
-  <span class="kw">let</span> total = 0;
-  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; matriz.length; i++) {
-    <span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; matriz[i].length; j++) {
-      total += matriz[i][j];
-    }
-  }
-  <span class="kw">return</span> total;
-}</pre>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ============================================= -->
     <!-- SESIÓN 28/07/2026 — Web Logic (Semana 05)   -->
     <!-- ============================================= -->
     <div class="exercise-card">
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>🌐 28/07/2026 — Web Logic <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios · Semana 05)</span></h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;">2✅</span>
-          <span style="font-size:.75rem;color:#64748b;">8⏳</span>
+          <span style="font-size:.75rem;color:#64748b;">10⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -911,10 +859,10 @@
         </div>
 
         <!-- E9 -->
-        <div class="ex" data-done>
+        <div class="ex" data-pending>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">9</span> 🔴 <code>frecuenciaCaracteres(texto)</code></span>
-            <span class="ex-status done">✅ Completado</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">Objeto con la <strong>frecuencia</strong> de cada caracter (solo letras, sin espacios).</p>
           <div class="ex-samples">
@@ -937,10 +885,10 @@
         </div>
 
         <!-- E10 -->
-        <div class="ex" data-done>
+        <div class="ex" data-pending>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">10</span> 🔴 <code>ordenarPorPrecio(productos)</code></span>
-            <span class="ex-status done">✅ Completado</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">Bubble sort. Ordená <code>{ nombre, precio }</code> de menor a mayor. Sin <code>.sort()</code>. Sin mutar original.</p>
           <div class="ex-samples">
@@ -980,15 +928,38 @@ function toggleExercise(el) {
   card.classList.toggle('is-open');
 }
 
-// Toggle solución (ver 'Ver solución')
+// Toggle solución (click en botón "Ver solución")
 function toggleSolution(btn) {
   const code = btn.nextElementSibling;
   code.classList.toggle('is-visible');
   btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
 }
-</script>
 
-<script src="../../nav.js"></script>
+// Megamenu
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
 
 </body>
 </html>
