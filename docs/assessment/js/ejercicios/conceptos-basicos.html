@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conceptos Básicos — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-js); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-js); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open .exercise-card-body {
+      display: block;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-js-dim);
+      color: var(--accent-js);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-js-dim);
+      border: 1px solid var(--accent-js);
+      color: var(--accent-js);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-js);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🏋️ <span>Conceptos Básicos</span></h1>
+    <p class="subtitle">Ejercicios diarios de lógica JS — hacé click en cada uno para verlo</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ============================================= -->
+    <!-- SESIÓN 25/07/2026 -->
+    <!-- ============================================= -->
+    <div class="exercise-card is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🏋️ 25/07/2026 — Sesión 1 <span style="font-size:.8rem;color:var(--text-muted);">(15 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">9✅</span>
+          <span style="font-size:.75rem;color:#eab308;">5🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">1⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>sumarPares(n)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">Suma todos los números <strong>pares</strong> desde 1 hasta <code>n</code> (inclusive).</p>
+          <div class="ex-samples">
+            sumarPares(6) <span class="arrow-sample">→</span> 12 &nbsp;<span style="color:#64748b;">// 2+4+6</span><br>
+            sumarPares(10) <span class="arrow-sample">→</span> 30 &nbsp;<span style="color:#64748b;">// 2+4+6+8+10</span><br>
+            sumarPares(1) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sumarPares</span>(n) {
+  <span class="kw">let</span> suma = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 2; i &lt;= n; i += 2) suma += i;
+  <span class="kw">return</span> suma;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>contarPalabras(str)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">Recibe una frase y devuelve cuántas <strong>palabras</strong> tiene separadas por espacios.</p>
+          <div class="ex-samples">
+            contarPalabras(<span class="str">"Hola mundo"</span>) <span class="arrow-sample">→</span> 2<br>
+            contarPalabras(<span class="str">"JS mola mucho"</span>) <span class="arrow-sample">→</span> 3<br>
+            contarPalabras(<span class="str">""</span>) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">contarPalabras</span>(str) {
+  <span class="kw">if</span> (str.length === 0) <span class="kw">return</span> 0;
+  <span class="kw">let</span> espacios = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; str.length; i++) {
+    <span class="kw">if</span> (str[i] === <span class="str">" "</span>) espacios++;
+  }
+  <span class="kw">return</span> espacios + 1;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>eliminarDuplicados(arr)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Recibe un array y devuelve uno nuevo <strong>sin elementos repetidos</strong>, manteniendo el orden original.</p>
+          <div class="ex-samples">
+            eliminarDuplicados([1, 2, 2, 3, 4, 4, 5]) <span class="arrow-sample">→</span> [1, 2, 3, 4, 5]<br>
+            eliminarDuplicados([<span class="str">"a"</span>, <span class="str">"a"</span>, <span class="str">"b"</span>]) <span class="arrow-sample">→</span> [<span class="str">"a"</span>, <span class="str">"b"</span>]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">eliminarDuplicados</span>(arr) {
+  <span class="kw">let</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {
+    <span class="kw">if</span> (!resultado.includes(arr[i])) resultado.push(arr[i]);
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>stringMasLargo(arr)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Recibe un array de strings y devuelve el que tenga <strong>más caracteres</strong>.</p>
+          <div class="ex-samples">
+            stringMasLargo([<span class="str">"sol"</span>, <span class="str">"ventana"</span>, <span class="str">"mar"</span>]) <span class="arrow-sample">→</span> <span class="str">"ventana"</span><br>
+            stringMasLargo([<span class="str">"js"</span>, <span class="str">"css"</span>, <span class="str">"html"</span>]) <span class="arrow-sample">→</span> <span class="str">"html"</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">stringMasLargo</span>(arr) {
+  <span class="kw">let</span> mayor = arr[0];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt; arr.length; i++) {
+    <span class="kw">if</span> (arr[i].length &gt; mayor.length) mayor = arr[i];
+  }
+  <span class="kw">return</span> mayor;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>esPalindromo(str)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">¿La frase se lee <strong>igual al derecho y al revés</strong>? Ignorar mayúsculas no es necesario.</p>
+          <div class="ex-samples">
+            esPalindromo(<span class="str">"radar"</span>) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            esPalindromo(<span class="str">"hola"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            esPalindromo(<span class="str">"somos"</span>) <span class="arrow-sample">→</span> <span class="kw">true</span>
+          </div>
+          <p style="color:#eab308;font-size:.82rem;margin-bottom:.5rem;">💡 no existe <code>.reverse()</code> en strings — convertí a array con <code>.split("")</code></p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">esPalindromo</span>(str) {
+  <span class="kw">return</span> str.split(<span class="str">""</span>).reverse().join(<span class="str">""</span>) === str;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>filtrarMayores(arr, n)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">Devuelve un <strong>nuevo array</strong> solo con los números mayores que <code>n</code>.</p>
+          <div class="ex-samples">
+            filtrarMayores([3, 8, 1, 12], 5) <span class="arrow-sample">→</span> [8, 12]<br>
+            filtrarMayores([1, 2, 3], 10) <span class="arrow-sample">→</span> []
+          </div>
+          <p style="color:#eab308;font-size:.82rem;margin-bottom:.5rem;">💡 compará <code>item &gt; n</code>, no <code>item.length</code> — los números no tienen <code>.length</code></p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">filtrarMayores</span>(arr, n) {
+  <span class="kw">let</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {
+    <span class="kw">if</span> (arr[i] &gt; n) resultado.push(arr[i]);
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🔴 <code>contarLetra(str, letra)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Cuenta cuántas veces aparece una <strong>letra</strong> en un string, <strong>sin distinguir</strong> mayúsculas/minúsculas.</p>
+          <div class="ex-samples">
+            contarLetra(<span class="str">"JavaScript"</span>, <span class="str">"a"</span>) <span class="arrow-sample">→</span> 2<br>
+            contarLetra(<span class="str">"Cascara"</span>, <span class="str">"c"</span>) <span class="arrow-sample">→</span> 3 &nbsp;<span style="color:#64748b;">// C y c cuentan</span><br>
+            contarLetra(<span class="str">"Hola"</span>, <span class="str">"z"</span>) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">contarLetra</span>(str, letra) {
+  <span class="kw">let</span> count = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; str.length; i++) {
+    <span class="kw">if</span> (str[i].toLowerCase() === letra.toLowerCase()) count++;
+  }
+  <span class="kw">return</span> count;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🔴 <code>promedio(arr)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Calcula el <strong>promedio</strong> de todos los números del array. Si está vacío devuelve <code>0</code>.</p>
+          <div class="ex-samples">
+            promedio([10, 20, 30]) <span class="arrow-sample">→</span> 20<br>
+            promedio([5, 5, 5, 5]) <span class="arrow-sample">→</span> 5<br>
+            promedio([]) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">promedio</span>(arr) {
+  <span class="kw">if</span> (arr.length === 0) <span class="kw">return</span> 0;
+  <span class="kw">let</span> suma = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) suma += arr[i];
+  <span class="kw">return</span> suma / arr.length;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🟡 <code>invertirElOrden(str)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Invierte el <strong>orden de los caracteres</strong> en un string.</p>
+          <div class="ex-samples">
+            invertirElOrden(<span class="str">"hola"</span>) <span class="arrow-sample">→</span> <span class="str">"aloh"</span><br>
+            invertirElOrden(<span class="str">"JS"</span>) <span class="arrow-sample">→</span> <span class="str">"SJ"</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">invertirElOrden</span>(str) {
+  <span class="kw">return</span> str.split(<span class="str">""</span>).reverse().join(<span class="str">""</span>);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🟡 <code>contarMayusculas(str)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Cuenta cuántas <strong>letras mayúsculas</strong> hay en el string.</p>
+          <div class="ex-samples">
+            contarMayusculas(<span class="str">"Hola Mundo"</span>) <span class="arrow-sample">→</span> 2 &nbsp;<span style="color:#64748b;">// H, M</span><br>
+            contarMayusculas(<span class="str">"javascript"</span>) <span class="arrow-sample">→</span> 0<br>
+            contarMayusculas(<span class="str">"JS"</span>) <span class="arrow-sample">→</span> 2
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">contarMayusculas</span>(str) {
+  <span class="kw">let</span> count = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; str.length; i++) {
+    <span class="kw">if</span> (str[i] !== str[i].toLowerCase()) count++;
+  }
+  <span class="kw">return</span> count;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E11 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🔴 <code>numerosImpares(n)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">Devuelve un array con todos los números <strong>impares</strong> desde 1 hasta <code>n</code>.</p>
+          <div class="ex-samples">
+            numerosImpares(5) <span class="arrow-sample">→</span> [1, 3, 5]<br>
+            numerosImpares(10) <span class="arrow-sample">→</span> [1, 3, 5, 7, 9]<br>
+            numerosImpares(1) <span class="arrow-sample">→</span> [1]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">numerosImpares</span>(n) {
+  <span class="kw">let</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt;= n; i += 2) resultado.push(i);
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E12 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">12</span> 🔴 <code>estaOrdenado(arr)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">¿Los números están ordenados de <strong>menor a mayor</strong>?</p>
+          <div class="ex-samples">
+            estaOrdenado([1, 3, 5]) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            estaOrdenado([3, 1, 5]) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            estaOrdenado([1, 2, 2, 3]) <span class="arrow-sample">→</span> <span class="kw">true</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">estaOrdenado</span>(arr) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length - 1; i++) {
+    <span class="kw">if</span> (arr[i] &gt; arr[i + 1]) <span class="kw">return</span> <span class="kw">false</span>;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E13 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">13</span> 🟡 <code>sumaArray(arr)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Suma todos los números de un array y devuelve el total.</p>
+          <div class="ex-samples">
+            sumaArray([1, 2, 3]) <span class="arrow-sample">→</span> 6<br>
+            sumaArray([5]) <span class="arrow-sample">→</span> 5<br>
+            sumaArray([]) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sumaArray</span>(arr) {
+  <span class="kw">let</span> suma = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) suma += arr[i];
+  <span class="kw">return</span> suma;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E14 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">14</span> 🔴 <code>esPrimo(n)</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">¿El número es <strong>primo</strong>? Solo divisible por 1 y por sí mismo.</p>
+          <div class="ex-samples">
+            esPrimo(7) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            esPrimo(4) <span class="arrow-sample">→</span> <span class="kw">false</span> &nbsp;<span style="color:#64748b;">// divisible por 2</span><br>
+            esPrimo(1) <span class="arrow-sample">→</span> <span class="kw">false</span> &nbsp;<span style="color:#64748b;">// 1 no es primo</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">esPrimo</span>(n) {
+  <span class="kw">if</span> (n &lt; 2) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 2; i &lt; n; i++) {
+    <span class="kw">if</span> (n % i === 0) <span class="kw">return</span> <span class="kw">false</span>;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E15 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">15</span> 🟡 <code>limpiarEspacios(str)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Elimina los <strong>espacios múltiples</strong> consecutivos dejando solo uno entre palabras.</p>
+          <div class="ex-samples">
+            limpiarEspacios(<span class="str">"hola    mundo"</span>) <span class="arrow-sample">→</span> <span class="str">"hola mundo"</span><br>
+            limpiarEspacios(<span class="str">"js   es   genial"</span>) <span class="arrow-sample">→</span> <span class="str">"js es genial"</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">limpiarEspacios</span>(str) {
+  <span class="kw">let</span> resultado = <span class="str">""</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; str.length; i++) {
+    <span class="kw">if</span> (str[i] !== <span class="str">" "</span> || str[i + 1] !== <span class="str">" "</span>) resultado += str[i];
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SESIÓN 30/07/2026 — Web Logic II (Semana 05) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🌐 30/07/2026 — Web Logic II <span style="font-size:.8rem;color:var(--text-muted);">(4 ejercicios · Bubble + objetos)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">2✅</span>
+          <span style="font-size:.75rem;color:#22c55e;">4✅</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E11 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🟡 <code>agruparPorLetra(palabras)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Array de strings → objeto agrupado por <strong>primera letra</strong>. Cada clave es una letra, cada valor un array de palabras.</p>
+          <div class="ex-samples">
+            agruparPorLetra([<span class="str">"hola"</span>, <span class="str">"mundo"</span>, <span class="str">"hielo"</span>, <span class="str">"moto"</span>]) <span class="arrow-sample">→</span> { h: [<span class="str">"hola"</span>, <span class="str">"hielo"</span>], m: [<span class="str">"mundo"</span>, <span class="str">"moto"</span>] }
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agruparPorLetra</span>(palabras) {
+  <span class="kw">let</span> grupos = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; palabras.length; i++) {
+    <span class="kw">let</span> letra = palabras[i][0];
+    <span class="kw">if</span> (grupos[letra]) {
+      grupos[letra].push(palabras[i]);
+    } <span class="kw">else</span> {
+      grupos[letra] = [palabras[i]];
+    }
+  }
+  <span class="kw">return</span> grupos;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E12 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">12</span> 🟡 <code>mediaAprobados(estudiantes)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, nota }</code> → <strong>media</strong> de los que aprobaron (nota &gt;= 5). Si nadie aprueba → <code>null</code>.</p>
+          <div class="ex-samples">
+            mediaAprobados([{nombre:<span class="str">"Ana"</span>, nota:7}, {nombre:<span class="str">"Luis"</span>, nota:4}, {nombre:<span class="str">"Pau"</span>, nota:6}]) <span class="arrow-sample">→</span> 6.5<br>
+            mediaAprobados([{nombre:<span class="str">"Luis"</span>, nota:4}]) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">mediaAprobados</span>(estudiantes) {
+  <span class="kw">let</span> suma = 0, count = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; estudiantes.length; i++) {
+    <span class="kw">if</span> (estudiantes[i].nota &gt;= 5) {
+      suma += estudiantes[i].nota;
+      count++;
+    }
+  }
+  <span class="kw">return</span> count === 0 ? <span class="kw">null</span> : suma / count;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E13 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">13</span> 🟡 <code>eliminarDuplicados(arr)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Devuelve un nuevo array <strong>sin duplicados</strong>, mismo orden de primera aparición. Sin Set.</p>
+          <div class="ex-samples">
+            eliminarDuplicados([3, 1, 2, 1, 3, 4, 2]) <span class="arrow-sample">→</span> [3, 1, 2, 4]<br>
+            eliminarDuplicados([<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"a"</span>]) <span class="arrow-sample">→</span> [<span class="str">"a"</span>, <span class="str">"b"</span>]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">eliminarDuplicados</span>(arr) {
+  <span class="kw">let</span> vistos = {};
+  <span class="kw">let</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; arr.length; i++) {
+    <span class="kw">if</span> (!vistos[arr[i]]) {
+      vistos[arr[i]] = <span class="kw">true</span>;
+      resultado.push(arr[i]);
+    }
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E14 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">14</span> 🟡 <code>sumarMatriz(matriz)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Array de arrays de números → suma <strong>total</strong> de todos los números. Doble for.</p>
+          <div class="ex-samples">
+            sumarMatriz([[1, 2], [3, 4, 5], [6]]) <span class="arrow-sample">→</span> 21<br>
+            sumarMatriz([[1], []]) <span class="arrow-sample">→</span> 1
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sumarMatriz</span>(matriz) {
+  <span class="kw">let</span> total = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; matriz.length; i++) {
+    <span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; matriz[i].length; j++) {
+      total += matriz[i][j];
+    }
+  }
+  <span class="kw">return</span> total;
+}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SESIÓN 28/07/2026 — Web Logic (Semana 05)   -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🌐 28/07/2026 — Web Logic <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios · Semana 05)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">2✅</span>
+          <span style="font-size:.75rem;color:#64748b;">8⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>extraerDominio(email)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve solo el <strong>dominio</strong> de un email (lo que va después del <code>@</code>). Si no tiene <code>@</code> o está vacío, devuelve <code>null</code>.</p>
+          <div class="ex-samples">
+            extraerDominio(<span class="str">"pau@gmail.com"</span>) <span class="arrow-sample">→</span> <span class="str">"gmail.com"</span><br>
+            extraerDominio(<span class="str">"hola@empresa.co"</span>) <span class="arrow-sample">→</span> <span class="str">"empresa.co"</span><br>
+            extraerDominio(<span class="str">"sinarroba"</span>) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">extraerDominio</span>(email) {
+  <span class="kw">if</span> (<span class="kw">typeof</span> email !== <span class="str">"string"</span> || email.length === 0) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">let</span> pos = email.indexOf(<span class="str">"@"</span>);
+  <span class="kw">if</span> (pos === -1) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">return</span> email.slice(pos + 1);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>esSlugValido(slug)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">¿El slug solo tiene <strong>minúsculas, números y guiones</strong>? Sin espacios, mayúsculas ni especiales. Sin regex.</p>
+          <div class="ex-samples">
+            esSlugValido(<span class="str">"mi-articulo-1"</span>) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            esSlugValido(<span class="str">"Mi Articulo"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            esSlugValido(<span class="str">""</span>) <span class="arrow-sample">→</span> <span class="kw">false</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">esSlugValido</span>(slug) {
+  <span class="kw">if</span> (slug.length === 0) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; slug.length; i++) {
+    <span class="kw">let</span> c = slug[i];
+    <span class="kw">if</span> (c &gt;= <span class="str">"a"</span> && c &lt;= <span class="str">"z"</span>) <span class="kw">continue</span>;
+    <span class="kw">if</span> (c &gt;= <span class="str">"0"</span> && c &lt;= <span class="str">"9"</span>) <span class="kw">continue</span>;
+    <span class="kw">if</span> (c === <span class="str">"-"</span>) <span class="kw">continue</span>;
+    <span class="kw">return</span> <span class="kw">false</span>;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟢 <code>formatearFecha(fecha)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe <code>"AAAA-MM-DD"</code> → devuelve <code>"DD de mes del AAAA"</code>. Usá array de meses.</p>
+          <div class="ex-samples">
+            formatearFecha(<span class="str">"2026-07-28"</span>) <span class="arrow-sample">→</span> <span class="str">"28 de julio del 2026"</span><br>
+            formatearFecha(<span class="str">""</span>) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">formatearFecha</span>(fecha) {
+  <span class="kw">if</span> (!fecha || fecha.length === 0) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">const</span> meses = [<span class="str">"enero"</span>, <span class="str">"febrero"</span>, <span class="str">"marzo"</span>, <span class="str">"abril"</span>, <span class="str">"mayo"</span>, <span class="str">"junio"</span>, <span class="str">"julio"</span>, <span class="str">"agosto"</span>, <span class="str">"septiembre"</span>, <span class="str">"octubre"</span>, <span class="str">"noviembre"</span>, <span class="str">"diciembre"</span>];
+  <span class="kw">let</span> partes = fecha.split(<span class="str">"-"</span>);
+  <span class="kw">return</span> partes[2] + <span class="str">" de "</span> + meses[partes[1] - 1] + <span class="str">" del "</span> + partes[0];
+}</pre>
+          </div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>productoMasCaro(productos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, precio }</code> → el <strong>nombre</strong> del más caro. Sin <code>Math.max</code>. Vacío → <code>null</code>.</p>
+          <div class="ex-samples">
+            productoMasCaro([{nombre:<span class="str">"Mouse"</span>, precio:25}, {nombre:<span class="str">"Monitor"</span>, precio:250}]) <span class="arrow-sample">→</span> <span class="str">"Monitor"</span><br>
+            productoMasCaro([]) <span class="arrow-sample">→</span> <span class="kw">null</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">productoMasCaro</span>(productos) {
+  <span class="kw">if</span> (productos.length === 0) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">let</span> maxPrecio = productos[0].precio;
+  <span class="kw">let</span> maxNombre = productos[0].nombre;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt; productos.length; i++) {
+    <span class="kw">if</span> (productos[i].precio &gt; maxPrecio) {
+      maxPrecio = productos[i].precio;
+      maxNombre = productos[i].nombre;
+    }
+  }
+  <span class="kw">return</span> maxNombre;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>esContrasenaSegura(pwd)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">¿Cumple <strong>todas</strong>? 8+ caracteres, 1 mayúscula, 1 número, 1 especial (<code>!@#$%</code>).</p>
+          <div class="ex-samples">
+            esContrasenaSegura(<span class="str">"Hola123!"</span>) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            esContrasenaSegura(<span class="str">"hola123!"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            esContrasenaSegura(<span class="str">"HOLA1234"</span>) <span class="arrow-sample">→</span> <span class="kw">false</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">esContrasenaSegura</span>(pwd) {
+  <span class="kw">if</span> (pwd.length &lt; 8) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">let</span> mayus = <span class="kw">false</span>, num = <span class="kw">false</span>, special = <span class="kw">false</span>;
+  <span class="kw">const</span> especiales = <span class="str">"!@#$%"</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; pwd.length; i++) {
+    <span class="kw">let</span> c = pwd[i];
+    <span class="kw">if</span> (c &gt;= <span class="str">"A"</span> && c &lt;= <span class="str">"Z"</span>) mayus = <span class="kw">true</span>;
+    <span class="kw">if</span> (c &gt;= <span class="str">"0"</span> && c &lt;= <span class="str">"9"</span>) num = <span class="kw">true</span>;
+    <span class="kw">if</span> (especiales.includes(c)) special = <span class="kw">true</span>;
+  }
+  <span class="kw">return</span> mayus && num && special;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>agruparPorCategoria(productos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, categoria }</code> → objeto con categorías como claves y arrays de nombres como valores.</p>
+          <div class="ex-samples">
+            agruparPorCategoria([{nombre:<span class="str">"Laptop"</span>, categoria:<span class="str">"electronica"</span>}, {nombre:<span class="str">"Mesa"</span>, categoria:<span class="str">"hogar"</span>}]) <span class="arrow-sample">→</span> { electronica: [<span class="str">"Laptop"</span>], hogar: [<span class="str">"Mesa"</span>] }
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agruparPorCategoria</span>(productos) {
+  <span class="kw">let</span> grupos = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; productos.length; i++) {
+    <span class="kw">let</span> cat = productos[i].categoria;
+    <span class="kw">if</span> (grupos[cat]) {
+      grupos[cat].push(productos[i].nombre);
+    } <span class="kw">else</span> {
+      grupos[cat] = [productos[i].nombre];
+    }
+  }
+  <span class="kw">return</span> grupos;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟡 <code>totalCarrito(items)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Array de <code>{ nombre, precio, cantidad }</code> → total. Si supera 100€, 10% descuento. Vacío → 0.</p>
+          <div class="ex-samples">
+            totalCarrito([{nombre:<span class="str">"Mouse"</span>, precio:25, cantidad:2}, {nombre:<span class="str">"Teclado"</span>, precio:80, cantidad:1}]) <span class="arrow-sample">→</span> 117<br>
+            totalCarrito([]) <span class="arrow-sample">→</span> 0
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">totalCarrito</span>(items) {
+  <span class="kw">if</span> (items.length === 0) <span class="kw">return</span> 0;
+  <span class="kw">let</span> total = 0;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; items.length; i++) {
+    total += items[i].precio * items[i].cantidad;
+  }
+  <span class="kw">if</span> (total &gt; 100) total -= total * 10 / 100;
+  <span class="kw">return</span> total;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🟡 <code>limpiarEspacios(texto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Elimina espacios múltiples dejando solo uno entre palabras. Sin <code>trim()</code>, sin regex, sin <code>replace()</code>.</p>
+          <div class="ex-samples">
+            limpiarEspacios(<span class="str">"  hola   mundo  "</span>) <span class="arrow-sample">→</span> <span class="str">"hola mundo"</span><br>
+            limpiarEspacios(<span class="str">""</span>) <span class="arrow-sample">→</span> <span class="str">""</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">limpiarEspacios</span>(texto) {
+  <span class="kw">let</span> res = <span class="str">""</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; texto.length; i++) {
+    <span class="kw">if</span> (texto[i] === <span class="str">" "</span> && texto[i - 1] === <span class="str">" "</span>) <span class="kw">continue</span>;
+    res += texto[i];
+  }
+  <span class="kw">if</span> (res[0] === <span class="str">" "</span>) res = res.slice(1);
+  <span class="kw">if</span> (res[res.length - 1] === <span class="str">" "</span>) res = res.slice(0, -1);
+  <span class="kw">return</span> res;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🔴 <code>frecuenciaCaracteres(texto)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Objeto con la <strong>frecuencia</strong> de cada caracter (solo letras, sin espacios).</p>
+          <div class="ex-samples">
+            frecuenciaCaracteres(<span class="str">"hola"</span>) <span class="arrow-sample">→</span> { h: 1, o: 1, l: 1, a: 1 }<br>
+            frecuenciaCaracteres(<span class="str">"javascript"</span>) <span class="arrow-sample">→</span> { j: 1, a: 2, v: 1, s: 1, c: 1, r: 1, i: 1, p: 1, t: 1 }
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">frecuenciaCaracteres</span>(texto) {
+  <span class="kw">let</span> freq = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; texto.length; i++) {
+    <span class="kw">let</span> c = texto[i];
+    <span class="kw">if</span> (c === <span class="str">" "</span>) <span class="kw">continue</span>;
+    <span class="kw">if</span> (freq[c]) freq[c]++;
+    <span class="kw">else</span> freq[c] = 1;
+  }
+  <span class="kw">return</span> freq;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🔴 <code>ordenarPorPrecio(productos)</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Bubble sort. Ordená <code>{ nombre, precio }</code> de menor a mayor. Sin <code>.sort()</code>. Sin mutar original.</p>
+          <div class="ex-samples">
+            ordenarPorPrecio([{nombre:<span class="str">"Monitor"</span>, precio:250}, {nombre:<span class="str">"Mouse"</span>, precio:25}]) <span class="arrow-sample">→</span> [{nombre:<span class="str">"Mouse"</span>, precio:25}, {nombre:<span class="str">"Monitor"</span>, precio:250}]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">ordenarPorPrecio</span>(productos) {
+  <span class="kw">let</span> res = [...productos];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; res.length; i++) {
+    <span class="kw">for</span> (<span class="kw">let</span> j = 0; j &lt; res.length - 1; j++) {
+      <span class="kw">if</span> (res[j].precio &gt; res[j + 1].precio) {
+        <span class="kw">let</span> temp = res[j];
+        res[j] = res[j + 1];
+        res[j + 1] = temp;
+      }
+    }
+  }
+  <span class="kw">return</span> res;
+}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Julio 2026 · Sesión de práctica JS
+    </div>
+  </div>
+</main>
+
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>

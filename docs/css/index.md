@@ -1,17 +1,33 @@
 # 🎨 CSS
 
-> CSS moderno: `:has()`, Container Queries, `@layer`, y más.
+> CSS moderno desde los fundamentos hasta arquitectura escalable.
 
-## Bloques
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/TlJbu0BMLaY" title="Curso completo de CSS — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
 
-| Bloque | Concepto | Estado |
-|--------|----------|--------|
-| 01 | `:has()` — selector relacional | Pendiente |
-| 02 | Container Queries (`@container`) | Pendiente |
-| 03 | `@layer` — organización | Pendiente |
-| 04 | **Flexbox** — layout unidimensional | ✅ Completo |
-| 05 | **Grid CSS** — layout bidimensional | ✅ Completo |
-| 06 | Proyecto integrador | Pendiente |
+## Categorías
+
+| Categoría | Qué cubre | Estado |
+|-----------|-----------|--------|
+| [**Selectores**](selectores/) | `:has()`, `:not()`, `:is()`/`:where()`, `:nth-child()`, `::before`/`::after` | ✅ Completo |
+| [**Layout**](layout/) | Flexbox, Grid | ✅ Completo |
+| [**Responsive**](responsive/) | Media Queries, Container Queries, funciones responsive | ✅ Completo |
+| [**Arquitectura**](arquitectura/) | Variables nativas, BEM, `@layer`, CSS Nesting | ✅ Completo |
+| [**Comportamiento**](comportamiento/) | Scroll Snap, text-wrap, interacciones | ✅ scroll-snap nuevo |
+| [**Animaciones**](animaciones/) | Transitions, `@keyframes`/`animation` | ✅ Completo |
+
+---
+
+## Ruta de aprendizaje
+
+```
+Selectores → Layout → Responsive → Arquitectura → Comportamiento → Animaciones
+  :has()      Flexbox   Media Q.     Variables      Scroll Snap     Transitions
+  :not()      Grid      Container Q. BEM/@layer     text-wrap       Keyframes
+```
+
+Cada bloque asume que dominas el anterior. Si algo no queda claro, vuelve atrás.
 
 ---
 

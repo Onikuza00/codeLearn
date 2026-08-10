@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — CSS Assessment</title>
+  <link rel="stylesheet" href="projects.css">
+</head>
+<body>
+  <section class="projects">
+    <header class="projects__header">
+      <h2 class="projects__title">Proyectos activos</h2>
+      <p class="projects__subtitle">Panorama general del estado y prioridad de cada proyecto</p>
+    </header>
+
+    <div class="projects__grid">
+      <!-- Proyecto 1: Alta prioridad, Activo, React -->
+      <article class="project-card project-card--high">
+        <div class="project-card__header">
+          <h3 class="project-card__title">Alpha Dashboard</h3>
+          <span class="project-card__status project-card__status--active">Activo</span>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__priority project-card__priority--high">Alta</span>
+            <span class="project-card__deadline">Vence: 15 Ago</span>
+          </div>
+          <div class="project-card__tags">
+            <span class="project-card__tag project-card__tag--react">React</span>
+            <span class="project-card__tag project-card__tag--node">Node</span>
+            <span class="project-card__tag project-card__tag--ts">TypeScript</span>
+          </div>
+          <p class="project-card__desc">Dashboard con métricas en tiempo real y reportes exportables.</p>
+        </div>
+        <div class="project-card__footer">
+          <span class="project-card__progress">75% completado</span>
+          <progress class="project-card__bar" value="75" max="100"></progress>
+        </div>
+      </article>
+
+      <!-- Proyecto 2: Baja prioridad, Pausado, Vue -->
+      <article class="project-card project-card--low">
+        <div class="project-card__header">
+          <h3 class="project-card__title">Beta Mobile App</h3>
+          <span class="project-card__status project-card__status--paused">Pausado</span>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__priority project-card__priority--low">Baja</span>
+            <span class="project-card__deadline">Vence: 30 Sep</span>
+          </div>
+          <div class="project-card__tags">
+            <span class="project-card__tag project-card__tag--vue">Vue</span>
+            <span class="project-card__tag project-card__tag--flutter">Flutter</span>
+          </div>
+          <p class="project-card__desc">App móvil para seguimiento de pedidos con notificaciones push.</p>
+        </div>
+        <div class="project-card__footer">
+          <span class="project-card__progress">30% completado</span>
+          <progress class="project-card__bar" value="30" max="100"></progress>
+        </div>
+      </article>
+
+      <!-- Proyecto 3: Media prioridad, Activo, Node -->
+      <article class="project-card project-card--medium">
+        <div class="project-card__header">
+          <h3 class="project-card__title">Gamma API Gateway</h3>
+          <span class="project-card__status project-card__status--active">Activo</span>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__priority project-card__priority--medium">Media</span>
+            <span class="project-card__deadline">Vence: 01 Dic</span>
+          </div>
+          <div class="project-card__tags">
+            <span class="project-card__tag project-card__tag--node">Node</span>
+            <span class="project-card__tag project-card__tag--go">Go</span>
+            <span class="project-card__tag project-card__tag--docker">Docker</span>
+          </div>
+          <p class="project-card__desc">API Gateway con rate limiting, autenticación y caché distribuida.</p>
+        </div>
+        <div class="project-card__footer">
+          <span class="project-card__progress">60% completado</span>
+          <progress class="project-card__bar" value="60" max="100"></progress>
+        </div>
+      </article>
+
+      <!-- Proyecto 4: Alta prioridad, Completado, React -->
+      <article class="project-card project-card--high">
+        <div class="project-card__header">
+          <h3 class="project-card__title">Delta Design System</h3>
+          <span class="project-card__status project-card__status--complete">Completado</span>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="project-card__priority project-card__priority--high">Alta</span>
+            <span class="project-card__deadline">Completado: 10 Jul</span>
+          </div>
+          <div class="project-card__tags">
+            <span class="project-card__tag project-card__tag--react">React</span>
+            <span class="project-card__tag project-card__tag--storybook">Storybook</span>
+            <span class="project-card__tag project-card__tag--css">CSS</span>
+          </div>
+          <p class="project-card__desc">Sistema de componentes con Storybook, tokens de diseño y testing visual.</p>
+        </div>
+        <div class="project-card__footer">
+          <span class="project-card__progress">100% completado</span>
+          <progress class="project-card__bar" value="100" max="100"></progress>
+        </div>
+      </article>
+    </div>
+  </section>
+</body>
+</html>

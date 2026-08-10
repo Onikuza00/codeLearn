@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Práctico CSS — Nexus Agency | CodeLearn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    h1 { font-size: 2rem; border-bottom: 4px solid var(--accent-css); padding-bottom: .5rem; margin-bottom: .5rem; }
+    h1 span { color: var(--accent-css); }
+    h2 {
+      font-size: 1.25rem;
+      color: var(--accent-css);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .25rem;
+      border-bottom: 2px solid var(--accent-css-dim);
+    }
+    .requisito {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: .75rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: .5rem 0;
+      border-left: 4px solid var(--accent-css);
+    }
+    .requisito strong { color: var(--accent-css); }
+    .nota {
+      background: #0e1a2a;
+      padding: .5rem 1rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--accent-css);
+      font-size: .9rem;
+      color: #8ab4f8;
+    }
+    .checklist {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+    .checklist h3 { margin-top: 0; color: var(--text-primary); }
+    .checklist ul { padding-left: 1.25rem; }
+    .checklist li { margin-bottom: .25rem; }
+    .meta-bar--exam {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #0a1a2e;
+      border: 1px solid #1a3a5e;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-size: .875rem;
+    }
+    .meta-bar--exam strong { color: var(--accent-css); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Nexus Agency
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="../CSS/assessment/examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Examen final</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main class="container">
+
+<h1>🎨 Examen Práctico CSS — <span>Nexus Agency</span></h1>
+<p><strong>Cliente:</strong> Nexus — agencia creativa digital especializada en branding y desarrollo web.</p>
+<p><strong>Tiempo estimado:</strong> 60–75 min.</p>
+<p><strong>Regla de oro:</strong> Mobile First. Base sin media query = mobile. Una sola media query por sección. BEM estricto en todo. Sin valores mágicos — todo desde <code>:root</code>.</p>
+<p><strong>Archivos:</strong> <code>nexus.html</code> + <code>nexus.css</code>. Todo desde cero.</p>
+
+<hr>
+
+<h2>Sección 1 — Header <span class="tag tag--flex">Flex</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--modern">:focus-visible</span></h2>
+
+<div class="requisito">
+  <strong>.header</strong> — fondo oscuro, texto claro. Flex row. Logo a izquierda, nav centrado, botón CTA "Hablemos" a derecha.
+</div>
+
+<ul>
+  <li><strong>Mobile:</strong> nav links apilados (column), botón CTA abajo del todo.</li>
+  <li><strong>Desktop (768px+):</strong> todo en una fila. El nav ocupa el centro con <code>flex: 1</code> + <code>justify-content: center</code>.</li>
+  <li><span class="tag tag--modern">a11y</span> <code>:focus-visible</code> en cada link del nav y en el CTA.</li>
+  <li><span class="tag tag--modern">Motion</span> Transición suave en hover de links y botón. Respetar <code>prefers-reduced-motion</code>.</li>
+  <li>BEM: <code>.header__logo</code>, <code>.header__nav</code>, <code>.header__link</code>, <code>.header__cta</code>.</li>
+  <li>Usá variables para colores, espaciado y tipografía.</li>
+</ul>
+
+<h2>Sección 2 — Hero <span class="tag tag--flex">Flex</span> <span class="tag tag--modern">clamp()</span> <span class="tag tag--modern">Variables</span> <span class="tag tag--modern">Motion</span></h2>
+
+<div class="requisito">
+  <strong>.hero</strong> — gran titular, subtítulo, botón CTA. Todo centrado en una columna.
+</div>
+
+<ul>
+  <li>Título con <code>clamp(2rem, 5vw, 4.5rem)</code>.</li>
+  <li>Subtítulo con <code>clamp(1rem, 2vw, 1.25rem)</code>.</li>
+  <li>Fondo: color primario + degradado suave usando variables CSS.</li>
+  <li>Padding vertical generoso con variable de espaciado.</li>
+  <li>Botón CTA con hover sutil (cambiar fondo o escalar). <code>prefers-reduced-motion</code> respetado.</li>
+  <li>BEM: <code>.hero__title</code>, <code>.hero__subtitle</code>, <code>.hero__cta</code>.</li>
+</ul>
+
+<h2>Sección 3 — Servicios <span class="tag tag--grid">Grid</span> <span class="tag tag--grid">auto-fit</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--modern">Variables</span></h2>
+
+<div class="requisito">
+  <strong>.grid-cards</strong> — 6 servicios en grid responsive SIN media queries. Icono + título + descripción breve.
+</div>
+
+<ul>
+  <li>Usá exactamente este patrón que Pau tiene que memorizar:</li>
+</ul>
+<pre style="background:var(--bg-elevated);padding:.75rem;border-radius:var(--radius-sm);font-size:.8rem;border:1px solid var(--border);overflow-x:auto;color:var(--text-secondary);margin-bottom:.75rem;">.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}</pre>
+<ul>
+  <li><strong>Mobile:</strong> 1 columna. <strong>Tablet:</strong> 2. <strong>Desktop:</strong> 3. Todo sin media queries gracias al patrón de arriba.</li>
+  <li>BEM: <code>.service__card</code>, <code>.service__icon</code>, <code>.service__title</code>, <code>.service__desc</code>.</li>
+  <li>Usá emojis para iconos (🎨 📱 🌐 📸 ✏️ 🚀).</li>
+  <li>Cards con <code>gap</code>, padding, border-radius desde variables.</li>
+  <li>Transición en hover: subir 2-3px. Respetar <code>prefers-reduced-motion</code>.</li>
+</ul>
+
+<h2>Sección 4 — Layout de página <span class="tag tag--grid">Grid</span> <span class="tag tag--grid">areas</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>.layout</strong> — layout completo de página con <code>grid-template-areas</code>. Header, main, aside y footer. Los hijos deben ser DIRECTOS del contenedor grid.
+</div>
+
+<ul>
+  <li>Usá exactamente este patrón que Pau tiene que memorizar:</li>
+</ul>
+<pre style="background:var(--bg-elevated);padding:.75rem;border-radius:var(--radius-sm);font-size:.8rem;border:1px solid var(--border);overflow-x:auto;color:var(--text-secondary);margin-bottom:.75rem;">.layout {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "main   main   aside"
+    "footer footer footer";
+  gap: 1rem;
+}
+header { grid-area: header; } /* HIJOS DIRECTOS del contenedor */
+main   { grid-area: main; }
+aside  { grid-area: aside; }
+footer { grid-area: footer; }</pre>
+<ul>
+  <li><strong>Mobile:</strong> todo apilado en 1 columna (header, main, aside, footer). Re-definí las áreas con media query.</li>
+  <li><strong>Desktop (768px+):</strong> el patrón de 3 columnas de arriba: header full, main + aside, footer full.</li>
+  <li>Dentro de <code>&lt;main&gt;</code> meté una galería de 4 proyectos destacados con <code>repeat(2, 1fr)</code>.</li>
+  <li>Dentro de <code>&lt;aside&gt;</code> meté una lista de categorías o un widget de contacto.</li>
+  <li>BEM en los elementos internos: <code>.project__card</code>, <code>.project__img</code>, etc.</li>
+  <li><code>:focus-visible</code> en los enlaces del aside.</li>
+</ul>
+
+<h2>Sección 5 — Pricing <span class="tag tag--grid">Grid</span> <span class="tag tag--modern">:has()</span> <span class="tag tag--modern">CQ</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>.pricing</strong> — 3 planes: Básico, Profesional, Enterprise. Cada card: nombre, precio, features, botón CTA.
+</div>
+
+<ul>
+  <li><strong>Desktop:</strong> 3 columnas iguales con <code>grid-template-columns: repeat(3, 1fr)</code>.</li>
+  <li><strong>Mobile:</strong> 1 columna apilada.</li>
+  <li><span class="tag tag--modern">:has()</span> La card que contiene el badge "Más popular" debe ser visualmente distinta: borde celeste, fondo ligeramente distinto, o escalada 1.05.</li>
+  <li><span class="tag tag--modern">CQ</span> <strong>Container Query:</strong>
+    <ul>
+      <li>Cada <code>.pricing__card</code> es un container de <code>inline-size</code>.</li>
+      <li>Si el contenedor mide <strong>&gt;= 400px</strong>: card en disposición vertical normal.</li>
+      <li>Si mide <strong>&lt; 400px</strong>: apilar features y que el CTA quede al final (esto se ve sobre todo en mobile).</li>
+    </ul>
+  </li>
+  <li>BEM: <code>.pricing__card</code>, <code>.pricing__name</code>, <code>.pricing__price</code>, <code>.pricing__feature</code>, <code>.pricing__cta</code>, <code>.pricing__badge</code>.</li>
+  <li><code>:focus-visible</code> en los CTA.</li>
+</ul>
+
+<h2>Sección 6 — Footer <span class="tag tag--grid">Grid</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>.footer</strong> — 3 columnas: col1 = logo + desc, col2 = enlaces rápidos, col3 = contacto + redes.
+</div>
+
+<ul>
+  <li><strong>Mobile:</strong> 1 columna apilada.</li>
+  <li><strong>Desktop:</strong> 3 columnas iguales.</li>
+  <li>Fondo oscuro (como el header), texto claro.</li>
+  <li>BEM: <code>.footer__col</code>, <code>.footer__title</code>, <code>.footer__link</code>, <code>.footer__text</code>.</li>
+  <li>Enlaces hover con transición.</li>
+</ul>
+
+<h2>Sección 7 — Contacto <span class="tag tag--flex">Flex</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--modern">Form</span></h2>
+
+<div class="requisito">
+  <strong>.contacto</strong> — formulario de contacto funcional con nombre, email, asunto, mensaje y botón de envío.
+</div>
+
+<ul>
+  <li><strong>Estructura:</strong> dos columnas en desktop (info a izquierda, formulario a derecha), una columna apilada en mobile.</li>
+  <li>Columna de info: título, texto breve, email y teléfono de contacto, iconos decorativos.</li>
+  <li>Columna del formulario: <code>&lt;form&gt;</code> con <code>action="#"</code> y <code>method="POST"</code>.</li>
+  <li>Campos: <code>nombre</code> (text), <code>email</code> (email), <code>asunto</code> (select con opciones: Consulta, Proyecto, Colaboración, Otro), <code>mensaje</code> (textarea), y botón <code>submit</code> "Enviar mensaje".</li>
+  <li>Cada campo envuelto en <code>.contacto__field</code> con su <code>&lt;label&gt;</code> asociado.</li>
+  <li>BEM: <code>.contacto__form</code>, <code>.contacto__field</code>, <code>.contacto__label</code>, <code>.contacto__input</code>, <code>.contacto__select</code>, <code>.contacto__textarea</code>, <code>.contacto__btn</code>, <code>.contacto__info</code>, <code>.contacto__text</code>, <code>.contacto__item</code>.</li>
+  <li>Estilado completo: inputs con border, padding, border-radius desde variables, foco con <code>:focus</code> + <code>outline</code> personalizado.</li>
+  <li><span class="tag tag--a11y">a11y</span> Cada <code>&lt;input&gt;</code> y <code>&lt;textarea&gt;</code> con su <code>&lt;label&gt;</code> vinculado via <code>for</code>/<code>id</code>. Placeholders visibles pero no reemplazan labels.</li>
+  <li>Transición en hover/focus de los inputs. <code>prefers-reduced-motion</code> respetado.</li>
+  <li>El nav del header ya tiene un link <code>#contacto</code> — asegurate de que el <code>id="contacto"</code> esté en el contenedor de la sección.</li>
+</ul>
+
+<h2>Sección 8 — Stats <span class="tag tag--grid">Grid</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--modern">clamp()</span></h2>
+
+<div class="requisito">
+  <strong>.stats</strong> — 4 cifras destacadas en grid responsive: clientes felices, proyectos entregados, años de experiencia, premios ganados.
+</div>
+
+<ul>
+  <li><strong>Estructura:</strong> 4 items en grid con <code>repeat(auto-fit, minmax(200px, 1fr))</code>.</li>
+  <li>Cada item: icono decorativo + número grande + etiqueta descriptiva.</li>
+  <li>Números con <code>clamp(2.5rem, 5vw, 4rem)</code> para que escalen.</li>
+  <li>Etiqueta en tamaño más chico, color secundario o gris claro.</li>
+  <li>Fondo de la sección: ligeramente distinto al fondo general (ej. <code>var(--color-bg-alt)</code>) para separación visual.</li>
+  <li>BEM: <code>.stats__item</code>, <code>.stats__icon</code>, <code>.stats__number</code>, <code>.stats__label</code>.</li>
+  <li>Transición sutil en hover del item completo (escala o sombra). <code>prefers-reduced-motion</code> respetado.</li>
+</ul>
+
+<h2>Sección 9 — Testimonios <span class="tag tag--grid">Grid</span> <span class="tag tag--modern">CQ</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>.testimonials</strong> — 3 testimonios de clientes en grid. Cada card: avatar, nombre, cargo, cita y valoración con estrellas.
+</div>
+
+<ul>
+  <li><strong>Desktop:</strong> 3 columnas con <code>repeat(3, 1fr)</code>. <strong>Mobile:</strong> 1 columna apilada.</li>
+  <li>Avatar circular con <code>object-fit: cover</code> y <code>border-radius: 50%</code>. Usá fotos de <a href="https://i.pravatar.cc/100" target="_blank">pravatar</a> o similar.</li>
+  <li>Cita con comillas decorativas vía CSS (<code>::before</code> / <code>::after</code> o un span con el carácter <code>&ldquo;</code>).</li>
+  <li>Valoración: 5 estrellas con emoji ⭐ o caracteres ★/☆ estilados con color variable.</li>
+  <li><span class="tag tag--modern">CQ</span> Container Query en cada <code>.testimonials__card</code>:
+    <ul>
+      <li>Container de <code>inline-size</code>.</li>
+      <li>Si el contenedor mide <strong>&lt; 300px</strong>: cita más compacta, avatar más chico, estrellas debajo del nombre.</li>
+      <li>Si mide <strong>&gt;= 300px</strong>: layout normal con avatar a la izquierda y contenido a la derecha.</li>
+    </ul>
+  </li>
+  <li>BEM: <code>.testimonials__card</code>, <code>.testimonials__avatar</code>, <code>.testimonials__name</code>, <code>.testimonials__role</code>, <code>.testimonials__quote</code>, <code>.testimonials__stars</code>.</li>
+  <li>Transición suave en hover de la card. <code>prefers-reduced-motion</code>.</li>
+</ul>
+
+<hr>
+
+<h2>Requisitos Globales</h2>
+
+<div class="requisito">
+  <span class="tag tag--bem">Variables</span> Definí en <code>:root</code>:
+  <code>--color-primary</code>, <code>--color-secondary</code>, <code>--color-accent</code>,
+  <code>--color-text</code>, <code>--color-bg</code>, <code>--color-dark</code>,
+  <code>--space-xs</code> a <code>--space-xl</code> (escala 4-8-12-16-24-32-48px en rem),
+  <code>--radius-sm</code>, <code>--radius-md</code>,
+  <code>--font-body</code>, <code>--font-heading</code>.
+  Usalas en absolutamente todo. Nada de valores mágicos.
+</div>
+
+<div class="requisito">
+  <span class="tag tag--modern">Motion</span> Todas las transiciones/animaciones deben respetar <code>prefers-reduced-motion: no-preference</code>.
+  Si el usuario prefiere motion reducido, cero animaciones.
+</div>
+
+<div class="requisito">
+  <span class="tag tag--bem">BEM</span> Estricto en todo el proyecto. Sin clases sueltas, sin IDs como selectores CSS, sin anidación rara.
+  Bloques: <code>.header</code>, <code>.hero</code>, <code>.services</code>, <code>.portfolio</code>, <code>.stats</code>, <code>.testimonials</code>, <code>.pricing</code>, <code>.contacto</code>, <code>.footer</code>.
+  Elementos con doble underscore: <code>.header__logo</code>, <code>.service__card</code>, etc.
+</div>
+
+<div class="nota">
+  ⏱️ Si algo no te sale, no te empantes más de 5 minutos. Saltá, dejá comentado lo que falta y seguí. Prefiero verte completo con 1 fallo que incompleto.
+</div>
+
+<hr>
+
+<div class="checklist">
+  <h3>✅ Checklist de conceptos evaluados</h3>
+  <ul>
+    <li>☐ Reset CSS básico</li>
+    <li>☐ Variables nativas en <code>:root</code> (colores, espaciados, radios, fonts)</li>
+    <li>☐ BEM estricto en absolutamente todo</li>
+    <li>☐ Mobile First</li>
+    <li>☐ Una sola media query por sección</li>
+    <li>☐ <code>clamp()</code> en tipografía del hero</li>
+    <li>☐ Flexbox (header, hero)</li>
+    <li>☐ <code>repeat(auto-fit, minmax(280px, 1fr))</code> — responsive SIN media query</li>
+    <li>☐ <code>grid-template-areas</code> — layout completo con header/main/aside/footer</li>
+    <li>☐ Grid con media query (pricing, footer)</li>
+    <li>☐ <code>:has()</code> en portfolio y pricing</li>
+    <li>☐ Container Query en pricing</li>
+    <li>☐ <code>:focus-visible</code> en enlaces y botones</li>
+    <li>☐ <code>prefers-reduced-motion</code> global</li>
+    <li>☐ Transiciones / hover effects</li>
+  </ul>
+  <p style="margin-top:1rem;font-weight:700;color:var(--accent-css);">🔥 Todo tiene que salir. Si falla 1 concepto clave, se repite.</p>
+</div>
+
+<div class="footer-note">
+  CodeLearn Assessment — 19/07/2026
+</div>
+
+</main>
+
+<script>
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
+
+</body>
+</html>

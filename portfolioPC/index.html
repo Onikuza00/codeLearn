@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pau Crosas · Portfolio</title>
+  <meta name="description"
+    content="Pau Crosas — Full-stack developer. 10 proyectos, tecnologías modernas, desarrollo web profesional." />
+  <meta name="theme-color" content="#000000" />
+  <meta name="author" content="Pau Crosas" />
+
+  <link rel="icon" type="image/png" href="img/android-chrome-512x512.png" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+
+  <meta property="og:title" content="Pau Crosas · Portfolio" />
+  <meta property="og:description" content="Full-stack developer · 10 proyectos reales" />
+  <meta property="og:type" content="website" />
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&family=Chivo+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/TextPlugin.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js" defer></script>
+
+  <noscript>
+    <style>
+      .curtain {
+        display: none !important;
+      }
+    </style>
+  </noscript>
+</head>
+
+<body>
+
+  <!-- ═══ CURTAIN OVERLAY ═══ -->
+  <div class="curtain" id="curtain" aria-hidden="true">
+    <div class="curtain__panel curtain__panel--left">
+      <img class="curtain__img curtain__img--left" src="img/fila-1-columna-1.webp" alt="P" fetchpriority="high" />
+    </div>
+    <div class="curtain__panel curtain__panel--right">
+      <img class="curtain__img curtain__img--right" src="img/fila-1-columna-2.webp" alt="C" fetchpriority="high" />
+    </div>
+  </div>
+
+  <!-- ═══ HEADER / NAV ═══ -->
+  <header class="header" id="header">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#" class="logo" aria-label="Pau Crosas">
+        <img src="img/logo.png" alt="Pau Crosas" class="logo__img" />
+      </a>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#projects" data-i18n="nav.projects">Proyectos</a></li>
+        <li><a href="#stack" data-i18n="nav.stack">Stack</a></li>
+        <li><a href="#about" data-i18n="nav.about">Sobre mi</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contacte</a></li>
+        <li class="nav__lang">
+          <button class="lang-btn" data-lang="ca">CA</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+          <button class="lang-btn active" data-lang="en">EN</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero__top">
+        <h1 class="hero__title">
+          <span class="hero__title-inner" data-i18n="hero.title">Pau Cros</span>
+        </h1>
+        <span class="hero__sub">Desarrollador Junior <span>Full-Stack</span></span>
+      </div>
+      <div class="hero__bottom">
+        <div class="hero__desc">
+          Disfruto tanto creando <span class="highlight">animaciones interactivas</span>
+          como diseñando una <span class="highlight">UI/UX</span> espectacular,
+          como crear un <span class="highlight">backend</span> robusto y
+          <span class="highlight">seguro</span> cuidando hasta el más
+          <span class="highlight">mínimo detalle.</span>
+        </div>
+        <nav class="hero__ctas">
+          <a href="#projects" class="cta" data-i18n="hero.ctas.projects"><span class="cta__text">Proyectos</span></a>
+          <a href="#about" class="cta" data-i18n="hero.ctas.about"><span class="cta__text">Contacto</span></a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ═══ MARQUEE ═══ -->
+    <section class="section marquee" id="marquee" aria-label="Tecnologías">
+      <div class="marquee__track">
+        <ul class="marquee__list">
+          <li class="marquee__item text-mono">PHP</li>
+          <li class="marquee__item text-mono">JavaScript</li>
+          <li class="marquee__item text-mono">HTML</li>
+          <li class="marquee__item text-mono">CSS</li>
+          <li class="marquee__item text-mono">C#</li>
+          <li class="marquee__item text-mono">MySQL</li>
+          <li class="marquee__item text-mono">Symfony</li>
+          <li class="marquee__item text-mono">Vue</li>
+          <li class="marquee__item text-mono">GSAP</li>
+          <li class="marquee__item text-mono">Bootstrap</li>
+          <li class="marquee__item text-mono">WordPress</li>
+          <li class="marquee__item text-mono">Odoo</li>
+          <li class="marquee__item text-mono">Git</li>
+          <li class="marquee__item text-mono">GitHub Actions</li>
+          <li class="marquee__item text-mono">Docker</li>
+          <li class="marquee__item text-mono">AWS</li>
+          <li class="marquee__item text-mono">SDD</li>
+        </ul>
+        <ul class="marquee__list" aria-hidden="true">
+          <li class="marquee__item text-mono">PHP</li>
+          <li class="marquee__item text-mono">JavaScript</li>
+          <li class="marquee__item text-mono">HTML</li>
+          <li class="marquee__item text-mono">CSS</li>
+          <li class="marquee__item text-mono">C#</li>
+          <li class="marquee__item text-mono">MySQL</li>
+          <li class="marquee__item text-mono">Symfony</li>
+          <li class="marquee__item text-mono">Vue</li>
+          <li class="marquee__item text-mono">GSAP</li>
+          <li class="marquee__item text-mono">Bootstrap</li>
+          <li class="marquee__item text-mono">WordPress</li>
+          <li class="marquee__item text-mono">Odoo</li>
+          <li class="marquee__item text-mono">Git</li>
+          <li class="marquee__item text-mono">GitHub Actions</li>
+          <li class="marquee__item text-mono">Docker</li>
+          <li class="marquee__item text-mono">AWS</li>
+          <li class="marquee__item text-mono">SDD</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══ TERMINAL ═══ -->
+    <section class="card-section" id="terminal" aria-label="Consola">
+      <div class="container container--card">
+        <div class="terminal-window text-mono">
+          <div class="terminal__chrome">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__label"> &lt; dev@terminal &gt; </span>
+          </div>
+          <div class="terminal__body">
+            <p class="terminal__line">
+              <span class="terminal__prompt">&gt;</span>
+              <span class="terminal__type js-terminal-type"></span>
+              <span class="terminal__cursor" aria-hidden="true"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PROJECTS ═══ -->
+    <section class="card-section card-section--projects-group" id="projects" aria-labelledby="projects-title">
+      <div class="container container--card">
+        <div class="card" id="projects-card">
+          <div class="card__header">
+            <span class="card__label">
+              <span class="signal-dot"></span>
+              <span class="text-mono">PROYECTOS</span>
+            </span>
+            <span class="card__meta text-mono">Landing Pages, Webs, E-Comerce</span>
+          </div>
+          <div class="card__body">
+            <div class="section-head">
+              <h2 class="section__title" id="projects-title">Proyectos <span class="highlight">destacados</span></h2>
+              <div class="section-desc">Una selección de trabajos recientes, desde <b>landing pages</b> con
+                <b>WordPress</b> y código vanilla
+                (<b>HTML</b>, <b>CSS</b> y <b>JavaScript</b>), hasta <b>e-commerce</b> integrados con <b>ERP Odoo</b> y
+                <b>aplicaciones web</b> completas con <b>Symfony</b>
+                + <b>Headless CMS</b>. Cada proyecto con <b>animaciones GSAP</b>,
+                <b>scroll suave</b> y una experiencia <b>dinámica</b> e <b>interactiva</b> pensada al detalle.
+              </div>
+            </div>
+            <div class="grid__projects" id="gridProjects"></div>
+            <nav class="pagination" id="pagination" aria-label="Paginación de proyectos"></nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <div class="card card--gallery">
+        <div class="gallery__track">
+          <figure class="gallery__item">
+            <img class="gallery__img" src="img/raymel1.webp" alt="Captura de Raymel.cat" loading="lazy" />
+            <figcaption class="gallery__info">
+              <span class="gallery__name text-mono">www.raymel.cat</span>
+              <ul class="gallery__tags">
+                <li class="gallery__tag text-mono">HTML</li>
+                <li class="gallery__tag text-mono">CSS</li>
+                <li class="gallery__tag text-mono">JS</li>
+                <li class="gallery__tag text-mono">GSAP</li>
+                <li class="gallery__tag text-mono">Lenis</li>
+              </ul>
+            </figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img class="gallery__img" src="img/vora1.webp" alt="Captura de Vora Studio" loading="lazy" />
+            <figcaption class="gallery__info">
+              <span class="gallery__name text-mono">Vora Studio</span>
+              <ul class="gallery__tags">
+                <li class="gallery__tag text-mono">HTML</li>
+                <li class="gallery__tag text-mono">CSS</li>
+                <li class="gallery__tag text-mono">JS</li>
+                <li class="gallery__tag text-mono">GSAP</li>
+                <li class="gallery__tag text-mono">Lenis</li>
+              </ul>
+            </figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img class="gallery__img" src="img/comercial-1.webp" alt="Captura de Comercial Ros" loading="lazy" />
+            <figcaption class="gallery__info">
+              <span class="gallery__name text-mono">Comercial Ros</span>
+              <ul class="gallery__tags">
+                <li class="gallery__tag text-mono">HTML</li>
+                <li class="gallery__tag text-mono">CSS</li>
+                <li class="gallery__tag text-mono">Odoo</li>
+                <li class="gallery__tag text-mono">QWEB</li>
+              </ul>
+            </figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img class="gallery__img" src="https://via.placeholder.com/400x250/1a1a2e/38cbf8?text=Proyecto+04" alt="Captura del proyecto 04" loading="lazy" />
+            <figcaption class="gallery__info">
+              <span class="gallery__name text-mono">Proyecto 04</span>
+              <ul class="gallery__tags">
+                <li class="gallery__tag text-mono">Symfony</li>
+                <li class="gallery__tag text-mono">API</li>
+              </ul>
+            </figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img class="gallery__img" src="https://via.placeholder.com/400x250/1a1a2e/38cbf8?text=Proyecto+05" alt="Captura del proyecto 05" loading="lazy" />
+            <figcaption class="gallery__info">
+              <span class="gallery__name text-mono">Proyecto 05</span>
+              <ul class="gallery__tags">
+                <li class="gallery__tag text-mono">WordPress</li>
+                <li class="gallery__tag text-mono">PHP</li>
+              </ul>
+            </figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img class="gallery__img" src="https://via.placeholder.com/400x250/1a1a2e/38cbf8?text=Proyecto+06" alt="Captura del proyecto 06" loading="lazy" />
+            <figcaption class="gallery__info">
+              <span class="gallery__name text-mono">Proyecto 06</span>
+              <ul class="gallery__tags">
+                <li class="gallery__tag text-mono">CSS</li>
+                <li class="gallery__tag text-mono">Vue</li>
+              </ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ STACK ═══ -->
+    <section class="card-section" id="stack" aria-labelledby="stack-title">
+      <div class="container container--card">
+        <div class="card">
+          <div class="card__header">
+            <span class="card__label">
+              <span class="signal-dot"></span>
+              <span class="text-mono">STACK</span>
+            </span>
+            <span class="card__meta text-mono">18 tecnologías</span>
+          </div>
+          <div class="card__body">
+            <div class="section-head">
+              <h2 class="section__title" id="stack-title">Stack <span class="highlight">técnico</span></h2>
+              <div class="section-desc">Tecnologías con las que trabajo habitualmente, ordenadas por experiencia real.
+              </div>
+            </div>
+            <div class="stack__grid">
+              <div class="stack__card" data-pct="90">
+                <i class="stack__icon fa-brands fa-php" aria-hidden="true"></i>
+                <span class="stack__card-name">PHP</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">90%</span>
+              </div>
+              <div class="stack__card" data-pct="85">
+                <i class="stack__icon fa-brands fa-symfony" aria-hidden="true"></i>
+                <span class="stack__card-name">Symfony</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">85%</span>
+              </div>
+              <div class="stack__card" data-pct="88">
+                <i class="stack__icon fa-brands fa-vuejs" aria-hidden="true"></i>
+                <span class="stack__card-name">Vue</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">88%</span>
+              </div>
+              <div class="stack__card" data-pct="92">
+                <i class="stack__icon fa-solid fa-bolt" aria-hidden="true"></i>
+                <span class="stack__card-name">GSAP</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">92%</span>
+              </div>
+              <div class="stack__card" data-pct="80">
+                <i class="stack__icon fa-brands fa-wordpress" aria-hidden="true"></i>
+                <span class="stack__card-name">WordPress</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">80%</span>
+              </div>
+              <div class="stack__card" data-pct="75">
+                <i class="stack__icon fa-solid fa-cube" aria-hidden="true"></i>
+                <span class="stack__card-name">Odoo</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">75%</span>
+              </div>
+              <div class="stack__card" data-pct="90">
+                <i class="stack__icon fa-brands fa-js" aria-hidden="true"></i>
+                <span class="stack__card-name">JavaScript</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">90%</span>
+              </div>
+              <div class="stack__card" data-pct="95">
+                <i class="stack__icon fa-brands fa-css3-alt" aria-hidden="true"></i>
+                <span class="stack__card-name">CSS</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">95%</span>
+              </div>
+              <div class="stack__card" data-pct="65">
+                <i class="stack__icon fa-solid fa-database" aria-hidden="true"></i>
+                <span class="stack__card-name">SQL / Doctrine</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">65%</span>
+              </div>
+              <div class="stack__card" data-pct="70">
+                <i class="stack__icon fa-solid fa-leaf" aria-hidden="true"></i>
+                <span class="stack__card-name">Twig</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">70%</span>
+              </div>
+              <div class="stack__card" data-pct="90">
+                <i class="stack__icon fa-brands fa-html5" aria-hidden="true"></i>
+                <span class="stack__card-name">HTML5</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">90%</span>
+              </div>
+              <div class="stack__card" data-pct="40">
+                <i class="stack__icon fa-brands fa-bootstrap" aria-hidden="true"></i>
+                <span class="stack__card-name">Bootstrap</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">40%</span>
+              </div>
+              <div class="stack__card" data-pct="65">
+                <i class="stack__icon fa-brands fa-git-alt" aria-hidden="true"></i>
+                <span class="stack__card-name">Git</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">65%</span>
+              </div>
+              <div class="stack__card" data-pct="60">
+                <i class="stack__icon fa-brands fa-github" aria-hidden="true"></i>
+                <span class="stack__card-name">GitHub Actions</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">60%</span>
+              </div>
+              <div class="stack__card" data-pct="85">
+                <i class="stack__icon fa-solid fa-code" aria-hidden="true"></i>
+                <span class="stack__card-name">C# /.NET</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">85%</span>
+              </div>
+              <div class="stack__card" data-pct="70">
+                <i class="stack__icon fa-brands fa-node-js" aria-hidden="true"></i>
+                <span class="stack__card-name">Node.js</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">70%</span>
+              </div>
+              <div class="stack__card" data-pct="90">
+                <i class="stack__icon fa-solid fa-laptop-code" aria-hidden="true"></i>
+                <span class="stack__card-name">VS Code</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">90%</span>
+              </div>
+              <div class="stack__card" data-pct="35">
+                <i class="stack__icon fa-brands fa-docker" aria-hidden="true"></i>
+                <span class="stack__card-name">Docker</span>
+                <div class="stack__bar"></div>
+                <span class="stack__pct">35%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section class="card-section" id="about" aria-labelledby="about-title">
+      <div class="container container--card">
+        <div class="card">
+          <div class="card__header">
+            <span class="card__label">
+              <span class="signal-dot"></span>
+              <span class="text-mono">PERFIL</span>
+            </span>
+            <span class="card__meta text-mono">about.me</span>
+          </div>
+          <div class="card__body">
+            <div class="section-head">
+              <h2 class="section__title" id="about-title">Sobre <span class="highlight">mi</span></h2>
+              <div class="section-desc">Breve resumen de quién soy y cómo trabajo.</div>
+            </div>
+            <div class="about__layout">
+              <div class="about__content">
+                <p class="about__text">Soy Pau Crosas, desarrollador full-stack con experiencia creando sitios y
+                  aplicaciones web modernas. Me especializo en animaciones performantes, arquitecturas limpias y
+                  soluciones que escalan.</p>
+                <p class="about__text">Cuando no estoy codeando, sigo explorando nuevas herramientas, contribuyendo a
+                  proyectos personales y aprendiendo patrones de arquitectura.</p>
+              </div>
+              <figure class="about__figure">
+                <img class="about__avatar" src="img/yo.png" alt="Retrato de Pau Crosas" width="400" height="400" />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section class="card-section" id="contact" aria-labelledby="contact-title">
+      <div class="container container--card">
+        <div class="card">
+          <div class="card__header">
+            <span class="card__label">
+              <span class="signal-dot"></span>
+              <span class="text-mono">CONTACTO</span>
+            </span>
+            <span class="card__meta text-mono">get in touch</span>
+          </div>
+          <div class="card__body">
+            <div class="section-head">
+              <h2 class="section__title" id="contact-title">Contacto</h2>
+              <div class="section-desc">¿Tenés un proyecto en mente? Escribime y lo charlamos.</div>
+            </div>
+            <form class="contact__form" action="https://formspree.io/f/xqevbdzz" method="POST">
+
+              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+              <div class="contact__field">
+                <label class="contact__label text-mono" for="contact-name">Nombre</label>
+                <input class="contact__input" type="text" id="contact-name" name="name" required />
+              </div>
+              <div class="contact__field">
+                <label class="contact__label text-mono" for="contact-email">Correo electrónico</label>
+                <input class="contact__input" type="email" id="contact-email" name="email" required />
+              </div>
+              <div class="contact__field">
+                <label class="contact__label text-mono" for="contact-company">Empresa (opcional)</label>
+                <input class="contact__input" type="text" id="contact-company" name="company" />
+              </div>
+              <div class="contact__field">
+                <label class="contact__label text-mono" for="contact-message">Mensaje</label>
+                <textarea class="contact__input contact__input--textarea" id="contact-message" name="message" rows="5"
+                  required></textarea>
+              </div>
+              <button class="cta contact__submit" type="submit"><span class="cta__text">Enviar mensaje</span></button>
+              <p class="contact__status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FAQ ═══ -->
+    <section class="card-section" id="faq" aria-labelledby="faq-title">
+      <div class="container container--card">
+        <div class="card">
+          <div class="card__header">
+            <span class="card__label">
+              <span class="signal-dot"></span>
+              <span class="text-mono">FAQ</span>
+            </span>
+            <span class="card__meta text-mono">3 preguntas</span>
+          </div>
+          <div class="card__body">
+            <div class="section-head">
+              <h2 class="section__title" id="faq-title">Preguntas <span class="highlight">frecuentes</span></h2>
+              <div class="section-desc">Respuestas a las consultas más comunes.</div>
+            </div>
+            <div class="faq__list">
+              <details class="faq__item" id="faq-01">
+                <summary class="faq__summary" aria-expanded="false" aria-controls="faq-answer-01">
+                  <span class="faq__number text-mono">[01]</span>
+                  <h3 class="faq__question">¿Trabajas con proyectos internacionales?</h3>
+                </summary>
+                <div class="faq__answer" id="faq-answer-01">
+                  <p>Sí, colaboro con equipos y clientes de cualquier zona horaria siempre que haya comunicación clara y
+                    objetivos definidos.</p>
+                </div>
+              </details>
+              <details class="faq__item" id="faq-02">
+                <summary class="faq__summary" aria-expanded="false" aria-controls="faq-answer-02">
+                  <span class="faq__number text-mono">[02]</span>
+                  <h3 class="faq__question">¿Qué tecnología prefieres para el frontend?</h3>
+                </summary>
+                <div class="faq__answer" id="faq-answer-02">
+                  <p>Depende del proyecto. Vue es mi opción por defecto para SPAs, pero me adapto a la pila del cliente
+                    si es necesario.</p>
+                </div>
+              </details>
+              <details class="faq__item" id="faq-03">
+                <summary class="faq__summary" aria-expanded="false" aria-controls="faq-answer-03">
+                  <span class="faq__number text-mono">[03]</span>
+                  <h3 class="faq__question">¿Cuánto tiempo lleva un proyecto medio?</h3>
+                </summary>
+                <div class="faq__answer" id="faq-answer-03">
+                  <p>Una web corporativa con diseño personalizado suele estar entre 3 y 6 semanas, dependiendo de
+                    funcionalidades y contenido.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy text-mono">&copy; 2026 Pau Crosas. Todos los derechos reservados.</p>
+      <ul class="footer__social">
+        <li>
+          <a class="footer__link" href="#" aria-label="GitHub">
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a class="footer__link" href="#" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a class="footer__link" href="#" aria-label="Correo electrónico">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="js/projects.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/translations.js" defer></script>
+</body>
+
+</html>

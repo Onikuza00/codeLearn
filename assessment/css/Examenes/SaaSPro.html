@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaSPro - Examen Final CSS Julio 2026</title>
+    <link rel="stylesheet" href="css/root.css">
+    <link rel="stylesheet" href="css/saas.css">
+</head>
+<body>
+    <!-- HEADER-->
+    <header class="header" id="header">
+        <span class="header__logo">SaaSPro</span>
+        <nav class="header__nav">
+            <ul class="header__lista">
+                <li class="header__li">
+                    <a href="#header" class="header__links">Inicio</a></li>
+                <li class="header__li">
+                    <a href="#features" class="header__links">Features</a></li>
+                <li class="header__li">
+                    <a href="#price" class="header__links">Pricing</a></li>
+            </ul>
+        </nav>
+        <a href="#contacto" class="header__btn">Contacto</a>
+    </header>
+
+    <!-- HERO-->
+    <main>
+        <section class="hero">
+            <h1 class="hero__title">Gestiona tu negocio <br>con <span>SaaSPro</span></h1>
+            <p class="hero__description">La plataforma todo-en-uno para automatizar tus procesos, gestionar tu equipo y escalar sin límites.</p>
+            <a href="#contacto" class="hero__cta">Probar gratis</a>
+        </section>
+
+        <!-- FEATURES-->
+        <section class="features" id="features">
+            <h2 class="features__title">Todo lo que necesitas en un solo lugar</h2>
+            <div class="features__grid">
+                <article class="features__card">
+                    <span class="features__card-icon">⚡</span>
+                    <h3 class="features__card-title">Rendimiento</h3>
+                    <p class="features__card-desc">Procesamiento en tiempo real con una velocidad de respuesta inferior a 50ms.</p>
+                </article>
+                <article class="features__card">
+                    <span class="features__card-icon">🔒</span>
+                    <h3 class="features__card-title">Seguridad</h3>
+                    <p class="features__card-desc">Cifrado de extremo a extremo y cumplimiento GDPR. Tus datos protegidos siempre.</p>
+                </article>
+                <article class="features__card">
+                    <span class="features__card-icon">📊</span>
+                    <h3 class="features__card-title">Analíticas</h3>
+                    <p class="features__card-desc">Dashboard interactivo con métricas en vivo, informes exportables y predicciones IA.</p>
+                </article>
+                <article class="features__card">
+                    <span class="features__card-icon">🔗</span>
+                    <h3 class="features__card-title">Integraciones</h3>
+                    <p class="features__card-desc">Conéctate con 200+ herramientas: Slack, Trello, Salesforce y más.</p>
+                </article>
+                <article class="features__card">
+                    <span class="features__card-icon">👥</span>
+                    <h3 class="features__card-title">Colaboración</h3>
+                    <p class="features__card-desc">Espacios de trabajo compartidos con permisos granulares y edición en tiempo real.</p>
+                </article>
+                <article class="features__card">
+                    <span class="features__card-icon">📱</span>
+                    <h3 class="features__card-title">Multiplataforma</h3>
+                    <p class="features__card-desc">Web, iOS y Android con sincronización instantánea. Lleva tu negocio a todas partes.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- PRICING-->
+        <section class="pricing" id="price">
+            <h2 class="pricing__title">Planes que se adaptan a ti</h2>
+            <div class="pricing__grid">
+                <article class="pricing__card">
+                    <h3 class="pricing__card-title">Básico</h3>
+                    <p class="pricing__card-price">9<span>€/mes</span></p>
+                    <ul class="pricing__card-list">
+                        <li>Hasta 5 usuarios</li>
+                        <li>10GB de almacenamiento</li>
+                        <li>Soporte por email</li>
+                        <li>Integraciones básicas</li>
+                    </ul>
+                    <a href="" class="pricing__card-cta">Elegir plan</a>
+                </article>
+                <article class="pricing__card pricing__card--popular">
+                    <span class="pricing__card-badge">Más popular</span>
+                    <h3 class="pricing__card-title">Pro</h3>
+                    <p class="pricing__card-price">29<span>€/mes</span></p>
+                    <ul class="pricing__card-list">
+                        <li>Hasta 25 usuarios</li>
+                        <li>100GB de almacenamiento</li>
+                        <li>Soporte prioritario 24/7</li>
+                        <li>Todas las integraciones</li>
+                        <li>Analíticas avanzadas</li>
+                    </ul>
+                    <a href="" class="pricing__card-cta">Elegir plan</a>
+                </article>
+                <article class="pricing__card">
+                    <h3 class="pricing__card-title">Enterprise</h3>
+                    <p class="pricing__card-price">79<span>€/mes</span></p>
+                    <ul class="pricing__card-list">
+                        <li>Usuarios ilimitados</li>
+                        <li>1TB de almacenamiento</li>
+                        <li>Gerente de cuentas dedicado</li>
+                        <li>API personalizada</li>
+                        <li>Auditoría de seguridad</li>
+                    </ul>
+                    <a href="" class="pricing__card-cta">Elegir plan</a>
+                </article>
+            </div>
+        </section>
+        
+        <!-- CONTACT -->
+        <section class="contact" id="contacto">
+            <h2 class="contact__title">Contáctanos</h2>
+            <form action="submit" method="POST" class="contact__form">
+                <label class="contact__form-label">
+                    <input type="text" class="contact__form_input" placeholder="Nombre completo" required>
+                </label>
+                <label class="contact__form-label">
+                    <input type="email" class="contact__form_input" placeholder="tu@email.com" required>
+                </label>
+                <label class="contact__form-label">
+                    <select class="contact__form_input" required>
+                        <option value="">Selecciona un asunto</option>
+                        <option value="soporte">Soporte</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </label>
+                <label class="contact__form-label">
+                    <textarea class="contact__form_input" placeholder="Tu mensaje..." rows="5"></textarea>         
+                </label>
+                <button type="submit" class="contact__form-cta">Enviar mensaje</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- FOOTER-->
+    <footer class="footer">
+        <nav class="footer__nav">
+            <ul class="footer__lista">
+                <li class="footer__li"><a href="#header" class="footer__link">Inicio</a></li>
+                <li class="footer__li"><a href="#features" class="footer__link">Features</a></li>
+                <li class="footer__li"><a href="#price" class="footer__link">Pricing</a></li>
+                <li class="footer__li"><a href="#contact" class="footer__link">Contacto</a></li>
+            </ul>
+        </nav>
+        <span class="footer__derechos">&copy; 2026 SaaSPro, Todos los derechos reservados.</span>
+    </footer>
+</body>
+</html>

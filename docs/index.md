@@ -20,9 +20,9 @@ codeLearn/
 ├── CSS/               ← Ejercicios prácticos
 ├── Backend/           ← Ejercicios prácticos
 ├── JOURNAL.md         ← Bitácora de sesiones
-└── GOTCHAS.md         ← Conocimiento vivo del stack
+└── RULES.md         ← Conocimiento vivo del stack
 ```
 
 ## Última sesión
 
-**2026-06-14** — Symfony Web Components + CSS `:has()` → [Ver progreso](waytoCode/index.md)
+**Última sesión**: *pendiente — próximo sábado 19/07* → [Ver progreso](waytoCode/index.md)

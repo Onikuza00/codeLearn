@@ -1,10 +1,11 @@
-site_name: CodeLearn — Pau
+﻿site_name: CodeLearn — Pau
 site_author: Pau Crosas Batista
 site_description: Documentación de aprendizaje — CSS, Frontend, Backend, GSAP, DevOps
 site_url: https://codelearn.pau.dev
 
 theme:
   name: material
+  custom_dir: overrides
   language: es
   palette:
     - scheme: default
@@ -21,8 +22,7 @@ theme:
         name: Modo claro
   features:
     - navigation.tabs
-    - navigation.sections
-    - navigation.expand
+    - navigation.indexes
     - navigation.top
     - toc.follow
     - search.suggest
@@ -30,30 +30,103 @@ theme:
 
 nav:
   - Inicio: index.md
+  - 🗺️ Planes:
+    - planning/index.md
+    - Próxima Sesión: planning/aprendizaje.md
   - 🗺️ Way to Code:
     - waytoCode/index.md
-    - Semana 1:
-      - waytoCode/semana-1/index.md
-      - 2026-06-13: waytoCode/semana-1/2026-06-13.md
-      - 2026-06-14 — Symfony WC: waytoCode/semana-1/2026-06-14-sesion-1.md
-      - 2026-06-14 — CSS intensivo: waytoCode/semana-1/2026-06-14-sesion-2.md
-      - 🎯 Ejercicio activo: waytoCode/ejercicio.md
+    - 🎯 Ejercicio activo: waytoCode/ejercicio.md
+    - 2026:
+      - waytoCode/2026/index.md
+      - "Mes 06 — Junio":
+        - waytoCode/2026/06/index.md
+        - "Semana 01 — Setup y diagnóstico":
+          - 2026-06-13: waytoCode/2026/06/semana-1/2026-06-13.md
+          - 2026-06-14 — Symfony WC: waytoCode/2026/06/semana-1/2026-06-14-sesion-1.md
+          - 2026-06-14 — CSS intensivo: waytoCode/2026/06/semana-1/2026-06-14-sesion-2.md
+        - "Semana 02 — Finde intensivo CSS":
+          - 2026-06-27 — Día 1 CSS: waytoCode/2026/06/semana-2/2026-06-27.md
+      - "Mes 07 — Julio":
+        - waytoCode/2026/07/index.md
+        - "Semana 03 — CSS & JS":
+          - "Sábado 18 — CSS intensivo": waytoCode/2026/07/semana-3/2026-07-18.md
+          - "Domingo 19 — Examen CSS": waytoCode/2026/07/semana-3/2026-07-19.md
+        - "Semana 04 — CSS + JS":
+          - "Jueves 23 — CSS Grid": waytoCode/2026/07/semana-4/2026-07-23.md
+          - "Sábado 25 — Repaso CSS": waytoCode/2026/07/semana-4/2026-07-25.md
+          - "Domingo 26 — JS todo el día": waytoCode/2026/07/semana-4/2026-07-26.md
+        - "Semana 05 — Lógica JS":
+          - "Martes 28 — Lógica JS": waytoCode/2026/07/semana-5/2026-07-28.md
+          - "Jueves 30 — Lógica JS": waytoCode/2026/07/semana-5/2026-07-30.md
+      - "Mes 08 — Agosto":
+        - "Semana 01 — Arrays + Métodos":
+          - "Domingo 02 — Arrays + Métodos JS": waytoCode/2026/08/semana-1/2026-08-02.md
+          - "Miércoles 05 — Array vacío + reduce": waytoCode/2026/08/semana-1/2026-08-05.md
+          - "Sábado 08 — Repaso métodos de arrays": waytoCode/2026/08/semana-1/2026-08-08.md
+          - "Domingo 09 — Repaso general": waytoCode/2026/08/semana-1/2026-08-09.md
+        - "Semana 02 — Objetos + callbacks":
+          - "Lunes 10 — Objetos": waytoCode/2026/08/semana-2/2026-08-10.md
   - CSS:
     - css/index.md
-    - "Bloque 01: :has()":
-      - css/01-has.md
-    - Container Queries: css/02-container-queries.md
-    - CSS Layers: css/03-layers.md
-    - "Bloque 04 - Flexbox":
-      - css/04-flexbox/index.md
-      - Conceptos: css/04-flexbox/conceptos.md
-      - Alineación: css/04-flexbox/alineacion.md
-      - Items flexibles: css/04-flexbox/items.md
-    - "Bloque 05 - Grid":
-      - css/05-grid/index.md
-      - Conceptos: css/05-grid/conceptos.md
-      - Ubicación: css/05-grid/ubicacion.md
-      - Auto Layout: css/05-grid/auto.md
+    - "Selectores":
+      - css/selectores/index.md
+      - ":has()": css/selectores/01-has/index.md
+      - ":not()": css/selectores/02-not/index.md
+      - ":is() y :where()": css/selectores/03-is-where/index.md
+      - ":nth-child() avanzado": css/selectores/04-nth-child/index.md
+      - "::before y ::after": css/selectores/05-pseudo-elementos/index.md
+    - "Layout":
+      - css/layout/index.md
+      - Flexbox:
+        - css/layout/04-flexbox/index.md
+        - Conceptos: css/layout/04-flexbox/conceptos.md
+        - Alineación: css/layout/04-flexbox/alineacion.md
+        - Items flexibles: css/layout/04-flexbox/items.md
+      - Grid:
+        - css/layout/05-grid/index.md
+        - Conceptos: css/layout/05-grid/conceptos.md
+        - Ubicación: css/layout/05-grid/ubicacion.md
+        - Auto Layout: css/layout/05-grid/auto.md
+    - "Responsive":
+      - css/responsive/index.md
+      - "Media Queries": css/responsive/01-media-queries/index.md
+      - "Container Queries": css/responsive/02-container-queries/index.md
+      - "Funciones responsive": css/responsive/funciones-responsive.md
+    - "Arquitectura":
+      - css/arquitectura/index.md
+      - "Variables nativas": css/arquitectura/02-variables/index.md
+      - BEM: css/arquitectura/bem.md
+      - "CSS Layers": css/arquitectura/03-layers/index.md
+      - "CSS Nesting": css/arquitectura/04-nesting/index.md
+    - "Comportamiento":
+      - css/comportamiento/index.md
+      - "Scroll Snap": css/comportamiento/01-scroll-snap/index.md
+    - "Animaciones":
+      - css/animaciones/index.md
+      - Transitions: css/animaciones/01-transitions/index.md
+      - "Keyframes y animation": css/animaciones/02-keyframes/index.md
+  - JS:
+    - js/index.md
+    - "Fundamentos":
+      - js/01-basico/index.md
+      - "Variables y tipos de datos": js/01-basico/01-variables-tipos/index.md
+      - "Estructuras de control": js/01-basico/02-estructuras-control/index.md
+      - "Funciones": js/01-basico/03-funciones/index.md
+    - "Arrays":
+      - "Fundamentos de los Arrays": js/02-arrays/index.md
+      - "Métodos básicos": js/02-arrays/02-metodos-basicos/index.md
+      - "Iteración": js/02-arrays/03-iteracion/index.md
+      - "Transformación": js/02-arrays/04-transformacion/index.md
+      - "Buscar": js/02-arrays/05-buscar/index.md
+      - "Ordenar": js/02-arrays/06-ordenar/index.md
+      - "Matrices": js/02-arrays/07-matrices/index.md
+      - "Algoritmos": js/02-arrays/08-algoritmos/index.md
+    - "Objetos":
+      - "Objetos": js/03-objetos/index.md
+      - "Atajos y propiedades computadas": js/03-objetos/02-atajos/index.md
+      - "Iteración": js/03-objetos/03-iterar/index.md
+      - "Optional chaining": js/03-objetos/04-optional-chaining/index.md
+      - "Spread Operator": js/03-objetos/05-spread/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -75,9 +148,33 @@ nav:
     - gsap/index.md
   - DevOps:
     - devops/index.md
+  - SDD:
+    - sdd/index.md
+    - Fases: sdd/fases.md
+  - IA:
+    - ia/index.md
+    - "Claude":
+      - ia/claude/index.md
+      - "Claude Code in Action":
+        - ia/claude/01-claude-code-in-action/index.md
+        - "Dirigir sesiones largas": ia/claude/01-claude-code-in-action/02-dirigir-sesiones/index.md
+        - "Un CLAUDE.md que se sigue": ia/claude/01-claude-code-in-action/03-claude-md/index.md
+        - "Verificación y permisos": ia/claude/01-claude-code-in-action/04-verificacion-permisos/index.md
+        - "Hooks": ia/claude/01-claude-code-in-action/05-hooks/index.md
+        - "Automatización": ia/claude/01-claude-code-in-action/06-automatizacion/index.md
+        - "Verificar sin supervisión": ia/claude/01-claude-code-in-action/07-verificar-sin-supervision/index.md
+        - "Plugins": ia/claude/01-claude-code-in-action/08-plugins/index.md
+        - "Aplicado a landings y animaciones": ia/claude/01-claude-code-in-action/09-aplicado-landings-animaciones/index.md
+      - "Claude API":
+        - ia/claude/02-claude-api/index.md
+  - Ejercicios: http://localhost:8000/assessment/index.html
 
 markdown_extensions:
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:
@@ -98,6 +195,10 @@ markdown_extensions:
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/nav-toggle.js
+  - javascripts/array-demo.js
 
 extra:
   social:

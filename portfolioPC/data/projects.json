@@ -1,0 +1,248 @@
+[
+  {
+    "id": "cms",
+    "name": "Headless CMS",
+    "desc": "Headless CMS custom para gestión dinámica de secciones y contenido.",
+    "expandDesc": "Headless CMS desarrollado bajo la metodología SDD (Spec-Driven Development) con Symfony y Twig Components. Diseñado para que los clientes gestionen de forma autónoma las secciones y contenidos de sus webs sin tocar código. Cuenta con una API segura protegida mediante autenticación por tokens (JWT) para cada endpoint, interfaz adaptativa con Bootstrap y animaciones dinámicas.",
+    "tags": [
+      "Bootstrap",
+      "Symfony",
+      "JWT",
+      "SDD"
+    ],
+    "date": "2026-07",
+    "url": "https://voracms.voradata.cat/admin/login",
+    "img": "cms3.webp",
+    "images": [
+      "cms1.webp",
+      "cms2.webp",
+      "cms3.webp",
+      "cms4.webp",
+      "cms5.webp"
+    ]
+  },
+  {
+    "id": "7vision",
+    "name": "7Vision",
+    "desc": "Red social de cine con recomendador de IA, dashboard y CMS.",
+    "expandDesc": "Proyecto final de ciclo (DAW) calificado con un 9.5. Es una red social y plataforma interactiva sobre cine que integra un recomendador de películas basado en Inteligencia Artificial (Groq/Llama), un completo panel de administración (CMS) y visualización de datos. El frontend está desarrollado con Vue y animado con GSAP (usando carruseles Swiper y modales SweetAlert), mientras que el backend está construido con Symfony con múltiples capas de seguridad, CORS y autenticación JWT.",
+    "tags": [
+      "Vue",
+      "Symfony",
+      "GSAP",
+      "AI",
+      "JWT"
+    ],
+    "date": "2025-10",
+    "url": "https://github.com/orgs/Montilivi-DAW2/teams/grup-5/repositories",
+    "img": "7vision5.webp",
+    "images": [
+      "7vision1.webp",
+      "7vision2.webp",
+      "7vision3.webp",
+      "7vision4.webp",
+      "7vision5.webp",
+      "7vision6.webp",
+      "7vision7.webp",
+      "7vision8.webp"
+    ]
+  },
+  {
+    "id": "victoriaTaylor",
+    "name": "Victoria Taylor",
+    "desc": "Landing page para taller de artistas con integración dinámica de contenidos.",
+    "expandDesc": "Landing page elegante diseñada para un taller de artistas, conectada directamente al Headless CMS a través de API REST. Permite la gestión dinámica del portfolio y contenidos del taller, con animaciones sutiles utilizando GSAP y un formulario de contacto funcional.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS",
+      "GSAP",
+      "SDD"
+    ],
+    "date": "2026-05",
+    "url": "https://vorastudio.github.io/victoriaTaylor/index.html",
+    "img": "victoria4.webp",
+    "images": [
+      "victoria1.webp",
+      "victoria2.webp",
+      "victoria3.webp",
+      "victoria4.webp",
+      "victoria5.webp"
+    ]
+  },
+  {
+    "id": "palmitoHouse",
+    "name": "Palmito House",
+    "desc": "Landing page interactiva para alquiler vacacional en les Preses, Girona.",
+    "expandDesc": "Landing page para promocionar una propiedad de alquiler turístico en les Preses, Girona. Cuenta con galerías inmersivas animadas con GSAP y un formulario interactivo de contacto y reservas.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS",
+      "GSAP",
+      "SDD"
+    ],
+    "date": "2026-05",
+    "url": "https://vorastudio.github.io/palmitoHouse/",
+    "img": "palmito2.webp",
+    "images": [
+      "palmito1.webp",
+      "palmito2.webp",
+      "palmito3.webp",
+      "palmito4.webp",
+      "palmito5.webp"
+    ]
+  },
+  {
+    "id": "voraStudio",
+    "name": "Vora Studio",
+    "desc": "Web corporativa e interactiva para el estudio creativo Vora Studio.",
+    "expandDesc": "Sitio web oficial del estudio creativo Vora Studio, diseñado con un enfoque altamente visual e interactivo. Desarrollado íntegramente con HTML, CSS y JavaScript, destaca por el uso intensivo de GSAP para implementar animaciones complejas, scroll horizontal, efectos parallax, recortes geométricos mediante clip-paths y diversos trucos visuales avanzados.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS",
+      "GSAP"
+    ],
+    "date": "2026-04",
+    "url": "https://vorastudio.cat/",
+    "img": "vora3.webp",
+    "images": [
+      "vora1.webp",
+      "vora2.webp",
+      "vora3.webp",
+      "vora4.webp",
+      "vora5.webp",
+      "vora6.webp"
+    ]
+  },
+  {
+    "id": "aula-gastronomica",
+    "name": "Aula Gastronómica",
+    "desc": "Web institucional interactiva para escuela de cocina con catálogo de cursos.",
+    "expandDesc": "Landing page interactiva e inmersiva conectada a un Headless CMS para la gestión e inscripción a cursos y talleres culinarios. Ofrece una navegación fluida con animaciones avanzadas en GSAP y efectos modernos de CSS.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS",
+      "GSAP",
+      "SDD"
+    ],
+    "date": "2026-06",
+    "url": "https://vorastudio.github.io/aulaGastronomica/",
+    "img": "aula1.webp",
+    "images": [
+      "aula1.webp",
+      "aula2.webp",
+      "aula3.webp",
+      "aula4.webp"
+    ]
+  },
+  {
+    "id": "comercial-ros",
+    "name": "Comercial Ros",
+    "desc": "E-commerce B2B/B2C integrado con ERP Odoo.",
+    "expandDesc": "Plataforma de comercio electrónico B2B y B2C totalmente integrada con el ERP Odoo. Permite la gestión centralizada de catálogos y tarifas personalizadas según el tipo de cliente, control de accesos con múltiples niveles de seguridad, plataformas de pago restringidas y sincronización de stock y facturación en tiempo real.",
+    "tags": [
+      "Odoo",
+      "HTML",
+      "CSS",
+      "QWEB"
+    ],
+    "date": "2026-02",
+    "url": "https://www.comercialros.cat/es",
+    "img": "cros6.webp",
+    "images": [
+      "cros1.webp",
+      "cros3.webp",
+      "cros4.webp",
+      "cros5.webp",
+      "cros6.webp",
+      "cros7.webp"
+    ]
+  },
+  {
+    "id": "raymel",
+    "name": "Raymel.cat",
+    "desc": "Landing page interactiva para tienda de caramelos.",
+    "expandDesc": "Landing page interactiva para una tienda de caramelos del grupo Comercial Ros. Desarrollada con HTML, CSS y JavaScript, cuenta con múltiples animaciones en GSAP, efectos avanzados como clip-paths, soporte multi-idioma y enlace directo a la tienda en Odoo para la adquisición de productos.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS",
+      "GSAP"
+    ],
+    "date": "2026-01",
+    "url": "https://raymel.cat/",
+    "img": "raymel1.webp",
+    "images": [
+      "raymel1.webp",
+      "raymel2.webp",
+      "raymel3.webp",
+      "raymel4.webp",
+      "raymel5.webp"
+    ]
+  },
+  {
+    "id": "guardavan",
+    "name": "Guardavan",
+    "desc": "Landing page para parking de caravanas desarrollada en WordPress.",
+    "expandDesc": "Landing page para una empresa de parking de caravanas. Desarrollada íntegramente con WordPress y Elementor, aplicando maquetación visual y personalizaciones de CSS a medida en la hoja de estilos base para adaptar el diseño de los plugins a la identidad de la marca. Uno de mis primeros proyectos profesionales.",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "CSS"
+    ],
+    "date": "2026-01",
+    "url": "https://www.guardavan.com/es/",
+    "img": "guardavan2.webp",
+    "images": [
+      "guardavan1.webp",
+      "guardavan2.webp",
+      "guardavan3.webp",
+      "guardavan4.webp"
+    ]
+  },
+  {
+    "id": "aurexinmobles",
+    "name": "AurexInmobles",
+    "desc": "Landing page para agencia inmobiliaria desarrollada en WordPress.",
+    "expandDesc": "Landing page profesional para una agencia inmobiliaria, desarrollada con WordPress y Elementor como uno de mis primeros proyectos durante mi período de prácticas. Sigue una línea de diseño establecida por el equipo, con ajustes de CSS personalizado para adaptar la maquetación a los requerimientos visuales del proyecto.",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "CSS"
+    ],
+    "date": "2025-12",
+    "url": "https://www.aureximmobles.com/",
+    "img": "aurexinmobles5.webp",
+    "images": [
+      "aurexinmobles1.webp",
+      "aurexinmobles2.webp",
+      "aurexinmobles3.webp",
+      "aurexinmobles4.webp",
+      "aurexinmobles5.webp"
+    ]
+  },
+  {
+    "id": "casa-nostra",
+    "name": "Casa Nostra",
+    "desc": "Landing page interactiva para tienda de frutas y verduras con sistema de login.",
+    "expandDesc": "Proyecto académico de primer año. Consiste en una landing page para una tienda local de frutas y verduras inspirada en Casa Nostra. Desarrollada con HTML, CSS y JavaScript vanilla, incluye un simulador de autenticación de usuario (login) y validación de formularios gestionado íntegramente desde el lado del cliente con JavaScript.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JS"
+    ],
+    "date": "2025-06",
+    "url": "https://github.com/DAM-DAW-M-Optatiu/modul-optatiu-grup-c-Onikuza00/tree/main/NF02%20-%20JS/Web_vegeta",
+    "img": "casanostra1.webp",
+    "images": [
+      "casanostra1.webp",
+      "casanostra2.webp",
+      "casanostra3.webp",
+      "casanostra4.webp",
+      "casanostra5.webp"
+    ]
+  }
+]

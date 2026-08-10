@@ -1,0 +1,187 @@
+/*
+ * EJERCICIO INTEGRAL CSS — Pricing Section
+ *
+ * Escribí TODO el CSS desde cero. NO modifiques el HTML.
+ * Sin IA, sin ayudín. Solo vos y el editor.
+ *
+ * ─── TIEMPO: 45 minutos ───
+ *
+ * ─── REQUISITOS ───
+ *
+ * 1. Reset universal (* { box-sizing, margin, padding })
+ *
+ * 2. Variables CSS en :root:
+ *    - --color-primary, --color-secondary
+ *    - --color-bg, --color-text, --color-white
+ *    - --spacing-xs, --spacing-sm, --spacing-md, --spacing-lg
+ *    - --font-primary
+ *    - --radius-md
+ *
+ * 3. BEM: todas las clases siguen BEM.
+ *    Bloques: .pricing, .pricing-card
+ *
+ * 4. Mobile First Grid:
+ *    - Mobile: 1 columna
+ *    - ≥768px: 2 columnas
+ *    - ≥1024px: 3 columnas
+ *
+ * 5. Card --featured destacada:
+ *    - Borde de color primary O sombra más grande
+ *    - El badge ".pricing-card__badge" debe verse (roto, arriba)
+ *
+ * 6. :has() en .pricing__grid:
+ *    Cuando una .pricing-card esté en hover, el grid entero
+ *    tiene un box-shadow glow o background distinto.
+ *
+ * 7. Container Query en .pricing-card:
+ *    - container-name: card, container-type: inline-size
+ *    - A ≥350px de ancho del contenedor: .pricing-card__features
+ *      pasa a 2 columnas con grid
+ *
+ * 8. clamp() en .pricing__title:
+ *    font-size: clamp(1.5rem, 3.5vw, 3rem)
+ *
+ * 9. Transición en hover de la card:
+ *    translateY(-8px) + box-shadow más grande
+ *
+ * 10. :focus-visible en .pricing-card__cta:
+ *     outline de 3px con offset 2px
+ *
+ * 11. prefers-reduced-motion:
+ *     Si está activo, anular todas las transiciones y transforms
+ *
+ * 12. :not() en .pricing-card__feature:
+ *     Los features separados con border-bottom, menos el último
+ *     (.pricing-card__feature:not(:last-child))
+ *
+ * ─── ENTREGA ───
+ * Cuando termines avisame. No importa si no llegás a todo.
+ * La idea es ver dónde estás realmente para armar la ruta.
+ */
+
+ * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-primary: #494949;
+  --color-secondary: #fff;
+  --color-bg: #000;
+  --color-bg-white: #fff;
+  --color-bg-light: #ece8e8;
+  --color-bg-featured: #f1f5c3;
+  --color-bg-red: #ce100a;
+  --color-text: #333;
+  --color-white: #ffffff;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --font-primary: 'Arial', sans-serif;
+  --font-secondary: 'Helvetica', sans-serif;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --font-size-small: clamp(0.7rem, 1vw, 0.9rem);
+  --font-size-medium: clamp(0.9rem, 1.5vw, 1.2rem);
+  --font-size-large: clamp(1.25rem, 2vw, 1.5rem);
+  --font-size-xlarge: clamp(1.5rem, 3vw, 2rem);
+  --font-size-2xlarge: clamp(2rem, 4vw, 3rem); 
+  --font-size-3xlarge: clamp(2.5rem, 5vw, 4rem);
+  --font-size-4xlarge: clamp(3rem, 6vw, 5rem);
+}
+
+.pricing__grid {
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+    .pricing__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .pricing__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.pricing-card {
+    border: solid 1px var(--color-text);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-light);
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+    gap: var(--spacing-md);
+}
+
+.pricing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+}
+    
+
+ .pricing-card--featured {
+    background-color: var(--color-bg-featured);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: solid 1px var(--color-primary);
+}
+
+.pricing-card__badge {
+    background-color: var(--color-bg-red);
+    color: var(--color-white);
+    font-weight: bold;
+    padding: var(--spacing-sm) var(--spacing-sm);
+    font-size: var(--font-size-medium);
+    width: 100%;
+    transform:skewY(-25deg);
+    position: absolute;
+    top:10%;
+    text-align:center;
+    left: -35%;
+}
+
+.pricing__grid:has(.pricing-card:hover) .pricing__grid {
+    background-color: var(--color-bg-red);
+}
+
+.pricing-card__title {
+    font-size:var(--font-size-2xlarge);
+    font-weight: bold;
+    margin-bottom: var(--spacing-md);
+}
+
+.pricing-card__cta {
+    color: var(--color-bg-black);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+}
+.pricing-card:has(.pricing-card__cta:focus-visible) .pricing-card__cta {
+    outline: 3px solid var(--color-bg-black);
+}
+
+
+.pricing-card__feature:not(:last-child) {
+    border-bottom: 1px solid var(--color-text);
+    padding: var(--spacing-sm) 0;
+}

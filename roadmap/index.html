@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruta de aprendizaje — Pau · Agosto 2026</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-card: #171a23;
+    --bg-card-hover: #1d212c;
+    --border: #2a2f3d;
+    --text: #e7e9ee;
+    --text-dim: #9aa0af;
+    --accent-js: #f7df1e;
+    --accent-css: #2ecc71;
+    --accent-node: #6cc24a;
+    --accent-symfony: #a78bfa;
+    --accent-danger: #ff6b6b;
+    --accent-info: #5b9dff;
+    --radius: 10px;
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2.5rem;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55;
+    padding: var(--space-3) var(--space-2) var(--space-4);
+  }
+
+  main {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  header.hero {
+    margin-bottom: var(--space-3);
+  }
+
+  header.hero h1 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    margin: 0 0 var(--space-1);
+  }
+
+  header.hero p.subtitle {
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+  }
+
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  section {
+    margin-bottom: var(--space-4);
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-1);
+    margin-bottom: var(--space-2);
+  }
+
+  h2 .icon { margin-right: 0.4rem; }
+
+  h3 {
+    font-size: 1.05rem;
+    margin: var(--space-3) 0 var(--space-1);
+  }
+
+  p { color: var(--text); }
+  p.dim { color: var(--text-dim); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  code {
+    font-family: var(--font-mono);
+    background: rgba(255,255,255,0.06);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .intro-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
+
+  .intro-card p:first-child { margin-top: 0; }
+
+  .decision-box {
+    margin-top: var(--space-2);
+    padding: var(--space-2);
+    border-left: 3px solid var(--accent-info);
+    background: rgba(91,157,255,0.06);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.92rem;
+  }
+
+  .decision-box.boss {
+    border-left-color: var(--accent-symfony);
+    background: rgba(167,139,250,0.08);
+  }
+
+  .out-of-scope {
+    margin-top: var(--space-2);
+    padding: var(--space-2);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+  }
+
+  .out-of-scope strong { color: var(--text); }
+
+  .week-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-js);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .week-card.symfony { border-left-color: var(--accent-symfony); }
+
+  .week-card h3 {
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .status {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .status--done { background: rgba(46,204,113,0.15); color: var(--accent-css); }
+  .status--progress { background: rgba(91,157,255,0.15); color: var(--accent-info); }
+  .status--pending { background: rgba(255,255,255,0.06); color: var(--text-dim); }
+  .status--parallel { background: rgba(167,139,250,0.15); color: var(--accent-symfony); }
+
+  .week-card .dates {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin: 0 0 var(--space-2);
+  }
+
+  .concept-anchor {
+    margin-top: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    border-left: 3px solid var(--accent-js);
+    background: rgba(247,223,30,0.06);
+    font-size: 0.9rem;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .week-card.symfony .concept-anchor { border-left-color: var(--accent-symfony); background: rgba(167,139,250,0.06); }
+
+  ol.step-list, ul.step-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.92rem;
+  }
+
+  ol.step-list li, ul.step-list li { margin-bottom: 0.35rem; }
+
+  .rhythm-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .rhythm-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-2);
+  }
+
+  .rhythm-card h4 {
+    margin: 0 0 var(--space-1);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .rhythm-card pre {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    white-space: pre-wrap;
+    color: var(--text);
+  }
+
+  ul.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  ul.checklist li {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+  }
+
+  ul.checklist li:last-child { border-bottom: none; }
+
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .pattern-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-2);
+  }
+
+  .pattern-card h4 {
+    margin: 0 0 var(--space-1);
+    font-size: 0.95rem;
+    color: var(--accent-danger);
+  }
+
+  .pattern-card p { margin: 0; font-size: 0.88rem; color: var(--text-dim); }
+
+  footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-top: var(--space-4);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border);
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    .week-card, .pattern-card, table, .intro-card, .rhythm-card { background: #fff; border-color: #ccc; }
+  }
+
+  @media (min-width: 640px) {
+    .pattern-grid { grid-template-columns: 1fr 1fr; }
+    .rhythm-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 780px) {
+    body { padding: var(--space-4); }
+  }
+</style>
+</head>
+<body>
+
+<main>
+
+  <header class="hero">
+    <h1>🗺️ Ruta de aprendizaje — Pau</h1>
+    <p class="subtitle">Agosto 2026 · JS → React/Node + Tailwind + Symfony/Messenger/RAG, con un objetivo concreto: empleabilidad en Girona y Barcelona.</p>
+    <div class="badge-row">
+      <span class="badge">L-V 9:00–14:00 · S-D 8:00–14:00 (~37h/semana)</span>
+      <span class="badge">Vanilla first</span>
+      <span class="badge">Contrato puente activo</span>
+      <span class="badge">Exportado 08/08/2026</span>
+    </div>
+  </header>
+
+  <section id="porque">
+    <h2><span class="icon">🎯</span>Por qué este plan</h2>
+    <div class="intro-card">
+      <p>Se terminaron las prácticas. La empresa ofreció continuidad, pero sin senior que guíe y con contrato de pocas horas — se toma como puente mientras se busca activamente, no como destino. El mes ya no es "avanzar cómodo": es consolidar lo que abre puertas reales, más lo que pide el trabajo actual mientras dura el puente.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Mercado</th><th>Qué piden</th><th>Lectura</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Girona</strong> (chico)</td><td>Vue + PHP/Symfony + APIs (oferta real de HAYS, ago-2026)</td><td>Es el stack que ya domino — no bloquea</td></tr>
+            <tr><td><strong>Barcelona</strong> (grande)</td><td>React/Vue/Angular intercambiables, TS + Node casi siempre con React</td><td>Más volumen de ofertas, pide ampliar</td></tr>
+            <tr><td>Transversal</td><td>JS/TS sólido, Git, portfolio/GitHub demostrable</td><td>Pesa tanto como el framework de moda</td></tr>
+            <tr><td>CSS</td><td>Tailwind gana terreno a Bootstrap (~2.5x más listados en ofertas nuevas)</td><td>No es secundario a JS/React — misma prioridad</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="decision-box">
+        <strong>Decisión de stack:</strong> ampliar a React + Node (no reemplaza Vue/Symfony, que ya está sólido). Maximiza opciones en ambos mercados sin abandonar lo que ya es empleable en Girona.
+      </div>
+
+      <div class="decision-box boss">
+        <strong>Segundo objetivo, no negociable:</strong> el jefe del contrato puente pidió consolidar <strong>Symfony + Messenger + integración RAG + webhooks</strong>. Sin plazo fijo, pero espera progreso constante — entra como track paralelo dentro de las 37h/semana, sin dominar el tiempo total.
+      </div>
+
+      <div class="out-of-scope">
+        <strong>Fuera del roadmap</strong> (ya resuelto o pospuesto): Portfolio/CV ya está hecho, no consume horas de este plan · TypeScript no lleva bloque propio, se introduce liviano dentro de las semanas de React.
+      </div>
+
+      <p class="dim" style="margin-top:1rem;">Calendario de arranque: <strong>domingo 09/08</strong> = repaso general de todo lo dado hasta ahora. El ritmo nuevo arranca el <strong>lunes 10/08</strong>.</p>
+    </div>
+  </section>
+
+  <section id="diagnostico">
+    <h2><span class="icon">🧠</span>Tu contexto actual</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Stack</th><th>Nivel</th><th>Fuerte en</th><th>Falta</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Vue</td>
+            <td>Intermedio</td>
+            <td>Componentes, templates, reactive data, directives</td>
+            <td>Qué hace Vue "por debajo" (reactividad = getters/setters)</td>
+          </tr>
+          <tr>
+            <td>Symfony</td>
+            <td>Intermedio</td>
+            <td>MVC, routing, Doctrine, JWT, Twig</td>
+            <td>Messenger, integración RAG, webhooks (pedido del jefe)</td>
+          </tr>
+          <tr>
+            <td>CSS</td>
+            <td><strong>8/10</strong></td>
+            <td>Flex, Grid, BEM, Container Queries, <code>:has()</code>, <code>@layer</code>, GSAP</td>
+            <td>Tailwind (arranca directo), CSS Nesting (repaso corto previo)</td>
+          </tr>
+          <tr>
+            <td>JS puro</td>
+            <td><strong>5.5/10</strong></td>
+            <td>Loops, split/join, includes, indexOf, early returns</td>
+            <td>Métodos de array, objetos como estructuras, callbacks, closures, async</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dim">Vue y Symfony enseñaron <em>qué</em> se puede hacer, no <em>cómo</em> funciona por dentro. Para React y Node hace falta el "cómo". Para CSS, la base ya es sólida — Tailwind es traducir lo que ya sabés a utility classes, no aprender de cero.</p>
+  </section>
+
+  <section id="meta">
+    <h2><span class="icon">🎯</span>Metas de agosto</h2>
+    <p>Cada concepto de JS está elegido porque mapea directo a algo de React o Node — no es JS genérico.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Concepto JS</th><th>Sirve en React para…</th><th>Sirve en Node para…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>map</code>/<code>filter</code>/<code>reduce</code></td><td>Renderizar listas en JSX</td><td>Procesar arrays de datos</td></tr>
+          <tr><td>Objetos + spread</td><td><code>setState</code>, props, estado inmutable</td><td>Config, request/response</td></tr>
+          <tr><td>Callbacks + closures</td><td><code>useEffect</code>, event handlers, hooks</td><td>Patrones async, middleware</td></tr>
+          <tr><td>Promises + async/await</td><td><code>fetch</code>, efectos secundarios</td><td>El core de Node</td></tr>
+          <tr><td>Destructuring</td><td>Props <code>{nombre, precio}</code></td><td><code>require</code>, módulos</td></tr>
+          <tr><td>Modules import/export</td><td>Cualquier componente React</td><td>Cualquier archivo Node</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap" style="margin-top:1rem;">
+      <table>
+        <thead><tr><th>Meta</th><th>Nivel objetivo</th></tr></thead>
+        <tbody>
+          <tr><td>JS puro</td><td>5.5/10 → 7.5/10</td></tr>
+          <tr><td>CSS</td><td>8/10 → 8.5/10 + Tailwind funcional</td></tr>
+          <tr><td>Symfony (Messenger/RAG/webhooks)</td><td>Progreso constante, sin nota — lo pide el trabajo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="ritmo">
+    <h2><span class="icon">📐</span>Estructura semanal</h2>
+    <p><strong>Horas:</strong> 5h lunes a viernes + 6h sábado y domingo = ~37h/semana.</p>
+    <p class="dim">No hay un día fijo para JS, CSS/Tailwind o Symfony. Cada sesión arranca revisando <code>GOTCHAS.md</code> y el daily log anterior — si hay algo pendiente o un patrón en "necesito reforzar" bloqueando el siguiente ejercicio, eso va primero. Sin bloqueos, se sigue la progresión de las 4 semanas. Symfony entra ~1-2 veces por semana (≈8-9h totales) para sostener progreso constante sin desplazar el objetivo principal.</p>
+
+    <h3>Estructura fija de cada sesión (siempre, sin excepción)</h3>
+    <ol class="step-list">
+      <li><strong>Repaso de teoría + fallos anteriores</strong> — refrescar lo relevante de <code>GOTCHAS.md</code> antes de tocar nada nuevo.</li>
+      <li><strong>Contenido del día</strong> — core topic + proyecto/consolidación.</li>
+      <li><strong>Teoría nueva → a los docs</strong> — si aparece un concepto nuevo, se documenta en <code>docs/</code> con la convención ya establecida.</li>
+      <li><strong>Cierre: links a referencias oficiales</strong> — en español si existen, al final de la sesión/daily log.</li>
+    </ol>
+
+    <div class="rhythm-grid">
+      <div class="rhythm-card">
+        <h4>Sesión de 5h — lunes a viernes (9:00–14:00)</h4>
+        <pre>9:00–9:30    Repaso teoría + fallos (GOTCHAS.md)
+9:30–12:00   Core topic del día
+12:00–12:30  ☕ Corte
+12:30–13:30  Proyecto / Consolidación
+13:30–14:00  Review + daily log + refs</pre>
+      </div>
+      <div class="rhythm-card">
+        <h4>Sesión de 6h — sábado y domingo (8:00–14:00)</h4>
+        <pre>8:00–8:30    Repaso teoría + fallos (GOTCHAS.md)
+8:30–11:30   Core topic (bloque extendido)
+11:30–12:00  ☕ Corte
+12:00–13:30  Proyecto / Consolidación
+13:30–14:00  Review + daily log + refs</pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="semanas">
+    <h2><span class="icon">📅</span>Las 4 semanas</h2>
+
+    <div class="week-card">
+      <h3>Semana 1 — Arrays + métodos <span class="status status--progress">En curso</span></h3>
+      <p class="dates">Cierra con el repaso general del domingo 09/08 · Base para React lists</p>
+      <p><code>map</code>/<code>filter</code>/<code>forEach</code> → <code>slice</code> vs <code>splice</code> + spread (inmutabilidad) → <code>reduce</code> (numérico, con condición, con objeto acumulador) → DOM básico combinado con arrays.</p>
+      <p class="dim">Estado real (08/08): reduce numérico y con condición ya cerrado ✅. Pendiente: reduce con objeto acumulador.</p>
+      <p class="dim">Proyectos: refactor de ejercicios viejos con métodos · carrito sin mutar el original · catálogo renderizado desde array.</p>
+      <div class="concept-anchor">🧠 Concepto ancla: <strong>"no mutar, crear nuevo"</strong> — es la puerta de entrada a <code>useState</code>.</div>
+    </div>
+
+    <div class="week-card">
+      <h3>Semana 2 — Objetos + callbacks <span class="status status--pending">10–16 agosto</span></h3>
+      <p class="dates">Base para React hooks/props · incluye Tailwind fundamentals + componentes</p>
+      <p>Objetos: clave-valor, <code>Object.keys/values/entries</code>, spread en objetos → funciones como valor, callbacks, closures → <code>reduce</code>/<code>find</code>/<code>some</code>/<code>every</code> → Tailwind: utility-first, spacing, colors, flex/grid, componentes + <code>@apply</code> (con repaso corto de CSS Nesting antes).</p>
+      <p class="dim"><strong>TypeScript liviano:</strong> una vez que un componente/función funciona en JS puro, tipar sus props/parámetros.</p>
+      <p class="dim">Proyectos: sistema de puntuación con objetos · temporizador + contadores · mini-tarjeta de producto y biblioteca de componentes con Tailwind.</p>
+      <div class="concept-anchor">🧠 Concepto ancla: <strong>"las funciones son valores"</strong> — sin esto, <code>onClick={handleClick}</code> es magia negra.</div>
+
+      <h4 style="margin:1rem 0 0.5rem;font-size:0.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.03em;">Día a día acordado (borrador ajustable — 10-16/08)</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Día</th><th>Horario</th><th>Foco</th><th>Detalle / proyecto</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Lun 10/08</strong></td><td>9-14h</td><td>🔵 JS — pendiente + Objetos</td><td>Reduce con objeto acumulador (si quedó del 09/08) → <code>Object.keys/values/entries</code>, spread</td></tr>
+            <tr><td><strong>Mar 11/08</strong></td><td>9-14h</td><td>🔵 JS — Callbacks + closures</td><td>Funciones como valor · temporizador + contadores</td></tr>
+            <tr><td><strong>Mié 12/08</strong></td><td>9-14h</td><td>🟣 Symfony — día completo</td><td>Repaso fundamentos + arranque Messenger</td></tr>
+            <tr><td><strong>Jue 13/08</strong></td><td>9-14h</td><td>🔵 JS — cierre objetos</td><td><code>reduce</code>/<code>find</code>/<code>some</code>/<code>every</code> + repaso CSS Nesting</td></tr>
+            <tr><td><strong>Vie 14/08</strong></td><td>9-14h</td><td>🟢 Tailwind fundamentals</td><td>Utility-first, spacing, colors, flex/grid · mini-tarjeta de producto</td></tr>
+            <tr><td><strong>Sáb 15/08</strong></td><td>8-14h</td><td>🟢 Tailwind componentes</td><td><code>@apply</code>, sistema de diseño · biblioteca de componentes TW</td></tr>
+            <tr><td><strong>Dom 16/08</strong></td><td>8-14h</td><td>🟣 Symfony (3.5h) + Review (2.5h)</td><td>Consolidar Messenger / arrancar RAG → TS liviano + review semanal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="dim" style="margin-top:0.5rem;">Symfony ≈8.5h esta semana (miércoles completo + bloque del domingo). Ajustable si algo se traba — sigue las reglas de reparto dinámico.</p>
+    </div>
+
+    <div class="week-card">
+      <h3>Semana 3 — DOM + async <span class="status status--pending">17–23 agosto</span></h3>
+      <p class="dates">Base para Node y efectos · incluye Tailwind landing + CSS moderno</p>
+      <p>Promises, <code>fetch</code>, <code>async/await</code> → DOM: crear elementos, eventos, formularios → Tailwind: landing page completa, responsive real → CSS moderno: <code>subgrid</code>, <code>text-wrap</code>, <code>scroll-snap</code>.</p>
+      <p class="dim">Proyectos: cargar datos de API pública · formulario con feedback en tiempo real · landing propia 100% Tailwind · galería con scroll-snap.</p>
+      <div class="concept-anchor">🧠 Concepto ancla: <strong>"async no es magia, es un timer que ejecuta una función después"</strong>.</div>
+    </div>
+
+    <div class="week-card">
+      <h3>Semana 4 — Mini-proyecto integrador <span class="status status--pending">24–31 agosto</span></h3>
+      <p class="dates">Unir todo antes de decidir septiembre</p>
+      <p>Tailwind + JS puro + fetch + DOM en un proyecto real, pensado para parecerse a una app React sin React: planificar estructura de datos → maquetar con Tailwind → lógica JS (filtros, búsqueda, ordenación) → refinar UI + responsive → evaluación final.</p>
+      <p class="dim">Ideas: catálogo de productos con fetch/filtros/carrito · dashboard de clima con API gratuita · clon minimalista de Trello.</p>
+      <div class="concept-anchor">🧠 Cierre: evaluación real de si estás listo para arrancar React.</div>
+    </div>
+
+    <div class="week-card symfony">
+      <h3>Track paralelo — Symfony + Messenger + RAG + webhooks <span class="status status--parallel">~8-9h/semana</span></h3>
+      <p class="dates">Pedido del jefe · 1-2 sesiones/semana, sin día fijo · no compite con el objetivo principal</p>
+      <ol class="step-list">
+        <li>Repaso de fundamentos ya sólidos (MVC, Doctrine, JWT) — solo lo justo para engranar con lo nuevo.</li>
+        <li><strong>Messenger:</strong> buses de mensajes, handlers, colas async, reintentos.</li>
+        <li><strong>Integración RAG:</strong> cómo el backend Symfony consume/orquesta un pipeline de retrieval (embeddings, búsqueda vectorial, contexto hacia el LLM).</li>
+        <li><strong>Webhooks:</strong> endpoints de recepción, validación de firma, idempotencia, reintentos/fallos.</li>
+      </ol>
+      <p class="dim" style="margin-top:0.75rem;">Progresión a validar/ajustar con lo que pida el trabajo real — no sigue fecha cerrada como los bloques de JS/CSS.</p>
+    </div>
+
+  </section>
+
+  <section id="reforzar">
+    <h2><span class="icon">🔁</span>Materia a reforzar (transversal, no por semana)</h2>
+    <p class="dim">No es "toda la materia por igual": estos son los puntos que se repiten como fricción dentro de cualquier ejercicio nuevo, según el registro real de fallos en <code>GOTCHAS.md</code>.</p>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <h4>Off-by-one</h4>
+        <p>¿Incluyo o excluyo el límite? <code>&lt;</code> vs <code>&lt;=</code>. Aparece en loops de arrays adyacentes y rangos numéricos.</p>
+      </div>
+      <div class="pattern-card">
+        <h4><code>!</code> vs <code>!==</code></h4>
+        <p><code>!</code> niega un booleano. <code>!==</code> pregunta "es distinto". Confundirlos rompe condiciones silenciosamente.</p>
+      </div>
+      <div class="pattern-card">
+        <h4>Precedencia de operadores</h4>
+        <p><code>!i % 2</code> no es lo mismo que <code>i % 2 !== 0</code>. Regla de oro: paréntesis ante la duda.</p>
+      </div>
+      <div class="pattern-card">
+        <h4>Casos borde</h4>
+        <p><code>.length</code> no existe en números. Espacios en <code>toUpperCase()</code>. Arrays/strings vacíos.</p>
+      </div>
+      <div class="pattern-card">
+        <h4>Mirar "para atrás"</h4>
+        <p><code>array[i-1]</code> o <code>string[i-1]</code> para dar contexto local a la posición actual.</p>
+      </div>
+      <div class="pattern-card">
+        <h4>Acumulador en reduce</h4>
+        <p>El <code>return acum</code> va siempre, se cumpla o no la condición del <code>if</code> — si no, la cadena se corrompe.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="criterios">
+    <h2><span class="icon">📊</span>Criterios realistas para pasar a React</h2>
+    <ul class="checklist">
+      <li>✅ Resolvés un ejercicio nuevo sin ayuda</li>
+      <li>✅ Usás <code>map/filter/find</code> de forma natural, sin caer en <code>for</code></li>
+      <li>✅ 3 sesiones seguidas sin off-by-one ni errores de <code>splice</code>/<code>slice</code></li>
+      <li>✅ Hacés fetch + render sin drama (proyecto semana 4)</li>
+      <li>✅ Explicás qué es un closure con tus propias palabras</li>
+    </ul>
+    <p class="dim">4/5 → React no te va a costar. Con 3/5, estás cerca igual.</p>
+  </section>
+
+  <footer>
+    Generado a partir de <code>docs/planning/index.md</code> + <code>GOTCHAS.md</code> + registro diario de codeLearn. Última reorganización: 08/08/2026.
+  </footer>
+
+</main>
+
+</body>
+</html>

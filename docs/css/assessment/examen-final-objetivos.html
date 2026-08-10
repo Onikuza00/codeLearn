@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Final CSS — NomadStay | CodeLearn</title>
+  <link rel="stylesheet" href="../../assessment/style.css">
+  <style>
+    h1 { font-size: 2rem; border-bottom: 4px solid var(--accent-green); padding-bottom: .5rem; margin-bottom: .5rem; }
+    h2 {
+      font-size: 1.25rem;
+      color: var(--accent-green);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .25rem;
+      border-bottom: 2px solid #0a3a1e;
+    }
+    .requisito {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: .75rem 1rem;
+      border-radius: var(--radius-sm);
+      margin: .5rem 0;
+      border-left: 4px solid var(--accent-green);
+    }
+    .requisito strong { color: var(--accent-green); }
+    .nota {
+      background: #0e1a2a;
+      padding: .5rem 1rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--accent-css);
+      font-size: .9rem;
+      color: #8ab4f8;
+    }
+    .checklist {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+    .checklist h3 { margin-top: 0; color: var(--text-primary); }
+    .checklist ul { padding-left: 1.25rem; }
+    .checklist li { margin-bottom: .25rem; }
+    .meta-bar--exam {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #0a1a0e;
+      border: 1px solid #1a3a1e;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-size: .875rem;
+    }
+    .meta-bar--exam strong { color: var(--accent-green); }
+    .tag { display: inline-block; font-size: .68rem; font-weight: 600; padding: 2px 10px; border-radius: 20px; color: #fff; }
+    .tag--cq { background: #0f3460; }
+    .tag--has { background: #533483; }
+    .tag--grid { background: #e94560; }
+    .tag--flex { background: #16213e; }
+    .tag--bem { background: #0b8457; }
+    .tag--var { background: #d4a017; color: #1a1a2e; }
+    .tag--a11y { background: #0077b6; }
+    .tag--motion { background: #6c757d; }
+    .tag--clamp { background: #e76f51; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../../assessment/index.html" class="nav__logo">Code<span>Learn</span></a>
+  <ul class="nav__list">
+    <li class="nav__item">
+      <button class="nav__btn" data-dropdown="css" aria-haspopup="true">
+        Exámenes CSS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-css">
+        <div class="megamenu__title">CSS</div>
+        <a href="../../assessment/css-fundamentos.html" class="megamenu__link">
+          <span class="icon icon--css">🎨</span>
+          <span class="link-text">
+            Nexus Agency
+            <span class="sub">Flex, Grid, RWD, Moderno</span>
+          </span>
+        </a>
+        <a href="examen-final-objetivos.html" class="megamenu__link">
+          <span class="icon icon--done">🏕️</span>
+          <span class="link-text">
+            NomadStay — Landing
+            <span class="sub">18/07/2026 · Examen final</span>
+          </span>
+        </a>
+      </div>
+    </li>
+    <li class="nav__item">
+      <button class="nav__btn" data-dropdown="js" aria-haspopup="true">
+        Exámenes JS <span class="arrow">▼</span>
+      </button>
+      <div class="megamenu" id="dropdown-js">
+        <div class="megamenu__title">JavaScript</div>
+        <a href="../../assessment/js-vanilla.html" class="megamenu__link">
+          <span class="icon icon--js">📋</span>
+          <span class="link-text">
+            Task Dashboard
+            <span class="sub">DOM, Arrays, Async</span>
+          </span>
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main class="container">
+
+<h1>🏕️ Examen Final CSS — NomadStay</h1>
+<p><strong>Cliente:</strong> NomadStay — plataforma de alquileres temporales para nómades digitales.</p>
+<p><strong>Tiempo estimado:</strong> 45–60 min.</p>
+<p><strong>Regla de oro:</strong> Mobile First. Base sin media query = mobile. Una sola media query <code>min-width: 768px</code> para desktop. Sin <code>max-width</code> salvo en CQ.</p>
+<p><strong>Archivos:</strong> <code>nomadStay.html</code> + <code>nomad-styles.css</code>. Todo desde cero.</p>
+
+<hr>
+
+<h2>Sección 1 — Header <span class="tag tag--flex">Flex</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--a11y">:focus-visible</span></h2>
+
+<div class="requisito">
+  <strong>.header</strong> — fondo oscuro, texto claro. Flex row. Logo a izquierda, nav centrado, botón CTA a derecha.
+</div>
+
+<ul>
+  <li><strong>Mobile:</strong> nav links apilados (column), CTA abajo del todo.</li>
+  <li><strong>Desktop (768px+):</strong> todo en una fila.</li>
+  <li><span class="tag tag--a11y">a11y</span> <code>:focus-visible</code> en cada <code>.header__link</code> y <code>.header__cta</code>.</li>
+  <li><span class="tag tag--motion">Motion</span> Transición suave en hover de links y botón. <code>prefers-reduced-motion</code> debe respetarse.</li>
+  <li>BEM estricto: <code>.header__logo</code>, <code>.header__nav</code>, <code>.header__link</code>, <code>.header__cta</code>.</li>
+</ul>
+
+<h2>Sección 2 — Hero <span class="tag tag--clamp">clamp()</span> <span class="tag tag--var">Variables</span> <span class="tag tag--motion">Motion</span></h2>
+
+<div class="requisito">
+  <strong>.hero</strong> — gran titular, subtítulo, botón CTA. Una sola columna centrada.
+</div>
+
+<ul>
+  <li>Título con <code>clamp()</code> fluido que vaya de <strong>2rem</strong> (móvil) a <strong>4rem</strong> (pantalla grande).</li>
+  <li>Subtítulo con <code>clamp(1rem, 2vw, 1.25rem)</code>.</li>
+  <li>Fondo: color primario + un degradado suave usando variables.</li>
+  <li>Padding vertical generoso con variable de espaciado.</li>
+  <li>Botón CTA con hover/transición. <code>prefers-reduced-motion</code> respetado.</li>
+</ul>
+
+<h2>Sección 3 — Servicios <span class="tag tag--grid">Grid</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--var">Variables</span></h2>
+
+<div class="requisito">
+  <strong>.services</strong> — 3 servicios en grid. Icono + título + descripción breve.
+</div>
+
+<ul>
+  <li><strong>Mobile:</strong> 1 columna.</li>
+  <li><strong>Desktop:</strong> 3 columnas iguales.</li>
+  <li>BEM: <code>.services__card</code>, <code>.services__icon</code>, <code>.services__title</code>, <code>.services__desc</code>.</li>
+  <li>Usá emojis para los iconos (🏠 🌍 💻 o los que quieras).</li>
+  <li>Cards con <code>gap</code>, <code>padding</code>, <code>border-radius</code> desde variables.</li>
+  <li>Transición en hover (sutil: subir 2-3px o cambiar sombra). Respetar <code>prefers-reduced-motion</code>.</li>
+</ul>
+
+<h2>Sección 4 — Destinos <span class="tag tag--grid">Grid</span> <span class="tag tag--grid">auto-fit</span> <span class="tag tag--has">:has()</span> <span class="tag tag--cq">CQ</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>.destinos</strong> — grid de 6 destinos responsive SIN media queries. Cada card: imagen, título, precio, badge "Popular" (opcional).
+</div>
+
+<ul>
+  <li>Grid con <code>repeat(auto-fit, minmax(260px, 1fr))</code> para que el número de columnas se adapte solo.</li>
+  <li><span class="tag tag--cq">CQ</span> <strong>Container Query:</strong> el container NO va en cada card. Va en <code>.destinos</code> (el grid). Esto es clave: el <code>@container</code> estila a los descendientes del contenedor, no al contenedor mismo.
+    <ul>
+      <li><code>.destinos</code> tiene <code>container: destinos-grid / inline-size</code>.</li>
+      <li>Breakpoint: <code>@container destinos-grid (min-width: 500px)</code> — se dispara solo cuando el grid tiene 2+ columnas (escritorio).</li>
+      <li><strong>Base (mobile-first, SIN container query):</strong> card en <strong>column</strong>, imagen al 100% de ancho, contenido debajo.</li>
+      <li><strong>@container (min-width: 500px):</strong> card en <strong>row</strong>, imagen fija de <strong>140px</strong> a izquierda, contenido a la derecha.</li>
+      <li><strong>¿Por qué 500px y no 320px?</strong> Con <code>minmax(260px, 1fr)</code>, las cards miden ~260-343px tanto en mobile 1 columna como en desktop 3 columnas. Un breakpoint de 320px se dispara en ambos casos. Con 500px en <code>.destinos</code> (el grid), el CQ solo se activa en escritorio, donde el grid completo mide 700px+.</li>
+      <li><strong>IMPORTANTE — Regla de CQ:</strong> el <code>@container</code> solo puede estilar descendientes del contenedor, no al contenedor mismo. Necesitás un wrapper DENTRO de <code>.card-destinos</code> que haga de flex container y sea el target del CQ.</li>
+    </ul>
+  </li>
+  <li><span class="tag tag--has">:has()</span> <code>.card-destinos:has(.card__badge)</code> debe tener un borde o color distinto para destacar.</li>
+  <li>BEM: <code>.card-destinos</code>, <code>.card__container</code>, <code>.card__container--info</code>, <code>.card__title</code>, <code>.card__price</code>, <code>.card__badge</code>.</li>
+  <li>Imagen de placeholder con background-image: <code>https://picsum.photos/seed/ciudad/400/300</code>.</li>
+  <li>Al menos 2 destinos deben tener badge "Popular".</li>
+  </ul>
+
+<h2>Sección 5 — Testimonios <span class="tag tag--flex">Flex</span> <span class="tag tag--bem">BEM</span> <span class="tag tag--a11y">:focus-visible</span></h2>
+
+<div class="requisito">
+  <strong>.testimonials</strong> — 3-4 testimonios en flex wrap.
+</div>
+
+<ul>
+  <li><strong>Mobile:</strong> 1 columna. <strong>Desktop:</strong> 2x2 grid visual (flex con wrap).</li>
+  <li>Cada card: avatar (círculo), nombre, rol, texto citado.</li>
+  <li>Avatar con <code>object-fit: cover</code>, <code>border-radius: 50%</code>.</li>
+  <li>BEM: <code>.testimonials__card</code>, <code>.testimonials__avatar</code>, <code>.testimonials__name</code>, <code>.testimonials__role</code>, <code>.testimonials__text</code>.</li>
+  <li>Diseño limpio, borde sutil con <code>border: 1px solid var(--border)</code>.</li>
+</ul>
+
+<h2>Sección 6 — Footer <span class="tag tag--grid">Grid</span> <span class="tag tag--bem">BEM</span></h2>
+
+<div class="requisito">
+  <strong>.footer</strong> — 3 columnas: col1 = logo+desc, col2 = enlaces, col3 = contacto.
+</div>
+
+<ul>
+  <li><strong>Mobile:</strong> 1 columna apilada.</li>
+  <li><strong>Desktop:</strong> 3 columnas iguales.</li>
+  <li>Fondo oscuro (como el header), texto claro.</li>
+  <li>BEM: <code>.footer__col</code>, <code>.footer__title</code>, <code>.footer__link</code>, <code>.footer__text</code>.</li>
+  <li>Enlaces hover con transición.</li>
+</ul>
+
+<h2>Requisitos Globales</h2>
+
+<div class="requisito">
+  <span class="tag tag--var">Variables</span> Definí en <code>:root</code>:
+  <code>--color-primary</code>, <code>--color-secondary</code>, <code>--color-text</code>, <code>--color-bg</code>,
+  <code>--spacing-xs</code>, <code>--spacing-sm</code>, <code>--spacing-md</code>, <code>--spacing-lg</code>,
+  <code>--radius-sm</code>, <code>--radius-md</code>,
+  <code>--font-body</code>, <code>--font-heading</code>.
+  Usalas en todos lados. Nada de valores mágicos.
+</div>
+
+<div class="requisito">
+  <span class="tag tag--motion">Motion</span> Todas las transiciones/animaciones deben respetar <code>prefers-reduced-motion: no-preference</code>.
+  Si el usuario prefiere motion reducido, cero animaciones.
+</div>
+
+<div class="requisito">
+  <span class="tag tag--bem">BEM</span> Estricto en todo el proyecto. Sin clases sueltas, sin anidación rara.
+</div>
+
+<div class="nota">
+  ⏱️ Si algo no te sale, no te empantes más de 5 minutos. Saltá, deja comentado lo que falta y seguí. Prefiero verte completo con 1 fallo que incompleto.
+</div>
+
+<hr>
+
+<div class="checklist">
+  <h3>✅ Checklist de conceptos evaluados</h3>
+  <ul>
+    <li>☐ Reset CSS básico</li>
+    <li>☐ Variables nativas en <code>:root</code></li>
+    <li>☐ BEM en absolutamente todo</li>
+    <li>☐ Mobile First</li>
+    <li>☐ Una media query <code>min-width: 768px</code></li>
+    <li>☐ <code>clamp()</code> en tipografía</li>
+    <li>☐ Flexbox (header, testimonios)</li>
+    <li>☐ Grid con <code>auto-fit</code> + <code>minmax</code> (servicios, destinos)</li>
+    <li>☐ <code>:has()</code> en destinos</li>
+    <li>☐ Container Query en destinos (<code>@container (min-width: 320px)</code>)</li>
+    <li>☐ <code>:focus-visible</code> en enlaces y botones</li>
+    <li>☐ <code>prefers-reduced-motion</code></li>
+    <li>☐ Transiciones / hover effects</li>
+  </ul>
+  <p style="margin-top:1rem;font-weight:700;color:var(--accent-green);">🔥 Todo tiene que salir. Si falla 1 concepto clave, se repite.</p>
+</div>
+
+<div class="footer-note">
+  CodeLearn Assessment — 18/07/2026
+</div>
+
+</main>
+
+<script>
+const overlay = document.getElementById('megamenu-overlay');
+let openDropdown = null;
+document.querySelectorAll('[data-dropdown]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = btn.getAttribute('data-dropdown');
+    const menu = document.getElementById('dropdown-' + id);
+    if (openDropdown && openDropdown !== menu) {
+      openDropdown.classList.remove('megamenu--open');
+      document.querySelector('[data-dropdown].nav__btn--open')?.classList.remove('nav__btn--open');
+    }
+    const isOpen = menu.classList.toggle('megamenu--open');
+    btn.classList.toggle('nav__btn--open', isOpen);
+    overlay.classList.toggle('megamenu-overlay--visible', isOpen);
+    openDropdown = isOpen ? menu : null;
+  });
+});
+overlay.addEventListener('click', () => {
+  document.querySelectorAll('.megamenu--open').forEach(m => m.classList.remove('megamenu--open'));
+  document.querySelectorAll('.nav__btn--open').forEach(b => b.classList.remove('nav__btn--open'));
+  overlay.classList.remove('megamenu-overlay--visible');
+  openDropdown = null;
+});
+</script>
+
+</body>
+</html>

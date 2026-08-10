@@ -1,0 +1,228 @@
+/*
+ * EJERCICIO :has() PRO + Container Query
+ *
+ * Dashboard de proyectos con prioridades, estados y tags.
+ * Sin IA, sin ayudín.
+ *
+ * ─── TIEMPO: 30 minutos ───
+ *
+ * ─── REQUISITOS ───
+ *
+ * 1. Reset + variables en :root:
+ *    - --prio-high (rojo), --prio-medium (naranja), --prio-low (verde)
+ *    - --status-active, --status-paused, --status-complete
+ *    - --tag-react, --tag-vue, --tag-node, etc (cada tag su color)
+ *    - spacing (xs, sm, md, lg, xl)
+ *    - fonts, radius
+ *
+ * 2. Grid responsive:
+ *    - Mobile: 1 columna
+ *    - ≥768px: 2 columnas
+ *    - ≥1024px: 3 columnas (las 4 cards quedan 3+1 abajo centrada)
+ *      Pista: justify-content: center en grid para centrar la que queda sola
+ *
+ * 3. BEM obligatorio todo
+ *
+ * 4. :has() #1 — Las cards con prioridad ALTA tienen borde izquierdo rojo
+ *    .project-card:has(.project-card__priority--high) { border-left: 4px solid red; }
+ *
+ * 5. :has() #2 — Las cards con tag React tienen fondo azulado
+ *    .project-card:has(.project-card__tag--react) { background: ... }
+ *
+ * 6. :has() + :not() #3 — Cards NO activas tienen opacidad 0.6
+ *    .project-card:not(:has(.project-card__status--active))
+ *
+ * 7. :has() #4 — Si ALGUNA card tiene prioridad alta, el grid entero
+ *    tiene un outline sutil o border-top brilloso
+ *
+ * 8. CONTAINER QUERY:
+ *    - Cada .project-card es un container (inline-size)
+ *    - A ≥400px de ancho del contenedor, .project-card__body se vuelve
+ *      flex row (tags y descripción lado a lado)
+ *    - Podés usar container-name: card
+ *
+ * 9. Footer con barra de progreso:
+ *    - .project-card__progress y .project-card__bar estilados
+ *    - La barra <progress> usa accent-color o estilado propio
+ *
+ * 10. Transiciones suaves en hover de la card (translateY -5px + shadow)
+ */
+
+ /*-- Variables --*/
+
+ :root {
+    /* Colors */
+    --c-black: #000;
+    --c-blue: #0a5edb;
+    --c-blue-light: #aac5ee8f;
+    --c-grey:#808080;
+    --c-white: #fff;
+    --c-light: #f3f3f7;
+    --c-red: #c90303;
+    --c-success: #009e05;
+    --c-active: #d6fa09;
+
+    /* Font-Family */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto', sans-serif;
+
+    /* Font-size */
+    --size-xs: clamp(0.7rem, calc(1.5vw + 0.9rem), 0.9rem);
+    --size-sm: clamp(0.8rem, calc(1.5vw + 1.1rem), 1.1rem);
+    --size-md: clamp(1rem, calc(1.5vw + 1.3rem), 1.3rem);
+    --size-lg: clamp(1.25rem, calc(1.5vw + 1.6rem), 1.6rem);
+    --size-xl: clamp(1.5rem, calc(1.5vw + 2rem), 2rem);
+    --size-2xl: clamp(2rem, calc(1.5vw + 2.5rem), 2.5rem);
+    --size-3xl: clamp(2.5rem, calc(1.5vw + 3rem), 3rem);
+    --size-4xl: clamp(3rem, calc(1.5vw + 3.5rem), 3.5rem);
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    /* Transition */
+    --transition-fast: 0.2s ease-in-out;
+    --transition-slow: 0.5s ease-in-out;
+    --transition-slower: 1s ease-in-out;
+ }
+
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-primary);
+ }
+
+ /* -- Header --*/
+
+ .projects__header {
+    background: var(--c-black);
+    color: var(--c-white);
+    padding: var(--spacing-md);
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-sm);
+ }
+
+  /* -- Grid --*/
+ .projects__grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+ }
+
+ @media (min-width: 768px) {
+    .projects__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+ }
+
+ @media (min-width: 1024px) {
+    .projects__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .project-card:last-child {
+        grid-column: 2 / 3;
+    }
+ }
+
+ .project-card {
+    display:flex;
+    flex-direction: column;
+    align-items: center ;
+    justify-content: center;
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+    background: var(--c-light);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--c-black);
+    text-align: center;
+    transition: var(--transition-slow);
+    cursor:pointer;
+    height: auto;
+ }
+
+ .project-card__body {
+    padding: var(--spacing-md);
+ }
+
+  .project-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5)
+ }
+
+ .project-card__status {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--size-xs);
+    font-weight: bold;
+    border: solid 1px var(--c-black);
+ }
+
+ .project-card__tag {
+    border: 1px solid var(--c-black);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    margin: var(--spacing-xs);
+    font-size: var(--size-sm);
+    font-weight: bold;
+ }
+
+ .project-card__tag:has(.project-card__tag--react) {
+    background: var(--c-blue);
+    color: var(--c-white);
+ }
+
+ .project-card:not(:has(.project-card__status--active)) {
+    opacity: 0.6;
+ }
+
+ .project-card__priority{
+    border: solid 1px var(--c-black);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+
+ }
+
+.project-card:has(.project-card__priority--high) { 
+    border-left: 4px solid red;
+ }
+
+ .project-card:has(.project-card__tag--react) {
+    background: var(--c-blue-light);
+ }
+
+ .projects__grid:has(.project-card__priority--high) {
+    outline: 2px solid var(--c-light);
+ }
+
+ .project-card__footer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding:var(--spacing-sm);
+ }
+
+ .project-card__progress {
+    font-size:var(--size-xs);
+    color: var(--c-grey);
+    font-style: italic;
+ }
+
+ .project-card__bar {
+    width: 250px;
+ }

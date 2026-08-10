@@ -1,0 +1,41 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Project: codeLearn — repositorio de aprendizaje
+  Stack: PHP 8.2+ / Symfony 7.4, Vue (teoría), CSS vanilla, GSAP, MkDocs
+  Backend app: Backend/symfony-webcomponents/01_liveGallery
+  Testing: PHPUnit 11.5 (tests/ vacío actualmente)
+  Strict TDD: true (habilitado por sdd-init)
+  Docs: MkDocs Material en /docs/
+  Git: Conventional commits en español
+  Idioma doc: español neutro de España
+  Idioma código: inglés
+  Idioma UI copy: español neutro de España
+  Planning: docs/planning/index.md se actualiza cada sesión (plantilla base, no nuevas secciones)
+
+rules:
+  proposal:
+    - Incluir contexto de aprendizaje: si es ejercicio, práctica o feature real
+    - Definir criterio de "estar terminado"
+  specs:
+    - Usar ejemplos concretos del código
+    - Incluir casos borde relevantes
+    - Lenguaje: español neutro de España para documentación de aprendizaje
+  design:
+    - Priorizar Mobile First y CSS vanilla cuando aplique
+    - Mantener separación de concerns (CSS, JS, HTML cada uno en su archivo)
+  tasks:
+    - Tareas pequeñas (completables en 10-30 min para sesiones de aprendizaje)
+    - Numeración jerárquica
+  apply:
+    - Seguir patrones existentes del proyecto
+    tdd: true
+    test_command: "cd Backend/symfony-webcomponents/01_liveGallery && php bin/phpunit"
+  verify:
+    test_command: "cd Backend/symfony-webcomponents/01_liveGallery && php bin/phpunit"
+    build_command: ""
+    coverage_threshold: 0
+  archive:
+    - Mover a archive/ al completar el cambio
+    - Guardar lecciones aprendidas

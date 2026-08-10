@@ -1,3 +1,126 @@
+/* Ocultar ¶ de anclas en headings en todos lados */
+.headerlink,
+.md-typeset .headerlink {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+
+
+/* ─── Nav: títulos de sección más visibles ─── */
+
+.md-nav__item--nested > .md-nav__link {
+    font-weight: 650;
+    letter-spacing: 0.01em;
+}
+
+/* ─── Intro blockquote de cada sección ─── */
+
+h1[class^="section-"] + blockquote {
+    font-size: 0.82rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    padding: 0.5rem 0.9rem;
+    margin: 0.4rem 0 1.25rem;
+    border: none;
+    border-left: 2px solid var(--md-default-fg-color--lighter);
+    background: none;
+    border-radius: 0;
+    color: var(--md-default-fg-color--light);
+    box-shadow: none;
+    position: relative;
+    max-width: 60em;
+}
+
+/* Gradiente en el borde izquierdo del intro */
+h1[class^="section-"] + blockquote::before {
+    content: none;
+}
+
+/* Asegurar contraste en inline code dentro de blockquote */
+h1[class^="section-"] + blockquote code {
+    background: var(--md-code-bg-color, #f5f5f5);
+    color: var(--md-code-fg-color, #e91e63);
+    font-weight: 600;
+}
+
+/* Quitar fondo de inline code dentro de títulos de sección */
+h1[class^="section-"] code {
+    background: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
+/* ─── Intro blockquote — chip "Definición" con degradado de sección ───
+   Aplica a bloques CSS/JS/IA (via .bloque-X, cubre todas sus sub-secciones)
+   y a las páginas standalone de Symfony Web Components (sin wrapper .bloque-X).
+   NO aplica a .section-responsive suelto (daily logs de waytoCode reusan esa
+   clase solo por el gradiente del título, su blockquote es metadata de horas,
+   no una definición — se queda con el estilo genérico de arriba). */
+h1.bloque-css + blockquote,
+h1.bloque-js + blockquote,
+h1.bloque-ia + blockquote,
+h1.section-architecture + blockquote,
+h1.section-twig + blockquote,
+h1.section-live + blockquote,
+h1.section-stimulus + blockquote {
+    position: relative;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0.5rem 0 1.25rem;
+    font-size: 0.74rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--md-default-fg-color--light);
+    max-width: 42em;
+}
+
+h1.bloque-css + blockquote::before,
+h1.bloque-js + blockquote::before,
+h1.bloque-ia + blockquote::before,
+h1.section-architecture + blockquote::before,
+h1.section-twig + blockquote::before,
+h1.section-live + blockquote::before,
+h1.section-stimulus + blockquote::before {
+    content: "Definición";
+    display: block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Color del chip — mismo degradado que ya usa cada bloque/sección para su h1/h2 */
+h1.bloque-css + blockquote::before {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+}
+h1.bloque-js + blockquote::before {
+    background: linear-gradient(135deg, #eab308 0%, #fbbf24 100%);
+}
+h1.bloque-ia + blockquote::before {
+    background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%);
+}
+h1.section-architecture + blockquote::before {
+    background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+}
+h1.section-twig + blockquote::before {
+    background: linear-gradient(135deg, #536dfe 0%, #7c4dff 100%);
+}
+h1.section-live + blockquote::before {
+    background: linear-gradient(135deg, #7c4dff 0%, #aa00ff 100%);
+}
+h1.section-stimulus + blockquote::before {
+    background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
+}
+
 /* ─── Títulos de sección ─── */
 
 h1 {
@@ -134,6 +257,42 @@ h1::after {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Arquitectura — h2 */
+h1.section-architecture ~ h2 {
+    background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Twig — h2 */
+h1.section-twig ~ h2 {
+    background: linear-gradient(135deg, #536dfe 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Live — h2 */
+h1.section-live ~ h2 {
+    background: linear-gradient(135deg, #7c4dff 0%, #aa00ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Stimulus — h2 */
+h1.section-stimulus ~ h2 {
+    background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
 /* ─── Variaciones de color por sección (continuación) ─── */
 
 /* Flexbox */
@@ -168,6 +327,292 @@ h1::after {
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
+}
+
+/* Flexbox — h2 */
+h1.section-flex ~ h2 {
+    background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Grid — h2 */
+h1.section-grid ~ h2 {
+    background: linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* :has() — h1 */
+.section-has {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-has::after {
+    background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.section-has:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* :has() — h2 */
+h1.section-has ~ h2 {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Container Queries — h1 */
+.section-cq {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-cq::after {
+    background: linear-gradient(90deg, #047857, #34D399);
+}
+.section-cq:hover {
+    background: linear-gradient(135deg, #34D399 0%, #047857 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Container Queries — h2 */
+h1.section-cq ~ h2 {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* CSS Layers — h1 */
+.section-layers {
+    background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-layers::after {
+    background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+.section-layers:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* CSS Layers — h2 */
+h1.section-layers ~ h2 {
+    background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* ─── Categorías CSS ─── */
+
+/* Selectores — h1 */
+.section-selectores {
+    background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-selectores::after {
+    background: linear-gradient(90deg, #6366f1, #a5b4fc);
+}
+.section-selectores:hover {
+    background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Selectores — h2 */
+h1.section-selectores ~ h2 {
+    background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Layout — h1 */
+.section-layout {
+    background: linear-gradient(135deg, #e65100 0%, #00acc1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-layout::after {
+    background: linear-gradient(90deg, #e65100, #00acc1);
+}
+.section-layout:hover {
+    background: linear-gradient(135deg, #00acc1 0%, #e65100 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Layout — h2 */
+h1.section-layout ~ h2 {
+    background: linear-gradient(135deg, #e65100 0%, #00acc1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Responsive — h1 */
+.section-responsive {
+    background: linear-gradient(135deg, #00796b 0%, #4db6ac 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-responsive::after {
+    background: linear-gradient(90deg, #00796b, #4db6ac);
+}
+.section-responsive:hover {
+    background: linear-gradient(135deg, #4db6ac 0%, #00796b 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Responsive — h2 */
+h1.section-responsive ~ h2 {
+    background: linear-gradient(135deg, #00796b 0%, #4db6ac 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Quitar fondo de inline code dentro de h2 con degradado */
+h1[class^="section-"] ~ h2 code {
+    background: none;
+    color: inherit;
+    font-weight: inherit;
+}
+
+/* ─── Bloque Arrays — h1 ─── */
+.section-arrays {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-arrays::after {
+    background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.section-arrays:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque JS — h1 (mismo azul del bloque Arrays, un color por bloque) ─── */
+.section-js {
+    background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-js::after {
+    background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.section-js:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque Objetos — h1 (verde, un color por subbloque) ─── */
+.section-objetos {
+    background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-objetos::after {
+    background: linear-gradient(90deg, #059669, #34d399);
+}
+.section-objetos:hover {
+    background: linear-gradient(135deg, #34d399 0%, #059669 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Arquitectura — h1 */
+.section-arquitectura {
+    background: linear-gradient(135deg, #4527a0 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-arquitectura::after {
+    background: linear-gradient(90deg, #4527a0, #7c4dff);
+}
+.section-arquitectura:hover {
+    background: linear-gradient(135deg, #7c4dff 0%, #4527a0 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Arquitectura — h2 */
+h1.section-arquitectura ~ h2 {
+    background: linear-gradient(135deg, #4527a0 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* BEM — h1 */
+.section-bem {
+    background: linear-gradient(135deg, #7b1fa2 0%, #ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-bem::after {
+    background: linear-gradient(90deg, #7b1fa2, #ce93d8);
+}
+.section-bem:hover {
+    background: linear-gradient(135deg, #ce93d8 0%, #7b1fa2 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* BEM — h2 */
+h1.section-bem ~ h2 {
+    background: linear-gradient(135deg, #7b1fa2 0%, #ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
 }
 
 /* ─── Admonitions personalizadas por tecnología ─── */
@@ -263,6 +708,364 @@ h1::after {
     overflow: hidden;
 }
 
+/* ─── Modo claro: los contenedores de contenido se diferencian del fondo ─── */
+/* En slate (oscuro) ya hay contraste de sobra contra el fondo casi negro; */
+/* en default (claro), fondo blanco y bloques quedaban casi al mismo tono. */
+
+[data-md-color-scheme="default"] .md-typeset .highlight {
+    background: #f6f7f9;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+[data-md-color-scheme="default"] .md-typeset table {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+[data-md-color-scheme="default"] .md-typeset .tabbed-set {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-md-color-scheme="default"] .md-typeset .admonition {
+    border: 1px solid rgba(0, 0, 0, 0.07) !important;
+}
+
+/* ─── Títulos de método (arrays: forEach / map / filter / reduce) ─── */
+
+.md-typeset h2.method-title {
+    margin: 1.25rem 0 0.9rem !important;
+    padding-bottom: 0.4em;
+    font-size: 1.18rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    position: relative;
+}
+
+/* Degradado unificado sutil blanco → gris en el texto */
+.md-typeset h2.method-title {
+    background: linear-gradient(135deg, #d6d6d6 0%, #636b6b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Línea decorativa degradada debajo del título */
+.md-typeset h2.method-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #b8b8b8, #7a8484);
+}
+
+/* Nombre del método (code) con degradado amarillo */
+.md-typeset h2.method-title code {
+    background: transparent;
+    background: linear-gradient(135deg, #f9d423 0%, #ff8c00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 800;
+    padding: 0;
+}
+
+/* Icono referencial moderno (SVG, estilo lucide) a la izquierda del título */
+.md-typeset h2.method-title::before {
+    content: '';
+    display: inline-block;
+    width: 1.15em;
+    height: 1.15em;
+    margin-right: 0.35em;
+    vertical-align: -0.18em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* forEach — loop/repeat */
+.md-typeset h2.method-title.method-foreach::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 1l4 4-4 4'/%3E%3Cpath d='M3 11V9a4 4 0 0 1 4-4h14'/%3E%3Cpath d='M7 23l-4-4 4-4'/%3E%3Cpath d='M21 13v2a4 4 0 0 1-4 4H3'/%3E%3C/svg%3E");
+}
+
+/* map — transformación (shuffle) */
+.md-typeset h2.method-title.method-map::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 3h5v5'/%3E%3Cpath d='M4 20L21 3'/%3E%3Cpath d='M21 16v5h-5'/%3E%3Cpath d='M15 15l6 6'/%3E%3Cpath d='M4 4l5 5'/%3E%3C/svg%3E");
+}
+
+/* filter — embudo */
+.md-typeset h2.method-title.method-filter::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 3H2l8 9.46V19l4 2v-8.54L22 3z'/%3E%3C/svg%3E");
+}
+
+/* reduce — destilar hacia abajo */
+.md-typeset h2.method-title.method-reduce::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14'/%3E%3Cpath d='M19 12l-7 7-7-7'/%3E%3C/svg%3E");
+}
+
+/* ─── Títulos de tema (topic-title) — teoría general ─── */
+
+.md-typeset h2.topic-title {
+    margin: 1.5rem 0 0.9rem !important;
+    padding-bottom: 0.4em;
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    position: relative;
+    background: linear-gradient(135deg, #d6d6d6 0%, #636b6b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* Línea inferior degradada */
+.md-typeset h2.topic-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #b8b8b8, #7a8484);
+}
+
+.md-typeset h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Bloque CSS — h1 también en verde unificado (gana al color propio de section-X) ─── */
+
+h1.bloque-css {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-css::after {
+    background: linear-gradient(90deg, #047857, #34D399) !important;
+}
+
+h1.bloque-css:hover {
+    background: linear-gradient(135deg, #34D399 0%, #047857 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque CSS — h2 unificado (verde), gana a .topic-title gris y al color propio del h1 ─── */
+
+.md-typeset .bloque-css ~ h2,
+.md-typeset .bloque-css ~ h2.topic-title {
+    background: linear-gradient(135deg, #047857 0%, #34D399 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-css ~ h2::after,
+.md-typeset .bloque-css ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #047857, #34D399);
+}
+
+.md-typeset .bloque-css ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Bloque JS — h1 en amarillo unificado (gana al color propio de section-X) ─── */
+
+h1.bloque-js {
+    background: linear-gradient(135deg, #eab308 0%, #fbbf24 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-js::after {
+    background: linear-gradient(90deg, #eab308, #fbbf24) !important;
+}
+
+h1.bloque-js:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #eab308 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque JS — h2 unificado (amarillo), gana a .topic-title/.method-title gris ─── */
+
+.md-typeset .bloque-js ~ h2,
+.md-typeset .bloque-js ~ h2.topic-title,
+.md-typeset .bloque-js ~ h2.method-title {
+    background: linear-gradient(135deg, #eab308 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-js ~ h2::after,
+.md-typeset .bloque-js ~ h2.topic-title::after,
+.md-typeset .bloque-js ~ h2.method-title::after {
+    background: linear-gradient(90deg, #eab308, #fbbf24);
+}
+
+.md-typeset .bloque-js ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Bloque IA — h1 en degradado naranja terracota (color de marca de Claude) ─── */
+
+h1.bloque-ia {
+    background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-ia::after {
+    background: linear-gradient(90deg, #C15F3C, #E8927C) !important;
+}
+
+h1.bloque-ia:hover {
+    background: linear-gradient(135deg, #E8927C 0%, #C15F3C 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque IA — h2 unificado (terracota), gana a .topic-title gris ─── */
+
+.md-typeset .bloque-ia ~ h2,
+.md-typeset .bloque-ia ~ h2.topic-title {
+    background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-ia ~ h2::after,
+.md-typeset .bloque-ia ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #C15F3C, #E8927C);
+}
+
+.md-typeset .bloque-ia ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Tabla compacta Haz / No hagas (celdas en vez de listas largas) ─── */
+
+.md-typeset table.pros-cons,
+.md-typeset .pros-cons table {
+    font-size: 0.72rem;
+}
+
+.md-typeset table.pros-cons th,
+.md-typeset .pros-cons table th {
+    font-size: 0.68rem;
+}
+
+.md-typeset table.pros-cons td,
+.md-typeset .pros-cons table td {
+    padding: 0.35rem 0.6rem;
+    line-height: 1.3;
+}
+
+.md-typeset table.pros-cons th:first-child,
+.md-typeset table.pros-cons td:first-child,
+.md-typeset .pros-cons table th:first-child,
+.md-typeset .pros-cons table td:first-child {
+    background: rgba(52, 211, 153, 0.08);
+}
+
+.md-typeset table.pros-cons th:last-child,
+.md-typeset table.pros-cons td:last-child,
+.md-typeset .pros-cons table th:last-child,
+.md-typeset .pros-cons table td:last-child {
+    background: rgba(239, 68, 68, 0.06);
+}
+
+/* ─── Video embebido en la intro de un temario ─── */
+
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0.5rem 0 1.5rem;
+    background: #000;
+}
+
+.video-embed video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000;
+    object-fit: contain;
+}
+
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ─── Demo en vivo (mini ejemplo gráfico del efecto de un selector) ─── */
+
+.demo-box {
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0 1.5rem;
+    background: var(--md-code-bg-color, #f5f5f5);
+}
+
+.demo-box__label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--md-default-fg-color--light);
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+}
+
+.demo-box__caption {
+    font-size: 0.78rem;
+    color: var(--md-default-fg-color--light);
+    margin: 0.6rem 0 0;
+}
+
 /* ─── Hover en cards ─── */
 
 .md-typeset .grid.cards > ol > li,
@@ -278,4 +1081,136 @@ h1::after {
 .md-typeset .grid > ul > li:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Demo interactiva de arrays (visual, con botones) ─── */
+
+.array-demo {
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0 1.5rem;
+    background: var(--md-code-bg-color, #f5f5f5);
+}
+
+.array-demo__label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--md-default-fg-color--light);
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+}
+
+.array-demo__viz {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.6rem;
+    margin-bottom: 0.9rem;
+}
+
+.array-demo__viz--empty::before {
+    content: "(array vacío)";
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--md-default-fg-color--light);
+}
+
+.array-demo__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.65rem;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #eab308 0%, #fbbf24 100%);
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: var(--md-code-font, monospace);
+    box-shadow: 0 2px 6px rgba(234, 179, 8, 0.25);
+    animation: array-demo-pop-in 0.25s ease;
+}
+
+.array-demo__item--ghost {
+    background: transparent;
+    border: 1px dashed var(--md-default-fg-color--lighter);
+    color: var(--md-default-fg-color--light);
+    box-shadow: none;
+}
+
+.array-demo__item--removing {
+    animation: array-demo-pop-out 0.18s ease forwards;
+}
+
+@keyframes array-demo-pop-in {
+    from { transform: scale(0.4); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes array-demo-pop-out {
+    to { transform: scale(0.4); opacity: 0; }
+}
+
+.array-demo__arrow {
+    color: var(--md-default-fg-color--light);
+    font-size: 1rem;
+}
+
+.array-demo__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+}
+
+.array-demo__btn {
+    border: 1px solid rgba(234, 179, 8, 0.45);
+    background: rgba(234, 179, 8, 0.1);
+    color: var(--md-default-fg-color);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.78rem;
+    font-family: var(--md-code-font, monospace);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.array-demo__btn:hover:not(:disabled) {
+    background: rgba(234, 179, 8, 0.22);
+}
+
+.array-demo__btn:active:not(:disabled) {
+    transform: scale(0.96);
+}
+
+.array-demo__btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.array-demo__btn--reset {
+    border-color: var(--md-default-fg-color--lighter);
+    background: transparent;
+}
+
+.array-demo__log {
+    font-family: var(--md-code-font, monospace);
+    font-size: 0.76rem;
+    color: var(--md-default-fg-color--light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-height: 1.2rem;
+    border-top: 1px dashed var(--md-default-fg-color--lightest);
+    padding-top: 0.5rem;
+}
+
+.array-demo__log div:first-child {
+    color: var(--md-default-fg-color);
+    font-weight: 600;
 }

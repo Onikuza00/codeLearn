@@ -1,117 +1,506 @@
-# 🧠 GOTCHAS — Conocimiento vivo del stack de Pau
+# GOTCHAS — Conocimiento vivo del stack de Pau
 
-> Este archivo guarda todo lo que NO es obvio: bugs conocidos, plugins de paga,
-> versiones específicas, convenciones, y decisiones técnicas.
->
-> **Los agentes de IA deben leer esto antes de generar código para Pau.**
+> Errores reales, teoría nueva, y mejoras documentadas sesión a sesión.
 
 ---
 
-## 🎞️ GSAP
+<!-- ============================================= -->
+<!-- MAÑANA — CSS                                 -->
+<!-- ============================================= -->
+# ☀️ MAÑANA — CSS
 
-⚠️ **IMPORTANTE**: Casi todas las IA tienen información DESACTUALIZADA. Creen que SplitText y MorphSVG son de paga (Club GSAP) porque eso era cierto en GSAP 2.x. **Desde GSAP 3.13+ TODOS los plugins son gratuitos.**
+> *(vacío — próxima sesión)*
 
-**Fuente oficial:** https://gsap.com/docs/v3/Installation?tab=cdn&module=esm&require=false&plugins=SplitText
+---
 
-| Plugin | Disponible | Cómo cargarlo |
-|--------|-----------|---------------|
-| **Core** | ✅ Gratis | CDN público `gsap.min.js` |
-| **ScrollTrigger** | ✅ Gratis | CDN público `ScrollTrigger.min.js` |
-| **TextPlugin** | ✅ Gratis | CDN público `TextPlugin.min.js` |
-| **SplitText** | ✅ **Gratis** (v3.13+) | CDN público `SplitText.min.js` |
-| **MorphSVGPlugin** | ✅ **Gratis** (v3.13+) | CDN público `MorphSVGPlugin.min.js` |
-| **Todos los plugins** | ✅ Gratis en npm y CDN | Ver docs oficiales |
+<!-- ============================================= -->
+<!-- TARDE — JS                                   -->
+<!-- ============================================= -->
+# 🌙 TARDE — JS · 25/07/2026
 
-### CDN que Pau usa (versión actual: 3.15)
-```html
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+---
+
+## 📚 TEORÍA NUEVA
+
+Conceptos nuevos que aparecieron en esta sesión:
+
+### 1. El operador `%` (módulo/resto)
+
+No es "divisible por". Es **"¿cuánto sobra?"**.
+
+```js
+10 % 3  → 1   // 3 cabe 3 veces, sobra 1
+10 % 2  → 0   // cabe exacto → es par
+7 % 2   → 1   // sobra 1 → es impar
 ```
 
-### Patrones que usa Pau en producción
-- **Lenis + GSAP**: Siempre con `lenis.on('scroll', ScrollTrigger.update)` y `gsap.ticker.add()`
-- **MatchMedia**: Rutas de animación COMPLETAMENTE distintas para mobile y desktop (`gsap.matchMedia()`)
-- **SplitText**: Siempre usar el de GSAP (`SplitText.min.js`), es gratuito desde v3.13+
-- **Hero entrance**: Usar `elastic.out()` para entradas llamativas
-- **Scroll horizontal con pin**: Calcular distancia dinámicamente con `scrollWidth - clientWidth`
+**Pares:** `n % 2 === 0` · **Impares:** `n % 2 !== 0`
+**Divisibilidad:** `n % divisor === 0` → "divisor divide exactamente a n"
+
+### 2. `split("")` vs `split(" ")` vs `split(", ")`
+
+`split()` **parte un string por el separador** y devuelve array. El separador DESAPARECE.
+
+| Código | Separa por | Resultado |
+|--------|-----------|-----------|
+| `"hola".split("")` | string vacío → **cada caracter** | `["h","o","l","a"]` |
+| `"hola mundo".split(" ")` | espacio → **cada palabra** | `["hola","mundo"]` |
+| `"a,b,c".split(",")` | coma | `["a","b","c"]` |
+| `"hola".split("x")` | no existe | `["hola"]` — 1 elemento |
+
+### 3. `string[i]` — indexar caracteres (y mirar "para atrás")
+
+Podés acceder a cualquier caracter de un string por su posición:
+
+```js
+"hola"[0] → "h"
+"hola"[3] → "a"
+"hola"[1-1] → "h"  // mirar "para atrás"
+"hola"[1+1] → "l"  // mirar "para adelante"
+```
+
+**Aplicación:** en `limpiarEspacios`, cuando estás en un espacio, mirás `string[i-1]` para ver si el anterior también es espacio.
+
+### 4. `.length` — qué tipos lo tienen y cuáles NO
+
+| Tipo | ¿Tiene? | Ejemplo |
+|------|---------|---------|
+| **String** | ✅ Sí | `"hola".length` → 4 |
+| **Array** | ✅ Sí | `[1,2,3].length` → 3 |
+| **Number** | ❌ **NO** | `(5).length` → `undefined` |
+
+⚠️ **Si hacés `item.length` en un número, JS devuelve `undefined`**, no tira error. Y `undefined > 5` es `false` — tu condición nunco se cumple y no sabés por qué.
+
+### 5. `++` (incrementar) vs `+=` (acumular)
+
+```js
+let suma = 0;
+suma++;     // suma = 1  → SIRVE PARA CONTAR (suma 1)
+suma += 5;  // suma = 6  → SIRVE PARA ACUMULAR (suma cualquier valor)
+```
+
+- Para **contar** cuántos pares hay: `suma++`
+- Para **sumar** el valor de los pares: `suma += i`
+
+### 6. `!` (negación) vs `!==` (desigualdad estricta)
+
+NO son lo mismo. **`!` niega el valor booleano. `!==` pregunta "es distinto".**
+
+```js
+let x = 5;
+!x         → false    (5 es truthy, !5 es false)
+x !== 3    → true     (5 es distinto de 3 → true)
+```
+
+Tu error: `!i % 2 == 0` se ejecuta como `(!i) % 2 == 0`, no como `i % 2 !== 0`. No funciona.
+
+### 7. Precedencia de operadores (orden de ejecución)
+
+Los operadores NO se ejecutan todos en el mismo orden:
+
+```
+!  (negación)  → 1° (primero)
+%  (módulo)    → 2°
+==  (igualdad) → 3°
+&&  (and)      → 4°
+||  (or)       → 5° (último)
+```
+
+**Regla de oro:** si tenés dudas, **usá paréntesis**. `(i % 2 !== 0)` es más legible y no falla.
+
+### 8. Comparar elementos adyacentes en un array
+
+```js
+for (let i = 0; i < array.length - 1; i++) {
+  if (array[i] > array[i + 1]) return false;
+}
+```
+
+Usá SIEMPRE `length - 1`, porque el último elemento no tiene "siguiente".
 
 ---
 
-## 🎨 CSS / Diseño
+## 🐛 REGISTRO DE FALLOS Y MEJORAS
 
-### Variables Pau
-- Sistema de espaciado basado en múltiplos de 8px: `--s-1: 0.5rem` a `--s-16: 8rem`
-- Z-index en capas: `--z-back: -1`, `--z-header: 1000`, `--z-overlay: 2000`, `--z-toast: 100000`
-- Transiciones: `--t-fast`, `--t-normal`, `--t-slow`
-- Tipografía: Fraunces para hero, Albert Sans para cuerpo
+Cada error con: ❌ fallo original → ✅ mejora → 🧠 teoría relacionada
 
 ---
 
-## 🐘 Symfony
+### Fallo 1: `sumarPares`
 
-*(Para llenar a medida que aparezcan gotchas)*
+**❌ Código original:**
+```js
+if (i % 2 == 0) suma++;    // cuenta cuántos pares hay, no suma valores
+```
 
----
+**✅ Mejora:**
+```js
+if (i % 2 == 0) suma += i; // acumula el valor de cada par
+```
 
-## 📚 mkdocs-material — Documentación técnica
+**🧠 Teoría:** `++` suma 1 (contar). `+=` suma cualquier valor (acumular). Son operadores distintos con propósitos distintos. → Ver teoría #5
 
-### Estructura de navegación
-- `mkdocs.yml` usa `navigation.tabs` + `navigation.sections` para tabs arriba y sidebar por sección.
-- Para agrupar páginas hijas: `"Nombre del bloque"`: `- Subpágina: path/to/file.md`
-- Cada tab del nav es un grupo; el sidebar solo se muestra cuando estás dentro de ese grupo.
-
-### Estilos personalizados (`extra.css`)
-- **Colores por sección**: definir clase en el h1 vía `{# .section-algo }` (requiere `attr_list` en mkdocs.yml). CSS usa `h1.section-algo` con gradient text + proportional underline.
-- **Admonitions personalizadas**: clases CSS para cada tecnología: `.architecture`, `.twig`, `.live`, `.stimulus` — cada una con `border-left-color`, fondo del `admonition-title` y color del `::before` icon.
-- **Probado**: la sintaxis `!!! tip "Tít" { .clase }` se usa con `attr_list`, pero si no funciona, ir a HTML directo: `<div class="admonition twig"><p class="admonition-title">Tít</p><p>Contenido</p></div>`.
-
-### Comandos
-- `mkdocs serve` corre desde la raíz del proyecto (`C:\xampp\htdocs\codeLearn\`), no desde subdirectorios.
+**Estado:** 🔁 Repasar
 
 ---
 
-## 🔧 Convenciones de código
+### Fallo 2: `contarPalabras`
 
-- **Commits**: conventional commits (`feat:`, `fix:`, `docs:`, etc.)
-- **Sin atribución AI**: nunca agregar "Co-Authored-By"
-- **Nombres**: camelCase para variables/funciones, PascalCase para clases
-- **Comentarios**: en catalán/castellano para código de aprendizaje, inglés para producción
-- **CSS: Mobile First SIEMPRE.** Todo CSS debe escribirse mobile-first: estilos base sin media query para mobile, `min-width` para breakpoints superiores. No usar `max-width` a menos que sea una excepción justificada. Si una IA genera código desktop-first, CORREGIRLA.
-- **CSS: archivos separados, jamás en HTML.** Prohibido CSS inline (`style=""`) o embebido (`<style>`) en HTML. Cada proyecto tiene su archivo `.css` separado. La única excepción es un prototipo rapidísimo de una demo para aprender un concepto puntual (como los ejercicios de codeLearn). Si una IA genera CSS dentro del HTML, CORREGIRLA.
+**❌ Código original:**
+```js
+return numero - 1;  // "Hola mundo" → 1 espacio → devuelve 0
+```
 
-### Patrones Flexbox que Pau usa
-- Header con logo-izq + enlaces-centro + botón-der: `header { display: flex; justify-content: space-between; align-items: center; }` + `nav { flex: 1; display: flex; justify-content: center; }`.
-- Para centrar en ambos ejes: `display: flex; justify-content: center; align-items: center;`.
-- `gap` en vez de `margin` en los items.
-- `flex: 1` para reparto equitativo de espacio.
-- NO usar `margin-left: 1rem` en enlaces cuando ya hay `gap` — rompe el centrado.
-- NO usar `100vw` en contenedores flex — usar `100%` (evita scroll horizontal).
-- NO usar altura fija (`height: 20vh`) en header — dejar que el contenido lo determine.
+**✅ Mejora:**
+```js
+return numero + 1;  // "Hola mundo" → 1 espacio → devuelve 2
+```
 
-### Grid — el combo que Pau tiene que memorizar
-- `repeat(auto-fit, minmax(250px, 1fr))` = galería responsive SIN media queries.
-- `grid-template-areas` es la forma más legible de definir layouts completos.
-- `1 / -1` en grid-column = ocupa todo el ancho.
-- Diferencia clave: `auto-fill` crea columnas vacías, `auto-fit` las colapsa. Usar `auto-fit` siempre.
+**🧠 Teoría:** Las palabras en una frase son **espacios + 1**. Si el string está vacío, devolver 0 antes del loop (early return). → Ver teoría de indexado #3
 
-### Errores comunes detectados en ejercicios
-- `margin-left: 0 auto` no existe — confundir `margin-left` con `margin: 0 auto`.
-- `transition: .5 ease-in-out` — falta la `s` en `.5s`.
-- `border: 0.5 grey solid` — `0.5` sin unidad no es válido.
-- `box-sizing: 0` — debe ser `box-sizing: border-box;`, no `0`.
-- `font-family: "Sans-serif"` — debe ser `sans-serif` (minúscula, sin comillas).
-- `grid-template-areas: "card" "card2"` — cada FILA va entre comillas dobles: `"card card2"`, no cada celda individual.
-- `repeat (3, 1fr)` con espacio antes de `(` — no válido, debe ser `repeat(3, 1fr)`.
-- `@media (width < 400)` sin unidad — debe ser `(width < 400px)`.
-- `box-shadow: 1px 5px 10px(#000)` — no se usa coma ni paréntesis así. Debe ser `box-shadow: 0 4px 12px rgba(0,0,0,0.15)`.
-- `grid-direction: column` — no existe. Usar `grid-template-columns: 1fr`.
-- Hijos del grid deben ser DIRECTOS del contenedor que define `grid-template-areas`.
+**Estado:** 🔁 Repasar
 
 ---
 
-## 📝 Cómo actualizar esto
+### Fallo 3: `filtrarMayores`
 
-Cuando descubras una gotcha nueva (algo que te hizo perder tiempo):
-1. Agregala acá con fecha
-2. Decime "guardá esta gotcha"
-3. Yo la guardo también en Engram para futuras sesiones
+**❌ Código original:**
+```js
+if (item.length > limite)  // los números NO tienen .length
+```
+
+**✅ Mejora:**
+```js
+if (item > limite)
+```
+
+**🧠 Teoría:** `.length` existe en strings y arrays, NO en números. Hacer `.length` en un número da `undefined`, y `undefined > 5` es `false` silenciosamente. → Ver teoría #4
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 4: `esPalindromo`
+
+**❌ Código original:**
+```js
+string.reverse()  // no existe en strings
+```
+
+**✅ Mejora:**
+```js
+string.split("").reverse().join("")
+```
+
+**🧠 Teoría:** `.reverse()` es método de **arrays**, no de strings. Para invertir un string: convertilo a array con `split("")`, invertí el array, volvé a string con `join("")`. → Ver teoría #2
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 5: `contarMayusculas`
+
+**❌ Código original:**
+```js
+if (letra === letra.toUpperCase()) contador++;  // espacios también pasan
+```
+
+**✅ Mejora:**
+```js
+if (letra === letra.toUpperCase() && letra !== " ") contador++;
+```
+
+**🧠 Teoría:** `" ".toUpperCase()` devuelve `" "` — los espacios no tienen mayúscula/minúscula, pero la comparación da `true`. Siempre filtrar casos borde. → Relacionado con teoría de tipos #4
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 6: `numerosImpares`
+
+**❌ Código original:**
+```js
+for (let i = 1; i < n; i++)  // no procesa el valor n
+```
+
+**✅ Mejora:**
+```js
+for (let i = 1; i <= n; i++) // incluye a n
+```
+
+**🧠 Teoría:** `<` excluye el límite. `<=` lo incluye. Visual: cuando `i = n`, la condición `n < n` es `false` y el loop termina sin ejecutar el cuerpo. → Concepto de off-by-one
+
+**Estado:** 🔁 Repasar
+
+---
+
+### Fallo 7: `estaOrdenado`
+
+**❌ Código original:**
+```js
+if (array[i] + 1 < array[i]) return false;  // NUNCA es true
+```
+
+**✅ Mejora:**
+```js
+if (array[i] > array[i + 1]) return false;
+```
+
+**🧠 Teoría:** `n + 1` siempre es mayor que `n`. Esa condición es imposible. Lo que necesitás es comparar cada elemento con **el que le sigue** (`array[i] > array[i + 1]`). Y el loop va hasta `length - 1`. → Ver teoría #8
+
+**Estado:** 🔁 Repasar
+
+---
+
+### Fallo 8: `esPrimo`
+
+**❌ Código original:**
+```js
+if (numero % numero == 0 && numero % 1 == 0) return true;  // siempre true
+```
+
+**✅ Mejora:**
+```js
+if (n < 2) return false;
+for (let i = 2; i < n; i++) {
+  if (n % i === 0) return false;  // encontró un divisor → no es primo
+}
+return true;  // ningún divisor → es primo
+```
+
+**🧠 Teoría:** `n % n == 0` es cierto para TODO número (todo número es divisible por sí mismo). Lo que necesitás verificar es que **ningún** número entre 2 y n-1 lo divida exactamente. → Ver teoría del operador `%` #1
+
+**Estado:** 🔁 Repasar
+
+---
+
+### Fallo 9: `limpiarEspacios`
+
+**❌ Código original:**
+```js
+let count = 0;
+string.split("").forEach(letra => {
+  if (letra == " ") count++;
+  if ((letra == " " && count < 1) || letra != " ") resultado.push(letra);
+});
+// count nunca se reinicia, count < 1 nunca es true después del primer espacio
+```
+
+**✅ Mejora:**
+```js
+for (let i = 0; i < string.length; i++) {
+  if (string[i] === " " && string[i - 1] === " ") continue; // salto
+  resultado += string[i];
+}
+```
+
+**🧠 Teoría:** Un contador global que solo suma no sirve para detectar repetición local. Lo que necesitás es **mirar el caracter anterior** con `string[i - 1]`. Si el actual es espacio y el anterior también, saltalo. → Ver teoría #3
+
+**Estado:** ⏳ Pendiente
+
+---
+
+# 🌙 TARDE — JS · 02/08/2026 (Día 02 — Arrays + Métodos)
+
+### Fallo 10: `promedioAprobados` — los arrays SIEMPRE son truthy
+
+**❌ Código original:**
+```js
+if (!estudiantes.filter(n => n.nota >= 5)) return null;  // nunca dispara
+```
+
+**✅ Mejora:**
+```js
+let cont = 0;
+estudiantes.forEach(estudi => {
+  if (estudi.nota >= 5) { suma += estudi.nota; cont++; }
+});
+return cont === 0 ? null : suma / cont;
+```
+
+**🧠 Teoría:** `filter()` devuelve un array, y los arrays (incluso vacíos) son **siempre truthy**. `![]` es `false` → el `if` nunca corre. Para detectar vacío: `array.length === 0` (o contar aprobados dentro del loop, patrón E12). Además: `filter` no modifica el original ni sirve como condición por sí solo.
+
+**Estado:** 🔁 Repasar
+
+---
+
+# 🌙 TARDE — JS · 05/08/2026 (Día 05 — Repaso retención)
+
+### Fallo 11: `frecuenciaCaracteres` — `return` dentro del loop
+
+**❌ Código original:**
+```js
+function frecuenciaCaracteres(texto) {
+  let lista = {};
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === " ") continue;
+    if (lista[texto[i]])
+      lista[texto[i]]++;
+    else
+      lista[texto[i]] = 1;
+    return lista;  // sale en la primera iteración
+  }
+}
+```
+
+**✅ Mejora:**
+```js
+function frecuenciaCaracteres(texto) {
+  let lista = {};
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === " ") continue;
+    if (lista[texto[i]])
+      lista[texto[i]]++;
+    else
+      lista[texto[i]] = 1;
+  }
+  return lista;  // fuera del loop, al nivel de la función
+}
+```
+
+**🧠 Teoría:** un `return` dentro de un loop solo sirve para salir ANTES de tiempo (encontré lo que buscaba / error). Si querés el resultado de recorrer TODO, el `return` va DESPUÉS de la llave del for. Antídoto: trace mental con un caso simple antes de guardar — si en la primera vuelta ya salís de la función, el loop no va a terminar.
+
+**Estado:** ✅ Completado
+
+### Fallo 12: `agruparPorLetra` — guard de espacios "copiado" + naming
+
+**❌ Código original:**
+```js
+if (palabras[i][0] === " ") continue;  // el enunciado no pide ignorar espacios acá
+```
+
+**🧠 Teoría:** el `continue` para espacios venía "copiado" del R1, donde SÍ tenía sentido. Acá el enunciado no lo pide → código extra = comportamiento imprevisto (una palabra que arranque con espacio se descartaría silenciosamente). Regla: el código debe hacer exactamente lo que pide el enunciado, ni más ni menos. También naming: `lista` no describe un objeto de grupos → mejor `grupos`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 13: `ordenarPorPrecio` (bubble sort) — incoherencia swap vs condición
+
+**❌ Código original (2° intento):**
+```js
+for (let j = 0; j < productos.length; j++) {       // falta length - 1
+  if (productos[j].precio > productos[j + 1].precio) {
+    valor = productos[i];                          // compara j pero swapea i
+    productos[i] = productos[i + 1];
+  }
+}
+```
+
+**✅ Mejora:**
+```js
+for (let i = 0; i < productos.length; i++) {
+  for (let j = 0; j < productos.length - 1; j++) {
+    if (productos[j].precio > productos[j + 1].precio) {
+      valor = productos[j];
+      productos[j] = productos[j + 1];
+      productos[j + 1] = valor;
+    }
+  }
+}
+```
+
+**🧠 Teoría:**
+1. **Swap y condición deben usar LOS MISMOS índices.** "Lo que comparás, lo que intercambiás" — si detectás que (j, j+1) está desordenado, intercambiás (j, j+1), no otra pareja.
+2. **Comparar adyacentes → loop hasta `length - 1`** (el último no tiene siguiente; `productos[length]` es `undefined` → `undefined.precio` revienta). Mismo gotcha que Fallo 7 `estaOrdenado`.
+3. **El `i` del loop externo no se usa** — no es error. El externo es la "máquina de repeticiones": cada pasada empuja el mayor al final como una burbuja. Una sola pasada no alcanza. Optimización posible: `j < length - 1 - i` (los últimos i ya quedaron ordenados).
+
+**Estado:** ✅ Completado
+
+---
+
+# 🌙 MAÑANA — JS · 10/08/2026 (Día 10 — Objetos)
+
+### Fallo 14: `clavesConValor` — los pares de `Object.entries` son arrays, no objetos
+
+**❌ Intentos previos:**
+```js
+return lista.filter(valorBuscado);                     // filter necesita una función, no un valor suelto
+return lista.filter(n => n.values === valorBuscado);    // los pares NO tienen propiedad .values
+return Object.keys(buscados);                           // Object.keys sobre un array da sus índices (0,1...), no las claves de adentro
+```
+
+**✅ Versión final (con guía):**
+```js
+function clavesConValor(objeto, valorBuscado) {
+  let lista = Object.entries(objeto);
+  let buscados = lista.filter(([clave, valor]) => valor === valorBuscado);
+  return buscados.map(([clave, valor]) => clave);
+}
+```
+
+**🧠 Teoría:** `Object.entries()` devuelve un array de pares `[clave, valor]` — cada par ES un array de 2 posiciones (`par[0]` = clave, `par[1]` = valor), no un objeto con propiedades con nombre tipo `.values`. Se accede por índice o por destructuring (`([clave, valor]) => ...`), nunca con notación de punto. Y ojo: `Object.keys/values/entries` siempre operan sobre el objeto que les pasás directamente — si ya tenés un ARRAY (de pares, filtrado o no) y querés extraer algo de adentro de cada elemento, la herramienta es `map`/`filter` (arrays), no volver a llamar a `Object.keys` sobre ese array.
+
+**Estado:** ✅ Completado (con guía paso a paso)
+
+---
+
+### Fallo 15: `jugadorGanador` — confundir la sintaxis de `reduce` y pensar que "acumular" es solo sumar
+
+**❌ Intento 1:** creer que `reduce(acu, item)` es la forma de llamar a `reduce` (dos argumentos separados), en vez de pasarle UNA función callback que a su vez tiene esos dos parámetros.
+
+**❌ Intento 2:** pensar que el acumulador de `reduce` solo sirve para sumar/agregar — no para comparar y quedarte con uno de los dos (patrón "buscar el mejor").
+
+**❌ Intento 3 (el que rompía el código):** guardar el resultado de `.reduce()` sin valor inicial y recién ahí chequear si el sistema estaba vacío — pero `[].reduce(...)` sin inicial **explota antes** de llegar a ese chequeo.
+
+```js
+// ❌ el chequeo llega demasiado tarde
+let ganador = players.reduce((mejor, i) => i[1] > mejor[1] ? i : mejor);  // 💥 TypeError si players=[]
+return ganador ? ganador[0] : null;
+```
+
+**✅ Versión final:**
+```js
+function jugadorGanador(sistema) {
+  let players = Object.entries(sistema);
+  if (players.length === 0) return null;   // ✅ chequeo ANTES de reduce
+  let ganador = players.reduce((mejor, i) => i[1] > mejor[1] ? i : mejor);
+  return ganador[0];
+}
+```
+
+**🧠 Teoría:** `reduce` recibe una función callback como argumento — `acumulador` y `elementoActual` son los PARÁMETROS de esa función, no argumentos sueltos de `reduce`. Y "acumular" no es sinónimo de sumar: el acumulador también sirve para comparar y elegir uno solo (patrón "buscar el mejor"), sin sumar ni agregar nada. Documentado en `docs/js/02-arrays/04-transformacion/index.md` (sección "Acumular no es sinónimo de sumar"). Además, sin valor inicial, el chequeo de array vacío va SIEMPRE antes de llamar `reduce`, nunca como condición sobre el resultado.
+
+**Estado:** ✅ Completado (con guía paso a paso)
+
+---
+
+## ✅ PATRONES QUE DOMINO
+
+- `forEach` para recorrer arrays
+- `split("")` + `reverse()` + `join("")` para invertir caracteres
+- `includes()` para detectar duplicados
+- `.toLowerCase()` para comparación case-insensitive
+- Acumulador con `suma += n` en loop/forEach
+- Early return para arrays vacíos
+- Usar `&&` para múltiples condiciones en un if
+
+## ⚠️ PATRONES QUE NECESITO REFORZAR
+
+### Bucles
+- **Off-by-one:** al definir un loop, preguntarme "¿incluyo o excluyo el límite?" → `<` vs `<=`
+
+### Condiciones que aciertan por casualidad (nuevo, 10/08)
+- **Chequear la variable equivocada:** antes de escribir un `if`/ternario para "¿está vacío?" o "¿existe?", preguntarme *"¿esta condición responde literalmente la pregunta, o solo da el resultado correcto por casualidad matemática?"* — pasó 3 veces en un mismo día (E1, E5, P3 del 10/08): chequear un valor derivado (`propiedades.length !== 0`, la suma total) en vez de la propiedad real (`.length === 0`, `sistema[jugador]`).
+- **`??` + operaciones aritméticas:** cuando combino `??` con `+`/`-`/etc, usar paréntesis explícitos SIEMPRE — `??` tiene menos precedencia, y `undefined ?? 0` seguido de operación puede dar `NaN` en vez del default esperado si no encierro `(valor ?? default)` antes de operar.
+
+### Operadores
+- **`!` ≠ `!==`:** `!` niega un booleano. `!==` pregunta "es distinto". No confundirlos.
+- **Precedencia:** usar paréntesis cuando haya dudas. `(i % 2 !== 0)` y no `!i % 2`
+
+### Tipos
+- **`.length`** solo en strings y arrays. Los números NO lo tienen.
+- **Casos borde:** espacios en `toUpperCase()`, strings vacíos, arrays de 1 elemento.
+
+### Lógica
+- **Mirar "para atrás":** `array[i-1]` o `string[i-1]` para contexto local.
+- **Primos:** si encuentro un divisor → no es primo. Si termino el loop sin encontrar → es primo.
+- **Adyacentes:** comparar `array[i]` con `array[i+1]`, loop hasta `length - 1`.
+
+### Objetos
+- **Los pares de `Object.entries()` son arrays, no objetos:** `[clave, valor]` se accede por índice (`par[0]`/`par[1]`) o destructuring, nunca con `.values` ni notación de punto inventada.
+- **`Object.keys/values/entries` operan sobre lo que les pasás directamente:** si ya tenés un array (filtrado, mapeado) y necesitás algo de adentro de cada elemento, la herramienta es `map`/`filter`, no volver a llamar `Object.keys` sobre ese array.
+
+---
+
+*Próxima sesión (Día 06): resolver V2-V4 de la card "Día 05 · Array vacío + reduce" — `primeroSeguro` (early return con `.length === 0`), `sumarEdades` (reduce con valor inicial `0`), `precioTotalPerecederos` (reduce con condición adentro). Teoría de reduce ya está en `docs/js/02-arrays/index.md`.*

@@ -1,0 +1,152 @@
+/*
+ * EJERCICIO INTEGRAL CSS — Features Section
+ *
+ * Escribí TODO el CSS desde cero. NO modifiques el HTML.
+ *
+ * ─── REQUISITOS ───
+ *
+ * 1. Reset universal (box-sizing, margin, padding)
+ * 2. Variables CSS en :root (colores, espaciado, tipografía)
+ * 3. Mobile First:
+ *    - Una columna en mobile
+ *    - 2 columnas en tablet (≥768px)
+ *    - 3 columnas en desktop (≥1024px)
+ * 4. Features__header centrado, con max-width
+ * 5. Feature-card:
+ *    - Icono grande y centrado arriba
+ *    - Título, descripción, link
+ *    - Sombra suave y border-radius
+ *    - La card --featured debe destacar (borde o fondo distinto)
+ *    - Hover: la card se eleva (transform + shadow)
+ *    - Transiciones suaves en todo
+ * 6. Link "Learn more" con hover effect (cambiar color)
+ * 7. Espaciado coherente (usar variables)
+ * 8. Una sola media query por sección
+ *
+ * ─── BONUS (si te sobra) ───
+ * - :has() para que la card destacada tenga un estilo extra
+ * - prefers-reduced-motion
+ * - La grilla usa subgrid o container queries
+ *
+ * ─── TIEMPO ───
+ * Sin límite. Cuando termines, avisame y lo corregimos juntos.
+ * Sin IA, sin ayudín. Solo vos y el editor.
+ */
+
+/* Escribí acá */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+    --color-primary: #3498db;
+    --color-secondary: #2ecc71;
+    --color-background: #adadad;
+    --color-black: #000000;
+    --color-text: #333;
+    --color-white: #ffffff;
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;  
+    --font-primary: 'Arial', sans-serif;
+    --font-secondary: 'Helvetica', sans-serif;
+    --font-size-small: 0.7rem;
+    --font-size-medium: 0.9rem;
+    --font-size-large: 1.25rem;
+    --font-size-xlarge: 1.5rem;
+    --font-size-xxlarge: 2rem;
+}
+
+.features__header {
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-small);
+    justify-content: center;
+    color: var(--color-black);
+    padding: var(--spacing-large);
+}
+
+
+
+.features__grid {
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-large);
+    padding: var(--spacing-large);
+}
+
+@media (min-width: 768px) {
+    .features__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .features__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    gap: var(--spacing-medium);
+    padding: var(--spacing-medium);
+    text-align: center;
+    border: solid 1px var(--color-black);
+    border-radius: var(--spacing-small);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    cursor:pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.8);
+    background-color: #eceaea;    
+}
+
+ .feature-card--featured {
+    background-color: #f8eba2;
+}
+
+.feature-card__icon{
+   font-size:5rem
+}
+
+.feature-card__title{
+    font-size: var(--font-size-xxlarge);
+}
+
+.feature-card__desc {
+    font-size: var(--font-size-medium);
+}
+
+.feature-card__link {
+    font-size: var(--font-size-medium);
+    color: var(--color-black);
+    font-family: var(--font-secondary);
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: var(--spacing-small);
+    background-color: var(--color-secondary);
+    padding: var(--spacing-small) var(--spacing-medium);
+    margin-top: var(--spacing-small);
+}
+    .feature-card__link:hover {
+    color: var(--color-white);
+    }
+
+.features__grid:has(.featured-card:hover) {
+    border: solid 2px var(--color-primary);
+}

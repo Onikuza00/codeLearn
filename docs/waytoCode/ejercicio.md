@@ -4,6 +4,12 @@
 
 ---
 
+<div class="tip-box" style="margin-bottom:2rem;padding:.75rem 1rem;background:#0e1a2e;border-left:4px solid #38bdf8;border-radius:6px;">
+  📂 <strong>¿Buscas los exámenes?</strong> Todos los exámenes prácticos están en el <a href="/assessment/index.html" style="color:#38bdf8;text-decoration:underline;">Assessment Center →</a>
+</div>
+
+---
+
 ## 01 — Landing page Flexbox + Grid
 
 > ⏱ Tiempo estimado: **40 min**

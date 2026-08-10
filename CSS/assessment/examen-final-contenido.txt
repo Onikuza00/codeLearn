@@ -1,0 +1,77 @@
+=== CONTENIDO PARA EXAMEN FINAL — NOMADSTAY ===
+
+Copiá y pegá esto en tu HTML cuando lo necesites.
+
+
+--- HEADER ---
+
+Logo: NomadStay (podés ponerlo como texto, sin imagen)
+Nav: Destinos | Servicios | Testimonios | Contacto
+Botón: Reserva ahora
+
+
+--- HERO ---
+
+Título: Viví y trabajá desde cualquier lugar
+Subtítulo: Alojamientos diseñados para nómades digitales. Mes a mes, sin ataduras.
+Botón: Explorar destinos
+
+
+--- SERVICIOS (3 cards) ---
+
+1. 🏠 Alojamientos curados
+   Espacios verificados con wifi rápido, escritorio y zonas comunes.
+
+2. 🌍 Destinos globales
+   Más de 50 ciudades en 20 países. Llegá y trabajá.
+
+3. 💻 Comunidad nómade
+   Accedé a eventos, coworkings y grupos locales en cada destino.
+
+
+--- DESTINOS (6 cards) ---
+
+Usá picsum.photos para las imágenes:
+1. Barcelona   | 890€/mes | Popular  | https://picsum.photos/seed/barcelona/400/300
+2. Bali        | 650€/mes | —        | https://picsum.photos/seed/bali/400/300
+3. México      | 550€/mes | Popular  | https://picsum.photos/seed/mexico/400/300
+4. Lisboa      | 750€/mes | —        | https://picsum.photos/seed/lisboa/400/300
+5. Tokio       | 1200€/mes| —        | https://picsum.photos/seed/tokio/400/300
+6. Medellín    | 480€/mes | —        | https://picsum.photos/seed/medellin/400/300
+
+Nota: seed=ciudad da siempre la misma imagen, así no cambian.
+
+
+--- TESTIMONIOS (4 cards) ---
+
+1. Laura Méndez   | Diseñadora UX
+   "NomadStay me permitió trabajar desde 5 países en un año sin preocuparme por el alojamiento."
+
+2. Carlos Ruiz    | Dev Full Stack
+   "La comunidad es increíble. En cada ciudad conocí nómades que hoy son colegas."
+
+3. Ana Kim        | Product Manager
+   "Los espacios son exactamente lo que prometen. Wifi rápido, todo limpio, check-in sin estrés."
+
+4. Martín López   | Writer & Blogger
+   "Pagué lo mismo que en un alquiler fijo pero con la flexibilidad de mudarme cuando quiero."
+
+Avatares:
+https://i.pravatar.cc/80?img=1 (Laura)
+https://i.pravatar.cc/80?img=8 (Carlos)
+https://i.pravatar.cc/80?img=5 (Ana)
+https://i.pravatar.cc/80?img=11 (Martín)
+
+
+--- FOOTER ---
+
+Col 1 — NomadStay
+   Hecho para quienes trabajan sin oficina.
+
+Col 2 — Enlaces
+   Destinos · Cómo funciona · Testimonios · Blog · FAQ
+
+Col 3 — Contacto
+   hola@nomadstay.com
+   @nomadstay
+   +34 900 123 456

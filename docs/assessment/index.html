@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi zona de aprendizaje — CodeLearn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<main class="container">
+
+  <header class="hero">
+    <span class="hero__icon" aria-hidden="true">🎯</span>
+    <h1>Mi <span>zona de aprendizaje</span></h1>
+    <p class="subtitle">Progreso, ejercicios y exámenes de JS y CSS — todo en un solo lugar.</p>
+  </header>
+
+  <div class="stats-row">
+    <div class="stat-pill">
+      <span class="stat-pill__value">2</span>
+      <span class="stat-pill__label">Exámenes totales</span>
+    </div>
+    <div class="stat-pill stat-pill--done">
+      <span class="stat-pill__value">1</span>
+      <span class="stat-pill__label">Aprobados</span>
+    </div>
+    <div class="stat-pill stat-pill--pending">
+      <span class="stat-pill__value">1</span>
+      <span class="stat-pill__label">Pendientes de calificar</span>
+    </div>
+    <div class="stat-pill stat-pill--avg">
+      <span class="stat-pill__value">8.3<span style="font-size:1rem;color:var(--text-muted);">/10</span></span>
+      <span class="stat-pill__label">Promedio calificados</span>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="section-title">🚀 Accesos rápidos</h2>
+    <div class="card-grid quick-links">
+      <a href="progreso.html" class="exam-card">
+        <span class="icon icon--done" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+        </span>
+        <span>
+          <h2>Ruta de aprendizaje</h2>
+          <p>Plan de agosto completo: JS, CSS + Tailwind y biblioteca de exámenes.</p>
+        </span>
+      </a>
+      <a href="js/ejercicios/dia-02-arrays.html" class="exam-card">
+        <span class="icon icon--js" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        </span>
+        <span>
+          <h2>Ejercicios JS activos</h2>
+          <p>Arrays, métodos y reduce — la card en curso de esta semana.</p>
+        </span>
+      </a>
+      <a href="css/ejercicios/nuevos-conceptos.html" class="exam-card">
+        <span class="icon icon--css" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </span>
+        <span>
+          <h2>Ejercicios CSS</h2>
+          <p><code>:has()</code>, Grid, Flex y Container Queries en práctica.</p>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">📊 Historial de assessments</h2>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Examen</th>
+          <th>Puntuación</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>18/07/2026</td>
+          <td>CSS — Landing NomadStay (práctico)</td>
+          <td class="score score--pending">—</td>
+          <td>⏳ Pendiente de calificar</td>
+        </tr>
+        <tr>
+          <td>25/07/2026</td>
+          <td>CSS — SaaSPro Final</td>
+          <td class="score score--done">8.3/10</td>
+          <td>✅ Aprobado</td>
+        </tr>
+        <tr>
+          <td colspan="4" class="empty">Los nuevos resultados aparecerán aquí al completar cada examen.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<script src="nav.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Tech stack: Vanilla HTML5 + CSS3 (custom properties, tokens.css) + Vanilla JS (ES Modules)
+  Libraries: GSAP 3.12.5 (CDN, registered: ScrollTrigger, TextPlugin), Font Awesome 6.5.1 (CDN), Google Fonts: Outfit
+  Architecture: Single-page static portfolio site, no build tools, no package.json, no bundler
+  i18n: Vanilla JS translation system (ca/es/en) via window.i18nData in js/translations.js
+  Animations: GSAP intro curtain, ScrollTrigger scroll reveals, terminal typewriter, text splitting (3D cascade, word reveal), 3D avatar flip, stack bar hover
+  Responsive: max-width media queries (breakpoints: 768px, 900px, 991px), mobile-first via base styles
+  Git: Remote origin=https://github.com/Onikuza00/portfolio.git; branch=main (no commits yet — fresh repo)
+  CSS conventions: Variables in css/tokens.css (`:root` custom properties), layout in css/main.css; no inline styles except mobile toggle
+  JS conventions: const/let (no var), ES module type="module", registered GSAP plugins at top level, early returns present in guard clauses
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes (e.g., major GSAP animation refactors, intro overlay changes)
+  specs:
+    - Use Given/When/Then for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Keep specs scoped to visual/interactive behavior (static site — no server logic)
+  design:
+    - Reference GSAP patterns already used (ScrollTrigger, TextPlugin, timelines)
+    - Document animation performance considerations (will-change, transform, opacity only)
+    - Note i18n impact: language change triggers ScrollTrigger.kill() + re-init of animations
+  tasks:
+    - Group by phase, use hierarchical numbering
+    - Keep tasks completable in one session (~3h)
+    - Prioritize HTML/CSS changes before JS/GSAP work
+  apply:
+    - Follow existing patterns: CSS variables in tokens.css, GSAP via gsap.timeline, ES modules
+    - Keep js/translations.js synced with any new UI text in all 3 languages (ca/es/en)
+    - Maintain img/ assets in webp format (existing convention)
+  verify:
+    test_command: ""    # No test infrastructure — manual visual verification
+    build_command: ""   # No build step — direct file serving (localhost or static host)
+  archive:
+    - Warn before merging destructive deltas
+
+testing:
+  strict_tdd: false
+  runner: null
+  note: "Static site with zero test infrastructure. No package.json, no CI, no bundler. Verification is manual visual inspection across breakpoints (768px, 900px, 991px) and browsers (Chrome, Firefox, Safari)."
+
+  layers:
+    unit: { available: false, tool: null }
+    integration: { available: false, tool: null }
+    e2e: { available: false, tool: null }
+
+  coverage: { available: false, command: null }
+
+  quality:
+    linter: { available: false, command: null }
+    type_checker: { available: false, command: null }
+    formatter: { available: false, command: null }

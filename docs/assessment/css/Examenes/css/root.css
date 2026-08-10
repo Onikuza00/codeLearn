@@ -1,0 +1,67 @@
+:root {
+
+    /* Colores */
+    --c-black: #000;
+    --c-white: #fff;
+    --c-way: #f9f9f9;
+    --c-input: #b9b9b9;
+    --c-gris: #b3b1b1;
+    --c-gray: #666;
+    --c-red: #900;
+    --c-blue: #044d8d;
+    --c-blue-dark: #021c4e;
+    --c-blue-trans: rgba(1, 14, 39, 0.6);
+    --c-blue-light: #09acf2a0;
+    --c-blue-border: #c0d8ee87;
+    --c-blue-plus: linear-gradient(35deg, rgb(0, 37, 92), rgb(48, 127, 245));
+    --c-success: #088808;
+    --c-active: #ecc100;
+    --hero-deg: linear-gradient(135deg, var(--c-way), #60c3f1);
+    --destino-card-badge: linear-gradient(to top, rgb(255, 208, 2, 0.2) 40%, transparent 80%);
+    --services-card-badge: linear-gradient(to top, rgba(2, 183, 255, 0.2) 40%, transparent 80%);
+    --testimonials-card-badge: linear-gradient(to top, rgba(211, 211, 209, 0.2) 40%, transparent 80%);
+
+    /* Tipografía */
+    --ff-title: 'Playfair Display', serif;
+    --ff-body: 'Roboto', sans-serif;
+    --ff-mono: 'Poppins', sans-serif;
+    --ff-logo: 'Arial', sans-serif;
+
+    /*Espaciados */
+    --space-n: 0.15rem;
+    --space-xs: 0.25rem;
+    --space-s: 0.5rem;
+    --space-m: 1rem;
+    --space-xm: 1.5rem;
+    --space-l: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 5rem;
+    --space-huge: 8rem;
+
+    /*transition*/
+    --tr-short: 100ms;
+    --tr-normal: 200ms;
+    --tr-long: 300ms;
+    --tr-verylong: 600ms;
+
+    /*font-size*/
+    --small-xs: 0.7rem;
+    --small-xm: 0.8rem;
+    --small: clamp(0.6rem, calc(1vh + 0.5rem), 0.9rem);
+    --normal: clamp(0.8rem, calc(1vh +0.85rem), 1.1rem);
+    --base0: clamp(1.5rem, calc(3vh + 0.8rem), 1.70rem);
+    --base: clamp(1.5rem, calc(3.5vh + 0.8rem), 2.10rem);
+    --large: clamp(1.4rem, calc(3.5vh + 1rem), 2.5rem);
+    --extra-large: clamp(2.5rem, calc(5vh + 1rem), 4rem);
+    --super-extra-large: clamp(3.5rem, calc(6vh + 1.2rem), 5rem);
+
+    /*Border-radiud*/
+    --radius-s: 4px;
+    --radius-m: 8px;
+    --radius-l: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 24px;
+    --radius-3xl: 32px;
+    --radius-full: 9999px
+}

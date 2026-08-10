@@ -1,0 +1,55 @@
+:root {
+    
+    --bg: #000000;
+    --c-surface-2: #0e0e0e;
+    --c-surface-3: #16161e;
+    --c-text-n: #08080c;
+    --c-text-b: #ffffff;
+    --c-text-g: #a3a3a3;
+    --c-text-a: #38cbf8;
+    --c-text-d: #258faf;
+    --c-text-a-h: #7dd3fc;
+
+    --font-heading: 'Instrument Sans', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+    --font-mono: 'Chivo Mono', monospace;
+    --text-s: 0.55rem;
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.5rem;
+    --text-1xl: 1.9rem;
+    --text-2xl: 2.5rem;
+    --text-3xl: 3.5rem;
+    --text-4xl: 4.5rem;
+    --text-5xl: 6rem;
+
+    --space-00: 0.05rem;
+    --space-0: 0.15rem;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-25: 6rem;
+    
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+}
+
+body {
+    overflow-x: hidden;
+
+}
