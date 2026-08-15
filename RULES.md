@@ -167,8 +167,9 @@
 |-------|---------|----------|
 | Plan de la próxima sesión | `docs/planning/index.md` | **Se actualiza cada vez**, no se crean nuevas secciones. Plantilla base: plan del día, ejercicios/temario, carencias a practicar |
 | Diario de aprendizaje | `docs/waytoCode/` por fecha | Al decir "guarda" / "guardalo" o al final de cada sesión |
-| Memoria del agente | Engram | Al decir "guarda" / "guardalo" o cada ~8 instrucciones |
-| Cambio SDD completo | `openspec/` | Automático al crear/archivar un cambio |
+| Memoria del agente | Engram | Al decir "guarda"/"guardalo"; cada ~8 instrucciones; al terminar de documentar un **bloque entero** de teoría (no una lección suelta); al registrar los resultados de un **bloque de ejercicios**; al modificar el roadmap/hoja de ruta o tomar una **decisión importante** |
+| Cambio SDD completo (feature planificada) | `openspec/changes/` | Automático al crear/archivar un cambio |
+| Cambio arquitectónico o de configuración del propio proyecto (hooks, convenciones fijas, tooling, `settings.json`) | `openspec/changes/archive/` | En el momento del cambio — `proposal.md` (qué + por qué) siempre, `design.md` solo si hubo alternativas evaluadas. Va directo a `archive/`, no queda "en curso". Añadir su fila a `openspec/changes/archive/CHANGELOG.md` en el MISMO paso |
 | Commit al repo | git | Cada ~1h de sesión (preguntar antes) |
 | Push / rebase / revert | — | **SÓLO cuando Pau lo ordene explícitamente** |
 
