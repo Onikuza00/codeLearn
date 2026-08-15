@@ -66,6 +66,10 @@ nav:
           - "Domingo 09 — Repaso general": waytoCode/2026/08/semana-1/2026-08-09.md
         - "Semana 02 — Objetos + callbacks":
           - "Lunes 10 — Objetos": waytoCode/2026/08/semana-2/2026-08-10.md
+          - "Martes 11 — Callbacks + Closures": waytoCode/2026/08/semana-2/2026-08-11.md
+          - "Miércoles 12 — Symfony Fundamentos": waytoCode/2026/08/semana-2/2026-08-12.md
+          - "Jueves 13 — JS + Extensión Fundamentos": waytoCode/2026/08/semana-2/2026-08-13.md
+          - "Sábado 15 — Tailwind CSS": waytoCode/2026/08/semana-2/2026-08-15.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -105,13 +109,52 @@ nav:
       - css/animaciones/index.md
       - Transitions: css/animaciones/01-transitions/index.md
       - "Keyframes y animation": css/animaciones/02-keyframes/index.md
+  - Tailwind:
+    - tailwind/index.md
+    - "Fundamentos":
+      - tailwind/00-fundamentos/index.md
+      - "Utility-first": tailwind/00-fundamentos/01-utility-first/index.md
+      - "Anatomía de una clase": tailwind/00-fundamentos/03-anatomia-clases/index.md
+      - "Configuración v4": tailwind/00-fundamentos/04-configuracion/index.md
+    - "Sistema de diseño":
+      - tailwind/01-sistema-diseno/index.md
+      - "Espaciado y dimensiones": tailwind/01-sistema-diseno/01-espaciado-dimensiones/index.md
+      - "Colores": tailwind/01-sistema-diseno/02-colores/index.md
+      - "Tipografía": tailwind/01-sistema-diseno/03-tipografia/index.md
+    - "Layout":
+      - tailwind/02-layout/index.md
+      - "Display y caja": tailwind/02-layout/00-display-caja/index.md
+      - "Flexbox": tailwind/02-layout/01-flexbox/index.md
+      - "Grid": tailwind/02-layout/02-grid/index.md
+      - "Posición y overflow": tailwind/02-layout/03-posicion-overflow/index.md
+    - "Responsive & estados":
+      - tailwind/03-responsive-estados/index.md
+      - "Breakpoints": tailwind/03-responsive-estados/01-breakpoints/index.md
+      - "Pseudo-clases y estados": tailwind/03-responsive-estados/02-pseudoclases-estados/index.md
+      - "group y peer": tailwind/03-responsive-estados/03-group-peer/index.md
+    - "Efectos visuales":
+      - tailwind/04-efectos-visuales/index.md
+      - "Sombras": tailwind/04-efectos-visuales/01-sombras/index.md
+      - "Filtros": tailwind/04-efectos-visuales/02-filtros/index.md
+      - "Mask": tailwind/04-efectos-visuales/03-mask/index.md
+      - "Transforms": tailwind/04-efectos-visuales/04-transforms/index.md
+      - "Transiciones y animación": tailwind/04-efectos-visuales/05-transiciones-animacion/index.md
+    - "Interactividad y accesibilidad":
+      - tailwind/05-interactividad-accesibilidad/index.md
+      - "Interactividad": tailwind/05-interactividad-accesibilidad/01-interactividad/index.md
+      - "Accesibilidad": tailwind/05-interactividad-accesibilidad/02-accesibilidad/index.md
+      - "SVG": tailwind/05-interactividad-accesibilidad/03-svg/index.md
   - JS:
     - js/index.md
     - "Fundamentos":
       - js/01-basico/index.md
       - "Variables y tipos de datos": js/01-basico/01-variables-tipos/index.md
-      - "Estructuras de control": js/01-basico/02-estructuras-control/index.md
-      - "Funciones": js/01-basico/03-funciones/index.md
+      - "Operadores": js/01-basico/02-operadores/index.md
+      - "Estructuras de control": js/01-basico/03-estructuras-control/index.md
+      - "Funciones": js/01-basico/04-funciones/index.md
+      - "Valor vs. referencia": js/01-basico/05-paso-valor-referencia/index.md
+      - "Try/Catch": js/01-basico/06-try-catch/index.md
+      - "Errores personalizados": js/01-basico/07-custom-errors/index.md
     - "Arrays":
       - "Fundamentos de los Arrays": js/02-arrays/index.md
       - "Métodos básicos": js/02-arrays/02-metodos-basicos/index.md
@@ -127,6 +170,11 @@ nav:
       - "Iteración": js/03-objetos/03-iterar/index.md
       - "Optional chaining": js/03-objetos/04-optional-chaining/index.md
       - "Spread Operator": js/03-objetos/05-spread/index.md
+      - "this": js/03-objetos/06-this/index.md
+      - "Prototipos": js/03-objetos/07-prototipos/index.md
+      - "Constructores": js/03-objetos/08-constructores/index.md
+      - "Clases": js/03-objetos/09-clases/index.md
+      - "Herencia": js/03-objetos/10-herencia-clases/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -137,13 +185,23 @@ nav:
     - backend/index.md
     - PHP:
       - backend/01-php/index.md
-    - Symfony:
-      - backend/02-symfony/index.md
-      - "Bloque 01 - Web Components":
-        - Arquitectura: backend/02-symfony/web-components/arquitectura.md
-        - TwigComponents: backend/02-symfony/web-components/twig-components.md
-        - LiveComponents: backend/02-symfony/web-components/live-components.md
-        - Stimulus: backend/02-symfony/web-components/stimulus.md
+  - Symfony:
+    - symfony/index.md
+    - "Bloque 00 - Fundamentos":
+      - symfony/00-fundamentos/index.md
+      - "01 - Estructura de carpetas": symfony/00-fundamentos/01-estructura-carpetas/index.md
+      - "02 - Controllers": symfony/00-fundamentos/02-controllers/index.md
+      - "03 - Rutas": symfony/00-fundamentos/03-rutas/index.md
+      - "04 - Doctrine":
+        - symfony/00-fundamentos/04-doctrine/index.md
+        - "01 - Entity": symfony/00-fundamentos/04-doctrine/01-entity/index.md
+        - "02 - Repository y EntityManager": symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/index.md
+      - "05 - Twig": symfony/00-fundamentos/05-twig/index.md
+    - "Bloque 01 - Web Components":
+      - Arquitectura: symfony/web-components/arquitectura.md
+      - TwigComponents: symfony/web-components/twig-components.md
+      - LiveComponents: symfony/web-components/live-components.md
+      - Stimulus: symfony/web-components/stimulus.md
   - GSAP:
     - gsap/index.md
   - DevOps:
@@ -167,6 +225,11 @@ nav:
         - "Aplicado a landings y animaciones": ia/claude/01-claude-code-in-action/09-aplicado-landings-animaciones/index.md
       - "Claude API":
         - ia/claude/02-claude-api/index.md
+      - "Automatizaciones":
+        - ia/claude/03-automatizaciones/index.md
+        - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md
+        - "Configuración de OpenSpec": ia/claude/03-automatizaciones/02-openspec/index.md
+        - "Normas de documentación automáticas": ia/claude/03-automatizaciones/03-normas-documentacion/index.md
   - Ejercicios: http://localhost:8000/assessment/index.html
 
 markdown_extensions:
