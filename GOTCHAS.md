@@ -465,6 +465,119 @@ function jugadorGanador(sistema) {
 
 ---
 
+# 🌙 TARDE — JS · 11/08/2026 (Día 11 — Callbacks + Closures)
+
+### Fallo 16: `ejecutarSiPositivo` — callback recibido pero nunca invocado
+
+**❌ Código original:**
+```js
+function ejecutarSiPositivo(numero, callback) {
+   if(numero > 0) return numero * 2;   // hardcodea la operación, ignora "callback"
+   return null;
+}
+```
+
+**✅ Mejora:**
+```js
+function ejecutarSiPositivo(numero, callback) {
+  if (numero <= 0) return null;
+  return callback(numero);
+}
+```
+
+**🧠 Teoría:** el parámetro `callback` estaba en la firma pero nunca se llamaba — el código hardcodeaba `numero * 2` en su lugar. Pasó el test de casualidad porque el callback de prueba era justo `n => n * 2`; con cualquier otro callback hubiera fallado. Mismo patrón "acierta por casualidad" que E1/E5/P3 del Día 10, aplicado ahora a un parámetro-función en vez de a una condición.
+
+**Estado:** 🔁 Repasar
+
+---
+
+### Fallo 17: `repetir` — off-by-one, recurrencia del Fallo 6
+
+**❌ Código original:**
+```js
+for (let i = 0; i < n - 1; i++) {   // corta un paso antes de tiempo
+  array.push(callback(i));
+}
+```
+
+**✅ Mejora:**
+```js
+for (let i = 0; i < n; i++) {
+  array.push(callback(i));
+}
+```
+
+**🧠 Teoría:** mismo gotcha que el Fallo 6 (`numerosImpares`, 25/07). `i < n` ya excluye `n` por el propio `<` — restar `-1` a mano excluye el límite dos veces. El enunciado "desde 0 hasta n-1" describe el ÚLTIMO VALOR que toma `i`, no un ajuste que haya que hacer en la condición del loop. → Ver teoría #off-by-one.
+
+**Estado:** 🔁 Repasar (segunda vez que aparece — reforzar antes del próximo bloque de loops)
+
+---
+
+# 🌙 MAÑANA — JS · 13/08/2026 (Día 13 — Métodos Avanzados)
+
+### Fallo 26: `posicionDe` — `??` aplicado a `findIndex()`, que nunca es nullish
+
+**❌ Código original:**
+```js
+function posicionDe(usuarios, id) {
+  return usuarios.findIndex(e => e.id === id) ?? undefined;
+}
+```
+
+**✅ Mejora:**
+```js
+function posicionDe(usuarios, id) {
+  return usuarios.findIndex(e => e.id === id);
+}
+```
+
+**🧠 Teoría:** `findIndex()` SIEMPRE devuelve un número — nunca `null` ni `undefined`, ni siquiera cuando no encuentra nada (ahí devuelve `-1`). El `?? undefined` no hacía nada: no hay ningún valor nullish a la izquierda que reemplazar, es código muerto. Y aunque hubiera actuado, habría sido el resultado equivocado: el enunciado pedía `-1` como "no encontrado" (lo que `findIndex` ya devuelve solo), no `undefined` — ese es el sentinel de `find()`, un método distinto. Cada método de búsqueda tiene su propio "no encontrado" (`find` → `undefined`, `findIndex` → `-1`, `indexOf` → `-1`, `includes` → `false`): no son intercambiables. Pasó el test igual, por casualidad — mismo patrón de "código que acierta sin responder la pregunta real" que los Fallos 10 y 16.
+
+**Estado:** ✅ Corregido (explicado en el momento)
+
+---
+
+### Fallo 27: `crearContadorConThis` — arrow function como método (pierde `this`) + postfix/prefix confundidos
+
+**❌ Código original (intentos sucesivos):**
+```js
+// Intento 1 — arrow function COMO el método: no tiene this propio,
+// hereda el de crearContadorConThis, no el del objeto devuelto
+incrementar: () => this.valor++
+
+// Intento 2 — invocación correcta (IIFE), pero this.valor++ es postfix:
+// devuelve el valor VIEJO, la secuencia sale 0, 1, 2 en vez de 1, 2, 3
+return (() => this.valor++)();
+
+// Intento 3 — compensó el postfix arrancando valor en 1, en vez de
+// arreglar el operador, y de paso se comió el incremento entero
+valor: 1,
+incrementar: function() {
+  return (() => this.valor)();
+}
+```
+
+**✅ Mejora:**
+```js
+function crearContadorConThis() {
+  return {
+    valor: 0,
+    incrementar: function() {
+      return (() => ++this.valor)();
+    }
+  };
+}
+```
+
+**🧠 Teoría (dos conceptos en el mismo ejercicio):**
+
+1. **Arrow function como método pierde el `this` que hace falta:** un objeto literal (`{ }`) no crea contexto de `this` propio. Una arrow definida directo como propiedad hereda el `this` de donde se DEFINIÓ (el cuerpo de `crearContadorConThis`), no el objeto que se está devolviendo — que en ese momento ni siquiera terminó de construirse como tal. `incrementar` necesita ser un `function` normal (ahí sí `this` es el objeto, porque se llama como `c.incrementar()`), y la arrow va ANIDADA adentro, heredando ese `this` correcto por closure.
+2. **Postfix (`this.valor++`) vs. prefix (`++this.valor`):** el mismo gotcha del Fallo 26 pero en un operador distinto — `this.valor++` devuelve el valor de ANTES de sumar. Con `valor` arrancando en `0`, la primera llamada daba `0` en vez de `1`. `++this.valor` devuelve el valor YA sumado. Compensarlo arrancando `valor` en `1` "funcionaba" matemáticamente para la secuencia del test, pero rompía el significado real del estado (`c.valor` mostraría `1` en un contador recién creado que todavía no contó nada) — arreglar el síntoma en vez de la causa. Teoría completa, con tabla comparativa y demo en vivo, ahora en [Operadores](/js/01-basico/02-operadores/) (sección nueva, creada a partir de este fallo).
+
+**Estado:** ✅ Corregido (varios intentos, con guía)
+
+---
+
 ## ✅ PATRONES QUE DOMINO
 
 - `forEach` para recorrer arrays
@@ -474,11 +587,21 @@ function jugadorGanador(sistema) {
 - Acumulador con `suma += n` en loop/forEach
 - Early return para arrays vacíos
 - Usar `&&` para múltiples condiciones en un if
+- Closures (11/08): "variable afuera + función que la recuerda" — resuelto sin fallos en `crearContador`, `crearContadorDesde`, `crearAcumulador` (E3, E4, E6 del Día 11)
+- `some`/`every`/`find` (13/08): elegir el método correcto según qué pregunta hace falta responder — resuelto sin fallos en `hayAlgunoCaro`, `todosDisponibles`, `buscarPorId`, `hayHuecos` (4/5 del Grupo 1, Día 13)
+- Spread para no mutar (13/08): `{...obj, clave: valor}` y `[...arr, item]` — resuelto sin fallos en `duplicarPuntuacion` y `agregarItem` (Grupo 2, Día 13), y predicción correcta de valor/referencia en `predecirValorFinal`
 
 ## ⚠️ PATRONES QUE NECESITO REFORZAR
 
+### `this` (nuevo, 13/08)
+- **Arrow function como método pierde el `this` correcto:** un objeto literal no crea contexto de `this` — una arrow definida directo como propiedad hereda el `this` de donde se DEFINIÓ, no el objeto que la contiene. Si un método necesita `this` apuntando al objeto, tiene que ser `function` normal; la arrow (si hace falta) va anidada ADENTRO de ese método, nunca en su lugar.
+- **Antes de escribir un método, preguntarme:** "¿este método se va a llamar como `objeto.metodo()`, o se puede sacar suelto?" — si puede sacarse suelto (pasarlo como callback, por ejemplo), `this` se pierde salvo que use arrow/closure en vez de depender de `this`. Ver Fallos 26 y 27, y la teoría en [Operadores](/js/01-basico/02-operadores/) y [`this`](/js/03-objetos/06-this/).
+
+### Postfix vs. prefix (nuevo, 13/08)
+- **`x++`/`this.algo++` devuelve el valor VIEJO. `++x`/`++this.algo` devuelve el valor NUEVO.** Si una función necesita devolver "el valor ya actualizado", usar SIEMPRE prefix — postfix da el resultado de la llamada anterior, un paso atrás, sin ningún error que lo avise. Reincidió con `this.valor` en el Fallo 27, mismo mecanismo que el operador simple.
+
 ### Bucles
-- **Off-by-one:** al definir un loop, preguntarme "¿incluyo o excluyo el límite?" → `<` vs `<=`
+- **Off-by-one:** al definir un loop, preguntarme "¿incluyo o excluyo el límite?" → `<` vs `<=`. Reincidió el 11/08 (Fallo 17, `repetir`): `i < n` ya excluye `n` por sí solo, no hace falta restar `-1` a mano — el enunciado "hasta n-1" describe el último valor de `i`, no un ajuste de la condición.
 
 ### Condiciones que aciertan por casualidad (nuevo, 10/08)
 - **Chequear la variable equivocada:** antes de escribir un `if`/ternario para "¿está vacío?" o "¿existe?", preguntarme *"¿esta condición responde literalmente la pregunta, o solo da el resultado correcto por casualidad matemática?"* — pasó 3 veces en un mismo día (E1, E5, P3 del 10/08): chequear un valor derivado (`propiedades.length !== 0`, la suma total) en vez de la propiedad real (`.length === 0`, `sistema[jugador]`).
@@ -501,6 +624,278 @@ function jugadorGanador(sistema) {
 - **Los pares de `Object.entries()` son arrays, no objetos:** `[clave, valor]` se accede por índice (`par[0]`/`par[1]`) o destructuring, nunca con `.values` ni notación de punto inventada.
 - **`Object.keys/values/entries` operan sobre lo que les pasás directamente:** si ya tenés un array (filtrado, mapeado) y necesitás algo de adentro de cada elemento, la herramienta es `map`/`filter`, no volver a llamar `Object.keys` sobre ese array.
 
+### Búsqueda en arrays (nuevo, 13/08)
+- **Cada método de búsqueda tiene su propio "no encontrado":** `find` → `undefined`, `findIndex`/`indexOf` → `-1`, `includes` → `false`. No mezclarlos ni "defenderse" con `??` sobre un método que nunca da nullish (`findIndex` jamás es `null`/`undefined`) — antes de poner `?? algo`, preguntarme "¿este método puede devolver null o undefined de verdad?".
+
 ---
 
-*Próxima sesión (Día 06): resolver V2-V4 de la card "Día 05 · Array vacío + reduce" — `primeroSeguro` (early return con `.length === 0`), `sumarEdades` (reduce con valor inicial `0`), `precioTotalPerecederos` (reduce con condición adentro). Teoría de reduce ya está en `docs/js/02-arrays/index.md`.*
+<!-- ============================================= -->
+<!-- SYMFONY                                        -->
+<!-- ============================================= -->
+# 🐘 SYMFONY · 12/08/2026 (Repaso Fundamentos + Ejercicios)
+
+## 🐛 REGISTRO DE FALLOS Y MEJORAS
+
+---
+
+### Fallo 18: `TareasController::index` — nombre de variable que miente sobre su tipo
+
+**❌ Código original:**
+```php
+public function index(TareaRepository $tarea): Response
+{
+    $lista = $tarea->findAll();
+```
+
+**✅ Mejora:**
+```php
+public function index(TareaRepository $tareaRepository): Response
+{
+    $lista = $tareaRepository->findAll();
+```
+
+**🧠 Teoría:** el parámetro no era una `Tarea`, era el `TareaRepository` completo — el nombre `$tarea` (singular) sugería una entidad, cuando en realidad daba acceso a todas. Primer instinto fue `$em` (convención de `EntityManagerInterface`, un tipo distinto con otra responsabilidad: persist/flush/remove), después `$repository` (válido pero pierde de qué entidad es — colisiona si el controller crece con más repositorios). El nombre correcto cuenta la misma historia que el tipo: `$tareaRepository`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 19: `TareasController::buscar` — ruta duplicada, barra faltante, ParamConverter no usado
+
+**❌ Código original:**
+```php
+#[Route('/tareas{id}', name: 'app_tareas')]  // mismo name que el index, falta "/"
+public function buscar(TareaRepository $tareaRepository, $id): Response
+{
+    $lista = $tareaRepository->find($id);   // patrón manual, sin comprobar null
+```
+
+**✅ Mejora:**
+```php
+#[Route('/tareas/{id}', name: 'tarea_id')]
+public function buscar(Tarea $tarea): Response
+{
+    return $this->render('tareas/show.html.twig', ['tarea' => $tarea]);
+```
+
+**🧠 Teoría:** tres fallos en la misma línea. (1) Dos rutas no pueden compartir `name` — Symfony no arranca. (2) `/tareas{id}` sin `/` matchea `/tareas5`, no `/tareas/5`. (3) El wildcard `{id}` por defecto activa el ParamConverter/`EntityValueResolver`: declarar `Tarea $tarea` directo hace que Symfony llame `find($id)` y lance el 404 solo si no existe — el patrón manual (`find()` + `if(!$x)` + `createNotFoundException()`) ya no hace falta. Ver `docs/symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/index.md#paramconverter`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 20: `index.html.twig` — variable inexistente, `for` invertido, objeto sin propiedad
+
+**❌ Código original:**
+```twig
+{% for tareas in tarea %}
+    <li>{{tarea}}</li>
+{% else %}
+    <p>No hay productos a mostrar</p>
+{%endfor%}
+```
+
+**✅ Mejora:**
+```twig
+{% for tarea in lista %}
+    <li>{{tarea.title}}</li>
+{% else %}
+    <p>No hay tareas a mostrar</p>
+{%endfor%}
+```
+
+**🧠 Teoría:** tres fallos en una línea. (1) `tarea` no existía en el contexto — el controller pasa `lista`, no `tarea`. (2) El `for` estaba invertido: `tareas` (plural) era la variable de vuelta y `tarea` (singular) la supuesta colección — al revés de la convención `for item in coleccion`. (3) `{{ tarea }}` imprime el objeto `Tarea` entero, que no tiene `__toString()` — hace falta acceder a una propiedad (`tarea.title`).
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 21: `show.html.twig` — copiar el `for` de la lista a una plantilla de un solo objeto (reincidencia del Fallo 20)
+
+**❌ Código original:**
+```twig
+{% for tarea in lista %}
+    <li>{{ tarea.title }}</li>
+    {% if tarea.done %}...{% endif %}
+{% else %}
+    <p>No hay tareas a mostrar</p>
+{% endfor %}
+```
+
+**✅ Mejora:**
+```twig
+<li>{{ tarea.title }}</li>
+{% if tarea.done %}
+    <p>✅ Hecha</p>
+{% else %}
+    <p>⏳ Pendiente</p>
+{% endif %}
+```
+
+**🧠 Teoría:** `show.html.twig` nació de duplicar `index.html.twig` en VS Code (incluso quedó con el nombre `show.html copy.twig` al principio) y el `for`/`lista` no se adaptó al nuevo contexto. La pregunta que faltó hacerse: **¿qué le pasa el controller a esta plantilla — un array o un objeto?** `index()` pasa `lista` (array → hace falta `for`). `buscar()` pasa `tarea` (un objeto único, ya resuelto por ParamConverter → **nunca** hace falta `for`, ya lo tenés "en la mano"). Reincidió porque venía de una copia literal, no de pensar el caso de nuevo — mismo patrón de reincidencia que Fallo 6 → Fallo 17 (off-by-one).
+
+**Estado:** 🔁 Repasar
+
+---
+
+### Fallo 22: `crear()` — cadena de errores acumulados (EntityManager, primera vez)
+
+**❌ Código original (varios intentos):**
+```php
+public function crear(Request $request, EntityManagerInterface $em, Tarea $tarea): Response  // ❌ falta use Tarea/Request, param Tarea de más
+{
+    $titulo = $request->get('title');                    // ❌ ->get() ambiguo, pedía ->query->get()
+    $tarea = new Tarea();
+    $tarea->setTitle($titulo);
+    $tarea->setDone(false);
+    $tarea->setCreatedAt(new \DateTimeInmutable());       // ❌ typo: es Immutable, no Inmutable
+    $em->persist($tarea);
+    $em->flush();
+    return "tarea creada!";                               // ❌ string suelto, el método declara : Response
+}
+```
+Ruta: `#[Route('/tareas/crear', name: 'tarea_crear', method: 'POST')]` — ❌ es `methods` (plural), no `method`.
+
+**✅ Mejora:**
+```php
+#[Route('/tareas/crear', name: 'tarea_crear', methods: 'POST')]
+public function crear(Request $request, EntityManagerInterface $em): Response
+{
+    $titulo = $request->query->get('title');
+    $tarea = new Tarea();
+    $tarea->setTitle($titulo);
+    $tarea->setDone(false);
+    $tarea->setCreatedAt(new \DateTimeImmutable());
+    $em->persist($tarea);
+    $em->flush();
+    return $this->redirectToRoute('app_tareas');
+}
+```
+
+**🧠 Teoría:** primer uso del EntityManager en el proyecto, y salieron todos los detalles nuevos de una vez: (1) `Tarea $tarea` como parámetro de más — sin `{id}` en la ruta, Symfony no tiene de dónde resolverlo vía ParamConverter, tira 500 antes de ejecutar el método. (2) faltaban los `use` de `Tarea` y `Request`. (3) `DateTimeInmutable` — el nombre de la clase PHP es en inglés, `Immutable`. (4) el método declara `: Response`, devolver un `string` suelto es `TypeError`. (5) el atributo `#[Route]` usa `methods` (plural, `array|string`) — `method` no es un parámetro válido del constructor, PHP lo rechaza al cargar la ruta.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 23: `completar()` — ruta con llave de más + `flush()` sin EntityManager (fallo silencioso)
+
+**❌ Código original:**
+```php
+#[Route('/tareas/{id}/completar}', name: 'tarea_completada', methods: 'POST')]  // ❌ llave de más al final
+public function tareaCompletada(Tarea $tarea): Response
+{
+    $tarea->setDone(true);
+    flush();                                                                     // ❌ función global de PHP, no Doctrine
+    return $this->redirectToRoute('app_tareas');
+}
+```
+
+**✅ Mejora:**
+```php
+#[Route('/tareas/{id}/completar', name: 'tarea_completada', methods: 'POST')]
+public function tareaCompletada(Tarea $tarea, EntityManagerInterface $em): Response
+{
+    $tarea->setDone(true);
+    $em->flush();
+    return $this->redirectToRoute('app_tareas');
+}
+```
+
+**🧠 Teoría:** `flush()` sin `$em->` es una función real de PHP (vaciar el buffer de salida) — no tira error, así que el bug es silencioso: `setDone(true)` cambia el objeto en memoria, pero como nunca se llama al `flush()` de Doctrine, el `UPDATE` nunca llega a la base de datos. Parece funcionar (no hay excepción) pero no persiste nada. Faltaba inyectar `EntityManagerInterface $em` en la firma del método.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 24: `findPendientes()` — placeholder confundido con la propiedad, alias equivocado, límite no pedido
+
+**❌ Código original (varios intentos):**
+```php
+->andWhere('n.done = :valor')
+->setParameter('n.done')              // ❌ el placeholder se llama "valor" (por :valor), no "n.done"; falta el 2° argumento
+```
+```php
+->orderBy('t.id', 'ASC')              // ❌ alias "t" no existe (el alias es "n"); pedía createdAt DESC, no id ASC
+->setMaxResults(10)                   // ❌ no lo pedía el enunciado — corta la lista en silencio si hay más de 10
+```
+```php
+->orderBy('n.createdAt', 'DES')       // ❌ typo, falta la C: es DESC
+```
+
+**✅ Mejora:**
+```php
+public function findPendientes(): array
+{
+    return $this->createQueryBuilder('n')
+        ->andWhere('n.done = :valor')
+        ->setParameter('valor', false)
+        ->orderBy('n.createdAt', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+```
+
+**🧠 Teoría:** el placeholder (`:valor`) es un nombre arbitrario que vos elegís al escribir el `where()` — no tiene relación con la propiedad que se compara (`n.done`). `setParameter` rellena por ese nombre, con el valor que pide la lógica de negocio (`findPendientes` → `done = false`, no `true`). Aparte, el alias usado en `orderBy`/`where` tiene que ser el mismo que se definió en `createQueryBuilder('n')` — usar otro alias que no existe rompe la consulta.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 25: `include` de Twig — `extends` en un parcial (circular) + ruta de más + shorthand inválido
+
+**❌ Código original:**
+```twig
+{# _item.html.twig #}
+{% extends 'index.html.twig' %}     {# ❌ un parcial para incluir no extiende nada; esto sería circular #}
+    <li>{{tarea.title}}</li>
+    ...
+```
+```twig
+{# index.html.twig #}
+{% include 'templates/tareas/_item.html.twig' with {tarea} %}
+{# ❌ Twig ya busca dentro de templates/, no hace falta repetirlo #}
+{# ❌ {tarea} es shorthand de objetos de JS — Twig exige {tarea: tarea} #}
+```
+
+**✅ Mejora:**
+```twig
+{# _item.html.twig — sin extends, es solo el fragmento #}
+<li>{{tarea.title}}</li>
+{% if tarea.done %}...{% endif %}
+```
+```twig
+{% include 'tareas/_item.html.twig' with {tarea: tarea} %}
+```
+
+**🧠 Teoría:** `extends` hereda la estructura ENTERA de una plantilla (para páginas completas); `include` inserta un fragmento chico en un punto cualquiera. Un parcial pensado para `include` nunca lleva `extends` — y en este caso además hubiera sido circular (`index` incluye a `_item`, `_item` extiende a `index`). Las rutas de Twig son relativas a `templates/`, nunca hay que repetir ese prefijo. Y Twig no tiene shorthand de objetos como JS (`{tarea}` → `{tarea: tarea}`) — siempre `clave: valor` explícito.
+
+**Estado:** ✅ Completado
+
+---
+
+## ✅ PATRONES QUE DOMINO (Symfony)
+
+- `make:entity` — flujo interactivo, tipos y longitudes correctos a la primera (`Tarea`: `title`, `done`, `createdAt`)
+- Migraciones: generar y correr sin errores, tabla verificada contra la Entity
+- Distinción EntityManager (persist/flush/remove) vs Repository (find/findAll/findBy) — aplicada correctamente sin mezclar responsabilidades
+- ParamConverter con wildcard `{id}` — una vez visto el ejemplo, lo aplicó bien a la primera en `buscar()`
+- `remove()` + `flush()` (Ejercicio 8, borrar tarea) — correcto a la primera, sin fallos, aplicando el patrón ya aprendido en `completar()`
+
+## ⚠️ PATRONES QUE NECESITO REFORZAR (Symfony)
+
+### Twig — colección vs. objeto único
+- **Antes de escribir `{% for %}`, preguntar: ¿qué variable me pasa el controller, y es un array o un objeto?** Si el controller hace `render(..., ['tarea' => $tarea])` con un solo objeto, no hay nada que recorrer — usar la variable directo. El `for` es solo para arrays (`findAll()`, `findBy()`). Reincidió por copiar una plantilla de lista sin repensar el caso → Fallo 20 → Fallo 21.
+
+### Twig — `extends` vs `include`
+- **`extends` hereda una estructura entera (páginas completas); `include` inserta un fragmento chico.** Un parcial para `include` nunca lleva `extends` — confundirlos puede crear referencias circulares (Fallo 25).
+
+### Doctrine — `$em->flush()` sin `$em` no avisa
+- **`flush()` sin `$em->` es una función real de PHP (buffer de salida), no un error.** El cambio en memoria (`setDone(true)`, etc.) se pierde en silencio si no se llama al `flush()` del EntityManager inyectado. Revisar SIEMPRE que el método reciba `EntityManagerInterface $em` cuando modifica una entidad (Fallo 23).
+
+### Doctrine — placeholder de QueryBuilder ≠ nombre de propiedad
+- **El nombre en `:algo` (where) y en `setParameter('algo', valor)` es arbitrario, elegido por vos** — no tiene relación con la propiedad de la Entity que estás comparando. El valor que rellena el placeholder lo decide la lógica de negocio del método (`findPendientes` → `false`), no el nombre de la propiedad (Fallo 24).
+
+---
+
+*Próxima sesión: Messenger (según roadmap original). Los fundamentos base (Entity, Repository, ParamConverter, EntityManager crear/completar/borrar, QueryBuilder, include/filtros de Twig) quedaron todos ejercitados. Antes de arrancar contenido nuevo, warm-up corto (5-10min) repasando "for vs. objeto único" en Twig (Fallo 20/21), que fue el único punto que reincidió. Ejercicio 11 (filtros Twig — `length`, `date()`) quedó pendiente por falta de tiempo, no por dificultad — retomarlo al principio de la próxima sesión antes de Messenger.*

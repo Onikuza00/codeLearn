@@ -24,40 +24,55 @@
       '<span class="link-text">' + title + '<span class="sub">' + sub + '</span></span>' +
     '</a>';
 
-  const group = (title) => '<span class="megamenu__group-title">' + title + '</span>';
-  const sep = (title) => '<span class="megamenu__sep">' + title + '</span>';
+  // Cada bloque es un <details> plegable — arranca cerrado salvo que se pida open:true
+  const section = (title, linksHtml, opts) => {
+    opts = opts || {};
+    return '<details class="megamenu__group"' + (opts.open ? ' open' : '') + '>' +
+      '<summary class="megamenu__group-title">' + title + '</summary>' +
+      '<div class="megamenu__group-body">' + linksHtml + '</div>' +
+    '</details>';
+  };
 
   const dropdownJs =
     '<div class="megamenu__title">JS · Temarios</div>' +
-    group('Conceptos básicos') +
-    link(base + 'js/ejercicios/conceptos-basicos.html', 'code', 'Lógica web', '10 ejercicios', 'js') +
-    group('Arrays + Métodos') +
-    link(base + 'js/ejercicios/dia-02-arrays.html', 'list', 'map · filter · forEach · reduce', 'Card Día 05', 'js') +
-    group('Objetos') +
-    link(base + 'js/ejercicios/dia-10-objetos.html', 'list', 'keys · values · entries · spread', 'Card Día 10', 'js') +
-    group('Ruta JS') +
-    link(base + 'progreso.html#track-js', 'send', 'Progreso de Agosto', 'Arrays → Objetos → DOM → Proyecto', 'js') +
-    sep('Exámenes') +
-    link(base + 'js-basico.html', 'zap', 'JS Básico — Fundamentos', 'Variables, funciones, arrays', 'js') +
-    link(base + 'js-vanilla.html', 'dashboard', 'Task Dashboard', 'DOM, Arrays, Async', 'js');
+    section('📘 Básico',
+      link(base + 'js/ejercicios/conceptos-basicos.html', 'code', 'Fundamentos', 'Variables · tipos · estructuras · lógica', 'js') +
+      link(base + 'js/ejercicios/dia-11-callbacks-closures.html', 'list', 'Funciones — Callbacks + Closures', 'Funciones como valor · closures', 'js'),
+      { open: true }) +
+    section('📊 Arrays',
+      link(base + 'js/ejercicios/dia-02-arrays.html', 'list', 'Métodos + reduce', 'map · filter · forEach · reduce', 'js')) +
+    section('🧩 Objetos',
+      link(base + 'js/ejercicios/dia-10-objetos.html', 'list', 'Atajos · iterar · optional chaining · spread', 'keys · values · entries · ?. · {...}', 'js') +
+      link(base + 'js/ejercicios/dia-13-metodos-avanzados.html', 'zap', 'Día 13 — find/some/every · this · errores', '15 ejercicios, 5 grupos', 'js'),
+      { open: true });
 
   const dropdownCss =
     '<div class="megamenu__title">CSS · Temarios</div>' +
-    group('Nuevos conceptos') +
-    link(base + 'css/ejercicios/nuevos-conceptos.html', 'grid', ':has() · Grid · Flex · CQ', 'Bloque de práctica', 'css') +
-    group('Progreso CSS') +
-    link(base + 'progreso.html#track-css', 'send', 'Tailwind desde 0 → Landing', 'Progreso de Agosto', 'css') +
-    sep('Exámenes') +
-    link(base + 'css-final.html', 'zap', 'SaaSPro — Final CSS', 'Todo CSS en un solo examen', 'css') +
-    link(base + 'css-fundamentos.html', 'palette', 'Nexus Agency', 'Flex, Grid, RWD, Moderno', 'css') +
-    link(base + '../CSS/assessment/examen-final-objetivos.html', 'mountain', 'NomadStay — Landing', '18/07/2026 · Examen final', 'done') +
-    link(base + '../CSS/assessment/dashboard.html', 'chat', 'Challenges cortos', 'Dashboard · Pricing · Features', 'css');
+    section('🎯 Selectores + Layout + Responsive',
+      link(base + 'css/ejercicios/nuevos-conceptos.html', 'grid', 'Práctica combinada', ':has() · Grid · Flex · Container Queries', 'css'),
+      { open: true }) +
+    section('Progreso CSS',
+      link(base + 'progreso.html#track-css', 'send', 'Tailwind desde 0 → Landing', 'Progreso de Agosto', 'css')) +
+    section('Exámenes',
+      link(base + 'css-final.html', 'zap', 'SaaSPro — Final CSS', 'Todo CSS en un solo examen', 'css') +
+      link(base + 'css-fundamentos.html', 'palette', 'Nexus Agency', 'Flex, Grid, RWD, Moderno', 'css') +
+      link(base + '../CSS/assessment/examen-final-objetivos.html', 'mountain', 'NomadStay — Landing', '18/07/2026 · Examen final', 'done') +
+      link(base + '../CSS/assessment/dashboard.html', 'chat', 'Challenges cortos', 'Dashboard · Pricing · Features', 'css'));
+
+  const dropdownSymfony =
+    '<div class="megamenu__title">Symfony · Temarios</div>' +
+    section('🏗️ Fundamentos',
+      link(base + 'symfony/ejercicios/fundamentos.html', 'code', 'Ejercicio combinado', 'Rutas · Controllers · Doctrine · Twig', 'symfony') +
+      link(base + '../symfony/00-fundamentos/', 'list', 'Apuntes — Bloque 00', 'Teoría completa de Fundamentos', 'symfony'),
+      { open: true });
 
   const dropdownRuta =
     '<div class="megamenu__title">Ruta · Semanas + Library</div>' +
-    link(base + 'progreso.html#track-js', 'code', 'JS Progression', 'Arrays → Objetos → DOM → Proyecto', 'js') +
-    link(base + 'progreso.html#track-css', 'grid', 'CSS + Tailwind', 'Tailwind desde 0 → Landing', 'css') +
-    link(base + 'progreso.html#track-library', 'chat', 'Assessment Library', 'Todos los exámenes', 'done');
+    section('Progreso',
+      link(base + 'progreso.html#track-js', 'code', 'JS Progression', 'Arrays → Objetos → DOM → Proyecto', 'js') +
+      link(base + 'progreso.html#track-css', 'grid', 'CSS + Tailwind', 'Tailwind desde 0 → Landing', 'css') +
+      link(base + 'progreso.html#track-library', 'chat', 'Assessment Library', 'Todos los exámenes', 'done'),
+      { open: true });
 
   const siteNav = document.getElementById('site-nav');
   if (!siteNav) return;
@@ -73,6 +88,10 @@
         '<li class="nav__item">' +
           '<button class="nav__btn nav__btn--active" data-dropdown="css" aria-haspopup="true">CSS <span class="arrow">▼</span></button>' +
           '<div class="megamenu" id="dropdown-css">' + dropdownCss + '</div>' +
+        '</li>' +
+        '<li class="nav__item">' +
+          '<button class="nav__btn" data-dropdown="symfony" aria-haspopup="true">Symfony <span class="arrow">▼</span></button>' +
+          '<div class="megamenu" id="dropdown-symfony">' + dropdownSymfony + '</div>' +
         '</li>' +
         '<li class="nav__item">' +
           '<button class="nav__btn" data-dropdown="ruta" aria-haspopup="true">Ruta de Agosto <span class="arrow">▼</span></button>' +
@@ -93,14 +112,17 @@
   const path = window.location.pathname;
   const isJS = path.endsWith('js-basico.html') || path.endsWith('js-vanilla.html') || path.endsWith('.html') && /\/js\/ejercicios\//.test(path);
   const isCSS = path.endsWith('css-final.html') || path.endsWith('css-fundamentos.html') || /\/css\/ejercicios\//.test(path);
+  const isSymfony = /\/symfony\/ejercicios\//.test(path);
   const isRuta = path.endsWith('progreso.html');
 
   const btnJs = siteNav.querySelector('[data-dropdown="js"]');
   const btnCss = siteNav.querySelector('[data-dropdown="css"]');
+  const btnSymfony = siteNav.querySelector('[data-dropdown="symfony"]');
   const btnRuta = siteNav.querySelector('[data-dropdown="ruta"]');
 
   btnJs.classList.toggle('nav__btn--active-js', isJS);
   btnCss.classList.toggle('nav__btn--active', isCSS);
+  btnSymfony.classList.toggle('nav__btn--active-symfony', isSymfony);
   btnRuta.classList.toggle('nav__btn--active-ruta', isRuta);
 
   let openDropdown = null;
