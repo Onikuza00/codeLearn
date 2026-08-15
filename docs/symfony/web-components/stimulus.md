@@ -2,7 +2,7 @@
 
 ---
 
-## ¿Qué es?
+## ¿Qué es? {: .topic-title }
 
 **Stimulus** es un framework JS minimalista de Basecamp (Ruby on Rails). Symfony UX lo usa internamente como "pegamento" entre el HTML y el JavaScript.
 
@@ -18,7 +18,7 @@
 
 ---
 
-## Maker — Creación
+## Maker — Creación {: .topic-title }
 
 ```bash
 php bin/console make:stimulus-controller Gallery
@@ -42,7 +42,7 @@ php bin/console make:stimulus-controller Gallery
 
 ---
 
-## Código generado
+## Código generado {: .topic-title }
 
 ```js title="assets/controllers/gallery_controller.js"
 import { Controller } from '@hotwired/stimulus';
@@ -64,7 +64,7 @@ export default class extends Controller {
 
 ---
 
-## Conceptos clave
+## Conceptos clave {: .topic-title }
 
 ### Controller
 
@@ -154,7 +154,7 @@ El nombre se pasa de kebab-case a camelCase: `image-param` → `event.params.ima
 
 ---
 
-## Ejemplo completo: galería de imágenes
+## Ejemplo completo: galería de imágenes {: .topic-title }
 
 === "PHP (Controller)"
 
@@ -217,7 +217,7 @@ El nombre se pasa de kebab-case a camelCase: `image-param` → `event.params.ima
 
 ---
 
-## ¿Cuándo usar Stimulus vs Live Component?
+## ¿Cuándo usar Stimulus vs Live Component? {: .topic-title }
 
 | Situación | Tecnología |
 |---|---|
@@ -236,7 +236,7 @@ El nombre se pasa de kebab-case a camelCase: `image-param` → `event.params.ima
 
 ---
 
-## Resumen
+## Resumen {: .topic-title }
 
 | Característica | Descripción |
 |---|---|

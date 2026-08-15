@@ -2,7 +2,7 @@
 
 ---
 
-## ¿Qué son?
+## ¿Qué son? {: .topic-title }
 
 Los **Live Components** extienden los Twig Components. Se re-renderizan vía AJAX cuando cambia su estado, permitiendo interactividad sin escribir JavaScript.
 
@@ -17,7 +17,7 @@ Los **Live Components** extienden los Twig Components. Se re-renderizan vía AJA
 
 ---
 
-## Maker — Creación
+## Maker — Creación {: .topic-title }
 
 ```bash
 php bin/console make:twig-component SearchProducts --live
@@ -34,7 +34,7 @@ php bin/console make:twig-component SearchProducts --live
 
 ---
 
-## Código generado
+## Código generado {: .topic-title }
 
 === "PHP"
 
@@ -85,7 +85,7 @@ php bin/console make:twig-component SearchProducts --live
 
 ---
 
-## Flujo de interacción
+## Flujo de interacción {: .topic-title }
 
 Cuando el usuario escribe en el input:
 
@@ -104,7 +104,7 @@ Cuando el usuario escribe en el input:
 
 ---
 
-## LiveProps — Estado sincronizado
+## LiveProps — Estado sincronizado {: .topic-title }
 
 ```php title="LiveProp configurable"
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -144,7 +144,7 @@ final class ImageCard
 
 ---
 
-## LiveActions — Métodos en el servidor
+## LiveActions — Métodos en el servidor {: .topic-title }
 
 Son métodos PHP que se ejecutan en el servidor ante una interacción del usuario.
 
@@ -200,7 +200,7 @@ public function addToCart(#[LiveArg] int $productId): void
 
 ---
 
-## Loading states
+## Loading states {: .topic-title }
 
 ```twig
 <button data-action="live#action" data-live-action-param="addLike">
@@ -220,7 +220,7 @@ public function addToCart(#[LiveArg] int $productId): void
 
 ---
 
-## defer y lazy
+## defer y lazy {: .topic-title }
 
 ```twig
 {# Carga cuando el componente es visible en pantalla #}
@@ -238,7 +238,7 @@ public function addToCart(#[LiveArg] int $productId): void
 
 ---
 
-## Resumen
+## Resumen {: .topic-title }
 
 | Característica | Descripción |
 |---|---|
@@ -253,7 +253,7 @@ public function addToCart(#[LiveArg] int $productId): void
 
 ---
 
-## ¿Cuándo usar Live Component?
+## ¿Cuándo usar Live Component? {: .topic-title }
 
 | Situación | Tecnología |
 |---|---|
@@ -269,7 +269,7 @@ public function addToCart(#[LiveArg] int $productId): void
 
 ---
 
-## Demo — Buscador de productos paso a paso
+## Demo — Buscador de productos paso a paso {: .topic-title }
 
 ### Paso 1: Crear el componente
 
@@ -365,7 +365,7 @@ class SearchProducts
 
 ---
 
-## Recursos
+## Recursos {: .topic-title }
 
 - [Symfony UX Live Components Docs](https://symfony.com/doc/current/ux-live-component/index.html)
 - [Symfony UX Demos](https://ux.symfony.com/demos) — Probá Live Components en vivo

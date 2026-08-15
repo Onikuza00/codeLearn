@@ -2,7 +2,7 @@
 
 ---
 
-## ¿Qué es la arquitectura de componentes?
+## ¿Qué es la arquitectura de componentes? {: .topic-title }
 
 Symfony UX no reinventa la rueda. Toma los mismos principios que existen en React, Vue o Svelte y los adapta al mundo server-side de Symfony.
 
@@ -11,7 +11,7 @@ Symfony UX no reinventa la rueda. Toma los mismos principios que existen en Reac
 
 ---
 
-## Las 4 reglas
+## Las 4 reglas {: .topic-title }
 
 ### 1. Composición
 
@@ -108,7 +108,7 @@ class ProductCard
 
 ---
 
-## Props — Comunicación padre → hijo
+## Props — Comunicación padre → hijo {: .topic-title }
 
 ### Sintaxis
 
@@ -152,7 +152,7 @@ Las props son **propiedades públicas** de la clase. Symfony las autocompleta co
 
 ---
 
-## Slots — HTML interno
+## Slots — HTML interno {: .topic-title }
 
 Los slots permiten pasar **contenido HTML** al componente:
 
@@ -185,7 +185,7 @@ Los slots permiten pasar **contenido HTML** al componente:
 
 ---
 
-## Eventos — Comunicación hijo → padre
+## Eventos — Comunicación hijo → padre {: .topic-title }
 
 ### Live Actions como "emit"
 
@@ -268,7 +268,7 @@ $this->emit('productoComprado', ['id' => $this->product->getId()]);
 
 ---
 
-## Estado compartido (provide/inject)
+## Estado compartido (provide/inject) {: .topic-title }
 
 Symfony UX **no tiene provide/inject nativo** como Vue. Estas son las alternativas:
 
@@ -284,7 +284,7 @@ Symfony UX **no tiene provide/inject nativo** como Vue. Estas son las alternativ
 
 ---
 
-## Resumen
+## Resumen {: .topic-title }
 
 | Concepto | Descripción |
 |---|---|

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symfony — Fundamentos — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-symfony); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-symfony); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open .exercise-card-body {
+      display: block;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-symfony-dim);
+      color: var(--accent-symfony);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-symfony-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation a { color: var(--accent-symfony); }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-symfony-dim);
+      border: 1px solid var(--accent-symfony);
+      color: var(--accent-symfony);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-symfony);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }
+    .ex-code .fn   { color: #93c5fd; }
+    .ex-code .str  { color: #86efac; }
+    .ex-code .num  { color: #fde047; }
+    .ex-code .cmt  { color: #64748b; font-style: italic; }
+    .ex-code .op   { color: #fca5a5; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🏋️ <span>Symfony — Fundamentos</span></h1>
+    <p class="subtitle">Un ejercicio, los 4 bloques juntos: Rutas, Controllers, Doctrine y Twig. Proyecto base: <code>Backend/assessment/symfony/</code> — el mismo para todos los ejercicios de Symfony.</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ============================================= -->
+    <!-- FUNDAMENTOS — Gestor de tareas mínimo -->
+    <!-- ============================================= -->
+    <div class="exercise-card is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 12/08/2026 — Gestor de tareas mínimo</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>11</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 Entidad <code>Tarea</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Creá la entidad <code>Tarea</code> con <code>make:entity</code>: <code>title</code> (string), <code>done</code> (bool), <code>createdAt</code> (datetime). Migrá la BD.</p>
+          <p class="ex-explanation">Repaso del flujo completo: <code>make:entity</code> → <code>make:migration</code> → <code>doctrine:migrations:migrate</code>. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/01-entity/">Doctrine → Entity</a>.</p>
+          <div class="ex-samples">
+            symfony console make:entity Tarea<br>
+            symfony console make:migration<br>
+            symfony console doctrine:migrations:migrate
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Entity/Tarea.php</span>
+<span class="kw">class</span> <span class="fn">Tarea</span>
+{
+    <span class="kw">private</span> ?<span class="kw">int</span> $id = <span class="kw">null</span>;
+    <span class="kw">private</span> ?<span class="kw">string</span> $title = <span class="kw">null</span>;
+    <span class="kw">private</span> ?<span class="kw">bool</span> $done = <span class="kw">false</span>;
+    <span class="kw">private</span> ?\DateTimeImmutable $createdAt = <span class="kw">null</span>;
+}</pre>
+          </div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>GET /tareas</code> — listar</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Ruta + método de controller que devuelva todas las tareas usando el <strong>Repository</strong> (no el EntityManager a mano) y las renderice con Twig.</p>
+          <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → Repository</a> — <code>findAll()</code> es uno de los 5 métodos que ya trae hecho.</p>
+          <div class="ex-samples">
+            GET /tareas <span class="arrow-sample">→</span> 200, HTML con la lista
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas'</span><span class="op">, name:</span> <span class="str">'tarea_index'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">index</span>(TareaRepository $tareaRepository): Response
+{
+    <span class="kw">return</span> $this->render(<span class="str">'tarea/index.html.twig'</span>, [
+        <span class="str">'tareas'</span> => $tareaRepository->findAll(),
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>GET /tareas/{id}</code> — mostrar</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Ruta + método que muestre una tarea. Usá <strong>ParamConverter</strong> — el argumento tipado como <code>Tarea $tarea</code> directo, nada de <code>find($id)</code> a mano.</p>
+          <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → ParamConverter</a>. Si <code>{id}</code> no existe, Symfony lanza el 404 solo.</p>
+          <div class="ex-samples">
+            GET /tareas/1 <span class="arrow-sample">→</span> 200, la tarea<br>
+            GET /tareas/999 <span class="arrow-sample">→</span> 404 automático
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas/{id}'</span><span class="op">, name:</span> <span class="str">'tarea_show'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">show</span>(Tarea $tarea): Response
+{
+    <span class="kw">return</span> $this->render(<span class="str">'tarea/show.html.twig'</span>, [
+        <span class="str">'tarea'</span> => $tarea,
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟢 Twig — <code>tarea/index.html.twig</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Extiende <code>base.html.twig</code>. Un <code>{% for %}</code> listando títulos con link a <code>tarea_show</code>. Si no hay tareas, usá el <code>{% else %}</code> del propio <code>for</code>.</p>
+          <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Estructuras de control</a> y <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Enlaces dinámicos</a> (<code>path()</code>).</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">{% extends</span> <span class="str">'base.html.twig'</span> <span class="op">%}</span>
+<span class="op">{% block</span> body <span class="op">%}</span>
+  <span class="op">&lt;ul&gt;</span>
+  <span class="op">{% for</span> tarea <span class="kw">in</span> tareas <span class="op">%}</span>
+    <span class="op">&lt;li&gt;&lt;a href="</span>{{ path(<span class="str">'tarea_show'</span>, {id: tarea.id}) }}<span class="op">"&gt;</span>{{ tarea.title }}<span class="op">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="op">{% else %}</span>
+    <span class="op">&lt;li&gt;</span>No hay tareas.<span class="op">&lt;/li&gt;</span>
+  <span class="op">{% endfor %}</span>
+  <span class="op">&lt;/ul&gt;</span>
+<span class="op">{% endblock %}</span></pre>
+          </div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟢 Twig — <code>tarea/show.html.twig</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">El título, y un <code>{% if %}</code>/<code>{% else %}</code> que muestre "✅ Hecha" o "⏳ Pendiente" según <code>tarea.done</code>.</p>
+          <p class="ex-explanation">Notación de punto: <code>tarea.done</code> llama a <code>isDone()</code>/<code>getDone()</code> por detrás — nunca accede a la propiedad privada directo. Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Tipos de variables</a>.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">{% extends</span> <span class="str">'base.html.twig'</span> <span class="op">%}</span>
+<span class="op">{% block</span> body <span class="op">%}</span>
+  <span class="op">&lt;h1&gt;</span>{{ tarea.title }}<span class="op">&lt;/h1&gt;</span>
+  <span class="op">{% if</span> tarea.done <span class="op">%}</span>
+    <span class="op">&lt;p&gt;</span>✅ Hecha<span class="op">&lt;/p&gt;</span>
+  <span class="op">{% else %}</span>
+    <span class="op">&lt;p&gt;</span>⏳ Pendiente<span class="op">&lt;/p&gt;</span>
+  <span class="op">{% endif %}</span>
+<span class="op">{% endblock %}</span></pre>
+          </div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>POST /tareas</code> — crear</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Ruta + método que reciba <code>title</code> por query string (<code>Request $request</code>, <code>$request->query->get('title')</code>) y cree una <code>Tarea</code> nueva con el <strong>EntityManager</strong>: <code>persist()</code> + <code>flush()</code>. <code>done = false</code>, <code>createdAt = new \DateTimeImmutable()</code>.</p>
+          <p class="ex-explanation">Primera vez usando el EntityManager en este proyecto — hasta ahora solo leíste con el Repository. <code>persist()</code> solo prepara, <code>flush()</code> ejecuta el INSERT real. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → El EntityManager</a>.</p>
+          <div class="ex-samples">
+            curl -X POST "http://localhost:8000/tareas?title=Estudiar+Symfony" <span class="arrow-sample">→</span> 201/302, tarea creada
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas'</span><span class="op">, name:</span> <span class="str">'tarea_crear'</span><span class="op">, methods:</span> [<span class="str">'POST'</span>]<span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">crear</span>(Request $request, EntityManagerInterface $em): Response
+{
+    $tarea = <span class="kw">new</span> Tarea();
+    $tarea->setTitle($request->query->get(<span class="str">'title'</span>));
+    $tarea->setDone(<span class="kw">false</span>);
+    $tarea->setCreatedAt(<span class="kw">new</span> \DateTimeImmutable());
+
+    $em->persist($tarea);
+    $em->flush();
+
+    <span class="kw">return</span> $this->redirectToRoute(<span class="str">'tarea_index'</span>);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟢 <code>POST /tareas/{id}/completar</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Marcá una tarea existente como hecha: ParamConverter para traerla (<code>Tarea $tarea</code>), <code>setDone(true)</code>, y <code>flush()</code> — <strong>sin <code>persist()</code></strong>.</p>
+          <p class="ex-explanation">La entidad ya está gestionada por Doctrine (vino de la BD vía ParamConverter) — modificarla y hacer <code>flush()</code> alcanza. <code>persist()</code> es solo para entidades NUEVAS que Doctrine todavía no conoce.</p>
+          <div class="ex-samples">
+            curl -X POST http://localhost:8000/tareas/1/completar <span class="arrow-sample">→</span> tarea 1 con <code>done = true</code>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas/{id}/completar'</span><span class="op">, name:</span> <span class="str">'tarea_completar'</span><span class="op">, methods:</span> [<span class="str">'POST'</span>]<span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">completar</span>(Tarea $tarea, EntityManagerInterface $em): Response
+{
+    $tarea->setDone(<span class="kw">true</span>);
+    $em->flush();
+
+    <span class="kw">return</span> $this->redirectToRoute(<span class="str">'tarea_index'</span>);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🟢 <code>POST /tareas/{id}/borrar</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Borrá una tarea existente: ParamConverter para traerla, <code>remove()</code> + <code>flush()</code>.</p>
+          <p class="ex-explanation"><code>remove()</code> es el opuesto simétrico de <code>persist()</code> — marca para borrar, no ejecuta nada hasta el <code>flush()</code>. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → El EntityManager</a>.</p>
+          <div class="ex-samples">
+            curl -X POST http://localhost:8000/tareas/1/borrar <span class="arrow-sample">→</span> tarea 1 ya no existe
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas/{id}/borrar'</span><span class="op">, name:</span> <span class="str">'tarea_borrar'</span><span class="op">, methods:</span> [<span class="str">'POST'</span>]<span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">borrar</span>(Tarea $tarea, EntityManagerInterface $em): Response
+{
+    $em->remove($tarea);
+    $em->flush();
+
+    <span class="kw">return</span> $this->redirectToRoute(<span class="str">'tarea_index'</span>);
+}</pre>
+          </div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🔴 QueryBuilder — <code>findPendientes()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En <code>TareaRepository</code>, un método personalizado <code>findPendientes()</code> que devuelva solo las tareas con <code>done = false</code>, ordenadas por <code>createdAt</code> descendente (las más nuevas primero). Usalo en la ruta <code>GET /tareas</code> en vez de <code>findAll()</code>.</p>
+          <p class="ex-explanation">Mismo patrón que <code>findByNameLike</code> de la doc: <code>createQueryBuilder</code> → <code>where</code> → <code>setParameter</code> → <code>orderBy</code> → <code>getQuery</code> → <code>getResult</code>. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → QueryBuilder</a> (línea por línea).</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Repository/TareaRepository.php</span>
+<span class="kw">public function</span> <span class="fn">findPendientes</span>(): array
+{
+    <span class="kw">return</span> $this->createQueryBuilder(<span class="str">'t'</span>)
+        ->where(<span class="str">'t.done = :done'</span>)
+        ->setParameter(<span class="str">'done'</span>, <span class="kw">false</span>)
+        ->orderBy(<span class="str">'t.createdAt'</span>, <span class="str">'DESC'</span>)
+        ->getQuery()
+        ->getResult();
+}</pre>
+          </div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🟡 Twig — <code>include</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Sacá el <code>&lt;li&gt;</code> del <code>{% for %}</code> de <code>tarea/index.html.twig</code> a un fragmento nuevo <code>tarea/_item.html.twig</code>, e incluilo con <code>{% include %}</code> pasándole la variable <code>tarea</code>.</p>
+          <p class="ex-explanation">Diferencia con <code>extends</code>: <code>include</code> mete un trozo pequeño y reutilizable en un punto cualquiera, no hereda la estructura entera. Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Include</a>.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">{# templates/tarea/_item.html.twig #}</span>
+<span class="op">&lt;li&gt;&lt;a href="</span>{{ path(<span class="str">'tarea_show'</span>, {id: tarea.id}) }}<span class="op">"&gt;</span>{{ tarea.title }}<span class="op">&lt;/a&gt;&lt;/li&gt;</span>
+
+<span class="cmt">{# templates/tarea/index.html.twig #}</span>
+<span class="op">{% for</span> tarea <span class="kw">in</span> tareas <span class="op">%}</span>
+  <span class="op">{% include</span> <span class="str">'tarea/_item.html.twig'</span> <span class="kw">with</span> {tarea: tarea} <span class="op">%}</span>
+<span class="op">{% else %}</span>
+  <span class="op">&lt;li&gt;</span>No hay tareas.<span class="op">&lt;/li&gt;</span>
+<span class="op">{% endfor %}</span></pre>
+          </div>
+        </div>
+
+        <!-- E11 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🟢 Twig — filtros</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En <code>tarea/index.html.twig</code>: un título con el total de tareas usando el filtro <code>length</code>, y en cada <code>&lt;li&gt;</code> la fecha de <code>createdAt</code> formateada con <code>date('d/m/Y')</code>.</p>
+          <p class="ex-explanation">Filtros encadenables con <code>|</code>. Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Filtros útiles</a> (tabla completa: <code>length</code>, <code>date</code>, <code>default</code>, etc).</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">&lt;h1&gt;</span>Tareas ({{ tareas|length }})<span class="op">&lt;/h1&gt;</span>
+<span class="op">&lt;ul&gt;</span>
+<span class="op">{% for</span> tarea <span class="kw">in</span> tareas <span class="op">%}</span>
+  <span class="op">&lt;li&gt;</span>{{ tarea.title }} — {{ tarea.createdAt|date(<span class="str">'d/m/Y'</span>) }}<span class="op">&lt;/li&gt;</span>
+<span class="op">{% endfor %}</span>
+<span class="op">&lt;/ul&gt;</span></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Symfony · Fundamentos
+    </div>
+  </div>
+</main>
+
+<script>
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>

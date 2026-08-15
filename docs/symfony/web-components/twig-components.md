@@ -2,7 +2,7 @@
 
 ---
 
-## ¿Qué son?
+## ¿Qué son? {: .topic-title }
 
 Son los componentes base de Symfony UX. Se renderizan **una vez** en el servidor y el navegador recibe HTML plano. No tienen estado frontend ni JavaScript propio.
 
@@ -18,7 +18,7 @@ Son los componentes base de Symfony UX. Se renderizan **una vez** en el servidor
 
 ---
 
-## Maker — Creación
+## Maker — Creación {: .topic-title }
 
 ```bash
 php bin/console make:twig-component ProductCard
@@ -35,7 +35,7 @@ Solo te pide **una cosa**:
 
 ---
 
-## Código generado
+## Código generado {: .topic-title }
 
 === "PHP"
 
@@ -66,7 +66,7 @@ Solo te pide **una cosa**:
 
 ---
 
-## Cómo se usa
+## Cómo se usa {: .topic-title }
 
 ```twig
 {# En cualquier template, sin importar nada #}
@@ -87,7 +87,7 @@ Solo te pide **una cosa**:
 
 ---
 
-## Props
+## Props {: .topic-title }
 
 Las props son propiedades **públicas** de la clase PHP. El componente las recibe desde afuera y las usa en el template.
 
@@ -112,7 +112,7 @@ class ProductCard
 
 ---
 
-## Slots
+## Slots {: .topic-title }
 
 Los slots permiten pasar **HTML interno** al componente:
 
@@ -135,7 +135,7 @@ Los slots permiten pasar **HTML interno** al componente:
 
 ---
 
-## Comparativa: Twig vs Live Component
+## Comparativa: Twig vs Live Component {: .topic-title }
 
 | Característica | Twig Component | Live Component |
 |---|---|---|
@@ -149,7 +149,7 @@ Los slots permiten pasar **HTML interno** al componente:
 
 ---
 
-## ¿Cuándo usar Twig Component?
+## ¿Cuándo usar Twig Component? {: .topic-title }
 
 | Situación | Tecnología |
 |---|---|
@@ -165,7 +165,7 @@ Los slots permiten pasar **HTML interno** al componente:
 
 ---
 
-## Resumen
+## Resumen {: .topic-title }
 
 | Característica | Descripción |
 |---|---|
@@ -181,6 +181,6 @@ Los slots permiten pasar **HTML interno** al componente:
 
 ---
 
-## Recursos
+## Recursos {: .topic-title }
 
 - [Symfony UX Twig Components Docs](https://symfony.com/doc/current/ux-twig-component/index.html)
