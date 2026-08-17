@@ -70,6 +70,19 @@ public function saludo(string $nombre): Response
 // Solo acepta esos dos valores exactos para {categoria}
 ```
 
+!!! tip "Orden de declaración: lo específico va ANTES que el comodín"
+    Symfony prueba las rutas **en el orden en que están declaradas**, de arriba hacia abajo, y usa la primera que matchee. Un comodín como `{id}` acepta CUALQUIER valor — incluida una palabra literal de otra ruta:
+
+    ```php
+    #[Route('/articulos/{id}', name: 'articulo_show')]   // ❌ declarada primero
+    public function show(Articulo $articulo): Response { /* ... */ }
+
+    #[Route('/articulos/crear', name: 'articulo_crear')]  // nunca se alcanza
+    public function crear(): Response { /* ... */ }
+    ```
+
+    Al visitar `/articulos/crear`, Symfony entra en `show()` con `{id} = "crear"` — nunca llega a `crear()`. Si `show()` espera una entidad vía ParamConverter, el error es confuso: "objeto no encontrado", cuando el problema real es el orden de las rutas. La solución es declarar `/articulos/crear` ANTES que `/articulos/{id}` (o usar la opción `priority`, ver más abajo, si no querés depender del orden del archivo).
+
 ## Tipos de parámetro de la ruta {: .topic-title }
 
 Más allá de `{id}`, el propio atributo `#[Route]` acepta opciones que afinan cuándo se activa:

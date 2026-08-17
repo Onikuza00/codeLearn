@@ -106,6 +106,31 @@ Las más comunes:
 
 No es una lista cerrada — hay más para fechas, archivos, IBAN, tarjetas, etc. Estas son las que más aparecen en una entidad típica; el listado completo está en la [referencia oficial de constraints](https://symfony.com/doc/current/reference/constraints.html).
 
+### Mensajes de error personalizados {: .topic-title }
+
+Sin especificar nada, cada constraint usa un mensaje por defecto genérico (en inglés salvo que el proyecto tenga configurada la traducción). Para poner tu propio texto, la mayoría acepta el parámetro `message`:
+
+```php
+#[Assert\NotBlank(message: 'El nombre es obligatorio.')]
+#[Assert\Email(message: 'Introduce un email válido.')]
+private ?string $name = null;
+```
+
+Las constraints que comprueban **dos límites a la vez** (`Length`, `Range`) no usan `message` — usan un mensaje por cada límite, porque el error es distinto según cuál se incumple:
+
+```php
+#[Assert\Length(
+    min: 3,
+    max: 255,
+    minMessage: 'Mínimo {{ limit }} caracteres.',
+    maxMessage: 'Máximo {{ limit }} caracteres.',
+)]
+private ?string $name = null;
+```
+
+!!! tip "`{{ limit }}` no es texto literal"
+    Dentro del mensaje, `{{ limit }}` es un placeholder que Symfony sustituye automáticamente por el valor real (`min`/`max` según cuál de los dos disparó el error) — así el mismo mensaje sirve aunque cambies los números más adelante, sin tener que reescribir el texto a mano.
+
 ## Validación del esquema {: .topic-title }
 
 Con la Entity ya escrita, todavía falta un paso — la tabla no existe de verdad en la base de datos. Este comando lo confirma:

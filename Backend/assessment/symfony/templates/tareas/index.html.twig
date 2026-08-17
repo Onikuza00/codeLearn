@@ -9,10 +9,10 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Lista de tareas ✅</h1>
+    {% include 'tareas/busqueda.html.twig' with {buscador: busqueda} %}
+    <h1>Total de tareas: {{ lista|length }}</h1>
 <ul>
     {% for tarea in lista %}
-    
     {% include 'tareas/_item.html.twig' with {tarea: tarea} %}
     {% else %}
     <p>No hay tareas a mostrar</p>

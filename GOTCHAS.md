@@ -874,6 +874,233 @@ public function findPendientes(): array
 
 ---
 
+# 🐘 SYMFONY · 17/08/2026 (Formularios)
+
+## 🐛 REGISTRO DE FALLOS Y MEJORAS
+
+---
+
+### Fallo 28: `TareaType` — tipo mal escrito + `use` faltante
+
+**❌ Código original:**
+```php
+// sin "use ...\TextType;" en los imports
+->add('title', TextTye::class, [
+    'label' => "Titulo de la Tarea",
+    'required' => true,
+])
+```
+
+**✅ Mejora:**
+```php
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+// ...
+->add('title', TextType::class, [...])
+```
+
+**🧠 Teoría:** dos fallos en la misma línea. El nombre del tipo tenía un typo (`TextTye`), y encima faltaba su `use` — cada tipo de campo (`TextType`, `DateType`, `ChoiceType`...) necesita su propio import, igual que `OptionsResolver`. Sin el `use`, aunque el nombre estuviera bien escrito, tampoco habría funcionado.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 29: `crear()` — entidad incompleta antes de `createForm()`
+
+**❌ Código original:**
+```php
+$tarea = new Tarea();
+$form = $this->createForm(TareaType::class, $tarea);
+// done y createdAt nunca se rellenan
+```
+
+**✅ Mejora:**
+```php
+$tarea = new Tarea();
+$tarea->setDone(false);
+$tarea->setCreatedAt(new \DateTimeImmutable());
+$form = $this->createForm(TareaType::class, $tarea);
+```
+
+**🧠 Teoría:** `TareaType` solo mapea `title` — `done` y `createdAt` no están en el formulario, así que nadie los rellena por defecto. Como esas columnas son `NOT NULL` en la base de datos, sin este paso el `flush()` habría explotado. Los campos que NO están en el formulario tienen que llegar ya resueltos en la entidad ANTES de crear el formulario.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 30: `tareaEditada()` — `Request` usado pero nunca declarado
+
+**❌ Código original:**
+```php
+public function tareaEditada(Tarea $tarea, EntityManagerInterface $em): Response
+{
+    $form = $this->createForm(TareaType::class, $tarea);
+    $form->handleRequest($request); // ❌ $request no existe en este método
+```
+
+**✅ Mejora:**
+```php
+public function tareaEditada(Request $request, Tarea $tarea, EntityManagerInterface $em): Response
+```
+
+**🧠 Teoría:** tener el `use Symfony\Component\HttpFoundation\Request;` arriba solo importa la clase — no inyecta el objeto. Cada método necesita pedir explícitamente cada dependencia que use, como parámetro de su propia firma.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 31: `TareaType` — patrón de opción personalizada incompleto (3 piezas, faltaron 2)
+
+**❌ Código original:**
+```php
+// buildForm() — el campo se añadía SIEMPRE, sin condición
+->add('edicion', ChoiceType::class, [
+    'choices' => ['Pendiente' => false, "Hecha" => true],
+]);
+// configureOptions() con la opción, pero nunca leída en buildForm()
+
+// controlador — nunca se pasaba la opción
+$form = $this->createForm(TareaType::class, $tarea);
+```
+
+**✅ Mejora:**
+```php
+// buildForm()
+if ($options['edicion']) {
+    $builder->add('done', ChoiceType::class, [
+        'choices' => ['Pendiente' => false, 'Hecha' => true],
+        'expanded' => true,
+    ]);
+}
+
+// configureOptions()
+$resolver->setDefaults(['data_class' => Tarea::class, 'edicion' => false]);
+
+// controlador, solo en editar()
+$form = $this->createForm(TareaType::class, $tarea, ['edicion' => true]);
+```
+
+**🧠 Teoría:** el patrón de "opción personalizada" (del PDF, con `esAdmin`) tiene TRES piezas que van sincronizadas, y solo la primera estaba bien:
+1. Declarar el default en `configureOptions()` — ✅ estaba.
+2. Leer esa opción DENTRO de `buildForm()` con un `if` para decidir qué campos añadir — ❌ faltaba, el campo se añadía siempre.
+3. Pasar el valor distinto desde el controlador, solo donde hace falta (`editar()`, no en `crear()`) — ❌ faltaba, `createForm()` nunca recibía el tercer argumento.
+
+Además, el nombre del campo (`edicion`) no coincidía con ninguna propiedad real de la entidad — tenía que ser `done`, y le faltaba `expanded: true` para que saliera como radio buttons en vez de `<select>`.
+
+**Estado:** ✅ Completado (con guía paso a paso)
+
+---
+
+### Fallo 32: `index()` — `Request` sin declarar (reincidencia del Fallo 30) + variable inconsistente + código muerto
+
+**❌ Código original:**
+```php
+public function index(TareaRepository $tareaRepository): Response  // ❌ falta Request $request, otra vez
+{
+    $titulo = $request->query->get('termino');   // ❌ guarda en $titulo...
+    $tarea = new Tarea();                          // ❌ sobra, no se usa
+    if($termino)                                    // ❌ ...pero comprueba $termino (nunca definida)
+    $lista = $tareaRepository->findByTitle($termino);
+```
+
+**✅ Mejora:**
+```php
+public function index(Request $request, TareaRepository $tareaRepository): Response
+{
+    $termino = $request->query->get('termino');
+    $lista = $termino ? $tareaRepository->findByTitle($termino) : $tareaRepository->findAll();
+```
+
+**🧠 Teoría:** el olvido de `Request $request` en la firma ya había pasado en `tareaEditada()` (Fallo 30) — segunda vez el mismo día. Y el fallo de `$titulo`/`$termino` es la misma familia que los Fallos 20/21 de Twig, pero ahora en variables PHP: guardar un valor en un nombre y comprobar/usar otro distinto — sin error visible, la condición simplemente nunca se cumple (variable indefinida = `null` = `false`).
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 33: `TareaRepository::findByTitle()` — propiedad inexistente
+
+**❌ Código original:**
+```php
+->andWhere('n.name LIKE :titulo')   // ❌ Tarea no tiene "name", tiene "title"
+->orderBy('n.name', 'DESC')          // ❌ mismo error, repetido
+```
+
+**✅ Mejora:**
+```php
+->andWhere('n.title LIKE :titulo')
+->orderBy('n.title', 'DESC')
+```
+
+**🧠 Teoría:** a diferencia de un placeholder (`:titulo`, arbitrario, Fallo 24), el nombre después de `n.` SÍ tiene que ser una propiedad real de la Entity — Doctrine no inventa columnas, tira `QueryException` si no existe.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 34: `index()` — aplicar el patrón de crear/editar a un formulario de solo lectura
+
+**❌ Código original:**
+```php
+$form = $this->createForm(BusquedaType::class);
+$form->handleRequest($request);
+if($form->isSubmitted() && $form->isValid()){
+    $em->persist($tarea);        // ❌ $em ni $tarea existen en este método
+    $em->flush();
+    return $this->redirectToRoute('app_tareas');  // ❌ además, esto BORRARÍA el filtro buscado
+}
+```
+
+**✅ Mejora:**
+```php
+$form = $this->createForm(BusquedaType::class);  // solo para renderizar, sin handleRequest
+// el filtro se lee directo de $request->query, como ya se hacía
+```
+
+**🧠 Teoría:** no todo formulario necesita el ciclo `handleRequest()`/`isSubmitted()`/`persist()`/`redirect`. Ese ciclo completo es para formularios que MUTAN datos (crear, editar, borrar). Un formulario de búsqueda/filtro por `GET` es de solo lectura — se lee la query string directo, y el formulario solo sirve para pintar el HTML. Copiar el patrón de `crear()` sin pensar si aplica generó dos variables inexistentes y además rompía la funcionalidad (el redirect perdía el término buscado).
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 35: `busqueda.html.twig` — `extends` en un parcial (reincidencia del Fallo 25) + variable equivocada
+
+**❌ Código original:**
+```twig
+{% extends 'base.html.twig' %}     {# ❌ un parcial para include no extiende nada — Fallo 25, otra vez #}
+{% block body %}
+    {{ form_start(formularioTarea) }}   {# ❌ variable de OTRO formulario, nunca se pasó a este parcial #}
+```
+
+**✅ Mejora:**
+```twig
+{{ form_start(buscador) }}
+    {{ form_widget(buscador) }}
+{{ form_end(buscador) }}
+```
+
+**🧠 Teoría:** mismo gotcha del Fallo 25 (12/08), reincidiendo en un contexto distinto (formulario en vez de lista) — confirma que el punto sigue sin estar del todo interiorizado. Y la variable dentro de un parcial siempre es la que le llega por el `with {clave: valor}` del `include`, nunca una prestada de otra plantilla.
+
+**Estado:** ✅ Completado (reincidencia — repasar antes del próximo `include`)
+
+---
+
+### Fallo 36: `render()` — pasar el `Form` crudo en vez del `FormView`
+
+**❌ Código original:**
+```php
+'busqueda' => $form   // ❌ objeto Form completo, no seguro para Twig
+```
+
+**✅ Mejora:**
+```php
+'busqueda' => $form->createView()
+```
+
+**🧠 Teoría:** `form_start()`/`form_widget()`/etc. en Twig esperan específicamente un `FormView` — pasar el `Form` (con toda su lógica de validación/envío) da un error de tipo al renderizar. `createView()` no es un paso opcional de estilo, es obligatorio siempre que un formulario llegue a una plantilla.
+
+**Estado:** ✅ Completado
+
+---
+
 ## ✅ PATRONES QUE DOMINO (Symfony)
 
 - `make:entity` — flujo interactivo, tipos y longitudes correctos a la primera (`Tarea`: `title`, `done`, `createdAt`)
@@ -887,8 +1114,14 @@ public function findPendientes(): array
 ### Twig — colección vs. objeto único
 - **Antes de escribir `{% for %}`, preguntar: ¿qué variable me pasa el controller, y es un array o un objeto?** Si el controller hace `render(..., ['tarea' => $tarea])` con un solo objeto, no hay nada que recorrer — usar la variable directo. El `for` es solo para arrays (`findAll()`, `findBy()`). Reincidió por copiar una plantilla de lista sin repensar el caso → Fallo 20 → Fallo 21.
 
-### Twig — `extends` vs `include`
-- **`extends` hereda una estructura entera (páginas completas); `include` inserta un fragmento chico.** Un parcial para `include` nunca lleva `extends` — confundirlos puede crear referencias circulares (Fallo 25).
+### Twig — `extends` vs `include` (reincidió dos veces — 12/08 y 17/08)
+- **`extends` hereda una estructura entera (páginas completas); `include` inserta un fragmento chico.** Un parcial para `include` nunca lleva `extends` — confundirlos puede crear referencias circulares (Fallo 25, 12/08 → Fallo 35, 17/08). Antes de escribir CUALQUIER parcial nuevo, primera pregunta: "¿esto se va a incluir o se va a extender?" — si es un `include`, cero `extends`/`block`, directo el fragmento.
+
+### Controlador — declarar `Request $request` cuando se usa (reincidió dos veces — Fallos 30 y 32)
+- **Si un método lee algo de la petición (`$request->query`, `$request->get()`...), `Request $request` tiene que estar en la firma del método** — tener el `use` arriba no alcanza, cada método pide sus propias dependencias. Revisar esto ANTES de escribir cualquier línea que use `$request`.
+
+### Reconocer cuándo un formulario necesita el ciclo completo de procesamiento
+- **No todo formulario lleva `handleRequest()` + `isSubmitted()` + `persist()`/`flush()` + redirect.** Ese ciclo es para formularios que MUTAN datos (crear, editar, borrar). Un formulario de filtro/búsqueda por `GET` es de solo lectura: se lee la query string directo (`$request->query->get(...)`), y el formulario solo sirve para pintar el HTML — copiar el patrón de mutación a un caso de solo-lectura generó variables inexistentes y rompía la funcionalidad (Fallo 34).
 
 ### Doctrine — `$em->flush()` sin `$em` no avisa
 - **`flush()` sin `$em->` es una función real de PHP (buffer de salida), no un error.** El cambio en memoria (`setDone(true)`, etc.) se pierde en silencio si no se llama al `flush()` del EntityManager inyectado. Revisar SIEMPRE que el método reciba `EntityManagerInterface $em` cuando modifica una entidad (Fallo 23).
@@ -896,6 +1129,10 @@ public function findPendientes(): array
 ### Doctrine — placeholder de QueryBuilder ≠ nombre de propiedad
 - **El nombre en `:algo` (where) y en `setParameter('algo', valor)` es arbitrario, elegido por vos** — no tiene relación con la propiedad de la Entity que estás comparando. El valor que rellena el placeholder lo decide la lógica de negocio del método (`findPendientes` → `false`), no el nombre de la propiedad (Fallo 24).
 
+### Formularios — patrón de opción personalizada (3 piezas sincronizadas) — repasar en próximos ejercicios
+- **Es un patrón de tres piezas, no una sola:** (1) declarar el default en `configureOptions()`, (2) leer esa opción dentro de `buildForm()` con un `if` para decidir qué campos añadir, (3) pasar el valor distinto desde el controlador en el `createForm(Type::class, $entidad, ['opcion' => valor])` de cada caso que lo necesite. Fallar cualquiera de las tres rompe el patrón completo, aunque el resto esté bien (Fallo 31). Concepto marcado explícitamente para dominar — repasarlo activamente la próxima vez que aparezca un formulario con comportamiento condicional.
+- **El nombre del campo en `add()` tiene que coincidir con una propiedad real de la entidad** (o llevar `mapped: false` si es a propósito) — nombres inventados como "edicion" en vez de "done" rompen el mapeo automático.
+
 ---
 
-*Próxima sesión: Messenger (según roadmap original). Los fundamentos base (Entity, Repository, ParamConverter, EntityManager crear/completar/borrar, QueryBuilder, include/filtros de Twig) quedaron todos ejercitados. Antes de arrancar contenido nuevo, warm-up corto (5-10min) repasando "for vs. objeto único" en Twig (Fallo 20/21), que fue el único punto que reincidió. Ejercicio 11 (filtros Twig — `length`, `date()`) quedó pendiente por falta de tiempo, no por dificultad — retomarlo al principio de la próxima sesión antes de Messenger.*
+*Bloque de Formularios (17/08/2026), F1-F9 completados: `make:form`, `configureOptions()`/`buildForm()`, Constraints, renderizado Twig (`form_widget`/`form_row`), procesamiento con `handleRequest`/`isSubmitted`/`isValid`, patrón de opción personalizada, formulario sin entidad + QueryBuilder con `LIKE`, y formulario de borrado (CSRF). Pendiente: F10 (`form_row` individual en `crear.html.twig`). Puntos a reforzar activamente (ver arriba): patrón de opción personalizada (3 piezas), `extends` vs `include` (reincidió dos veces), declarar `Request $request` cuando se usa (reincidió dos veces), reconocer cuándo un formulario necesita el ciclo completo vs solo lectura. Próxima sesión de Symfony según el PDF real (no el roadmap maestro): bloque 6 — Servicios (Service Container). Ver `project_symfony_plan_temario_pdf.md` en memoria persistente.*

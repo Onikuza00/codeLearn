@@ -70,6 +70,9 @@ nav:
           - "Miércoles 12 — Symfony Fundamentos": waytoCode/2026/08/semana-2/2026-08-12.md
           - "Jueves 13 — JS + Extensión Fundamentos": waytoCode/2026/08/semana-2/2026-08-13.md
           - "Sábado 15 — Tailwind CSS": waytoCode/2026/08/semana-2/2026-08-15.md
+          - "Domingo 16 — Repaso general": waytoCode/2026/08/semana-2/2026-08-16.md
+        - "Semana 03 — DOM + Symfony + Tailwind":
+          - "Lunes 17 — Symfony: Twig + Formularios": waytoCode/2026/08/semana-3/2026-08-17.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -197,6 +200,7 @@ nav:
         - "01 - Entity": symfony/00-fundamentos/04-doctrine/01-entity/index.md
         - "02 - Repository y EntityManager": symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/index.md
       - "05 - Twig": symfony/00-fundamentos/05-twig/index.md
+      - "06 - Formularios": symfony/00-fundamentos/06-formularios/index.md
     - "Bloque 01 - Web Components":
       - Arquitectura: symfony/web-components/arquitectura.md
       - TwigComponents: symfony/web-components/twig-components.md
@@ -225,6 +229,8 @@ nav:
         - "Aplicado a landings y animaciones": ia/claude/01-claude-code-in-action/09-aplicado-landings-animaciones/index.md
       - "Claude API":
         - ia/claude/02-claude-api/index.md
+        - "Acceso a la API": ia/claude/02-claude-api/01-acceso-api/index.md
+        - "Creando la conexión": ia/claude/02-claude-api/02-creando-conexion/index.md
       - "Automatizaciones":
         - ia/claude/03-automatizaciones/index.md
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md

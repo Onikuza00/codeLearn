@@ -1,4 +1,7 @@
-    <li>{{tarea.title}}</li>
+    <li>{{tarea.title}} -> {{tarea.createdAt|date('d/m/Y')}}</li>
+    <form method="post" action="{{ path('tarea_borrada', {id: tarea.id}) }}">
+    <button type="submit">Borrar</button>
+    </form>
         {% if tarea.done %}
         <p>✅ Hecha</p>
         {% else %}

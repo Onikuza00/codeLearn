@@ -481,6 +481,289 @@
       </div>
     </div>
 
+    <!-- ============================================= -->
+    <!-- FORMULARIOS — Crear y editar tareas -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 17/08/2026 — Formularios: crear y editar tareas</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>10</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- F1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>TareaType</code> con <code>make:form</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Genera <code>TareaType</code> vinculado a la entidad <code>Tarea</code> con el maker. El maker añade un campo por cada propiedad de la entidad — dejalo solo con <code>title</code>, editable, con <code>label</code> y <code>required</code>. <code>done</code> y <code>createdAt</code> los gestiona el servidor, no el usuario desde el formulario.</p>
+          <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/06-formularios/#makeform-paso-a-paso">Formularios → make:form paso a paso</a> y <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → buildForm()</a>.</p>
+          <div class="ex-samples">
+            symfony console make:form TareaType Tarea
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Form/TareaType.php</span>
+<span class="kw">class</span> <span class="fn">TareaType</span> <span class="kw">extends</span> AbstractType
+{
+    <span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add(<span class="str">'title'</span>, TextType::class, [
+            <span class="str">'label'</span> => <span class="str">'Título'</span>,
+            <span class="str">'required'</span> => <span class="kw">true</span>,
+        ]);
+    }
+
+    <span class="kw">public function</span> <span class="fn">configureOptions</span>(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([<span class="str">'data_class'</span> => Tarea::class]);
+    }
+}</pre>
+          </div>
+        </div>
+
+        <!-- F2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 Constraints sobre <code>title</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Añade Constraints sobre la propiedad <code>title</code> de la entidad <code>Tarea</code>: no puede estar vacío, y mínimo 3 caracteres. Mensajes de error en castellano.</p>
+          <p class="ex-explanation">Las Constraints van sobre la <strong>entidad</strong>, no sobre el formulario — el formulario las aplica solo. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#constraints">Formularios → Constraints</a>.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Entity/Tarea.php</span>
+<span class="kw">use</span> Symfony\Component\Validator\Constraints <span class="kw">as</span> Assert;
+
+<span class="op">#[Assert\NotBlank(</span>message: <span class="str">'El título es obligatorio.'</span><span class="op">)]</span>
+<span class="op">#[Assert\Length(</span>min: 3, minMessage: <span class="str">'Mínimo 3 caracteres.'</span><span class="op">)]</span>
+<span class="kw">private</span> ?<span class="kw">string</span> $title = <span class="kw">null</span>;</pre>
+          </div>
+        </div>
+
+        <!-- F3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>GET/POST /tareas/crear</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un único método de controller que sirva las dos cosas: en <code>GET</code> muestra el formulario vacío; en <code>POST</code> válido, guarda la tarea con el <strong>EntityManager</strong> y redirige al listado; en <code>POST</code> inválido, vuelve a mostrar el formulario con los errores.</p>
+          <p class="ex-explanation">Combina lo que ya usaste en <code>crear()</code> de Fundamentos (Ejercicio 6: <code>persist()</code> + <code>flush()</code>) con el flujo nuevo de Formularios. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#procesamiento-con-el-controlador">Formularios → Procesamiento con el controlador</a>.</p>
+          <div class="ex-samples">
+            GET /tareas/crear <span class="arrow-sample">→</span> 200, formulario vacío<br>
+            POST /tareas/crear (title válido) <span class="arrow-sample">→</span> 302 a <code>tarea_index</code>, tarea creada<br>
+            POST /tareas/crear (title vacío) <span class="arrow-sample">→</span> 200, formulario con el error
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas/crear'</span><span class="op">, name:</span> <span class="str">'tarea_crear'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">crear</span>(Request $request, EntityManagerInterface $em): Response
+{
+    $tarea = <span class="kw">new</span> Tarea();
+    $tarea->setDone(<span class="kw">false</span>);
+    $tarea->setCreatedAt(<span class="kw">new</span> \DateTimeImmutable());
+
+    $form = $this->createForm(TareaType::class, $tarea);
+    $form->handleRequest($request);
+
+    <span class="kw">if</span> ($form->isSubmitted() && $form->isValid()) {
+        $em->persist($tarea);
+        $em->flush();
+
+        <span class="kw">return</span> $this->redirectToRoute(<span class="str">'tarea_index'</span>);
+    }
+
+    <span class="kw">return</span> $this->render(<span class="str">'tarea/crear.html.twig'</span>, [
+        <span class="str">'formularioTarea'</span> => $form->createView(),
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- F4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟢 Twig — <code>tarea/crear.html.twig</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Extiende <code>base.html.twig</code>. Renderiza el formulario con las funciones Twig de Symfony — no hace falta control fino por campo todavía, con el renderizado automático alcanza.</p>
+          <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → Renderizado en Twig</a> (<code>form_start</code> / <code>form_widget</code> / <code>form_end</code>).</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">{% extends</span> <span class="str">'base.html.twig'</span> <span class="op">%}</span>
+<span class="op">{% block</span> body <span class="op">%}</span>
+  <span class="op">&lt;h1&gt;</span>Nueva tarea<span class="op">&lt;/h1&gt;</span>
+  {{ form_start(formularioTarea) }}
+    {{ form_widget(formularioTarea) }}
+  {{ form_end(formularioTarea) }}
+<span class="op">{% endblock %}</span></pre>
+          </div>
+        </div>
+
+        <!-- F5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🔴 <code>GET/POST /tareas/{id}/editar</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Mismo <code>TareaType</code>, reutilizado para editar una tarea que ya existe: ParamConverter la trae, el formulario nace ya relleno con sus datos. Al guardar, no hace falta <code>persist()</code> — la entidad ya la conoce Doctrine.</p>
+          <p class="ex-explanation">Combina ParamConverter (Fundamentos E3/E7/E8) con Formularios: <code>createForm(TareaType::class, $tarea)</code> con una entidad YA cargada precarga sus valores actuales en el formulario, sin que hagas nada extra.</p>
+          <div class="ex-samples">
+            GET /tareas/1/editar <span class="arrow-sample">→</span> 200, formulario con el <code>title</code> actual ya puesto<br>
+            POST /tareas/1/editar (title válido) <span class="arrow-sample">→</span> 302 a <code>tarea_index</code>, tarea actualizada
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/tareas/{id}/editar'</span><span class="op">, name:</span> <span class="str">'tarea_editar'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">editar</span>(Tarea $tarea, Request $request, EntityManagerInterface $em): Response
+{
+    $form = $this->createForm(TareaType::class, $tarea);
+    $form->handleRequest($request);
+
+    <span class="kw">if</span> ($form->isSubmitted() && $form->isValid()) {
+        $em->flush(); <span class="cmt">// sin persist(): $tarea ya la gestiona Doctrine</span>
+
+        <span class="kw">return</span> $this->redirectToRoute(<span class="str">'tarea_index'</span>);
+    }
+
+    <span class="kw">return</span> $this->render(<span class="str">'tarea/crear.html.twig'</span>, [
+        <span class="str">'formularioTarea'</span> => $form->createView(),
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- F6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟢 Botón <code>guardar</code> personalizado</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Añade a <code>TareaType</code> un campo de tipo <code>SubmitType</code> llamado <code>guardar</code>, con <code>label</code> propio ("Guardar tarea") y una clase CSS a través de <code>attr</code>.</p>
+          <p class="ex-explanation">Refuerzo directo de la tabla de opciones del tercer argumento de <code>add()</code>. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → Opciones del tercer argumento</a> (<code>label</code>, <code>attr</code>).</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>$builder
+    ->add(<span class="str">'title'</span>, TextType::class, [<span class="str">'label'</span> => <span class="str">'Título'</span>])
+    ->add(<span class="str">'guardar'</span>, SubmitType::class, [
+        <span class="str">'label'</span> => <span class="str">'Guardar tarea'</span>,
+        <span class="str">'attr'</span> => [<span class="str">'class'</span> => <span class="str">'btn-guardar'</span>],
+    ]);</pre>
+          </div>
+        </div>
+
+        <!-- F7 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟡 Campo <code>done</code> como <code>ChoiceType</code> expandido</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En el formulario de edición (no en el de crear), añade el campo <code>done</code> como <code>ChoiceType</code> con dos opciones ("Pendiente" / "Hecha") mostradas como radio buttons, no como desplegable.</p>
+          <p class="ex-explanation">Combina la opción personalizada del <code>configureOptions()</code> (patrón <code>esAdmin</code> del PDF: una opción propia que <code>buildForm()</code> lee para decidir qué campos añadir) con <code>ChoiceType</code> + <code>expanded</code>. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → Tipos de campo</a> y <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">→ Opciones (choices, expanded)</a>.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+{
+    $builder->add(<span class="str">'title'</span>, TextType::class, [<span class="str">'label'</span> => <span class="str">'Título'</span>]);
+
+    <span class="kw">if</span> ($options[<span class="str">'esEdicion'</span>]) {
+        $builder->add(<span class="str">'done'</span>, ChoiceType::class, [
+            <span class="str">'label'</span> => <span class="str">'Estado'</span>,
+            <span class="str">'choices'</span> => [<span class="str">'Pendiente'</span> => <span class="kw">false</span>, <span class="str">'Hecha'</span> => <span class="kw">true</span>],
+            <span class="str">'expanded'</span> => <span class="kw">true</span>,
+        ]);
+    }
+}
+
+<span class="kw">public function</span> <span class="fn">configureOptions</span>(OptionsResolver $resolver): void
+{
+    $resolver->setDefaults([<span class="str">'data_class'</span> => Tarea::class, <span class="str">'esEdicion'</span> => <span class="kw">false</span>]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- F8 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🔴 Formulario de búsqueda (sin entidad)</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un <code>BusquedaType</code> con un único campo <code>termino</code> (texto), <strong>sin</strong> vincularlo a ninguna clase. En <code>GET /tareas</code>, si llega un término, filtra las tareas cuyo <code>title</code> lo contenga.</p>
+          <p class="ex-explanation">Un formulario no siempre está atado a una entidad — sin <code>data_class</code>, simplemente recoge datos sueltos. Combina esto con QueryBuilder (Fundamentos E9: <code>createQueryBuilder</code> → <code>where</code> → <code>setParameter</code>), usando el operador <code>LIKE</code>.</p>
+          <div class="ex-samples">
+            GET /tareas?termino=symfony <span class="arrow-sample">→</span> solo tareas cuyo título contiene "symfony"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Form/BusquedaType.php — sin configureOptions con data_class</span>
+<span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+{
+    $builder
+        ->add(<span class="str">'termino'</span>, TextType::class, [<span class="str">'required'</span> => <span class="kw">false</span>])
+        ->add(<span class="str">'buscar'</span>, SubmitType::class);
+}
+
+<span class="cmt">// TareaRepository.php</span>
+<span class="kw">public function</span> <span class="fn">findByTitulo</span>(string $termino): array
+{
+    <span class="kw">return</span> $this->createQueryBuilder(<span class="str">'t'</span>)
+        ->where(<span class="str">'t.title LIKE :termino'</span>)
+        ->setParameter(<span class="str">'termino'</span>, <span class="str">'%'</span>.$termino.<span class="str">'%'</span>)
+        ->getQuery()->getResult();
+}</pre>
+          </div>
+        </div>
+
+        <!-- F9 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🟡 Borrar con formulario, no con link</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Sustituye el link directo de borrado (Fundamentos E8) por un mini-formulario de un solo botón (<code>SubmitType</code>, sin campos de datos) que haga <code>POST</code> a la misma ruta de borrar.</p>
+          <p class="ex-explanation">Un link <code>&lt;a&gt;</code> hace siempre <code>GET</code> y no lleva token CSRF — cualquier página podría "borrar por ti" con solo poner ese link. Un formulario sí protege la acción. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → el tip del token CSRF en <code>form_end()</code></a>.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">{# dentro de tarea/_item.html.twig #}</span>
+<span class="op">&lt;form</span> method=<span class="str">"post"</span> action=<span class="str">"</span>{{ path(<span class="str">'tarea_borrar'</span>, {id: tarea.id}) }}<span class="str">"</span><span class="op">&gt;</span>
+    <span class="op">&lt;button</span> type=<span class="str">"submit"</span><span class="op">&gt;</span>Borrar<span class="op">&lt;/button&gt;</span>
+<span class="op">&lt;/form&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- F10 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🟢 Errores de validación campo a campo</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cambia <code>tarea/crear.html.twig</code> de renderizado automático (<code>form_widget</code>) a renderizado individual con <code>form_row</code>, campo por campo, para tener control sobre el HTML.</p>
+          <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → Renderizado individual</a>. <code>form_row</code> ya incluye label + input + errores de ese campo, no hace falta nada más.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>{{ form_start(formularioTarea) }}
+    {{ form_row(formularioTarea.title) }}
+    {{ form_row(formularioTarea.guardar) }}
+{{ form_end(formularioTarea) }}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <div class="exercise-footer">
       CodeLearn Assessment — Symfony · Fundamentos
     </div>

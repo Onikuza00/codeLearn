@@ -25,4 +25,14 @@ class TareaRepository extends ServiceEntityRepository
         ->getResult()
         ;
     }
+
+     public function findByTitle(string $texto){
+        return $this->createQueryBuilder('n')
+        ->andWhere('n.title LIKE :titulo')
+        ->setParameter('titulo', '%' . $texto . '%')
+        ->orderBy('n.title', 'DESC')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
 }

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Crear tarea</h1>
+    {{ form_start(formularioTarea) }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(formularioTarea.title) }}
+        </div>
+        {% if formularioTarea.done is defined %}
+        {{ form_row(formularioTarea.done) }}
+        {% endif %}
+    </div>
+{{ form_row(formularioTarea.guardar) }}
+
+{{ form_end(formularioTarea) }}
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TareaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TareaRepository::class)]
 class Tarea
@@ -14,6 +15,8 @@ class Tarea
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 3, minMessage: 'Mínimo {{ limit }} caracteres.')]
+    #[Assert\NotBlank(message: 'El nombre de la tarea es obligatorio.')]
     private ?string $title = null;
 
     #[ORM\Column]

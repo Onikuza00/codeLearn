@@ -41,6 +41,19 @@ Tres delimitadores, ningún otro:
 {% endif %}
 ```
 
+### Comprobar si una variable existe: `is defined`
+
+Antes de usar una variable que puede o no existir en el contexto (por ejemplo, un campo de formulario que solo se añade en ciertas condiciones), `is defined` comprueba su existencia SIN tirar error si no está — a diferencia de acceder directo, que rompería la plantilla entera:
+
+```twig
+{% if formulario.campoOpcional is defined %}
+    {{ form_row(formulario.campoOpcional) }}
+{% endif %}
+```
+
+!!! tip "`is defined` no es lo mismo que `is null` o `is empty`"
+    `is defined` pregunta "¿existe esta variable en absoluto?". `is null` pregunta "¿existe, pero su valor es `null`?" (la variable YA tiene que existir para preguntar esto sin error). `is empty` pregunta "¿está vacía?" (string `""`, array `[]`, `0`, `null`, `false` — todos cuentan como vacíos). Son tres preguntas distintas, para tres situaciones distintas.
+
 `for`, con `{% else %}` opcional para el caso vacío — así se ve en tu `galeria/index.html.twig`:
 
 ```twig
