@@ -71,6 +71,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 ---
 
+## `Object.fromEntries()` — el camino inverso {: .topic-title }
+
+`Object.entries()` convierte un objeto en un array de pares `[clave, valor]`. `Object.fromEntries()` hace lo contrario: a partir de un array (o cualquier iterable) de pares `[clave, valor]`, construye un objeto.
+
+```js
+const pares = [['name', 'Spidey'], ['universe', 42]];
+Object.fromEntries(pares); // { name: 'Spidey', universe: 42 }
+```
+
+Es útil cuando algo te da datos como pares clave-valor pero no como objeto plano — por ejemplo, `FormData` (que representa los campos de un formulario) es iterable devolviendo justamente pares `[nombre, valor]`:
+
+```js
+const datos = new FormData(formulario);
+Object.fromEntries(datos); // { nombre: 'Pau', email: 'pau@mail.com' }
+```
+
+---
+
 ## Enumerabilidad {: .topic-title }
 
 Por defecto, cuando agregás propiedades a un objeto, son **enumerables** (aparecen en `for...in` y en los `Object.*`). Algunas propiedades internas del lenguaje no lo son, pero eso no afecta a los objetos literales que estás creando vos.

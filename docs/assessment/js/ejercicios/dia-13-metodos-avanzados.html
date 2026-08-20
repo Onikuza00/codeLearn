@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Día 13 — Métodos Avanzados — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-js); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-js); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open .exercise-card-body {
+      display: block;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-js-dim);
+      color: var(--accent-js);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-js-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-js-dim);
+      border: 1px solid var(--accent-js);
+      color: var(--accent-js);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-js);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🏋️ <span>Día 13 — Métodos Avanzados</span></h1>
+    <p class="subtitle">Cards plegables, solución oculta y un panel que ejecuta tu script <code>dia-13-metodos-avanzados-soluciones.js</code>.</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ============================================= -->
+    <!-- GRUPO 1 — Buscar en arrays: find/some/every -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 13/08/2026 — Día 13 · Buscar en arrays (find / some / every)</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>5</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>hayAlgunoCaro(productos, limite)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe un array de objetos <code>{nombre, precio}</code>. Devolvé <code>true</code> si <strong>algún</strong> producto supera <code>limite</code>. Usá <code>some()</code>.</p>
+          <p class="ex-explanation"><code>some()</code> pregunta "¿hay AL MENOS UNO que cumpla?" y corta apenas encuentra el primero — a diferencia de <code>filter</code>, no te da un array, te da un booleano directo.</p>
+          <div class="ex-samples">
+            hayAlgunoCaro([{nombre:"a",precio:10},{nombre:"b",precio:50}], 30) <span class="arrow-sample">→</span> true<br>
+            hayAlgunoCaro([{nombre:"a",precio:10},{nombre:"b",precio:20}], 30) <span class="arrow-sample">→</span> false
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">hayAlgunoCaro</span>(productos, limite) {
+  <span class="kw">return</span> productos.some(p =&gt; p.precio &gt; limite);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="hayAlgunoCaro">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>todosDisponibles(productos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe un array de objetos <code>{nombre, stock}</code>. Devolvé <code>true</code> si <strong>todos</strong> tienen <code>stock &gt; 0</code>. Usá <code>every()</code>.</p>
+          <p class="ex-explanation"><code>every()</code> es lo opuesto de <code>some()</code>: pregunta "¿TODOS cumplen?" y corta apenas encuentra el primero que NO cumple. Un array vacío siempre da <code>true</code> con <code>every</code> (no hay ningún elemento que falle).</p>
+          <div class="ex-samples">
+            todosDisponibles([{nombre:"a",stock:5},{nombre:"b",stock:2}]) <span class="arrow-sample">→</span> true<br>
+            todosDisponibles([{nombre:"a",stock:5},{nombre:"b",stock:0}]) <span class="arrow-sample">→</span> false
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">todosDisponibles</span>(productos) {
+  <span class="kw">return</span> productos.every(p =&gt; p.stock &gt; <span class="num">0</span>);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="todosDisponibles">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟢 <code>buscarPorId(usuarios, id)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe un array de objetos <code>{id, nombre}</code>. Devolvé el objeto cuyo <code>id</code> coincide, o <code>undefined</code> si no existe. Usá <code>find()</code>.</p>
+          <p class="ex-explanation"><code>find()</code> devuelve el PRIMER elemento que cumple la condición (el objeto completo, no un array). Si ninguno cumple, devuelve <code>undefined</code> — nunca <code>null</code>, ojo con ese detalle al comparar.</p>
+          <div class="ex-samples">
+            buscarPorId([{id:1,nombre:"Ana"},{id:2,nombre:"Bruno"}], 2) <span class="arrow-sample">→</span> {id:2,nombre:"Bruno"}<br>
+            buscarPorId([{id:1,nombre:"Ana"}], 5) <span class="arrow-sample">→</span> undefined
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">buscarPorId</span>(usuarios, id) {
+  <span class="kw">return</span> usuarios.find(u =&gt; u.id === id);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="buscarPorId">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟢 <code>posicionDe(usuarios, id)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Igual que <code>buscarPorId</code>, pero devolvé el <strong>índice</strong> del objeto cuyo <code>id</code> coincide, o <code>-1</code> si no existe. Usá <code>findIndex()</code>.</p>
+          <p class="ex-explanation"><code>findIndex()</code> es a <code>find()</code> lo que <code>indexOf()</code> es a <code>includes()</code>: mismo criterio de búsqueda, pero te da la posición en vez del elemento. Por eso el "no encontrado" es <code>-1</code>, no <code>undefined</code>.</p>
+          <div class="ex-samples">
+            posicionDe([{id:1,nombre:"Ana"},{id:2,nombre:"Bruno"}], 2) <span class="arrow-sample">→</span> 1<br>
+            posicionDe([{id:1,nombre:"Ana"}], 5) <span class="arrow-sample">→</span> -1
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">posicionDe</span>(usuarios, id) {
+  <span class="kw">return</span> usuarios.findIndex(u =&gt; u.id === id);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="posicionDe">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>hayHuecos(array)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe un array de números. Devolvé <code>true</code> si hay algún <code>null</code> o <code>undefined</code> mezclado. Usá <code>some()</code>.</p>
+          <p class="ex-explanation">Mismo <code>some()</code> del E1, pero la condición ahora es sobre el tipo/valor del elemento en sí (<code>n === null || n === undefined</code>), no sobre una propiedad de un objeto. <code>some</code> sirve para cualquier "¿hay al menos uno que...?", venga de donde venga la condición.</p>
+          <div class="ex-samples">
+            hayHuecos([1, 2, null, 4]) <span class="arrow-sample">→</span> true<br>
+            hayHuecos([1, 2, 3, 4]) <span class="arrow-sample">→</span> false
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">hayHuecos</span>(array) {
+  <span class="kw">return</span> array.some(n =&gt; n === <span class="kw">null</span> || n === <span class="kw">undefined</span>);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="hayHuecos">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 2 — Valor vs. referencia -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🔀 Día 13 · Valor vs. referencia</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>3</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟡 <code>duplicarPuntuacion(jugador)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe <code>{ nombre, puntos }</code>. Devolvé un objeto <strong>nuevo</strong> con el doble de puntos. NO mutes <code>jugador</code>. Usá spread.</p>
+          <p class="ex-explanation">Mismo patrón que <code>actualizarEdad</code> (Día 10): <code>{ ...jugador, puntos: jugador.puntos * 2 }</code> copia todas las propiedades y pisa <code>puntos</code>. El runner comprueba las DOS cosas: que el resultado sea correcto, Y que <code>jugador</code> siga intacto después de llamar tu función.</p>
+          <div class="ex-samples">
+            duplicarPuntuacion({nombre:"Ana", puntos:10}) <span class="arrow-sample">→</span> {nombre:"Ana", puntos:20}<br>
+            <span class="arrow-sample">// el objeto original {nombre:"Ana", puntos:10} debe seguir igual</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">duplicarPuntuacion</span>(jugador) {
+  <span class="kw">return</span> { ...jugador, puntos: jugador.puntos * <span class="num">2</span> };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="duplicarPuntuacion">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>agregarItem(carrito, item)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibe un array <code>carrito</code>. Devolvé un array <strong>nuevo</strong> con <code>item</code> agregado al final. NO uses <code>push</code> sobre el original. Usá spread.</p>
+          <p class="ex-explanation"><code>push()</code> muta el array en el lugar — es el equivalente en arrays de asignar directo una propiedad de un objeto. La versión "no mutar, crear nuevo" es <code>[...carrito, item]</code>, igual que <code>{ ...objeto, clave: valor }</code> con objetos.</p>
+          <div class="ex-samples">
+            agregarItem(["manzana", "pan"], "leche") <span class="arrow-sample">→</span> ["manzana", "pan", "leche"]<br>
+            <span class="arrow-sample">// el array original ["manzana", "pan"] debe seguir igual</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agregarItem</span>(carrito, item) {
+  <span class="kw">return</span> [...carrito, item];
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="agregarItem">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>predecirValorFinal()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Mirá este código SIN ejecutarlo y predecí qué imprime el <code>console.log</code> final. Tu función debe devolver ese número.</p>
+          <div class="ex-samples">
+            <span class="arrow-sample">function</span> mutarObjeto(obj) {<br>
+            &nbsp;&nbsp;obj.valor = obj.valor + 10;<br>
+            }<br><br>
+            <span class="arrow-sample">function</span> mutarPrimitivo(valor) {<br>
+            &nbsp;&nbsp;valor = valor + 10;<br>
+            }<br><br>
+            const datos = { valor: 5 };<br>
+            mutarObjeto(datos);<br>
+            mutarPrimitivo(datos.valor);<br>
+            console.log(datos.valor); <span class="arrow-sample">// → ?</span>
+          </div>
+          <p class="ex-explanation">La clave: <code>mutarObjeto(datos)</code> recibe la REFERENCIA al objeto — modificar <code>obj.valor</code> adentro sí afecta a <code>datos</code>. Pero <code>mutarPrimitivo(datos.valor)</code> recibe un número SUELTO: en el momento en que lo pasás como argumento, ese número se copia por valor. Reasignar <code>valor</code> adentro de la función no toca <code>datos.valor</code> para nada — un primitivo sacado de un objeto sigue siendo un primitivo independiente.</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">predecirValorFinal</span>() {
+  <span class="cmt">// mutarObjeto SÍ afecta datos.valor: 5 + 10 = 15</span>
+  <span class="cmt">// mutarPrimitivo recibe una COPIA del número, no afecta nada más</span>
+  <span class="kw">return</span> <span class="num">15</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="predecirValorFinal">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 3 — this -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🧭 Día 13 · <code>this</code></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>2</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E9 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🔴 <code>crearBoton(texto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve <code>{ texto, onClick }</code> donde <code>onClick</code> debe devolver <code>"Click en: " + texto</code>. El código de partida en <code>dia-13-metodos-avanzados-soluciones.js</code> YA TIENE un bug de "this perdido": funciona si llamás <code>boton.onClick()</code>, pero revienta si sacás el método suelto (<code>const click = boton.onClick; click()</code>). Arreglalo.</p>
+          <p class="ex-explanation">Cuando llamás <code>boton.onClick()</code>, <code>this</code> es <code>boton</code>. Pero si sacás la función y la llamás sola, pierde ese contexto — <code>this</code> ya no apunta a nada útil. La forma más simple de arreglarlo: no depender de <code>this</code> en absoluto, y usar un <strong>closure</strong> sobre el parámetro <code>texto</code> directamente (arrow function). Alternativa válida: <code>.bind(this)</code> dentro del objeto.</p>
+          <div class="ex-samples">
+            const boton = crearBoton("Guardar");<br>
+            const click = boton.onClick; <span class="arrow-sample">// se saca "suelto"</span><br>
+            click() <span class="arrow-sample">→</span> "Click en: Guardar"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearBoton</span>(texto) {
+  <span class="kw">return</span> {
+    texto: texto,
+    <span class="cmt">// arrow function: no tiene su propio "this", usa el closure</span>
+    <span class="cmt">// sobre "texto" en vez de depender de this.texto</span>
+    onClick: () =&gt; <span class="str">'Click en: '</span> + texto
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearBoton">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🔴 <code>crearContadorConThis()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devolvé un objeto <code>{ valor, incrementar }</code>. <code>incrementar</code> debe usar una <strong>arrow function interna</strong> que sume 1 a <code>this.valor</code> y devuelva el valor actualizado.</p>
+          <p class="ex-explanation">Al contrario que E9: acá <code>incrementar</code> SÍ es un método normal (lo llamás siempre como <code>c.incrementar()</code>, nunca suelto), así que <code>this</code> dentro de él es el objeto correctamente. La arrow function <em>interna</em> demuestra la otra cara del "this léxico": no crea su propio <code>this</code>, hereda el de <code>incrementar</code> en el momento en que se define — por eso <code>this.valor</code> adentro de la arrow apunta al mismo objeto sin trucos extra.</p>
+          <div class="ex-samples">
+            const c = crearContadorConThis();<br>
+            c.incrementar() <span class="arrow-sample">→</span> 1<br>
+            c.incrementar() <span class="arrow-sample">→</span> 2<br>
+            c.incrementar() <span class="arrow-sample">→</span> 3
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearContadorConThis</span>() {
+  <span class="kw">return</span> {
+    valor: <span class="num">0</span>,
+    incrementar: <span class="kw">function</span> () {
+      <span class="kw">const</span> sumarUno = () =&gt; {
+        <span class="kw">this</span>.valor++;
+      };
+      sumarUno();
+      <span class="kw">return</span> <span class="kw">this</span>.valor;
+    }
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearContadorConThis">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 4 — Try/Catch/Finally -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🛟 Día 13 · Try / Catch / Finally</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>3</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E11 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>dividirSeguro(a, b)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Si <code>b</code> es 0, lanzá un <code>Error</code> con mensaje descriptivo y capturalo devolviendo <code>null</code>. Si no, devolvé <code>a / b</code>.</p>
+          <p class="ex-explanation"><code>throw new Error("mensaje")</code> corta la ejecución y salta directo al <code>catch</code> más cercano. Es la forma de decir "esto no debería pasar, andá a manejarlo en otro lado" en vez de devolver un valor raro (<code>NaN</code>, <code>Infinity</code>) que el que llama a la función capaz ni revisa.</p>
+          <div class="ex-samples">
+            dividirSeguro(10, 2) <span class="arrow-sample">→</span> 5<br>
+            dividirSeguro(10, 0) <span class="arrow-sample">→</span> null
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">dividirSeguro</span>(a, b) {
+  <span class="kw">try</span> {
+    <span class="kw">if</span> (b === <span class="num">0</span>) <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="str">'No se puede dividir por cero'</span>);
+    <span class="kw">return</span> a / b;
+  } <span class="kw">catch</span> (error) {
+    <span class="kw">return</span> <span class="kw">null</span>;
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="dividirSeguro">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E12 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>parsearJSON(texto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Intentá convertir <code>texto</code> con <code>JSON.parse</code>. Si el texto no es JSON válido, devolvé <code>null</code> en vez de dejar que el error rompa el programa.</p>
+          <p class="ex-explanation"><code>JSON.parse</code> lanza un <code>SyntaxError</code> cuando el texto está mal formado — no devuelve <code>undefined</code> ni <code>null</code> silenciosamente. Cualquier función que reciba datos "de afuera" (una API, un input del usuario) y los parsee necesita este mismo patrón de <code>try/catch</code>.</p>
+          <div class="ex-samples">
+            parsearJSON('{"a":1}') <span class="arrow-sample">→</span> {a: 1}<br>
+            parsearJSON('{invalido}') <span class="arrow-sample">→</span> null
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">parsearJSON</span>(texto) {
+  <span class="kw">try</span> {
+    <span class="kw">return</span> JSON.parse(texto);
+  } <span class="kw">catch</span> (error) {
+    <span class="kw">return</span> <span class="kw">null</span>;
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="parsearJSON">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E13 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>procesarConLimpieza(fn)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Ejecutá <code>fn()</code>. Si lanza error, capturalo (el resultado queda <code>null</code>). Pase lo que pase, el <code>finally</code> debe marcar <code>procesoTerminado = true</code>. Devolvé <code>{ resultado, procesoTerminado }</code>.</p>
+          <p class="ex-explanation">El bloque <code>finally</code> se ejecuta SIEMPRE — haya error o no, haya <code>return</code> en el <code>try</code> o en el <code>catch</code>. Es el lugar correcto para "limpieza" que tiene que pasar sí o sí (cerrar una conexión, apagar un loading, marcar que terminó), sin duplicar esa línea en el <code>try</code> Y en el <code>catch</code>.</p>
+          <div class="ex-samples">
+            procesarConLimpieza(() =&gt; 42) <span class="arrow-sample">→</span> {resultado: 42, procesoTerminado: true}<br>
+            procesarConLimpieza(() =&gt; { throw new Error("fail"); }) <span class="arrow-sample">→</span> {resultado: null, procesoTerminado: true}
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">procesarConLimpieza</span>(fn) {
+  <span class="kw">let</span> procesoTerminado = <span class="kw">false</span>;
+  <span class="kw">let</span> resultado;
+  <span class="kw">try</span> {
+    resultado = fn();
+  } <span class="kw">catch</span> (error) {
+    resultado = <span class="kw">null</span>;
+  } <span class="kw">finally</span> {
+    procesoTerminado = <span class="kw">true</span>;
+  }
+  <span class="kw">return</span> { resultado, procesoTerminado };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="procesarConLimpieza">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 5 — Errores personalizados -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🚨 Día 13 · Errores personalizados</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>2</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E14 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🔴 <code>class ErrorEdadInvalida</code> + <code>validarEdad(edad)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Creá <code>class ErrorEdadInvalida extends Error</code> con <code>constructor(edad)</code> que arme un mensaje descriptivo y guarde <code>this.edad</code>. Luego <code>validarEdad(edad)</code> debe lanzar <code>new ErrorEdadInvalida(edad)</code> si <code>edad &lt; 0</code> o <code>edad &gt; 120</code>; si es válida, devolvé la misma <code>edad</code>.</p>
+          <p class="ex-explanation">Extender <code>Error</code> te deja crear tipos de error con nombre propio y datos extra (<code>this.edad</code>), en vez de un <code>Error</code> genérico con solo un mensaje de texto. Regla clave de clases derivadas: <code>super(mensaje)</code> tiene que llamarse ANTES de usar <code>this</code> en el constructor — si no, JS tira <code>ReferenceError</code>.</p>
+          <div class="ex-samples">
+            validarEdad(30) <span class="arrow-sample">→</span> 30<br>
+            validarEdad(150) <span class="arrow-sample">→</span> 💥 lanza ErrorEdadInvalida (edad: 150)
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">class</span> ErrorEdadInvalida <span class="kw">extends</span> Error {
+  <span class="fn">constructor</span>(edad) {
+    <span class="kw">super</span>(<span class="str">`La edad ${edad} no es válida (debe estar entre 0 y 120)`</span>);
+    <span class="kw">this</span>.edad = edad;
+  }
+}
+
+<span class="kw">function</span> <span class="fn">validarEdad</span>(edad) {
+  <span class="kw">if</span> (edad &lt; <span class="num">0</span> || edad &gt; <span class="num">120</span>) {
+    <span class="kw">throw</span> <span class="kw">new</span> ErrorEdadInvalida(edad);
+  }
+  <span class="kw">return</span> edad;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarEdad">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E15 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>manejarValidacion(edad)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Llamá a <code>validarEdad(edad)</code> dentro de un <code>try</code>. Usá <code>instanceof ErrorEdadInvalida</code> en el <code>catch</code> para distinguirlo de cualquier otro error. Devolvé <code>"Edad válida: X"</code>, <code>"Edad inválida: &lt;mensaje&gt;"</code> o <code>"Error inesperado: &lt;mensaje&gt;"</code> según corresponda.</p>
+          <p class="ex-explanation"><code>instanceof</code> pregunta "¿este objeto fue creado con esta clase (o una que la extiende)?" — es lo que te permite reaccionar distinto según el TIPO de error, en vez de tratar cualquier <code>catch (error)</code> como si fuera el mismo problema. Depende de E14: si <code>ErrorEdadInvalida</code> o <code>validarEdad</code> todavía no están completos, este ejercicio va a fallar en cadena.</p>
+          <div class="ex-samples">
+            manejarValidacion(30) <span class="arrow-sample">→</span> "Edad válida: 30"<br>
+            manejarValidacion(150) <span class="arrow-sample">→</span> "Edad inválida: La edad 150 no es válida (debe estar entre 0 y 120)"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">manejarValidacion</span>(edad) {
+  <span class="kw">try</span> {
+    validarEdad(edad);
+    <span class="kw">return</span> <span class="str">`Edad válida: ${edad}`</span>;
+  } <span class="kw">catch</span> (error) {
+    <span class="kw">if</span> (error <span class="kw">instanceof</span> ErrorEdadInvalida) {
+      <span class="kw">return</span> <span class="str">`Edad inválida: ${error.message}`</span>;
+    }
+    <span class="kw">return</span> <span class="str">`Error inesperado: ${error.message}`</span>;
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="manejarValidacion">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Agosto 2026 · Día 13 — Métodos Avanzados
+    </div>
+  </div>
+</main>
+
+<script src="dia-13-metodos-avanzados-soluciones.js"></script>
+<script src="dia-13-metodos-avanzados-runner.js"></script>
+
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>

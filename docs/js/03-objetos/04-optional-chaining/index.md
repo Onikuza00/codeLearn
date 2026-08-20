@@ -4,6 +4,10 @@
 <video controls preload="metadata" src="https://video.aprendejs.dev/objetos-optional-chaining.mp4"></video>
 </div>
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/QOk9gP-u_DI" title="Optional Chaining — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
+
 > Uno de los errores más comunes en JavaScript es leer una propiedad de algo que resultó ser `undefined`. El operador `?.` te deja acceder a propiedades anidadas sin validar cada nivel a mano.
 
 ---

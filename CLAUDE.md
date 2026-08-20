@@ -27,6 +27,16 @@ Pau APRENDE, no solo entrega. Reglas que aplican SIEMPRE:
 - Si toca un patrón en "Necesito reforzar" (off-by-one, `!` vs `!==`, precedencia, `.length`, mirar "para atrás", primos, adyacentes) → DETENER y explicar el patrón ANTES de que escriba.
 - Nombrar la teoría del `GOTCHAS.md` relevante al reaccionar a un fallo.
 
+## Regla de nav (obligatoria)
+
+Todo archivo `.md` nuevo bajo `docs/` (daily log, temario, sección de teoría) se añade a la `nav:` de `mkdocs.yml` en el MISMO paso en que se crea — nunca como algo pendiente. Un doc sin entrada en `nav:` no es descubrible desde el sitio. Verificación rápida, sin depender de memoria: `mkdocs build --strict` (falla si hay algún `.md` fuera de la nav).
+
+## Regla de cambios arquitectónicos y de configuración (obligatoria)
+
+Antes de generar código, leer `GOTCHAS.md` y `RULES.md` (conocimiento del stack, convenciones fijas y reglas de guardado — ver tabla "Reglas de guardado" en `RULES.md`).
+
+Todo cambio arquitectónico o de configuración del propio proyecto (hooks, convenciones fijas nuevas, tooling, `settings.json`, decisiones de estructura) se registra en `openspec/changes/archive/` en el momento del cambio: `proposal.md` (qué + por qué) siempre, `design.md` solo si hubo alternativas evaluadas, y una fila nueva en `openspec/changes/archive/CHANGELOG.md` en el MISMO paso. No aplica a contenido de teoría/ejercicios que sigue un patrón ya existente.
+
 ## Skills de este proyecto
 
 Los skills SDD y de review están disponibles en `~/.claude/skills/` para flujos estructurados (`/sdd-*`). Para ejercicios de aprendizaje se aplica el contrato de arriba, no SDD completo.

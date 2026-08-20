@@ -100,6 +100,11 @@ delete persona.age;      // eliminar propiedad
 | [Iteración](03-iterar/index.md) | `for...in`, `Object.keys`/`values`/`entries` |
 | [Optional chaining](04-optional-chaining/index.md) | `?.` para acceso seguro a propiedades anidadas |
 | [Spread Operator](05-spread/index.md) | `{...obj}` — clonar, combinar, actualizar sin mutar |
+| [`this`](06-this/index.md) | Cómo se resuelve `this` según la llamada |
+| [Prototipos](07-prototipos/index.md) | Cadena de prototipos, `Object.create`, herencia |
+| [Constructores](08-constructores/index.md) | Funciones constructoras, `new`, `prototype` |
+| [Clases](09-clases/index.md) | `class`, `constructor`, `static`, getters/setters, `#privado` |
+| [Herencia](10-herencia-clases/index.md) | `extends`, `super()`, sobrescribir métodos |
 
 ---
 

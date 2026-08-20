@@ -139,7 +139,7 @@ frutas.forEach((fruta, indice, arrayCompleto) => {
     JavaScript fue agregando formas más cómodas con el tiempo: `while`/`for` son las más viejas y las más flexibles (control total del índice). `for...of` llegó después para el caso común de "solo quiero el valor". `forEach` es un método de array, pensado para callbacks cortos al estilo funcional. Ninguna reemplazó a las anteriores — cada una es mejor para un caso distinto, por eso siguen conviviendo todas.
 
 !!! warning "Ya viste while/for/do-while en detalle"
-    La mecánica de cada bucle (condición, actualización, scope) está cubierta en [Estructuras de control](../../01-basico/02-estructuras-control/index.md). Aquí el foco es específicamente **cuál conviene para recorrer un array**, no cómo funciona cada uno por dentro.
+    La mecánica de cada bucle (condición, actualización, scope) está cubierta en [Estructuras de control](../../01-basico/03-estructuras-control/index.md). Aquí el foco es específicamente **cuál conviene para recorrer un array**, no cómo funciona cada uno por dentro.
 
 ---
 
