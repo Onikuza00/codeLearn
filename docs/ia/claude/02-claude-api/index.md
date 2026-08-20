@@ -6,7 +6,10 @@
 
 ## Temario {: .topic-title }
 
-> ⏳ Curso arrancado el 10/08/2026 — temario a completar sesión a sesión.
+| Sección del curso | Temario | Qué cubre |
+|---|---|---|
+| Accessing the API | [Acceso a la API](01-acceso-api/index.md) | El flujo completo de una solicitud, los campos que lleva y qué hace Claude internamente con el texto |
+| Accessing the API | [Creando la conexión](02-creando-conexion/index.md) | Primera llamada real al SDK — instalación, cliente, `messages.create()` (adaptado a JavaScript/Node.js) |
 
 ---
 

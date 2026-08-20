@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica — Tailwind maquetación básica</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- E1 — Navbar -->
+  <nav class="flex justify-between items-center p-3">
+    <span class="">CodeLearn</span>
+    <ul class="flex gap-2">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Cursos</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <hr class="my-8 border-dashed">
+
+  <!-- E2 — Card de producto -->
+  <article class="flex flex-col p-2 gap-2 bg-white rounded-sm shadow-md items-center">
+    <img src="https://placehold.co/300x200" alt="Mouse inalámbrico">
+    <h3>Mouse inalámbrico</h3>
+    <p>Ergonómico, batería de larga duración.</p>
+    <span>29,99€</span>
+    <button>Añadir al carrito</button>
+  </article>
+
+  <hr class="my-8 border-dashed">
+
+  <!-- E3 — Grid de servicios -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-white p-4">Servicio 1</div>
+    <div class="bg-white p-4">Servicio 2</div>
+    <div class="bg-white p-4">Servicio 3</div>
+  </section>
+
+  <hr class="my-8 border-dashed">
+
+  <!-- E4 — Hero centrado -->
+  <section class="flex flex-col justify-center items-center gap-2 min-h-screen text-center">
+    <h1>Aprendé a programar de verdad</h1>
+    <p>JS, CSS y Symfony desde cero, con proyectos reales.</p>
+    <button>Empezar ahora</button>
+  </section>
+
+  <hr class="my-8 border-dashed">
+
+  <!-- E5 — Footer con bloques -->
+  <footer class="flex flex-col md:flex-row gap-2 items-center justify-center bg-blue-200">
+    <div class="flex flex-col flex-1  justify-between items-center">
+      <h4>Producto</h4>
+      <a href="#">Precios</a>
+      <a href="#">Funciones</a>
+    </div>
+    <div class="flex flex-col flex-1 items-center justify-between">
+      <h4>Empresa</h4>
+      <a href="#">Sobre nosotros</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="flex flex-col flex-1 items-center justify-between">
+      <h4>Soporte</h4>
+      <a href="#">Ayuda</a>
+      <a href="#">Contacto</a>
+    </div>
+  </footer>
+
+  <hr class="my-8 border-dashed">
+
+  <!-- E6 — Card de precio con etiqueta -->
+  <div class="flex flex-col gap-2 justify-center items-center text-center w-1/5 p-2 border-black border-2 relative z-0">
+    <span class="border-red-500 border-2 absolute -top-3 -right-3 z-10 bg-white px-3 py-0 ">Más popular</span>
+    <h3>Plan Profesional</h3>
+    <p>79€ / mes</p>
+  </div>
+
+</body>
+</html>

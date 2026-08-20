@@ -73,6 +73,8 @@ nav:
           - "Domingo 16 — Repaso general": waytoCode/2026/08/semana-2/2026-08-16.md
         - "Semana 03 — DOM + Symfony + Tailwind":
           - "Lunes 17 — Symfony: Twig + Formularios": waytoCode/2026/08/semana-3/2026-08-17.md
+          - "Miércoles 19 — DOM: querySelector + eventos": waytoCode/2026/08/semana-3/2026-08-19.md
+          - "Jueves 20 — DOM: Manipulación": waytoCode/2026/08/semana-3/2026-08-20.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -112,6 +114,10 @@ nav:
       - css/animaciones/index.md
       - Transitions: css/animaciones/01-transitions/index.md
       - "Keyframes y animation": css/animaciones/02-keyframes/index.md
+    - "Formularios":
+      - css/formularios/index.md
+      - "Select personalizado": css/formularios/01-select-personalizado/index.md
+      - "Agrupar opciones: optgroup": css/formularios/02-optgroup/index.md
   - Tailwind:
     - tailwind/index.md
     - "Fundamentos":
@@ -178,6 +184,16 @@ nav:
       - "Constructores": js/03-objetos/08-constructores/index.md
       - "Clases": js/03-objetos/09-clases/index.md
       - "Herencia": js/03-objetos/10-herencia-clases/index.md
+    - "DOM":
+      - "DOM": js/04-dom/index.md
+      - "Selección de elementos": js/04-dom/01-seleccion/index.md
+      - "Manipulación del DOM": js/04-dom/02-manipulacion/index.md
+      - "Eventos":
+        - "Eventos": js/04-dom/03-eventos/index.md
+        - "Eventos de ratón": js/04-dom/03-eventos/01-raton/index.md
+        - "Eventos de teclado": js/04-dom/03-eventos/02-teclado/index.md
+        - "Eventos de página y formularios": js/04-dom/03-eventos/03-pagina-formularios/index.md
+      - "Formularios": js/04-dom/04-formularios/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:

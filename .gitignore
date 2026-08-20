@@ -3,6 +3,7 @@
 Thumbs.db
 *.swp
 *.swo
+.env.local
 
 # Node (por si acaso)
 node_modules/

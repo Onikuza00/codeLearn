@@ -44,12 +44,18 @@
     section('🧩 Objetos',
       link(base + 'js/ejercicios/dia-10-objetos.html', 'list', 'Atajos · iterar · optional chaining · spread', 'keys · values · entries · ?. · {...}', 'js') +
       link(base + 'js/ejercicios/dia-13-metodos-avanzados.html', 'zap', 'Día 13 — find/some/every · this · errores', '15 ejercicios, 5 grupos', 'js'),
+      { open: true }) +
+    section('🌐 DOM',
+      link(base + 'js/ejercicios/dia-19-dom.html', 'zap', 'Día 19 — DOM, Eventos y Formularios', '15 ejercicios, 4 grupos', 'js'),
       { open: true });
 
   const dropdownCss =
     '<div class="megamenu__title">CSS · Temarios</div>' +
     section('🎯 Selectores + Layout + Responsive',
       link(base + 'css/ejercicios/nuevos-conceptos.html', 'grid', 'Práctica combinada', ':has() · Grid · Flex · Container Queries', 'css'),
+      { open: true }) +
+    section('🧱 Tailwind',
+      link(base + 'css/tailwind/maquetacion-basica.html', 'grid', 'Maquetación básica', 'Navbar · Cards · Grid · Hero · Footer · Badge', 'css'),
       { open: true }) +
     section('Progreso CSS',
       link(base + 'progreso.html#track-css', 'send', 'Tailwind desde 0 → Landing', 'Progreso de Agosto', 'css')) +

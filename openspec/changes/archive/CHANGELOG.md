@@ -6,6 +6,9 @@
 
 | Fecha | Cambio | Resumen |
 |---|---|---|
+| 2026-08-20 | [hook-sessionstart-codelearn](2026-08-20-hook-sessionstart-codelearn/) | Hook de arranque pasa de `UserPromptSubmit` (palabra clave "codeLearn") a `SessionStart` real acotado por `cwd` — se dispara siempre al empezar sesión, no solo si el prompt la menciona |
+| 2026-08-16 | [pnpm-en-ejemplos](2026-08-16-pnpm-en-ejemplos/) | Ejemplos de instalación de paquetes en la documentación usan `pnpm add`, no `npm install`, desde ahora en adelante |
+| 2026-08-16 | [cuadricula-totales-sin-fallos](2026-08-16-cuadricula-totales-sin-fallos/) | Ejercicios sin fallos en el daily log ya no se listan uno por uno — solo cuadrícula de totales (bien/mal) |
 | 2026-08-15 | [changelog-context-injection](2026-08-15-changelog-context-injection/) | Este índice + el hook lo inyecta al arrancar sesión nueva, para tener contexto de toda la evolución sin cargar cada cambio entero |
 | 2026-08-15 | [hook-codelearn-session](2026-08-15-hook-codelearn-session/) | Hook que recupera contexto de engram, levanta mkdocs y arranca el registro diario al escribir "codeLearn" |
 | 2026-06-27 | [fases-sdd](2026-06-27-fases-sdd/) | Página de detalle de las fases SDD en `docs/sdd/fases.md`, con diagrama de dependencias y mapeo a las 13 fases de la empresa de Pau |

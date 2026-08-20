@@ -14,7 +14,13 @@
 - Bloque `!!! success "✅ Versión corregida (...)"` con el código completo y correcto.
 - Párrafo `🧠 **Lección:**` nombrando el principio/patrón general detrás del error (early return, off-by-one, etc.), no solo "estaba mal".
 
-**Ejercicios SIN fallos** — NO llevan sección propia ni bloque de código. Van agrupados en una tabla/cuadrícula compacta al principio del grupo: columna con el ejercicio (firma de función) y columna con si salió correcto — nada más, sin explicación.
+**Ejercicios SIN fallos** — NO llevan sección propia, ni bloque de código, ni listado por ejercicio. Van resumidos en una cuadrícula compacta de totales al principio del grupo — solo el conteo de cuántos salieron bien, sin nombrarlos uno por uno:
+
+```markdown
+| ✅ Sin fallos | ❌ Con fallos |
+|:---:|:---:|
+| 8 | 4 |
+```
 
 ## Qué NO documentar
 

@@ -638,6 +638,40 @@ h1.section-responsive ~ h2 {
     font-weight: 700;
 }
 
+/* Formularios — h1 */
+.section-formularios {
+    background: linear-gradient(135deg, #db2777 0%, #f472b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-formularios::after {
+    background: linear-gradient(90deg, #db2777, #f472b6);
+}
+.section-formularios:hover {
+    background: linear-gradient(135deg, #f472b6 0%, #db2777 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Select personalizado — h1 */
+.section-select {
+    background: linear-gradient(135deg, #be123c 0%, #fb7185 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-select::after {
+    background: linear-gradient(90deg, #be123c, #fb7185);
+}
+.section-select:hover {
+    background: linear-gradient(135deg, #fb7185 0%, #be123c 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
 /* Quitar fondo de inline code dentro de h2 con degradado */
 h1[class^="section-"] ~ h2 code {
     background: none;
@@ -691,6 +725,23 @@ h1[class^="section-"] ~ h2 code {
 }
 .section-objetos:hover {
     background: linear-gradient(135deg, #34d399 0%, #059669 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque DOM — h1 (naranja, un color por subbloque) ─── */
+.section-dom {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-dom::after {
+    background: linear-gradient(90deg, #ea580c, #fb923c);
+}
+.section-dom:hover {
+    background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;

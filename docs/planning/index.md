@@ -144,17 +144,33 @@ Symfony queda en ~8.5h esta semana (miércoles completo + bloque del domingo). S
 
 ---
 
-## 📅 Semana 3 — DOM + async (Node y efectos)
+## 📅 Semana 3 — DOM + Symfony + Tailwind velocidad
 
 *(17 – 23 agosto)*
 
-**Progresión de conceptos:**
-Promises, `fetch`, `async/await` → DOM: crear elementos, eventos, formularios → **Tailwind**: landing page completa, responsive real → CSS moderno: `subgrid`, `text-wrap`, `scroll-snap`.
+> **Decisión explícita (16/08):** React, GSAP y Node.js quedan en CERO hasta septiembre — no se toca nada de eso esta semana, ni siquiera priming. Foco cerrado en tres materias.
 
-**Proyectos:** cargar datos de una API pública · formulario con feedback en tiempo real · landing propia 100% Tailwind · galería con scroll-snap.
+**Progresión de conceptos:**
+DOM: `querySelector`, `textContent`, `addEventListener`, cambiar estilos desde JS → crear elementos, formularios, eventos de input (sin `fetch`/`async` todavía, eso es Semana 4+ o septiembre) → **Symfony**: cerrar Twig pendiente del 12/08, luego Formularios y Servicios (plan real, PDF 17 bloques) → **Tailwind**: maquetaciones más complejas que las de la Semana 2, foco en velocidad de ejecución, no en teoría nueva.
+
+**Proyectos:** mini ejercicios DOM (botón que hace algo al clickearlo, filtro de productos visual) · validador de formulario visual con feedback en tiempo real (email + contraseña) · maquetaciones Tailwind cronometradas.
+
+**Disponibilidad real confirmada (16/08):** 9:00–14:00 entre semana (5h/día), probablemente 1-2 días libres sueltos entre semana, y fin de semana ampliado a 12h sábado + 12h domingo (8:00–20:00) — total ~40-44h la semana, muy por encima del resto de semanas de agosto. Las jornadas largas de fin de semana van repartidas en bloques con cortes, no una sola materia corrida.
+
+### Día a día acordado (borrador ajustable — 17-23/08)
+
+| Día | Horario | Foco principal | Detalle |
+|---|---|---|---|
+| **Lun 17/08** | 9-14h (5h) | 🟣 Symfony | Cerrar Twig pendiente (12/08) + arrancar Formularios |
+| **Mar 18/08** | 9-14h (5h) | 🔵 JS — DOM intro | `querySelector`, `textContent`, `addEventListener`, cambiar estilos · mini ejercicio: botón con acción al click |
+| **Mié 19/08** | 9-14h (5h) | 🟢 Tailwind — velocidad | Maquetación avanzada, tanda nueva más compleja que la Semana 2 |
+| **Jue 20/08** | 9-14h (5h) | 🟣 Symfony | Servicios |
+| **Vie 21/08** | flexible | — | Candidato a día libre (de los 1-2 sueltos); si se trabaja, buffer para lo que se haya atrasado |
+| **Sáb 22/08** | 8-20h (12h, en bloques) | 🔵 JS/DOM + 🟢 Tailwind | DOM combinado con lógica (crear elementos, formularios, eventos) + sprint de maquetación Tailwind cronometrado |
+| **Dom 23/08** | 8-20h (12h, en bloques) | 🟣 Symfony + 🔵 JS/DOM + cierre | Rematar Servicios si falta · mini proyecto: validador de formulario visual · cierre de semana + planificación Semana 4 |
 
 ### 🧠 Concepto clave de la semana
-> **"Async no es magia, es un timer que ejecuta una función después"** — Cuando clicks y fetches compartan el mismo modelo mental, Node no te da miedo.
+> **"El DOM es donde tu lógica JS se vuelve visible"** — hasta ahora todo vivía en funciones que devolvían valores; esta semana esos valores empiezan a cambiar lo que se ve en pantalla.
 
 ---
 
