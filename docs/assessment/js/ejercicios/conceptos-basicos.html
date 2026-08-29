@@ -164,6 +164,27 @@
     .ex-code .num  { color: #fde047; }  /* numbers */
     .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
     .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
     .exercise-footer {
       text-align: center;
       color: var(--text-muted);
@@ -187,9 +208,330 @@
   <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
 
     <!-- ============================================= -->
+    <!-- SESIÓN 16/08/2026 — REPASO GENERAL             -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🔁 16/08/2026 — Repaso general <span style="font-size:.8rem;color:var(--text-muted);">(12 ejercicios · todo lo aprendido, casos web reales)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>12</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>formularioValido(datos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un formulario de registro llega como objeto <code>{ nombre, email, password }</code>. Devuelve <code>true</code> solo si <strong>los tres campos</strong> tienen contenido.</p>
+          <div class="ex-samples">
+            formularioValido({nombre:<span class="str">"Pau"</span>, email:<span class="str">"pau@mail.com"</span>, password:<span class="str">"1234"</span>}) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            formularioValido({nombre:<span class="str">"Pau"</span>, email:<span class="str">""</span>, password:<span class="str">"1234"</span>}) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            formularioValido({nombre:<span class="str">"Pau"</span>, email:<span class="str">"pau@mail.com"</span>}) <span class="arrow-sample">→</span> <span class="kw">false</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">formularioValido</span>(datos) {
+  <span class="kw">if</span> (!datos.nombre || !datos.email || !datos.password) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="formularioValido">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>productoPorId(productos, id)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Busca en un catálogo el producto con ese <code>id</code> y lo devuelve. Si no existe, devuelve lo que corresponda cuando "no hay resultado".</p>
+          <div class="ex-samples">
+            productoPorId([{id:1, nombre:<span class="str">"Mouse"</span>}, {id:2, nombre:<span class="str">"Teclado"</span>}], 2) <span class="arrow-sample">→</span> {id:2, nombre:<span class="str">"Teclado"</span>}<br>
+            productoPorId([{id:1, nombre:<span class="str">"Mouse"</span>}], 9) <span class="arrow-sample">→</span> <span class="kw">undefined</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">productoPorId</span>(productos, id) {
+  <span class="kw">return</span> productos.find(p =&gt; p.id === id);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="productoPorId">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟢 <code>posicionEnCarrito(carrito, id)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Mismo carrito, pero ahora necesitás la <strong>posición</strong> del producto para poder editarlo. Si no está, el valor de "no encontrado" es distinto al del ejercicio anterior — pensá cuál.</p>
+          <div class="ex-samples">
+            posicionEnCarrito([{id:1}, {id:2}], 2) <span class="arrow-sample">→</span> 1<br>
+            posicionEnCarrito([{id:1}], 9) <span class="arrow-sample">→</span> -1
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">posicionEnCarrito</span>(carrito, id) {
+  <span class="kw">return</span> carrito.findIndex(p =&gt; p.id === id);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="posicionEnCarrito">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>crearContadorLikes()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Simulá el botón "me gusta" de un post. Devuelve una función que, cada vez que se llama, suma un like y devuelve el total acumulado.</p>
+          <div class="ex-samples">
+            <span class="kw">const</span> darLike = crearContadorLikes();<br>
+            darLike() <span class="arrow-sample">→</span> 1<br>
+            darLike() <span class="arrow-sample">→</span> 2<br>
+            darLike() <span class="arrow-sample">→</span> 3
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearContadorLikes</span>() {
+  <span class="kw">let</span> likes = 0;
+  <span class="kw">return</span> <span class="kw">function</span> () {
+    likes++;
+    <span class="kw">return</span> likes;
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearContadorLikes">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>carrito.calcularTotal()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un objeto <code>carrito</code> tiene un array <code>items</code> con <code>{ precio, cantidad }</code>. Añadile un método que calcule el total.</p>
+          <div class="ex-samples">
+            carrito = { items: [{precio:10, cantidad:2}, {precio:5, cantidad:3}] }<br>
+            carrito.calcularTotal() <span class="arrow-sample">→</span> 35
+          </div>
+          <p style="color:#eab308;font-size:.82rem;margin-bottom:.5rem;">💡 si convertís el método en arrow function dentro del objeto, <code>this</code> deja de apuntar al carrito</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">const</span> carrito = {
+  items: [{precio:10, cantidad:2}, {precio:5, cantidad:3}],
+  <span class="fn">calcularTotal</span>() {
+    <span class="kw">let</span> total = 0;
+    <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; <span class="kw">this</span>.items.length; i++) {
+      total += <span class="kw">this</span>.items[i].precio * <span class="kw">this</span>.items[i].cantidad;
+    }
+    <span class="kw">return</span> total;
+  }
+};</pre>
+          </div>
+          <div class="ex-result" data-fn="carrito">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>agregarProducto(carrito, producto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devuelve un <strong>nuevo</strong> carrito con el producto añadido, <strong>sin modificar</strong> el array original.</p>
+          <div class="ex-samples">
+            <span class="kw">const</span> original = [{id:1}];<br>
+            agregarProducto(original, {id:2}) <span class="arrow-sample">→</span> [{id:1}, {id:2}]<br>
+            original <span class="arrow-sample">→</span> [{id:1}] <span class="cmt">// sigue igual</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agregarProducto</span>(carrito, producto) {
+  <span class="kw">return</span> [...carrito, producto];
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="agregarProducto">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟢 <code>ciudadDeEnvio(pedido)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un pedido puede o no tener <code>envio.direccion.ciudad</code> definido, en cualquiera de los tres niveles. Si falta algo, devolvé <code>"Sin especificar"</code>.</p>
+          <div class="ex-samples">
+            ciudadDeEnvio({envio:{direccion:{ciudad:<span class="str">"Girona"</span>}}}) <span class="arrow-sample">→</span> <span class="str">"Girona"</span><br>
+            ciudadDeEnvio({envio:{}}) <span class="arrow-sample">→</span> <span class="str">"Sin especificar"</span><br>
+            ciudadDeEnvio({}) <span class="arrow-sample">→</span> <span class="str">"Sin especificar"</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">ciudadDeEnvio</span>(pedido) {
+  <span class="kw">return</span> pedido.envio?.direccion?.ciudad ?? <span class="str">"Sin especificar"</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="ciudadDeEnvio">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🔴 <code>primerosPosts(posts, n)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un feed infinito solo carga los primeros <code>n</code> posts. Devolvé esos primeros <code>n</code> con un bucle — cuidado con el límite exacto.</p>
+          <div class="ex-samples">
+            primerosPosts([<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>, <span class="str">"d"</span>], 2) <span class="arrow-sample">→</span> [<span class="str">"a"</span>, <span class="str">"b"</span>]<br>
+            primerosPosts([<span class="str">"a"</span>], 5) <span class="arrow-sample">→</span> [<span class="str">"a"</span>]
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">primerosPosts</span>(posts, n) {
+  <span class="kw">let</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; n && i &lt; posts.length; i++) {
+    resultado.push(posts[i]);
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="primerosPosts">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🟡 <code>generarIds(cantidad)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Genera <code>cantidad</code> ids secuenciales para nuevos posts, empezando en 1.</p>
+          <div class="ex-samples">
+            generarIds(4) <span class="arrow-sample">→</span> [1, 2, 3, 4]<br>
+            generarIds(0) <span class="arrow-sample">→</span> []
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">generarIds</span>(cantidad) {
+  <span class="kw">let</span> ids = [];
+  <span class="kw">let</span> id = 1;
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; cantidad; i++) {
+    ids.push(id++);
+  }
+  <span class="kw">return</span> ids;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="generarIds">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🟡 <code>aplicaDescuento(precio, esVIP, tieneCupon)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Hay descuento si el precio supera 50€ <strong>y además</strong> el cliente es VIP <strong>o</strong> tiene cupón.</p>
+          <div class="ex-samples">
+            aplicaDescuento(80, <span class="kw">true</span>, <span class="kw">false</span>) <span class="arrow-sample">→</span> <span class="kw">true</span><br>
+            aplicaDescuento(80, <span class="kw">false</span>, <span class="kw">false</span>) <span class="arrow-sample">→</span> <span class="kw">false</span><br>
+            aplicaDescuento(30, <span class="kw">true</span>, <span class="kw">true</span>) <span class="arrow-sample">→</span> <span class="kw">false</span> <span class="cmt">// no llega a 50€</span>
+          </div>
+          <p style="color:#eab308;font-size:.82rem;margin-bottom:.5rem;">💡 sin paréntesis, <code>&&</code> tiene más precedencia que <code>||</code> y el resultado cambia</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">aplicaDescuento</span>(precio, esVIP, tieneCupon) {
+  <span class="kw">return</span> precio &gt; 50 && (esVIP || tieneCupon);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="aplicaDescuento">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E11 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🔴 <code>leerConfiguracion(json)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Parsea un string de configuración. Si el JSON es inválido, no dejes que reviente en silencio: lanzá un error propio con nombre <code>ConfiguracionInvalidaError</code>.</p>
+          <div class="ex-samples">
+            leerConfiguracion(<span class="str">'{"tema":"oscuro"}'</span>) <span class="arrow-sample">→</span> { tema: <span class="str">"oscuro"</span> }<br>
+            leerConfiguracion(<span class="str">'{tema:oscuro}'</span>) <span class="arrow-sample">→</span> lanza <span class="fn">ConfiguracionInvalidaError</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">class</span> <span class="fn">ConfiguracionInvalidaError</span> <span class="kw">extends</span> Error {
+  <span class="kw">constructor</span>(mensaje) {
+    <span class="kw">super</span>(mensaje);
+    <span class="kw">this</span>.name = <span class="str">"ConfiguracionInvalidaError"</span>;
+  }
+}
+
+<span class="kw">function</span> <span class="fn">leerConfiguracion</span>(json) {
+  <span class="kw">try</span> {
+    <span class="kw">return</span> JSON.parse(json);
+  } <span class="kw">catch</span> (error) {
+    <span class="kw">throw</span> <span class="kw">new</span> ConfiguracionInvalidaError(<span class="str">"El JSON de configuración no es válido"</span>);
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="leerConfiguracion">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E12 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">12</span> 🔴 <code>class ProductoDigital extends Producto</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un <code>Producto</code> tiene <code>nombre</code>, <code>precio</code> y un método <code>descripcion()</code>. Un <code>ProductoDigital</code> es un producto que además tiene <code>urlDescarga</code>, y su descripción menciona que es digital.</p>
+          <div class="ex-samples">
+            <span class="kw">const</span> ebook = <span class="kw">new</span> ProductoDigital(<span class="str">"Curso JS"</span>, 20, <span class="str">"/descargas/curso-js"</span>);<br>
+            ebook.descripcion() <span class="arrow-sample">→</span> <span class="str">"Curso JS — 20€ (descarga digital)"</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">class</span> <span class="fn">Producto</span> {
+  <span class="kw">constructor</span>(nombre, precio) {
+    <span class="kw">this</span>.nombre = nombre;
+    <span class="kw">this</span>.precio = precio;
+  }
+  <span class="fn">descripcion</span>() {
+    <span class="kw">return</span> <span class="kw">this</span>.nombre + <span class="str">" — "</span> + <span class="kw">this</span>.precio + <span class="str">"€"</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="fn">ProductoDigital</span> <span class="kw">extends</span> Producto {
+  <span class="kw">constructor</span>(nombre, precio, urlDescarga) {
+    <span class="kw">super</span>(nombre, precio);
+    <span class="kw">this</span>.urlDescarga = urlDescarga;
+  }
+  <span class="fn">descripcion</span>() {
+    <span class="kw">return</span> <span class="kw">super</span>.descripcion() + <span class="str">" (descarga digital)"</span>;
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="ProductoDigital">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
     <!-- SESIÓN 25/07/2026 -->
     <!-- ============================================= -->
-    <div class="exercise-card is-open">
+    <div class="exercise-card">
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>🏋️ 25/07/2026 — Sesión 1 <span style="font-size:.8rem;color:var(--text-muted);">(15 ejercicios)</span></h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
@@ -988,6 +1330,8 @@ function toggleSolution(btn) {
 }
 </script>
 
+<script src="conceptos-basicos-soluciones.js"></script>
+<script src="conceptos-basicos-runner.js"></script>
 <script src="../../nav.js"></script>
 
 </body>

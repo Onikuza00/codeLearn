@@ -16,6 +16,7 @@
 | [**Arquitectura**](arquitectura/) | Variables nativas, BEM, `@layer`, CSS Nesting | ✅ Completo |
 | [**Comportamiento**](comportamiento/) | Scroll Snap, text-wrap, interacciones | ✅ scroll-snap nuevo |
 | [**Animaciones**](animaciones/) | Transitions, `@keyframes`/`animation` | ✅ Completo |
+| [**Formularios**](formularios/) | `appearance`, select personalizado | ✅ select nuevo |
 
 ---
 

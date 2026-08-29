@@ -4,3 +4,4 @@ Documentación práctica de Claude Code: cómo usarlo bien más allá de "pedirl
 
 - [Claude Code in Action](01-claude-code-in-action/index.md) — curso oficial de Anthropic Academy, documentado y ampliado con ejemplos propios.
 - [Claude API](02-claude-api/index.md) — curso oficial de Anthropic Academy, integración de la Messages API en tu propio backend.
+- [Automatizaciones](03-automatizaciones/index.md) — registro real de hooks y automatizaciones aplicadas a este proyecto, no teoría de curso.

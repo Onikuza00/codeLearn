@@ -1,0 +1,20 @@
+[
+  {
+    "height": 178,
+    "weight": 72,
+    "goal": "Ganar masa muscular",
+    "restrictions": "Sin lactosa"
+  },
+  {
+    "height": 165,
+    "weight": 58,
+    "goal": "Mejorar la resistencia para un maratón",
+    "restrictions": "Vegetariana"
+  },
+  {
+    "height": 190,
+    "weight": 95,
+    "goal": "Perder grasa manteniendo la fuerza",
+    "restrictions": "Ninguna"
+  }
+]

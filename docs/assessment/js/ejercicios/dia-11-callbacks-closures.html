@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Día 11 — Callbacks + Closures — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-js); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-js); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open .exercise-card-body {
+      display: block;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-js-dim);
+      color: var(--accent-js);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-js-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-js-dim);
+      border: 1px solid var(--accent-js);
+      color: var(--accent-js);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-js);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🏋️ <span>Día 11 — Callbacks + Closures</span></h1>
+    <p class="subtitle">Cards plegables, solución oculta y un panel que ejecuta tu script <code>dia-11-callbacks-closures-soluciones.js</code>.</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ============================================= -->
+    <!-- DÍA 11/08/2026 — Callbacks + Closures -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 11/08/2026 — Día 11 · Callbacks + Closures</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>ejecutarSiPositivo(numero, callback)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Si <code>numero</code> es mayor que 0, ejecutá <code>callback(numero)</code> y devolvé su resultado. Si no, devolvé <code>null</code>.</p>
+          <p class="ex-explanation">Es el patrón base de un callback: no sabés qué hace la función que te pasan, solo la ejecutás en el momento correcto — <code>callback(numero)</code>, con paréntesis, nunca <code>callback</code> a secas.</p>
+          <div class="ex-samples">
+            ejecutarSiPositivo(5, n =&gt; n * 2) <span class="arrow-sample">→</span> 10<br>
+            ejecutarSiPositivo(-3, n =&gt; n * 2) <span class="arrow-sample">→</span> null
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">ejecutarSiPositivo</span>(numero, callback) {
+  <span class="kw">if</span> (numero &lt;= <span class="num">0</span>) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">return</span> callback(numero);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="ejecutarSiPositivo">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>repetir(n, callback)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Ejecutá <code>callback(i)</code> para cada <code>i</code> desde <code>0</code> hasta <code>n - 1</code>, y devolvé un array con todos los resultados.</p>
+          <p class="ex-explanation">Mismo resultado que <code>map</code>, pero armado a mano con un <code>for</code> — para ver que <code>map</code> no es magia: es exactamente esto, un loop que llama tu callback en cada vuelta y junta los resultados en un array nuevo.</p>
+          <div class="ex-samples">
+            repetir(3, i =&gt; i * i) <span class="arrow-sample">→</span> [0, 1, 4]<br>
+            repetir(0, i =&gt; i) <span class="arrow-sample">→</span> []
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">repetir</span>(n, callback) {
+  <span class="kw">const</span> resultado = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; n; i++) {
+    resultado.push(callback(i));
+  }
+  <span class="kw">return</span> resultado;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="repetir">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>crearContador()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devolvé una función que, cada vez que la llamás, incrementa un contador interno en 1 y devuelve el valor actualizado. Arranca en 0.</p>
+          <p class="ex-explanation">Es el ejemplo exacto de la teoría (demo en vivo de <a href="../../../js/01-basico/04-funciones/">Funciones</a>). El contador vive en el scope de <code>crearContador()</code> y la función que devolvés lo "recuerda" entre llamadas — eso es un closure.</p>
+          <div class="ex-samples">
+            const contar = crearContador();<br>
+            contar() <span class="arrow-sample">→</span> 1<br>
+            contar() <span class="arrow-sample">→</span> 2<br>
+            contar() <span class="arrow-sample">→</span> 3
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearContador</span>() {
+  <span class="kw">let</span> contador = <span class="num">0</span>;
+  <span class="kw">return</span> <span class="kw">function</span> () {
+    contador++;
+    <span class="kw">return</span> contador;
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearContador">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>crearContadorDesde(inicio)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Igual que <code>crearContador()</code>, pero el contador arranca en <code>inicio</code> en vez de 0.</p>
+          <p class="ex-explanation">El closure no solo recuerda variables declaradas ADENTRO de la función — también recuerda sus parámetros. <code>inicio</code> queda "capturado" igual que <code>contador</code> en el ejercicio anterior.</p>
+          <div class="ex-samples">
+            const contar = crearContadorDesde(10);<br>
+            contar() <span class="arrow-sample">→</span> 11<br>
+            contar() <span class="arrow-sample">→</span> 12
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearContadorDesde</span>(inicio) {
+  <span class="kw">let</span> contador = inicio;
+  <span class="kw">return</span> <span class="kw">function</span> () {
+    contador++;
+    <span class="kw">return</span> contador;
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearContadorDesde">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>crearMultiplicador(factor)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devolvé una función que reciba un número y lo multiplique por <code>factor</code>.</p>
+          <p class="ex-explanation">Patrón "función de fábrica" — como <code>crearSaludo(saludo)</code> de la teoría, pero configurando una operación matemática en vez de un texto.</p>
+          <div class="ex-samples">
+            const porTres = crearMultiplicador(3);<br>
+            porTres(4) <span class="arrow-sample">→</span> 12<br>
+            porTres(5) <span class="arrow-sample">→</span> 15
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearMultiplicador</span>(factor) {
+  <span class="kw">return</span> <span class="kw">function</span> (numero) {
+    <span class="kw">return</span> numero * factor;
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearMultiplicador">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 <code>crearAcumulador()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Devolvé una función que reciba un número, lo sume a un total interno (arranca en 0), y devuelva el total actualizado.</p>
+          <p class="ex-explanation">Mismo patrón que <code>crearContador</code>, pero acumulando el valor que le pasás en vez de sumar siempre 1 — conecta con <code>reduce</code> (Fallo 15, <code>GOTCHAS.md</code>): acá el acumulador vive "guardado" en el closure, en vez de pasar de vuelta en vuelta dentro de un solo loop.</p>
+          <div class="ex-samples">
+            const acumular = crearAcumulador();<br>
+            acumular(5) <span class="arrow-sample">→</span> 5<br>
+            acumular(3) <span class="arrow-sample">→</span> 8<br>
+            acumular(10) <span class="arrow-sample">→</span> 18
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">crearAcumulador</span>() {
+  <span class="kw">let</span> total = <span class="num">0</span>;
+  <span class="kw">return</span> <span class="kw">function</span> (numero) {
+    total += numero;
+    <span class="kw">return</span> total;
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="crearAcumulador">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Agosto 2026 · Día 11 — Callbacks + Closures
+    </div>
+  </div>
+</main>
+
+<script src="dia-11-callbacks-closures-soluciones.js"></script>
+<script src="dia-11-callbacks-closures-runner.js"></script>
+
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>

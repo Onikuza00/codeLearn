@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Día 19 — DOM — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-js); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-js); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open .exercise-card-body {
+      display: block;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-js-dim);
+      color: var(--accent-js);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-js-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-criterios-title {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: .3rem;
+    }
+    .ex-criterios {
+      list-style: none;
+      margin: 0 0 .75rem;
+      padding: .6rem .75rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: .82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .ex-criterios li {
+      position: relative;
+      padding-left: 1.4rem;
+    }
+    .ex-criterios li::before {
+      content: '\2610';
+      position: absolute;
+      left: 0;
+      color: var(--accent-js);
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-fixture {
+      display: none;
+    }
+    /* Zona demo: acá se inyecta el fixture Tailwind REAL (visible,
+       no solo como texto) y es contra ella que corre cada test. */
+    .ex-demo {
+      position: relative;
+      overflow: hidden;
+      contain: layout;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: #0f172a;
+      margin-bottom: .75rem;
+      min-height: 3rem;
+    }
+    .ex-demo--tall {
+      min-height: 220px;
+    }
+    .ex-demo-label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+      padding: .3rem .6rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-js-dim);
+      border: 1px solid var(--accent-js);
+      color: var(--accent-js);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-js);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-html-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(230, 126, 34, .12);
+      border: 1px solid #e67e22;
+      color: #e67e22;
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+      margin-right: .5rem;
+    }
+    .ex-html-btn:hover {
+      background: #e67e22;
+      color: #fff;
+    }
+    .ex-html {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-html.is-visible {
+      display: block;
+    }
+    .ex-html pre {
+      background: #0a0a0a !important;
+      color: #f0b27a !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+      white-space: pre-wrap;
+    }
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🧩 <span>DOM</span></h1>
+    <p class="subtitle">Ejercicios prácticos de DOM — casos web reales (selección, manipulación, eventos, formularios)</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ============================================= -->
+    <!-- 23/08 — REFUERZO 2 · REINCIDENCIAS (10 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🔁 Refuerzo 2 — Reincidencias <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>10</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> <code>validarPrecioEnRango(inputPrecio, spanError)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">El alta de producto tiene un campo de precio y una línea de error justo debajo. Cada vez que se revisa el campo, el precio solo se admite si cae dentro del rango permitido: desde 10 hasta 500, con los dos extremos incluidos. Si el precio queda fuera, el usuario lee el motivo bajo el campo y el navegador tiene que dar el campo por no válido con ese mismo texto. Si el precio entra en el rango, el aviso desaparece y el campo vuelve a darse por bueno, aunque en la revisión anterior estuviera marcado como no válido.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — la función recibe el campo <code>#precio-s1</code> y el span <code>#error-precio-s1</code>. Con un precio fuera de rango, el texto del span no puede quedar vacío y el navegador tiene que dar el campo por no válido. Con un precio dentro de rango, el texto del span queda exactamente en cadena vacía y el navegador da el campo por válido. El test prueba 250, 9.5, 501, los dos extremos 10 y 500, y la secuencia 700 → 120 para comprobar que el campo se recupera.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>10 y 500 se admiten; 9.5 y 501 se rechazan.</li>
+            <li>Fuera de rango: el mensaje se ve en pantalla y el navegador da el campo por no válido con ese mismo texto.</li>
+            <li>Dentro de rango: el span queda en cadena vacía y el campo deja de estar marcado como no válido.</li>
+            <li>Pasar de un precio rechazado a uno correcto deja el formulario utilizable otra vez.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;form id="form-precio-s1" class="p-4 max-w-sm space-y-2" novalidate&gt;
+  &lt;label for="precio-s1" class="block text-sm font-medium text-slate-700"&gt;Precio de venta&lt;/label&gt;
+  &lt;div class="flex items-center gap-2"&gt;
+    &lt;input id="precio-s1" type="text" inputmode="decimal" placeholder="Entre 10 y 500" class="w-full border border-slate-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"&gt;
+    &lt;span class="text-sm font-medium text-slate-500"&gt;EUR&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span id="error-precio-s1" class="block text-xs text-red-600 min-h-[1rem]"&gt;&lt;/span&gt;
+&lt;/form&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribe un precio</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">validarPrecioEnRango</span>(inputPrecio, spanError) {
+  <span class="kw">const</span> precio = Number(inputPrecio.value);
+  <span class="kw">const</span> dentroDeRango = inputPrecio.value.trim() !== <span class="str">''</span> &amp;&amp; precio &gt;= <span class="num">10</span> &amp;&amp; precio &lt;= <span class="num">500</span>;
+
+  <span class="kw">if</span> (!dentroDeRango) {
+    spanError.textContent = <span class="str">'El precio debe estar entre 10 y 500 EUR'</span>;
+    inputPrecio.setCustomValidity(spanError.textContent);
+    <span class="kw">return</span>;
+  }
+
+  <span class="cmt">// Rama de limpieza: sin ella el campo se queda invalido para siempre.</span>
+  spanError.textContent = <span class="str">''</span>;
+  inputPrecio.setCustomValidity(<span class="str">''</span>);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarPrecioEnRango">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> <code>validarTelefonoExacto(inputTelefono, spanError)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">El mismo formulario pide un teléfono de contacto. Solo se admite si tiene exactamente 9 caracteres y todos ellos son dígitos: ni 8, ni 10, ni 9 caracteres con una letra colada. Cuando no cumple, el usuario lee el motivo bajo el campo y el navegador da el campo por no válido con ese mismo texto. Cuando cumple, el aviso desaparece y el campo vuelve a darse por bueno, aunque en el intento anterior estuviera marcado como no válido.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — la función recibe el campo <code>#tel-s2</code> y el span <code>#error-tel-s2</code>. El test prueba <code>600123456</code> (correcto), <code>60012345</code> (se queda corto), <code>6001234567</code> (se pasa de largo), <code>60012345X</code> (longitud correcta pero con letra) y la secuencia <code>12345678</code> → <code>911234567</code>. En los casos rechazados el span no puede quedar vacío y el navegador tiene que dar el campo por no válido; en el aceptado, el span queda en cadena vacía y el campo por válido.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>Solo pasa la longitud exacta de 9; 8 y 10 caracteres se rechazan igual.</li>
+            <li>9 caracteres con una letra dentro también se rechazan.</li>
+            <li>Rechazado: mensaje visible y campo no válido para el navegador, con ese mismo texto.</li>
+            <li>Aceptado: span en cadena vacía y campo válido, incluso viniendo de un intento rechazado.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;form id="form-tel-s2" class="p-4 max-w-sm space-y-2" novalidate&gt;
+  &lt;label for="tel-s2" class="block text-sm font-medium text-slate-700"&gt;Telefono de contacto&lt;/label&gt;
+  &lt;input id="tel-s2" type="text" placeholder="600123456" class="w-full border border-slate-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"&gt;
+  &lt;span id="error-tel-s2" class="block text-xs text-red-600 min-h-[1rem]"&gt;&lt;/span&gt;
+&lt;/form&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribe un teléfono</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">validarTelefonoExacto</span>(inputTelefono, spanError) {
+  <span class="kw">const</span> telefono = inputTelefono.value;
+  <span class="kw">const</span> esValido = telefono.length === <span class="num">9</span> &amp;&amp; telefono.trim() !== <span class="str">''</span> &amp;&amp; !isNaN(Number(telefono));
+
+  <span class="kw">if</span> (!esValido) {
+    spanError.textContent = <span class="str">'El telefono debe tener exactamente 9 digitos'</span>;
+    inputTelefono.setCustomValidity(spanError.textContent);
+    <span class="kw">return</span>;
+  }
+
+  spanError.textContent = <span class="str">''</span>;
+  inputTelefono.setCustomValidity(<span class="str">''</span>);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarTelefonoExacto">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> <code>activarContadorConTope(botonMas, botonMenos, spanCantidad, spanRestante, minimo, maximo)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un selector de unidades: dos botones, la cantidad actual y una línea que dice cuántas unidades quedan hasta el máximo. La cantidad nunca baja del mínimo ni pasa del máximo, por muchas veces que se pulse. Cada pulsación parte de la cantidad que hay EN ESE MOMENTO, aunque la haya cambiado otra parte de la página después de enganchar los botones. La cantidad vive a la vez como texto visible y como dato del propio elemento, y las dos versiones tienen que decir siempre lo mismo. La línea de restantes muestra siempre lo que falta para llegar al máximo.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el test llama a la función con <code>minimo = 1</code> y <code>maximo = 8</code>. Tras cada clic, <code>#cantidad-s3</code> tiene que tener la misma cifra en su texto y en su atributo <code>data-cantidad</code>, y <code>#restante-s3</code> tiene que mostrar <code>maximo - cantidad</code>. Todo como enteros pelados, sin decimales ni sufijos. El test comprueba 3 clics de subida, 20 clics seguidos contra el tope, 5 clics de bajada contra el suelo, una mezcla de subidas y bajadas, y un caso en el que la cantidad se cambia desde fuera entre dos clics.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>Con 20 clics de subida la cantidad se queda en 8 y los restantes en 0.</li>
+            <li>Con 5 clics de bajada desde 1 la cantidad se queda en 1.</li>
+            <li>Texto y <code>data-cantidad</code> nunca se desincronizan.</li>
+            <li>Si la cantidad cambia desde fuera, el siguiente clic parte de ese valor nuevo.</li>
+            <li>Los restantes siempre cuadran con la cantidad que se ve.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 max-w-sm"&gt;
+  &lt;div class="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between"&gt;
+    &lt;div&gt;
+      &lt;p class="text-sm font-semibold text-slate-800"&gt;Camiseta tecnica&lt;/p&gt;
+      &lt;p class="text-xs text-slate-500"&gt;Quedan &lt;span id="restante-s3" class="font-semibold text-slate-700"&gt;7&lt;/span&gt; antes del maximo&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="flex items-center gap-2 self-start sm:self-auto"&gt;
+      &lt;button id="menos-s3" type="button" aria-label="Quitar una unidad" class="h-8 w-8 rounded-full bg-slate-100 text-base font-bold text-slate-700 hover:bg-slate-200"&gt;-&lt;/button&gt;
+      &lt;span id="cantidad-s3" data-cantidad="1" class="w-8 text-center text-sm font-semibold text-slate-900"&gt;1&lt;/span&gt;
+      &lt;button id="mas-s3" type="button" aria-label="Anadir una unidad" class="h-8 w-8 rounded-full bg-slate-100 text-base font-bold text-slate-700 hover:bg-slate-200"&gt;+&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — mínimo 1, máximo 8</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarContadorConTope</span>(botonMas, botonMenos, spanCantidad, spanRestante, minimo, maximo) {
+  <span class="kw">const</span> <span class="fn">pintar</span> = (cantidad) =&gt; {
+    spanCantidad.dataset.cantidad = cantidad;
+    spanCantidad.textContent = cantidad;
+    spanRestante.textContent = maximo - cantidad;
+  };
+
+  botonMas.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="cmt">// Estado FRESCO en cada clic, y suma simple (nunca cantidad++).</span>
+    <span class="kw">const</span> cantidad = Number(spanCantidad.dataset.cantidad);
+    <span class="fn">pintar</span>(Math.min(maximo, cantidad + <span class="num">1</span>));
+  });
+
+  botonMenos.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> cantidad = Number(spanCantidad.dataset.cantidad);
+    <span class="fn">pintar</span>(Math.max(minimo, cantidad - <span class="num">1</span>));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarContadorConTope">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> <code>alternarDetalleAccesible(boton, detalle, flecha)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un bloque de detalles plegable: un botón con su flecha y el bloque de contenido. Cada clic invierte el estado — si estaba plegado se despliega, y al revés — y el clic cuenta igual si cae sobre el texto del botón o sobre la flecha. El estado accesible del botón, la visibilidad del bloque y el dibujo de la flecha van siempre a la vez, nunca uno por su lado. Y ojo: el estado de partida lo marca el HTML, no el número de clics que lleve dada la página; si el bloque llega ya desplegado, el primer clic lo pliega.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — desplegado significa: <code>aria-expanded</code> del botón en <code>"true"</code>, <code>#detalle-s4</code> sin la clase <code>hidden</code> y <code>#flecha-s4</code> con el texto <code>^</code>. Plegado significa: <code>aria-expanded</code> en <code>"false"</code>, <code>hidden</code> puesta y flecha con el texto <code>v</code>. El test comprueba las tres cosas a la vez tras 1, 2 y 3 clics, y además pone el bloque como desplegado desde fuera antes de un único clic para verificar que lo pliega.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>Un clic desde plegado deja las tres señales en estado desplegado.</li>
+            <li>Dos clics vuelven al estado inicial; tres, otra vez a desplegado.</li>
+            <li>El clic cuenta igual si cae en el texto o en la flecha.</li>
+            <li>Si el HTML llega ya desplegado, el primer clic pliega (el estado se lee del propio elemento).</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 max-w-sm"&gt;
+  &lt;div class="overflow-hidden rounded-lg border border-slate-200 bg-white"&gt;
+    &lt;button id="boton-detalle-s4" type="button" aria-expanded="false" aria-controls="detalle-s4" class="flex w-full items-center justify-between gap-2 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100"&gt;
+      &lt;span&gt;Detalles del envio&lt;/span&gt;
+      &lt;span id="flecha-s4" class="text-xs text-slate-500"&gt;v&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;div id="detalle-s4" class="hidden border-t border-slate-200 px-3 py-2 text-sm text-slate-600"&gt;
+      &lt;p&gt;Entrega estimada en 48 h laborables.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — pliega y despliega</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">alternarDetalleAccesible</span>(boton, detalle, flecha) {
+  boton.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="cmt">// getAttribute devuelve TEXTO: se compara contra el string exacto.</span>
+    <span class="kw">const</span> abierto = boton.getAttribute(<span class="str">'aria-expanded'</span>) === <span class="str">'false'</span>;
+
+    boton.setAttribute(<span class="str">'aria-expanded'</span>, String(abierto));
+    detalle.classList.toggle(<span class="str">'hidden'</span>, !abierto);
+    flecha.textContent = abierto ? <span class="str">'^'</span> : <span class="str">'v'</span>;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="alternarDetalleAccesible">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> <code>activarFiltroEtiquetas(zona)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una barra de etiquetas sobre una rejilla de artículos. Al pulsar una etiqueta, solo esa queda marcada como activa y en la rejilla solo se ven los artículos de esa etiqueta; la etiqueta «Todos» los devuelve todos a la vista. Pulsar dos veces seguidas la misma etiqueta tiene que dejar exactamente el mismo resultado que pulsarla una vez: el estado se recalcula entero en cada clic, no se invierte respecto al anterior. Un clic sobre un artículo o sobre el hueco de la barra no toca el filtro. El comportamiento se engancha una sola vez sobre la zona completa, no botón por botón.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — los botones son los <code>.filtro</code> y cada uno lleva su <code>data-etiqueta</code>; el activo (y solo él) lleva además la clase <code>filtro--activo</code>. Los artículos son los <code>.articulo</code> con su propio <code>data-etiqueta</code>, y ocultar uno es ponerle la clase <code>hidden</code>. El test revisa el array completo de artículos visibles y el array completo de botones activos tras: un clic en «JavaScript», dos clics seguidos en «JavaScript», un salto de «JavaScript» a «CSS», un paso por «Todos», y un clic sobre un artículo.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>Tras filtrar, solo se ven los artículos de esa etiqueta.</li>
+            <li>Solo un botón lleva <code>filtro--activo</code> en cada momento.</li>
+            <li>Dos clics seguidos en la misma etiqueta dan el mismo resultado que uno.</li>
+            <li>«Todos» devuelve los seis artículos a la vista.</li>
+            <li>Un clic que no cae en un botón de filtro no cambia nada.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="zona-filtros-s5" class="space-y-3 p-4"&gt;
+  &lt;div class="flex flex-wrap gap-2"&gt;
+    &lt;button type="button" class="filtro filtro--activo rounded-full border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100" data-etiqueta="todos"&gt;Todos&lt;/button&gt;
+    &lt;button type="button" class="filtro rounded-full border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100" data-etiqueta="css"&gt;CSS&lt;/button&gt;
+    &lt;button type="button" class="filtro rounded-full border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100" data-etiqueta="js"&gt;JavaScript&lt;/button&gt;
+    &lt;button type="button" class="filtro rounded-full border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100" data-etiqueta="dom"&gt;DOM&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="grid grid-cols-1 gap-2 sm:grid-cols-2"&gt;
+    &lt;article class="articulo rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-700 shadow-sm" data-etiqueta="css"&gt;Container queries&lt;/article&gt;
+    &lt;article class="articulo rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-700 shadow-sm" data-etiqueta="js"&gt;Closures&lt;/article&gt;
+    &lt;article class="articulo rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-700 shadow-sm" data-etiqueta="dom"&gt;Delegacion de eventos&lt;/article&gt;
+    &lt;article class="articulo rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-700 shadow-sm" data-etiqueta="js"&gt;Promesas&lt;/article&gt;
+    &lt;article class="articulo rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-700 shadow-sm" data-etiqueta="css"&gt;Cascada y capas&lt;/article&gt;
+    &lt;article class="articulo rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-700 shadow-sm" data-etiqueta="dom"&gt;dataset&lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — pulsa una etiqueta</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarFiltroEtiquetas</span>(zona) {
+  zona.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> boton = e.target.closest(<span class="str">'.filtro'</span>);
+    <span class="kw">if</span> (!boton) <span class="kw">return</span>;
+
+    <span class="kw">const</span> etiqueta = boton.dataset.etiqueta;
+
+    <span class="cmt">// Nombres de clase SIN punto, y con force para recalcular en cada clic.</span>
+    zona.querySelectorAll(<span class="str">'.filtro'</span>).forEach(x =&gt; {
+      x.classList.toggle(<span class="str">'filtro--activo'</span>, x === boton);
+    });
+
+    zona.querySelectorAll(<span class="str">'.articulo'</span>).forEach(x =&gt; {
+      <span class="kw">const</span> coincide = etiqueta === <span class="str">'todos'</span> || x.dataset.etiqueta === etiqueta;
+      x.classList.toggle(<span class="str">'hidden'</span>, !coincide);
+    });
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarFiltroEtiquetas">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> <code>filtrarUsuariosPorTexto(inputBusqueda, listaUsuarios, spanResultados)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un buscador sobre una lista de usuarios. A medida que se escribe, solo quedan a la vista los usuarios cuyo nombre o cuyo correo contengan el texto buscado, sin distinguir mayúsculas de minúsculas. Un contador encima dice cuántos se están viendo. Cada pulsación recalcula la lista entera desde cero: un usuario que se ocultó con la búsqueda anterior tiene que poder volver si la nueva le encaja, y un usuario que no encaja no puede quedarse visible solo porque el de arriba sí encajara. Con el campo vacío se ven los cinco.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — los usuarios son los <code>.usuario</code> de <code>#lista-usuarios-s6</code>, cada uno con su <code>data-nombre</code> y su <code>data-correo</code>; ocultar uno es ponerle la clase <code>hidden</code>. El contador es <code>#resultados-s6</code> y lleva como texto el número de usuarios visibles. El filtrado se dispara al escribir en el campo. El test revisa el array completo de visibles y el contador tras: <code>nur</code>, <code>lumen</code>, <code>MARTA</code>, la secuencia <code>nur</code> → <code>bru</code>, y la vuelta al campo vacío.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>Busca por nombre y por correo, y encuentra igual escribiendo en mayúsculas.</li>
+            <li>Un usuario del medio de la lista que coincida no arrastra a los de abajo.</li>
+            <li>Cambiar la búsqueda devuelve a la vista lo que ahora encaja y oculta lo que ya no.</li>
+            <li>El contador cuadra siempre con lo que se ve.</li>
+            <li>Campo vacío: los cinco usuarios visibles.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="space-y-3 p-4"&gt;
+  &lt;input id="buscar-usuario-s6" type="search" placeholder="Buscar por nombre o correo" class="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300"&gt;
+  &lt;p class="text-xs text-slate-500"&gt;&lt;span id="resultados-s6" class="font-semibold text-slate-700"&gt;5&lt;/span&gt; usuarios visibles&lt;/p&gt;
+  &lt;ul id="lista-usuarios-s6" class="divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white"&gt;
+    &lt;li class="usuario flex flex-col gap-0 p-2 text-sm sm:flex-row sm:items-center sm:justify-between" data-nombre="Marta Ruiz" data-correo="marta@vora.cat"&gt;&lt;span class="font-medium text-slate-800"&gt;Marta Ruiz&lt;/span&gt;&lt;span class="text-xs text-slate-500"&gt;marta@vora.cat&lt;/span&gt;&lt;/li&gt;
+    &lt;li class="usuario flex flex-col gap-0 p-2 text-sm sm:flex-row sm:items-center sm:justify-between" data-nombre="Andres Pena" data-correo="andres@lumen.io"&gt;&lt;span class="font-medium text-slate-800"&gt;Andres Pena&lt;/span&gt;&lt;span class="text-xs text-slate-500"&gt;andres@lumen.io&lt;/span&gt;&lt;/li&gt;
+    &lt;li class="usuario flex flex-col gap-0 p-2 text-sm sm:flex-row sm:items-center sm:justify-between" data-nombre="Nuria Sanz" data-correo="nuria@vora.cat"&gt;&lt;span class="font-medium text-slate-800"&gt;Nuria Sanz&lt;/span&gt;&lt;span class="text-xs text-slate-500"&gt;nuria@vora.cat&lt;/span&gt;&lt;/li&gt;
+    &lt;li class="usuario flex flex-col gap-0 p-2 text-sm sm:flex-row sm:items-center sm:justify-between" data-nombre="Bruno Gil" data-correo="bruno@lumen.io"&gt;&lt;span class="font-medium text-slate-800"&gt;Bruno Gil&lt;/span&gt;&lt;span class="text-xs text-slate-500"&gt;bruno@lumen.io&lt;/span&gt;&lt;/li&gt;
+    &lt;li class="usuario flex flex-col gap-0 p-2 text-sm sm:flex-row sm:items-center sm:justify-between" data-nombre="Clara Prat" data-correo="clara@atlas.dev"&gt;&lt;span class="font-medium text-slate-800"&gt;Clara Prat&lt;/span&gt;&lt;span class="text-xs text-slate-500"&gt;clara@atlas.dev&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribe en el buscador</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">filtrarUsuariosPorTexto</span>(inputBusqueda, listaUsuarios, spanResultados) {
+  inputBusqueda.addEventListener(<span class="str">'input'</span>, () =&gt; {
+    <span class="kw">const</span> texto = inputBusqueda.value.toLowerCase().trim();
+    <span class="kw">let</span> visibles = <span class="num">0</span>;
+
+    listaUsuarios.querySelectorAll(<span class="str">'.usuario'</span>).forEach(x =&gt; {
+      <span class="cmt">// coincide se calcula DENTRO: se reinicia en cada vuelta.</span>
+      <span class="kw">const</span> nombre = x.dataset.nombre.toLowerCase();
+      <span class="kw">const</span> correo = x.dataset.correo.toLowerCase();
+      <span class="kw">const</span> coincide = nombre.includes(texto) || correo.includes(texto);
+
+      x.classList.toggle(<span class="str">'hidden'</span>, !coincide);
+      <span class="kw">if</span> (coincide) visibles++;
+    });
+
+    spanResultados.textContent = visibles;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="filtrarUsuariosPorTexto">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> <code>sincronizarCheckMaestro(zona)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una lista de permisos con una casilla maestra arriba y cuatro casillas hijas. Marcar o desmarcar la maestra pone todas las hijas en ese mismo estado. Tocar una hija no cambia a las demás, pero la maestra tiene que quedar marcada solo cuando TODAS las hijas lo están, y desmarcarse en cuanto falte una. Debajo, un texto lleva la cuenta de cuántas hijas están marcadas ahora mismo. El comportamiento se engancha una sola vez sobre la zona completa, no casilla por casilla.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — la maestra es <code>#maestro-s7</code>, las hijas son los <code>.check-hijo</code> y la cuenta va como texto en <code>#estado-s7</code>. El test revisa el estado de las cuatro hijas, el de la maestra y la cuenta tras: marcar la maestra, desmarcarla, marcar las cuatro hijas una a una (la maestra tiene que acabar marcada), desmarcar una hija estando todo marcado (la maestra se cae, las otras hijas siguen igual) y desmarcar y volver a marcar la misma hija.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>La maestra fuerza el estado de las cuatro hijas.</li>
+            <li>Marcar las cuatro hijas a mano acaba marcando la maestra.</li>
+            <li>Quitar una sola hija desmarca la maestra sin tocar a las demás.</li>
+            <li>La cuenta refleja siempre las hijas marcadas en ese momento.</li>
+            <li>Cada rama saca su valor de su propia fuente: forzar lee el elemento real, contar arranca de cero.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 max-w-sm"&gt;
+  &lt;fieldset id="zona-permisos-s7" class="space-y-2 rounded-lg border border-slate-200 bg-white p-3"&gt;
+    &lt;legend class="px-1 text-sm font-semibold text-slate-800"&gt;Permisos del rol&lt;/legend&gt;
+    &lt;label class="flex items-center gap-2 border-b border-slate-200 pb-2 text-sm font-semibold text-slate-800"&gt;
+      &lt;input id="maestro-s7" type="checkbox" class="h-4 w-4 accent-sky-600"&gt; Seleccionar todos
+    &lt;/label&gt;
+    &lt;label class="flex items-center gap-2 text-sm text-slate-700"&gt;&lt;input type="checkbox" class="check-hijo h-4 w-4 accent-sky-600" value="leer"&gt; Leer&lt;/label&gt;
+    &lt;label class="flex items-center gap-2 text-sm text-slate-700"&gt;&lt;input type="checkbox" class="check-hijo h-4 w-4 accent-sky-600" value="escribir"&gt; Escribir&lt;/label&gt;
+    &lt;label class="flex items-center gap-2 text-sm text-slate-700"&gt;&lt;input type="checkbox" class="check-hijo h-4 w-4 accent-sky-600" value="borrar"&gt; Borrar&lt;/label&gt;
+    &lt;label class="flex items-center gap-2 text-sm text-slate-700"&gt;&lt;input type="checkbox" class="check-hijo h-4 w-4 accent-sky-600" value="publicar"&gt; Publicar&lt;/label&gt;
+    &lt;p class="pt-1 text-xs text-slate-500"&gt;&lt;span id="estado-s7" class="font-semibold text-slate-700"&gt;0&lt;/span&gt; de 4 seleccionados&lt;/p&gt;
+  &lt;/fieldset&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — marca y desmarca permisos</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sincronizarCheckMaestro</span>(zona) {
+  <span class="kw">const</span> maestro = zona.querySelector(<span class="str">'#maestro-s7'</span>);
+  <span class="kw">const</span> estado = zona.querySelector(<span class="str">'#estado-s7'</span>);
+
+  zona.addEventListener(<span class="str">'change'</span>, (e) =&gt; {
+    <span class="kw">const</span> hijos = zona.querySelectorAll(<span class="str">'.check-hijo'</span>);
+
+    <span class="kw">if</span> (e.target === maestro) {
+      <span class="cmt">// Forzar: se lee el elemento real, no una variable heredada.</span>
+      hijos.forEach(x =&gt; { x.checked = maestro.checked; });
+    } <span class="kw">else</span> {
+      <span class="cmt">// Acumular: variable local que arranca en su valor NEUTRO.</span>
+      <span class="kw">let</span> todasMarcadas = <span class="kw">true</span>;
+      hijos.forEach(x =&gt; { <span class="kw">if</span> (!x.checked) todasMarcadas = <span class="kw">false</span>; });
+      maestro.checked = todasMarcadas;
+    }
+
+    <span class="kw">let</span> marcadas = <span class="num">0</span>;
+    hijos.forEach(x =&gt; { <span class="kw">if</span> (x.checked) marcadas++; });
+    estado.textContent = marcadas;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="sincronizarCheckMaestro">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> <code>marcarPestanaActiva(barraPestanas, contenedorPaneles)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un juego de pestañas con sus paneles. Al pulsar una pestaña —da igual si el clic cae sobre su icono o sobre su texto— esa pestaña queda como la activa y las demás dejan de estarlo, y a la vez se ve solo el panel que le corresponde. Un clic dentro de la barra que no caiga sobre una pestaña, por ejemplo sobre el contador de secciones de la derecha, no cambia nada. Pulsar dos veces la pestaña que ya está activa la deja exactamente igual. El comportamiento se engancha una sola vez sobre la barra, no pestaña por pestaña.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — las pestañas son los <code>.pestana</code> de <code>#barra-pestanas-s8</code>, cada una con su <code>data-panel</code>; la activa (y solo ella) lleva la clase <code>pestana--activa</code> y su <code>aria-selected</code> queda en <code>"true"</code>, mientras que el de las demás queda en <code>"false"</code>. Los paneles son los <code>.panel-pestana</code> de <code>#paneles-s8</code>, emparejados por <code>data-panel</code>: el que no toca lleva la clase <code>hidden</code>. El test revisa los arrays completos de pestañas activas, de <code>aria-selected</code> y de paneles visibles.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>El clic vale igual sobre el icono o sobre el texto de la pestaña.</li>
+            <li>Solo una pestaña activa y solo un panel visible en cada momento.</li>
+            <li>Los <code>aria-selected</code> de las tres pestañas quedan coherentes tras cada cambio.</li>
+            <li>Un clic en la barra fuera de las pestañas no cambia nada.</li>
+            <li>Repetir el clic en la pestaña ya activa la deja igual.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="space-y-3 p-4"&gt;
+  &lt;div id="barra-pestanas-s8" role="tablist" class="flex flex-wrap items-center gap-1 border-b border-slate-200"&gt;
+    &lt;button type="button" role="tab" aria-selected="true" data-panel="resumen" class="pestana pestana--activa flex items-center gap-1 px-3 py-2 text-sm text-slate-700 hover:text-slate-900"&gt;&lt;span&gt;#&lt;/span&gt;&lt;span&gt;Resumen&lt;/span&gt;&lt;/button&gt;
+    &lt;button type="button" role="tab" aria-selected="false" data-panel="pagos" class="pestana flex items-center gap-1 px-3 py-2 text-sm text-slate-700 hover:text-slate-900"&gt;&lt;span&gt;#&lt;/span&gt;&lt;span&gt;Pagos&lt;/span&gt;&lt;/button&gt;
+    &lt;button type="button" role="tab" aria-selected="false" data-panel="envios" class="pestana flex items-center gap-1 px-3 py-2 text-sm text-slate-700 hover:text-slate-900"&gt;&lt;span&gt;#&lt;/span&gt;&lt;span&gt;Envios&lt;/span&gt;&lt;/button&gt;
+    &lt;span id="separador-s8" class="ml-auto pr-2 text-xs text-slate-400"&gt;3 secciones&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div id="paneles-s8"&gt;
+    &lt;section class="panel-pestana rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-700" data-panel="resumen"&gt;Pedido en preparacion.&lt;/section&gt;
+    &lt;section class="panel-pestana hidden rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-700" data-panel="pagos"&gt;Pagado con tarjeta.&lt;/section&gt;
+    &lt;section class="panel-pestana hidden rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-700" data-panel="envios"&gt;Sale manana por la tarde.&lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — cambia de pestaña</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">marcarPestanaActiva</span>(barraPestanas, contenedorPaneles) {
+  barraPestanas.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> elegida = e.target.closest(<span class="str">'.pestana'</span>);
+    <span class="kw">if</span> (!elegida) <span class="kw">return</span>;
+
+    <span class="cmt">// El metodo se llama sobre x (la vuelta actual), no sobre elegida.</span>
+    barraPestanas.querySelectorAll(<span class="str">'.pestana'</span>).forEach(x =&gt; {
+      x.classList.toggle(<span class="str">'pestana--activa'</span>, x === elegida);
+      x.setAttribute(<span class="str">'aria-selected'</span>, String(x === elegida));
+    });
+
+    contenedorPaneles.querySelectorAll(<span class="str">'.panel-pestana'</span>).forEach(x =&gt; {
+      x.classList.toggle(<span class="str">'hidden'</span>, x.dataset.panel !== elegida.dataset.panel);
+    });
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="marcarPestanaActiva">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> <code>activarPopoverConCierreFuera(boton, popover)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un botón «Opciones» que abre un panel flotante. El panel se abre al pulsar el botón y se cierra en cuanto se hace clic en cualquier punto de la página que no sea ni el botón ni el propio panel. Un clic DENTRO del panel —por ejemplo, sobre su acción «Duplicar pedido»— no lo cierra. Después de cerrarse por un clic fuera, el botón lo tiene que poder volver a abrir. Y con el panel ya cerrado, un clic fuera no rompe nada: se queda cerrado.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el panel es <code>#popover-s9</code> y estar cerrado es llevar la clase <code>hidden</code>; el <code>aria-expanded</code> del botón <code>#btn-popover-s9</code> queda en <code>"true"</code> con el panel abierto y en <code>"false"</code> con el panel cerrado. El test comprueba clase y atributo a la vez tras: abrir, hacer clic en la acción de dentro del panel, hacer clic en un texto anidado de fuera, reabrir después de haber cerrado, y hacer clic fuera con el panel ya cerrado. Los clics de fuera se disparan tanto sobre el elemento como sobre <code>window</code>, así que da igual dónde se escuche.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>El botón abre el panel y deja <code>aria-expanded</code> en <code>"true"</code>.</li>
+            <li>Un clic dentro del panel no lo cierra.</li>
+            <li>Un clic en cualquier otro punto de la página lo cierra y deja <code>aria-expanded</code> en <code>"false"</code>.</li>
+            <li>Tras cerrarse por un clic fuera, el botón lo vuelve a abrir.</li>
+            <li>Con el panel cerrado, un clic fuera lo deja cerrado.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="relative space-y-3 p-4"&gt;
+  &lt;button id="btn-popover-s9" type="button" aria-expanded="false" class="rounded bg-sky-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-sky-700"&gt;Opciones&lt;/button&gt;
+  &lt;div id="popover-s9" class="hidden w-56 space-y-1 rounded-lg border border-slate-200 bg-white p-2 shadow-lg"&gt;
+    &lt;p class="px-1 text-xs font-semibold uppercase tracking-wide text-slate-500"&gt;Acciones&lt;/p&gt;
+    &lt;button id="accion-popover-s9" type="button" class="w-full rounded px-2 py-1 text-left text-sm text-slate-700 hover:bg-slate-100"&gt;Duplicar pedido&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p id="fuera-s9" class="text-sm text-slate-500"&gt;Resto de la pagina &lt;span id="fuera-anidado-s9" class="underline"&gt;con contenido anidado&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — abre y haz clic fuera</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarPopoverConCierreFuera</span>(boton, popover) {
+  boton.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    popover.classList.remove(<span class="str">'hidden'</span>);
+    boton.setAttribute(<span class="str">'aria-expanded'</span>, <span class="str">'true'</span>);
+  });
+
+  document.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="cmt">// Element.contains(nodo): pregunta si ese NODO esta dentro.</span>
+    <span class="kw">if</span> (boton.contains(e.target) || popover.contains(e.target)) <span class="kw">return</span>;
+
+    popover.classList.add(<span class="str">'hidden'</span>);
+    boton.setAttribute(<span class="str">'aria-expanded'</span>, <span class="str">'false'</span>);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarPopoverConCierreFuera">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> <code>cerrarNotificacionesYContar(zona)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un panel de facturas pendientes. Cada factura trae su botón de descartar: al pulsarlo desaparece ESA factura y solo esa — descartar una nunca puede devolver a la vista otra ya descartada. La cabecera lleva dos cifras vivas: cuántas facturas siguen abiertas y la suma de sus importes. Y hay un aviso que solo se ve mientras el importe pendiente es menor que 100; con 100 justo no se ve. Volver a pulsar el botón de una factura ya descartada no descuenta otra vez. Un clic sobre el texto de una factura no descarta nada. El comportamiento se engancha una sola vez sobre la zona completa, no factura por factura.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — las facturas son los <code>.notificacion</code> de <code>#zona-notif-s10</code>, cada una con su <code>data-importe</code>, y sus botones llevan la clase <code>btn-descartar</code>; descartar una es ponerle la clase <code>hidden</code>. El número de facturas abiertas va como texto en <code>#contador-notif-s10</code> y la suma de sus importes en <code>#total-notif-s10</code>, siempre como enteros pelados y sin símbolo. El aviso <code>#aviso-limite-s10</code> pierde la clase <code>hidden</code> mientras el importe pendiente sea menor que 100 y la recupera en cuanto no lo sea.</p>
+          <p class="ex-criterios-title">Criterios de aceptación</p>
+          <ul class="ex-criterios">
+            <li>Descartar una factura oculta esa y deja al resto como estaban.</li>
+            <li>Descartar dos facturas seguidas deja las dos ocultas.</li>
+            <li>Contador y total cuadran siempre con las facturas que se ven.</li>
+            <li>Con 100 justo el aviso no se ve; con 85 o con 70, sí.</li>
+            <li>Pulsar dos veces el mismo botón no descuenta dos veces, y un clic en el texto no descarta nada.</li>
+          </ul>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;section id="zona-notif-s10" class="space-y-2 p-4"&gt;
+  &lt;header class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"&gt;
+    &lt;p class="text-sm font-semibold text-slate-800"&gt;Facturas pendientes&lt;/p&gt;
+    &lt;p class="text-xs text-slate-500"&gt;&lt;span id="contador-notif-s10" class="font-semibold text-slate-700"&gt;4&lt;/span&gt; abiertas · &lt;span id="total-notif-s10" class="font-semibold text-slate-700"&gt;130&lt;/span&gt; EUR&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;p id="aviso-limite-s10" class="hidden rounded border border-emerald-200 bg-emerald-50 px-2 py-1 text-xs text-emerald-700"&gt;Importe pendiente por debajo de 100 EUR&lt;/p&gt;
+  &lt;article class="notificacion flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm" data-importe="60"&gt;&lt;span class="text-slate-700"&gt;Factura F-101 · 60 EUR&lt;/span&gt;&lt;button type="button" class="btn-descartar px-2 font-bold text-slate-400 hover:text-slate-700" aria-label="Descartar factura F-101"&gt;x&lt;/button&gt;&lt;/article&gt;
+  &lt;article class="notificacion flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm" data-importe="30"&gt;&lt;span class="text-slate-700"&gt;Factura F-102 · 30 EUR&lt;/span&gt;&lt;button type="button" class="btn-descartar px-2 font-bold text-slate-400 hover:text-slate-700" aria-label="Descartar factura F-102"&gt;x&lt;/button&gt;&lt;/article&gt;
+  &lt;article class="notificacion flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm" data-importe="25"&gt;&lt;span class="text-slate-700"&gt;Factura F-103 · 25 EUR&lt;/span&gt;&lt;button type="button" class="btn-descartar px-2 font-bold text-slate-400 hover:text-slate-700" aria-label="Descartar factura F-103"&gt;x&lt;/button&gt;&lt;/article&gt;
+  &lt;article class="notificacion flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm" data-importe="15"&gt;&lt;span class="text-slate-700"&gt;Factura F-104 · 15 EUR&lt;/span&gt;&lt;button type="button" class="btn-descartar px-2 font-bold text-slate-400 hover:text-slate-700" aria-label="Descartar factura F-104"&gt;x&lt;/button&gt;&lt;/article&gt;
+&lt;/section&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — descarta facturas</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">cerrarNotificacionesYContar</span>(zona) {
+  <span class="kw">const</span> contador = zona.querySelector(<span class="str">'#contador-notif-s10'</span>);
+  <span class="kw">const</span> total = zona.querySelector(<span class="str">'#total-notif-s10'</span>);
+  <span class="kw">const</span> aviso = zona.querySelector(<span class="str">'#aviso-limite-s10'</span>);
+
+  zona.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> boton = e.target.closest(<span class="str">'.btn-descartar'</span>);
+    <span class="kw">if</span> (!boton) <span class="kw">return</span>;
+
+    <span class="cmt">// Cierre INDEPENDIENTE: se toca solo la factura pulsada.</span>
+    boton.closest(<span class="str">'.notificacion'</span>).classList.add(<span class="str">'hidden'</span>);
+
+    <span class="kw">let</span> abiertas = <span class="num">0</span>;
+    <span class="kw">let</span> importe = <span class="num">0</span>;
+    zona.querySelectorAll(<span class="str">'.notificacion'</span>).forEach(x =&gt; {
+      <span class="kw">if</span> (x.classList.contains(<span class="str">'hidden'</span>)) <span class="kw">return</span>;
+      abiertas++;
+      importe += Number(x.dataset.importe); <span class="cmt">// el VALOR, no el elemento</span>
+    });
+
+    contador.textContent = abiertas;
+    total.textContent = importe;
+    aviso.classList.toggle(<span class="str">'hidden'</span>, !(importe &lt; <span class="num">100</span>));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="cerrarNotificacionesYContar">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- 23/08 — REFUERZO DOM (10 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>💪 23/08 — Refuerzo DOM <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>10</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> <code>resaltarFilaSeleccionada(tabla)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una tabla de pedidos en la que cada fila del cuerpo representa un cliente. Al hacer clic en cualquier punto de una fila —sobre el texto de una celda o sobre la etiqueta de color que va dentro de una de ellas— esa fila, y solo esa, queda marcada como seleccionada; cualquier otra fila que estuviera marcada deja de estarlo. Un clic fuera de las filas de datos, por ejemplo en la cabecera de la tabla, no cambia nada. El comportamiento se engancha una sola vez sobre la tabla completa, no fila por fila.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — las filas de datos son los elementos con la clase <code>fila-tabla</code>; la fila seleccionada (y solo ella) lleva además la clase <code>fila--activa</code>, y el resto no la lleva. El test hace clic sobre una celda normal, sobre la etiqueta anidada <code>span.etiqueta-estado</code> que hay dentro de una celda, sobre una segunda fila para comprobar que la primera pierde la marca, y sobre la celda de cabecera <code>#cabecera-r1</code> para comprobar que la selección previa se mantiene intacta.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;table id="tabla-filas-r1" class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden"&gt;
+  &lt;thead class="bg-slate-100"&gt;
+    &lt;tr&gt;
+      &lt;th id="cabecera-r1" class="p-2 text-left"&gt;Cliente&lt;/th&gt;
+      &lt;th class="p-2 text-left"&gt;Estado&lt;/th&gt;
+      &lt;th class="p-2 text-left"&gt;Total&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr class="fila-tabla border-t" data-cliente="Ana"&gt;&lt;td class="p-2"&gt;Ana Ruiz&lt;/td&gt;&lt;td class="p-2"&gt;&lt;span class="etiqueta-estado text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"&gt;Pagado&lt;/span&gt;&lt;/td&gt;&lt;td class="p-2"&gt;48.00€&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr class="fila-tabla border-t" data-cliente="Luis"&gt;&lt;td class="p-2"&gt;Luis Mora&lt;/td&gt;&lt;td class="p-2"&gt;&lt;span class="etiqueta-estado text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full"&gt;Pendiente&lt;/span&gt;&lt;/td&gt;&lt;td class="p-2"&gt;120.50€&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr class="fila-tabla border-t" data-cliente="Eva"&gt;&lt;td class="p-2"&gt;Eva Gil&lt;/td&gt;&lt;td class="p-2"&gt;&lt;span class="etiqueta-estado text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"&gt;Pagado&lt;/span&gt;&lt;/td&gt;&lt;td class="p-2"&gt;9.90€&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr class="fila-tabla border-t" data-cliente="Marc"&gt;&lt;td class="p-2"&gt;Marc Vidal&lt;/td&gt;&lt;td class="p-2"&gt;&lt;span class="etiqueta-estado text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full"&gt;Anulado&lt;/span&gt;&lt;/td&gt;&lt;td class="p-2"&gt;33.00€&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — haz clic en una fila</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">resaltarFilaSeleccionada</span>(tabla) {
+  tabla.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> filaClicada = e.target.closest(<span class="str">'.fila-tabla'</span>);
+    <span class="kw">if</span> (!filaClicada) <span class="kw">return</span>;
+
+    tabla.querySelectorAll(<span class="str">'.fila-tabla'</span>).forEach(fila =&gt; {
+      fila.classList.toggle(<span class="str">'fila--activa'</span>, fila === filaClicada);
+    });
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="resaltarFilaSeleccionada">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> <code>sincronizarInterruptorTema(boton, panel)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un botón alterna el modo oscuro de un panel: cada clic lo activa si estaba apagado y lo apaga si estaba encendido. El estado accesible del botón tiene que reflejar SIEMPRE si el modo está activo o no, aguantando varios clics seguidos sin desincronizarse del panel.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — con el modo activo el panel lleva la clase <code>tema-oscuro</code>, y sin él no la lleva. El atributo <code>aria-pressed</code> del botón queda en el string <code>"true"</code> cuando el modo está activo y en el string <code>"false"</code> cuando no lo está. El test comprueba clase Y <code>aria-pressed</code> a la vez tras 1, 2 y 3 clics.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 space-y-3 max-w-xs"&gt;
+  &lt;button id="btn-tema-r2" aria-pressed="false" class="bg-slate-200 px-3 py-1 rounded text-sm font-medium"&gt;Modo oscuro&lt;/button&gt;
+  &lt;div id="panel-tema-r2" class="p-4 rounded border bg-white text-slate-800 text-sm"&gt;Contenido del panel&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — pulsa el botón</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">sincronizarInterruptorTema</span>(boton, panel) {
+  boton.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> modoActivo = panel.classList.toggle(<span class="str">'tema-oscuro'</span>);
+    boton.setAttribute(<span class="str">'aria-pressed'</span>, String(modoActivo));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="sincronizarInterruptorTema">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> <code>activarCierreAvisos(zona)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una zona de avisos que muestra cuántos siguen activos. Cada aviso tiene su propio botón de cerrar: al pulsarlo, ese aviso desaparece de la vista y el número de avisos que quedan visibles se actualiza en pantalla. Volver a pulsar el botón de un aviso ya cerrado no debe descontar otra vez. Un clic en cualquier otro punto de un aviso que no sea su botón de cerrar no cierra nada. El comportamiento se engancha una sola vez sobre la zona completa, no aviso por aviso.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — los avisos son los elementos con la clase <code>aviso</code> y sus botones de cerrar llevan la clase <code>btn-cerrar</code>; ocultar un aviso es añadirle la clase <code>hidden</code>. El número de avisos que siguen visibles queda a la vez como texto dentro del span <code>#contador-avisos-r3</code> y en el atributo <code>data-restantes</code> de la zona <code>#zona-avisos-r3</code>, siempre como número entero. El test comprueba texto y atributo tras cerrar uno, tras cerrarlos los tres, tras pulsar dos veces el mismo botón, y tras un clic sobre un aviso que no cae en su botón de cerrar.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="zona-avisos-r3" class="p-4 space-y-2" data-restantes="3"&gt;
+  &lt;p class="text-sm text-slate-600"&gt;Avisos activos: &lt;span id="contador-avisos-r3" class="font-semibold"&gt;3&lt;/span&gt;&lt;/p&gt;
+  &lt;div class="aviso flex justify-between items-center bg-amber-50 border border-amber-200 rounded p-2 text-sm"&gt;Servidor reiniciado &lt;button class="btn-cerrar text-amber-700 font-bold px-2"&gt;✕&lt;/button&gt;&lt;/div&gt;
+  &lt;div class="aviso flex justify-between items-center bg-amber-50 border border-amber-200 rounded p-2 text-sm"&gt;Copia de seguridad pendiente &lt;button class="btn-cerrar text-amber-700 font-bold px-2"&gt;✕&lt;/button&gt;&lt;/div&gt;
+  &lt;div class="aviso flex justify-between items-center bg-amber-50 border border-amber-200 rounded p-2 text-sm"&gt;Certificado a punto de caducar &lt;button class="btn-cerrar text-amber-700 font-bold px-2"&gt;✕&lt;/button&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — cierra avisos</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarCierreAvisos</span>(zona) {
+  <span class="kw">const</span> contador = zona.querySelector(<span class="str">'#contador-avisos-r3'</span>);
+
+  zona.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> boton = e.target.closest(<span class="str">'.btn-cerrar'</span>);
+    <span class="kw">if</span> (!boton) <span class="kw">return</span>;
+
+    boton.closest(<span class="str">'.aviso'</span>).classList.add(<span class="str">'hidden'</span>);
+
+    <span class="cmt">// El estado se lee fresco del DOM en cada clic, nunca de una variable propia.</span>
+    <span class="kw">const</span> restantes = zona.querySelectorAll(<span class="str">'.aviso:not(.hidden)'</span>).length;
+    contador.textContent = restantes;
+    zona.dataset.restantes = restantes;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarCierreAvisos">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> <code>ajustarTemperatura(botonSubir, botonBajar, spanValor, minimo, maximo)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un termostato con un botón para subir y otro para bajar. Cada clic cambia la temperatura en un grado, pero nunca puede superar el máximo ni bajar del mínimo (los dos llegan como parámetros). Al intentar pasarse de cualquiera de los dos límites, el valor se queda clavado en el límite en vez de seguir cambiando. Alternar entre subir y bajar tiene que avanzar de verdad, no quedarse siempre en el mismo número.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el valor queda a la vez como texto dentro del span <code>#temp-r4</code> y en su atributo <code>data-temperatura</code>, siempre como número entero, sin decimales ni unidades. El test llama a la función con <code>minimo = 15</code> y <code>maximo = 25</code> partiendo de 20, y comprueba texto y atributo a la vez tras 3 clics de subir (23), tras 10 clics de subir (25), tras 10 clics de bajar (15) y tras la secuencia subir-subir-bajar-subir (22).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="flex items-center gap-3 p-4 w-fit border rounded-lg"&gt;
+  &lt;button id="bajar-temp-r4" class="w-8 h-8 rounded bg-sky-100 text-sky-700 font-bold"&gt;−&lt;/button&gt;
+  &lt;span id="temp-r4" class="w-12 text-center font-semibold text-lg" data-temperatura="20"&gt;20&lt;/span&gt;
+  &lt;button id="subir-temp-r4" class="w-8 h-8 rounded bg-rose-100 text-rose-700 font-bold"&gt;+&lt;/button&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — límites 15 y 25</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">ajustarTemperatura</span>(botonSubir, botonBajar, spanValor, minimo, maximo) {
+  <span class="kw">const</span> escribir = (grados) =&gt; {
+    spanValor.textContent = grados;
+    spanValor.dataset.temperatura = grados;
+  };
+
+  botonSubir.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> actual = Number(spanValor.dataset.temperatura);
+    escribir(Math.min(maximo, actual + <span class="num">1</span>));
+  });
+
+  botonBajar.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> actual = Number(spanValor.dataset.temperatura);
+    escribir(Math.max(minimo, actual - <span class="num">1</span>));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="ajustarTemperatura">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> <code>validarCodigoPostal(inputCodigo, spanError)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un campo de código postal solo acepta un valor de exactamente cinco caracteres en el que además todos sean dígitos. Si lo escrito no cumple las dos condiciones a la vez, el campo queda marcado como no válido con un mensaje claro y ese mismo mensaje aparece en el span de error de al lado. Si el valor es correcto, el campo tiene que quedar sin ningún error y el span vacío, venga del estado que venga. Esta función no engancha ningún evento: el test la llama directamente después de cambiar el valor del campo.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — <code>checkValidity()</code> sobre el campo devuelve <code>false</code> exactamente cuando el código no tiene 5 caracteres o alguno de ellos no es un dígito, y <code>true</code> cuando cumple las dos condiciones; el span de error queda vacío únicamente en el caso válido y con texto en cualquier caso inválido. El test prueba <code>"28001"</code> (válido), <code>"280"</code> (inválido), <code>"2800A"</code> (inválido) y la secuencia inválido → válido, en la que el campo tiene que recuperarse por completo.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="flex flex-col gap-1 p-4 max-w-xs"&gt;
+  &lt;label for="cp-r5" class="text-sm font-medium"&gt;Código postal&lt;/label&gt;
+  &lt;input id="cp-r5" type="text" class="border rounded px-2 py-1"&gt;
+  &lt;span id="error-cp-r5" class="text-xs text-red-500"&gt;&lt;/span&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribe en el campo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">validarCodigoPostal</span>(inputCodigo, spanError) {
+  <span class="kw">const</span> codigo = inputCodigo.value;
+  <span class="kw">const</span> esValido = codigo.length === <span class="num">5</span> &amp;&amp; <span class="str">/^\d+$/</span>.test(codigo);
+
+  <span class="kw">if</span> (!esValido) {
+    <span class="kw">const</span> mensaje = <span class="str">'El código postal debe tener 5 dígitos'</span>;
+    inputCodigo.setCustomValidity(mensaje);
+    spanError.textContent = mensaje;
+    <span class="kw">return</span>;
+  }
+
+  inputCodigo.setCustomValidity(<span class="str">''</span>);
+  spanError.textContent = <span class="str">''</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarCodigoPostal">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> <code>activarPanelLateral(botonAbrir, panel)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un botón abre y cierra un panel lateral en cada clic. Mientras el panel está abierto, un clic en cualquier otro punto de la página —fuera del botón y fuera del propio panel, por muy anidado que esté el elemento pulsado— lo cierra automáticamente. Un clic dentro del panel, sobre cualquiera de sus elementos internos (su título o el botón que lleva dentro), no lo cierra.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el panel cerrado lleva la clase <code>hidden</code>, abierto no la lleva. El test abre con el botón, hace clic en el <code>span</code> anidado dentro de <code>#fuera-r6</code> (debe cerrar), y con el panel abierto hace clic en su título <code>#titulo-panel-r6</code> y en su botón interno <code>#guardar-panel-r6</code> (no debe cerrar en ninguno de los dos casos).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="relative p-4 max-w-sm space-y-3"&gt;
+  &lt;button id="btn-panel-r6" class="bg-slate-200 px-3 py-1 rounded text-sm"&gt;Abrir panel&lt;/button&gt;
+  &lt;aside id="panel-r6" class="hidden border rounded bg-white shadow p-3 space-y-2"&gt;
+    &lt;h4 id="titulo-panel-r6" class="font-semibold text-sm"&gt;Ajustes&lt;/h4&gt;
+    &lt;button id="guardar-panel-r6" class="bg-slate-100 px-2 py-1 rounded text-xs"&gt;Guardar&lt;/button&gt;
+  &lt;/aside&gt;
+  &lt;div id="fuera-r6" class="p-2 bg-slate-50 rounded text-sm"&gt;Resto de la página &lt;span&gt;con contenido anidado&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo ex-demo--tall"><span class="ex-demo-label">Demo en vivo — abre el panel y haz clic fuera</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarPanelLateral</span>(botonAbrir, panel) {
+  botonAbrir.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    panel.classList.toggle(<span class="str">'hidden'</span>);
+  });
+
+  document.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">if</span> (panel.classList.contains(<span class="str">'hidden'</span>)) <span class="kw">return</span>;
+    <span class="kw">if</span> (botonAbrir.contains(e.target) || panel.contains(e.target)) <span class="kw">return</span>;
+    panel.classList.add(<span class="str">'hidden'</span>);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarPanelLateral">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> <code>filtrarTareasPorEstadoYTexto(inputBusqueda, selectEstado, contenedorTareas)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una lista de tareas con un buscador y un desplegable de estado. La lista se filtra en vivo al escribir en el buscador o al cambiar el desplegable. Una tarea queda visible solo si cumple las DOS condiciones a la vez: su título contiene el texto escrito (sin distinguir mayúsculas de minúsculas) Y su estado coincide con el elegido en el desplegable. La opción que representa todos los estados no descarta ninguna tarea por ese criterio. Con el buscador vacío y esa opción elegida se ven todas. Borrar el filtro tiene que devolver la lista completa, sin arrastrar el resultado del filtro anterior.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — las tareas son los elementos con la clase <code>tarea</code> y traen su título y su estado en los atributos <code>data-titulo</code> y <code>data-estado</code>; ocultar una tarea es añadirle la clase <code>hidden</code> y mostrarla es quitársela. El desplegable usa los valores <code>todos</code>, <code>pendiente</code> y <code>hecha</code>, y <code>todos</code> es el que no descarta por estado. El test comprueba: solo texto, solo estado, texto y estado combinados, texto en mayúsculas, buscador vacío con <code>todos</code>, y la secuencia filtrar → borrar el filtro.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 max-w-sm space-y-2"&gt;
+  &lt;input id="buscar-r7" type="text" placeholder="Buscar tarea..." class="border rounded px-2 py-1 w-full text-sm"&gt;
+  &lt;select id="estado-r7" class="border rounded px-2 py-1 w-full text-sm"&gt;
+    &lt;option value="todos"&gt;Todos los estados&lt;/option&gt;
+    &lt;option value="pendiente"&gt;Pendientes&lt;/option&gt;
+    &lt;option value="hecha"&gt;Hechas&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;ul id="lista-tareas-r7" class="divide-y border rounded bg-white"&gt;
+    &lt;li class="tarea p-2 text-sm" data-titulo="Revisar PR" data-estado="pendiente"&gt;Revisar PR&lt;/li&gt;
+    &lt;li class="tarea p-2 text-sm" data-titulo="Actualizar docs" data-estado="hecha"&gt;Actualizar docs&lt;/li&gt;
+    &lt;li class="tarea p-2 text-sm" data-titulo="Revisar diseño" data-estado="hecha"&gt;Revisar diseño&lt;/li&gt;
+    &lt;li class="tarea p-2 text-sm" data-titulo="Desplegar staging" data-estado="pendiente"&gt;Desplegar staging&lt;/li&gt;
+    &lt;li class="tarea p-2 text-sm" data-titulo="Escribir tests" data-estado="pendiente"&gt;Escribir tests&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribe y cambia el estado</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">filtrarTareasPorEstadoYTexto</span>(inputBusqueda, selectEstado, contenedorTareas) {
+  <span class="kw">const</span> aplicarFiltros = () =&gt; {
+    <span class="kw">const</span> texto = inputBusqueda.value.toLowerCase();
+    <span class="kw">const</span> estado = selectEstado.value;
+
+    contenedorTareas.querySelectorAll(<span class="str">'.tarea'</span>).forEach(tarea =&gt; {
+      <span class="cmt">// Los dos booleanos viven DENTRO de la vuelta: uno por tarea.</span>
+      <span class="kw">const</span> coincideTexto = tarea.dataset.titulo.toLowerCase().includes(texto);
+      <span class="kw">const</span> coincideEstado = estado === <span class="str">'todos'</span> || tarea.dataset.estado === estado;
+      tarea.classList.toggle(<span class="str">'hidden'</span>, !(coincideTexto &amp;&amp; coincideEstado));
+    });
+  };
+
+  inputBusqueda.addEventListener(<span class="str">'input'</span>, aplicarFiltros);
+  selectEstado.addEventListener(<span class="str">'change'</span>, aplicarFiltros);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="filtrarTareasPorEstadoYTexto">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> <code>moverAbajo(lista)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cada elemento de una lista tiene un botón para bajar de posición. Al pulsarlo, ese elemento intercambia su sitio con el que está justo DEBAJO. Si el elemento ya es el último de la lista, no pasa nada. Un clic sobre el elemento que no caiga en su botón no mueve nada. El comportamiento se engancha una sola vez sobre la lista completa, no elemento por elemento.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el orden final de los atributos <code>data-tarea</code> de los elementos con la clase <code>item-lista</code>, leído de arriba a abajo; los botones de bajar llevan la clase <code>btn-bajar</code>. Partiendo de <code>A, B, C, D</code>, el test comprueba: bajar el primero (<code>B, A, C, D</code>), bajar el último (sigue <code>A, B, C, D</code>), bajar dos veces seguidas el mismo elemento <code>A</code> (<code>B, C, A, D</code>) y hacer clic sobre un elemento fuera de su botón (sigue <code>A, B, C, D</code>).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul id="lista-bajar-r8" class="p-4 max-w-xs divide-y"&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="A"&gt;Tarea A &lt;button class="btn-bajar"&gt;▼&lt;/button&gt;&lt;/li&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="B"&gt;Tarea B &lt;button class="btn-bajar"&gt;▼&lt;/button&gt;&lt;/li&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="C"&gt;Tarea C &lt;button class="btn-bajar"&gt;▼&lt;/button&gt;&lt;/li&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="D"&gt;Tarea D &lt;button class="btn-bajar"&gt;▼&lt;/button&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">moverAbajo</span>(lista) {
+  lista.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">if</span> (!e.target.closest(<span class="str">'.btn-bajar'</span>)) <span class="kw">return</span>;
+
+    <span class="kw">const</span> item = e.target.closest(<span class="str">'.item-lista'</span>);
+    <span class="kw">const</span> siguiente = item.nextElementSibling;
+    <span class="kw">if</span> (!siguiente) <span class="kw">return</span>;
+
+    <span class="cmt">// Bajar item === subir a su siguiente por delante de él.</span>
+    lista.insertBefore(siguiente, item);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="moverAbajo">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> <code>activarValoracionEstrellas(contenedor)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un control de valoración con cinco estrellas. Al pulsar una estrella, esa y todas las anteriores quedan marcadas, y las posteriores quedan sin marcar —también si venían marcadas de un clic anterior—. La valoración elegida se guarda en el contenedor y se muestra como texto debajo. Un clic dentro del contenedor que no caiga sobre una estrella no cambia nada. El comportamiento se engancha una sola vez sobre el contenedor completo.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — las estrellas son los elementos con la clase <code>estrella</code> y traen su posición en el atributo <code>data-valor</code> (del 1 al 5); una estrella marcada lleva además la clase <code>estrella--activa</code> y una sin marcar no la lleva. La valoración elegida queda en el atributo <code>data-valoracion</code> del contenedor <code>#valoracion-r9</code> y como texto en el span <code>#texto-valoracion-r9</code> con el formato exacto <code>N de 5</code>: el número, un espacio, la palabra <code>de</code>, un espacio y un <code>5</code> (por ejemplo <code>3 de 5</code>). Sin ningún clic válido, el span mantiene su texto inicial <code>Sin valorar</code> y el atributo su valor inicial <code>0</code>.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="valoracion-r9" class="p-4 space-y-2 w-fit" data-valoracion="0"&gt;
+  &lt;div class="flex gap-1"&gt;
+    &lt;button class="estrella text-2xl leading-none" data-valor="1"&gt;★&lt;/button&gt;
+    &lt;button class="estrella text-2xl leading-none" data-valor="2"&gt;★&lt;/button&gt;
+    &lt;button class="estrella text-2xl leading-none" data-valor="3"&gt;★&lt;/button&gt;
+    &lt;button class="estrella text-2xl leading-none" data-valor="4"&gt;★&lt;/button&gt;
+    &lt;button class="estrella text-2xl leading-none" data-valor="5"&gt;★&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;span id="texto-valoracion-r9" class="text-sm text-slate-600"&gt;Sin valorar&lt;/span&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — pulsa una estrella</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarValoracionEstrellas</span>(contenedor) {
+  <span class="kw">const</span> texto = contenedor.querySelector(<span class="str">'#texto-valoracion-r9'</span>);
+
+  contenedor.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> estrellaClicada = e.target.closest(<span class="str">'.estrella'</span>);
+    <span class="kw">if</span> (!estrellaClicada) <span class="kw">return</span>;
+
+    <span class="cmt">// dataset devuelve siempre texto: hay que convertirlo para comparar.</span>
+    <span class="kw">const</span> valor = Number(estrellaClicada.dataset.valor);
+
+    contenedor.querySelectorAll(<span class="str">'.estrella'</span>).forEach(estrella =&gt; {
+      estrella.classList.toggle(<span class="str">'estrella--activa'</span>, Number(estrella.dataset.valor) &lt;= valor);
+    });
+
+    contenedor.dataset.valoracion = valor;
+    texto.textContent = <span class="str">`${valor} de 5`</span>;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarValoracionEstrellas">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> <code>resumirCarrito(contenedor)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un carrito de la compra en el que cada línea tiene su precio por unidad y su cantidad. Calcula el importe total del carrito —cada línea aporta su precio multiplicado por su cantidad— y muéstralo en el hueco del total. Tiene que funcionar igual con varias líneas, con una sola o con el carrito vacío. Esta función no engancha ningún evento: el test la llama directamente.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — las líneas son los elementos con la clase <code>linea-carrito</code> y traen sus datos en los atributos <code>data-precio</code> y <code>data-cantidad</code>. El total queda como texto dentro del span <code>#total-r10</code> con el formato exacto de dos decimales seguidos del símbolo del euro pegado, sin espacio y con el punto como separador decimal (por ejemplo <code>68.73€</code>). El test comprueba el carrito de 3 líneas, un carrito sin ninguna línea (<code>0.00€</code>), un carrito de una sola línea con cantidad 1 y un caso cuyo importe obliga a redondear a dos decimales.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="carrito-r10" class="p-4 space-y-2 max-w-sm"&gt;
+  &lt;div class="linea-carrito flex justify-between text-sm" data-precio="19.99" data-cantidad="2"&gt;&lt;span&gt;Camiseta × 2&lt;/span&gt;&lt;span&gt;19.99€/ud&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="linea-carrito flex justify-between text-sm" data-precio="5.50" data-cantidad="3"&gt;&lt;span&gt;Calcetines × 3&lt;/span&gt;&lt;span&gt;5.50€/ud&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="linea-carrito flex justify-between text-sm" data-precio="12.25" data-cantidad="1"&gt;&lt;span&gt;Gorra × 1&lt;/span&gt;&lt;span&gt;12.25€/ud&lt;/span&gt;&lt;/div&gt;
+  &lt;p class="flex justify-between font-semibold border-t pt-2 text-sm"&gt;&lt;span&gt;Total&lt;/span&gt;&lt;span id="total-r10"&gt;0.00€&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">resumirCarrito</span>(contenedor) {
+  <span class="kw">const</span> total = contenedor.querySelector(<span class="str">'#total-r10'</span>);
+
+  <span class="cmt">// El acumulador vive fuera de la vuelta; los datos leídos, dentro.</span>
+  <span class="kw">let</span> importe = <span class="num">0</span>;
+  contenedor.querySelectorAll(<span class="str">'.linea-carrito'</span>).forEach(linea =&gt; {
+    importe += Number(linea.dataset.precio) * Number(linea.dataset.cantidad);
+  });
+
+  total.textContent = <span class="str">`${importe.toFixed(2)}€`</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="resumirCarrito">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- BLOQUE 2 — REPASO (10 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🔁 Bloque 2 — Repaso <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>10</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> <code>activarFiltroCategorias(contenedorBotones, contenedorProductos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Hay una fila de botones de categoría y una grilla de productos, cada producto etiquetado con la suya. Al hacer click en un botón, ESE botón pasa a ser el filtro activo (cualquier otro botón que estuviera activo deja de estarlo) y la grilla debe mostrar únicamente los productos de esa categoría, ocultando el resto. Hay un botón especial que representa todas las categorías: si lo elegís, la grilla vuelve a mostrar todos los productos sin excepción. Los botones pueden tener un ícono decorativo adentro — hacer click justo sobre ese ícono cuenta igual que hacer click sobre el botón que lo contiene.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el botón activo (y solo él) lleva la clase <code>filtro-btn--activo</code>; un producto que no coincide con el filtro elegido lleva la clase <code>hidden</code>, uno que sí coincide no la lleva. Tanto los botones como los productos identifican su categoría con el atributo <code>data-categoria</code> (el botón de "todas las categorías" trae <code>data-categoria="todos"</code>).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 space-y-3 bg-slate-50 rounded-lg"&gt;
+  &lt;div id="botones-filtro-repaso" class="flex gap-2 flex-wrap"&gt;
+    &lt;button class="filtro-btn filtro-btn--activo bg-slate-700 text-white px-3 py-1 rounded-full text-sm" data-categoria="todos"&gt;Todos&lt;/button&gt;
+    &lt;button class="filtro-btn bg-slate-200 px-3 py-1 rounded-full text-sm" data-categoria="ropa"&gt;👕&lt;span class="icono-btn"&gt;Ropa&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="filtro-btn bg-slate-200 px-3 py-1 rounded-full text-sm" data-categoria="tech"&gt;💻&lt;span class="icono-btn"&gt;Tech&lt;/span&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div id="grid-filtro-repaso" class="grid grid-cols-2 gap-2"&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow" data-categoria="ropa"&gt;Camiseta&lt;/div&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow" data-categoria="tech"&gt;Teclado&lt;/div&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow" data-categoria="ropa"&gt;Pantalón&lt;/div&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow" data-categoria="tech"&gt;Mouse&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarFiltroCategorias</span>(contenedorBotones, contenedorProductos) {
+  contenedorBotones.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> boton = e.target.closest(<span class="str">'.filtro-btn'</span>);
+    <span class="kw">if</span> (!boton) <span class="kw">return</span>;
+
+    contenedorBotones.querySelectorAll(<span class="str">'.filtro-btn'</span>).forEach(b =&gt; {
+      b.classList.toggle(<span class="str">'filtro-btn--activo'</span>, b === boton);
+    });
+
+    <span class="kw">const</span> categoria = boton.dataset.categoria;
+    contenedorProductos.querySelectorAll(<span class="str">'.producto-card'</span>).forEach(p =&gt; {
+      <span class="kw">const</span> coincide = categoria === <span class="str">'todos'</span> || p.dataset.categoria === categoria;
+      p.classList.toggle(<span class="str">'hidden'</span>, !coincide);
+    });
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarFiltroCategorias">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> <code>activarAcordeonExclusivo(panel)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un panel de preguntas frecuentes: al hacer click en una pregunta, su respuesta se muestra si estaba oculta o se oculta si ya estaba visible. Además, en todo momento como máximo una respuesta puede estar visible a la vez — si otra pregunta tenía su respuesta abierta cuando clickeás una nueva, esa otra se cierra sola. El estado accesible de cada botón tiene que reflejar siempre si SU PROPIA respuesta está visible o no, sin importar qué pasó con las demás. Un solo listener alcanza para todo el panel, sin importar cuántas preguntas tenga.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — mismo mecanismo que ya conocés: ocultar/mostrar una respuesta es agregar/quitar la clase <code>hidden</code>; el atributo <code>aria-expanded</code> del botón correspondiente queda en el string <code>"true"</code> o <code>"false"</code>.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="faq-repaso" class="divide-y divide-slate-200 rounded-lg border"&gt;
+  &lt;div class="faq-item"&gt;
+    &lt;button class="faq-pregunta w-full text-left p-3 font-medium" aria-expanded="false"&gt;¿Qué es un array?&lt;/button&gt;
+    &lt;div class="faq-respuesta hidden p-3 text-sm text-slate-600"&gt;Una lista ordenada de valores.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-item"&gt;
+    &lt;button class="faq-pregunta w-full text-left p-3 font-medium" aria-expanded="false"&gt;¿Qué es un objeto?&lt;/button&gt;
+    &lt;div class="faq-respuesta hidden p-3 text-sm text-slate-600"&gt;Una colección de pares clave-valor.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-item"&gt;
+    &lt;button class="faq-pregunta w-full text-left p-3 font-medium" aria-expanded="false"&gt;¿Qué es una función?&lt;/button&gt;
+    &lt;div class="faq-respuesta hidden p-3 text-sm text-slate-600"&gt;Un bloque de código reutilizable.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarAcordeonExclusivo</span>(panel) {
+  panel.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> boton = e.target.closest(<span class="str">'.faq-pregunta'</span>);
+    <span class="kw">if</span> (!boton) <span class="kw">return</span>;
+
+    <span class="kw">const</span> respuestaClickeada = boton.nextElementSibling;
+    <span class="kw">const</span> yaAbierta = !respuestaClickeada.classList.contains(<span class="str">'hidden'</span>);
+
+    panel.querySelectorAll(<span class="str">'.faq-pregunta'</span>).forEach(b =&gt; {
+      b.nextElementSibling.classList.add(<span class="str">'hidden'</span>);
+      b.setAttribute(<span class="str">'aria-expanded'</span>, <span class="str">'false'</span>);
+    });
+
+    <span class="kw">if</span> (!yaAbierta) {
+      respuestaClickeada.classList.remove(<span class="str">'hidden'</span>);
+      boton.setAttribute(<span class="str">'aria-expanded'</span>, <span class="str">'true'</span>);
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarAcordeonExclusivo">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> <code>marcarTodosAgotados(contenedor)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibís el contenedor de una grilla de tarjetas de producto, cada una con su nivel de stock. Marcá visualmente TODAS las tarjetas que estén sin stock — no solo una — dejando el resto de tarjetas (tengan el stock que tengan) sin esa marca.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — la marca es agregar las clases <code>ring-2</code> y <code>ring-amber-500</code> a cada tarjeta con <code>data-stock</code> igual a cero.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="grid-agotados-repaso" class="grid grid-cols-2 gap-3 p-4"&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="0"&gt;Cargador&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="3"&gt;Funda&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="0"&gt;Soporte&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="0"&gt;Adaptador&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="7"&gt;Cable&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">marcarTodosAgotados</span>(contenedor) {
+  <span class="kw">const</span> tarjetas = contenedor.querySelectorAll(<span class="str">'.stock-card'</span>);
+
+  tarjetas.forEach(tarjeta =&gt; {
+    <span class="kw">const</span> sinStock = tarjeta.dataset.stock === <span class="str">'0'</span>;
+    <span class="kw">if</span> (sinStock) {
+      tarjeta.classList.add(<span class="str">'ring-2'</span>, <span class="str">'ring-amber-500'</span>);
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="marcarTodosAgotados">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> <code>mostrarBarraProgresoScroll(barra, scrollY, alturaTotal)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una barra de progreso horizontal tiene que reflejar qué porcentaje de la altura total de una página ya se recorrió por scroll. Recibís la barra, la posición vertical actual del scroll (un número en píxeles, medido desde arriba del documento) y la altura total del documento completo (un número en píxeles, incluyendo lo que no se ve sin hacer scroll). Actualizá el ancho de la barra para que corresponda a ese porcentaje: si el scroll está en 0 el ancho corresponde a 0%, si el scroll llegó al final del documento corresponde a 100%.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el ancho queda en el estilo del propio elemento como un string con el formato <code>"NN%"</code> (número entero seguido del símbolo de porcentaje, sin decimales ni espacios).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 space-y-2 max-w-sm"&gt;
+  &lt;input type="range" id="scroll-slider-repaso" min="0" max="1000" value="0" class="w-full"&gt;
+  &lt;div class="h-3 bg-slate-200 rounded-full overflow-hidden"&gt;
+    &lt;div id="barra-progreso-repaso" class="h-3 bg-sky-500" style="width:0%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — moví el control</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">mostrarBarraProgresoScroll</span>(barra, scrollY, alturaTotal) {
+  <span class="kw">const</span> porcentaje = Math.round((scrollY / alturaTotal) * <span class="num">100</span>);
+  barra.style.width = <span class="str">`${porcentaje}%`</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="mostrarBarraProgresoScroll">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> <code>validarRangoNumerico(inputEdad, spanError)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un campo de edad tiene que aceptar solamente valores entre 18 y 65, AMBOS incluidos. Si el valor escrito queda fuera de ese rango (por debajo o por encima), marcá el campo como inválido con un mensaje claro y mostrá ese mismo mensaje en el span de error de al lado. Si el valor está dentro del rango permitido, el campo tiene que quedar sin ningún error y el span de error vacío — sea cual sea el estado anterior.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el campo debe quedar reportándose como inválido (comprobable con <code>checkValidity()</code>) exactamente cuando el valor esté fuera de <code>[18, 65]</code>; el span de error queda vacío únicamente cuando el valor es válido.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="flex flex-col gap-1 p-4 max-w-xs"&gt;
+  &lt;label for="edad-repaso" class="text-sm font-medium"&gt;Edad&lt;/label&gt;
+  &lt;input id="edad-repaso" type="number" class="border rounded px-2 py-1"&gt;
+  &lt;span id="error-edad-repaso" class="text-xs text-red-500"&gt;&lt;/span&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribí en el campo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">validarRangoNumerico</span>(inputEdad, spanError) {
+  <span class="kw">const</span> edad = Number(inputEdad.value);
+  <span class="kw">const</span> esValida = edad &gt;= <span class="num">18</span> &amp;&amp; edad &lt;= <span class="num">65</span>;
+
+  <span class="kw">if</span> (!esValida) {
+    inputEdad.setCustomValidity(<span class="str">'La edad debe estar entre 18 y 65 años'</span>);
+    spanError.textContent = <span class="str">'La edad debe estar entre 18 y 65 años'</span>;
+  } <span class="kw">else</span> {
+    inputEdad.setCustomValidity(<span class="str">''</span>);
+    spanError.textContent = <span class="str">''</span>;
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarRangoNumerico">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> <code>activarDropdownConCierre(boton, menu)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un botón abre o cierra un menú desplegable cada vez que se lo clickea. Mientras el menú está abierto, un click en cualquier otro lugar de la página — fuera del botón y fuera del propio menú, sea cual sea el elemento exacto clickeado, incluso si está anidado adentro de otro — tiene que cerrar el menú automáticamente. Un click hecho dentro del menú (sobre cualquiera de sus elementos internos) no debe cerrarlo por esa vía.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el menú cerrado lleva la clase <code>hidden</code>; abierto no la lleva.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="relative p-4 max-w-xs"&gt;
+  &lt;button id="boton-dropdown-repaso" class="bg-slate-200 px-3 py-1 rounded"&gt;Opciones ▾&lt;/button&gt;
+  &lt;ul id="menu-dropdown-repaso" class="hidden absolute bg-white border rounded shadow mt-1 w-40 z-10"&gt;
+    &lt;li class="px-3 py-2"&gt;Editar&lt;/li&gt;
+    &lt;li class="px-3 py-2"&gt;Eliminar&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div id="fuera-dropdown-repaso" class="mt-16 p-2 bg-slate-50 rounded"&gt;Resto de la página &lt;span&gt;con contenido anidado&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo ex-demo--tall"><span class="ex-demo-label">Demo en vivo — abrí el menú y clickeá afuera</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarDropdownConCierre</span>(boton, menu) {
+  boton.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    menu.classList.toggle(<span class="str">'hidden'</span>);
+  });
+
+  document.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">if</span> (menu.classList.contains(<span class="str">'hidden'</span>)) <span class="kw">return</span>;
+    <span class="kw">if</span> (boton.contains(e.target) || menu.contains(e.target)) <span class="kw">return</span>;
+    menu.classList.add(<span class="str">'hidden'</span>);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarDropdownConCierre">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> <code>activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un contador con botón de sumar y botón de restar tiene un tope superior configurable (recibido como parámetro) y un tope inferior fijo en cero: el botón de sumar nunca puede superar ese máximo, el botón de restar nunca puede bajar de cero. El número mostrado en pantalla tiene que reflejar siempre el valor real, incluso al intentar pasarse de cualquiera de los dos límites — en ese caso el valor se queda clavado en el límite, sin seguir cambiando.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — <code>textContent</code> numérico (como string), respetando el mínimo de 0 y el máximo indicado por el parámetro <code>limite</code>.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="flex items-center gap-2 p-4 w-fit border rounded-lg"&gt;
+  &lt;button id="menos-limite-repaso" class="w-8 h-8 rounded bg-slate-200 font-bold"&gt;−&lt;/button&gt;
+  &lt;span id="cantidad-limite-repaso" class="w-8 text-center font-semibold" data-cantidad="0"&gt;0&lt;/span&gt;
+  &lt;button id="mas-limite-repaso" class="w-8 h-8 rounded bg-slate-200 font-bold"&gt;+&lt;/button&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — límite de 5</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarStepperConLimite</span>(botonMas, botonMenos, spanCantidad, limite) {
+  <span class="kw">const</span> actualizar = (nuevaCantidad) =&gt; {
+    spanCantidad.textContent = nuevaCantidad;
+    spanCantidad.dataset.cantidad = nuevaCantidad;
+  };
+
+  botonMas.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> actual = Number(spanCantidad.dataset.cantidad);
+    actualizar(Math.min(limite, actual + <span class="num">1</span>));
+  });
+
+  botonMenos.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> actual = Number(spanCantidad.dataset.cantidad);
+    actualizar(Math.max(<span class="num">0</span>, actual - <span class="num">1</span>));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarStepperConLimite">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> <code>filtrarPorNombreOCategoria(inputBusqueda, contenedorItems)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un buscador filtra en vivo una lista de productos: a medida que se escribe, quedan visibles únicamente los productos cuyo NOMBRE o cuya CATEGORÍA contengan el texto escrito, sin importar mayúsculas o minúsculas — con que coincida en cualquiera de los dos alcanza. Con el buscador vacío, todos los productos vuelven a mostrarse.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — mismo mecanismo que ya conocés: ocultar un producto es agregarle la clase <code>hidden</code>, mostrarlo es quitársela. Cada producto trae su nombre y su categoría en los atributos <code>data-nombre</code> y <code>data-categoria</code>.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 max-w-sm"&gt;
+  &lt;input id="busqueda-repaso" type="text" placeholder="Buscar..." class="border rounded px-2 py-1 w-full mb-2"&gt;
+  &lt;ul id="lista-busqueda-repaso" class="divide-y"&gt;
+    &lt;li class="item-producto p-2" data-nombre="Camiseta roja" data-categoria="ropa"&gt;Camiseta roja&lt;/li&gt;
+    &lt;li class="item-producto p-2" data-nombre="Teclado mecánico" data-categoria="tecnologia"&gt;Teclado mecánico&lt;/li&gt;
+    &lt;li class="item-producto p-2" data-nombre="Pantalón negro" data-categoria="ropa"&gt;Pantalón negro&lt;/li&gt;
+    &lt;li class="item-producto p-2" data-nombre="Ratón inalámbrico" data-categoria="tecnologia"&gt;Ratón inalámbrico&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribí en el buscador</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">filtrarPorNombreOCategoria</span>(inputBusqueda, contenedorItems) {
+  inputBusqueda.addEventListener(<span class="str">'input'</span>, () =&gt; {
+    <span class="kw">const</span> texto = inputBusqueda.value.toLowerCase();
+
+    contenedorItems.querySelectorAll(<span class="str">'.item-producto'</span>).forEach(item =&gt; {
+      <span class="kw">const</span> nombreCoincide = item.dataset.nombre.toLowerCase().includes(texto);
+      <span class="kw">const</span> categoriaCoincide = item.dataset.categoria.toLowerCase().includes(texto);
+      item.classList.toggle(<span class="str">'hidden'</span>, !(nombreCoincide || categoriaCoincide));
+    });
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="filtrarPorNombreOCategoria">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> <code>moverArriba(lista)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cada ítem de una lista tiene un botón para subir de posición. Al clickear ese botón, el ítem al que pertenece se intercambia de lugar con el que está justo ARRIBA en la lista — si el ítem ya es el primero, no pasa nada. El comportamiento se engancha una sola vez sobre el contenedor completo de la lista, no ítem por ítem.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — el orden final de los elementos con la clase <code>item-lista</code> dentro de la lista, leído de arriba a abajo.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul id="lista-subir-repaso" class="p-4 max-w-xs divide-y"&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="A"&gt;Tarea A &lt;button class="btn-subir"&gt;▲&lt;/button&gt;&lt;/li&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="B"&gt;Tarea B &lt;button class="btn-subir"&gt;▲&lt;/button&gt;&lt;/li&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="C"&gt;Tarea C &lt;button class="btn-subir"&gt;▲&lt;/button&gt;&lt;/li&gt;
+  &lt;li class="item-lista flex justify-between items-center p-2" data-tarea="D"&gt;Tarea D &lt;button class="btn-subir"&gt;▲&lt;/button&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">moverArriba</span>(lista) {
+  lista.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">if</span> (!e.target.closest(<span class="str">'.btn-subir'</span>)) <span class="kw">return</span>;
+
+    <span class="kw">const</span> item = e.target.closest(<span class="str">'.item-lista'</span>);
+    <span class="kw">const</span> anterior = item.previousElementSibling;
+    <span class="kw">if</span> (!anterior) <span class="kw">return</span>;
+
+    lista.insertBefore(item, anterior);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="moverArriba">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> <code>activarSeleccionGrid(contenedor)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una grilla de tarjetas de producto tiene un checkbox de selección en cada tarjeta, más un checkbox "maestro" fuera de la grilla. Al marcar o desmarcar el maestro, todas las tarjetas deben quedar en ese mismo estado. Al marcar o desmarcar CUALQUIER tarjeta a mano, el maestro tiene que reflejar la realidad: marcado solo si TODAS las tarjetas quedaron marcadas, desmarcado en cualquier otro caso.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — mismo mecanismo que la tabla de hoy: cada checkbox de tarjeta lleva la clase <code>check-producto</code>; el checkbox maestro es el único checkbox que no la lleva (su <code>id</code> queda visible en el HTML del fixture).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="contenedor-seleccion-repaso" class="p-4 space-y-3"&gt;
+  &lt;label class="flex items-center gap-2 text-sm font-medium"&gt;&lt;input type="checkbox" id="check-maestro-repaso"&gt; Seleccionar todo&lt;/label&gt;
+  &lt;div id="grid-seleccion-repaso" class="grid grid-cols-2 gap-2"&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow flex justify-between items-center"&gt;Auriculares &lt;input type="checkbox" class="check-producto"&gt;&lt;/div&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow flex justify-between items-center"&gt;Webcam &lt;input type="checkbox" class="check-producto"&gt;&lt;/div&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow flex justify-between items-center"&gt;Monitor &lt;input type="checkbox" class="check-producto"&gt;&lt;/div&gt;
+    &lt;div class="producto-card bg-white p-3 rounded shadow flex justify-between items-center"&gt;Teclado &lt;input type="checkbox" class="check-producto"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarSeleccionGrid</span>(contenedor) {
+  <span class="kw">const</span> maestro = contenedor.querySelector(<span class="str">'#check-maestro-repaso'</span>);
+
+  contenedor.addEventListener(<span class="str">'change'</span>, (e) =&gt; {
+    <span class="kw">const</span> productos = contenedor.querySelectorAll(<span class="str">'.check-producto'</span>);
+
+    <span class="kw">if</span> (e.target === maestro) {
+      productos.forEach(p =&gt; { p.checked = maestro.checked; });
+      <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (e.target.classList.contains(<span class="str">'check-producto'</span>)) {
+      <span class="kw">let</span> todasMarcadas = <span class="kw">true</span>;
+      productos.forEach(p =&gt; {
+        <span class="kw">if</span> (!p.checked) todasMarcadas = <span class="kw">false</span>;
+      });
+      maestro.checked = todasMarcadas;
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarSeleccionGrid">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- 22/08 — DOM + TAILWIND (10 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🧪 22/08 — DOM + Tailwind <span style="font-size:.8rem;color:var(--text-muted);">(10 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>10</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> <code>renderizarProductos(contenedor, productos)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibís un contenedor vacío y un array de productos (<code>{nombre, precio, stock}</code>). Por cada producto, creá una tarjeta y agregala al contenedor. La tarjeta debe mostrar el nombre, el precio con el símbolo <code>€</code>, y un indicador de stock: si <code>stock === 0</code> la tarjeta debe verse "en rojo" (agotado), si no "en verde" (disponible). Tiene que funcionar igual con 0, 1 o varios productos.</p>
+          <p class="ex-explanation">Esto es TODO lo que revisa el test, nada más — el resto del estilo (layout, tipografía, colores del resto de la tarjeta, espaciado) lo elegís vos libremente: la tarjeta lleva la clase <code>product-card</code>; el nombre va en un elemento con clase <code>product-card-nombre</code>; el precio en uno con clase <code>product-card-precio</code>, con 2 decimales y el símbolo pegado (ej. <code>29.99€</code>); el indicador de stock lleva la clase <code>stock-badge</code> más <code>bg-red-100 text-red-700</code> si está agotado, o <code>bg-green-100 text-green-700</code> si hay stock. No toques las clases que ya trae el contenedor del fixture.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="grid-productos-e1" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-50 rounded-lg"&gt;&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">renderizarProductos</span>(contenedor, productos) {
+  productos.forEach(producto =&gt; {
+    <span class="kw">const</span> card = document.createElement(<span class="str">'article'</span>);
+    card.className = <span class="str">'product-card bg-white rounded-lg shadow p-4 flex flex-col gap-2'</span>;
+
+    <span class="kw">const</span> nombre = document.createElement(<span class="str">'h3'</span>);
+    nombre.className = <span class="str">'product-card-nombre font-semibold'</span>;
+    nombre.textContent = producto.nombre;
+
+    <span class="kw">const</span> precio = document.createElement(<span class="str">'span'</span>);
+    precio.className = <span class="str">'product-card-precio text-lg font-bold text-blue-600'</span>;
+    precio.textContent = <span class="str">`${producto.precio.toFixed(2)}€`</span>;
+
+    <span class="kw">const</span> badge = document.createElement(<span class="str">'span'</span>);
+    <span class="kw">const</span> sinStock = producto.stock === <span class="num">0</span>;
+    badge.className = <span class="str">`stock-badge text-xs px-2 py-1 rounded-full w-fit ${sinStock ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`</span>;
+    badge.textContent = sinStock ? <span class="str">'Sin stock'</span> : <span class="str">'En stock'</span>;
+
+    card.append(nombre, precio, badge);
+    contenedor.appendChild(card);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="renderizarProductos">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> <code>activarSeleccionMasiva(contenedorTabla)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Tenés una tabla con un checkbox "maestro" en el encabezado y un checkbox por fila. Al marcar/desmarcar el maestro, todas las filas deben quedar en el mismo estado. Al marcar o desmarcar CUALQUIER fila a mano, el maestro tiene que reflejar la realidad: marcado solo si TODAS las filas están marcadas, desmarcado en cualquier otro caso. Un solo listener alcanza para toda la tabla.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;table id="tabla-e2" class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden"&gt;
+  &lt;thead class="bg-slate-100"&gt;
+    &lt;tr&gt;
+      &lt;th class="p-2 text-left"&gt;&lt;input type="checkbox" id="check-todos"&gt;&lt;/th&gt;
+      &lt;th class="p-2 text-left"&gt;Tarea&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr class="border-t"&gt;&lt;td class="p-2"&gt;&lt;input type="checkbox" class="check-fila"&gt;&lt;/td&gt;&lt;td class="p-2"&gt;Revisar PR&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr class="border-t"&gt;&lt;td class="p-2"&gt;&lt;input type="checkbox" class="check-fila"&gt;&lt;/td&gt;&lt;td class="p-2"&gt;Actualizar docs&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr class="border-t"&gt;&lt;td class="p-2"&gt;&lt;input type="checkbox" class="check-fila"&gt;&lt;/td&gt;&lt;td class="p-2"&gt;Deploy staging&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarSeleccionMasiva</span>(contenedorTabla) {
+  <span class="kw">const</span> master = contenedorTabla.querySelector(<span class="str">'#check-todos'</span>);
+
+  contenedorTabla.addEventListener(<span class="str">'change'</span>, (e) =&gt; {
+    <span class="kw">const</span> filas = contenedorTabla.querySelectorAll(<span class="str">'.check-fila'</span>);
+
+    <span class="kw">if</span> (e.target === master) {
+      filas.forEach(fila =&gt; { fila.checked = master.checked; });
+      <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (e.target.classList.contains(<span class="str">'check-fila'</span>)) {
+      <span class="kw">let</span> todasMarcadas = <span class="kw">true</span>;
+      filas.forEach(fila =&gt; {
+        <span class="kw">if</span> (!fila.checked) todasMarcadas = <span class="kw">false</span>;
+      });
+      master.checked = todasMarcadas;
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarSeleccionMasiva">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> <code>marcarPrimeraTarjetaAgotada(contenedor)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Recibís el contenedor de una grilla de tarjetas de producto, cada una con su nivel de stock. Marcá visualmente SOLO la primera tarjeta sin stock que encuentres recorriendo la grilla de arriba a abajo — el resto de tarjetas (tengan o no stock) no debe llevar esa marca.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — la marca es agregar las clases <code>ring-2</code> y <code>ring-red-500</code> a la tarjeta.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="grid-e3" class="grid grid-cols-2 gap-3 p-4"&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="4"&gt;Auriculares&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="0"&gt;Webcam&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="0"&gt;Micrófono&lt;/div&gt;
+  &lt;div class="stock-card bg-white p-3 rounded shadow" data-stock="2"&gt;Monitor&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">marcarPrimeraTarjetaAgotada</span>(contenedor) {
+  <span class="kw">const</span> tarjetas = contenedor.querySelectorAll(<span class="str">'.stock-card'</span>);
+  <span class="kw">let</span> encontrada = <span class="kw">false</span>;
+
+  tarjetas.forEach(tarjeta =&gt; {
+    <span class="kw">const</span> sinStock = tarjeta.dataset.stock === <span class="str">'0'</span>;
+    <span class="kw">if</span> (sinStock &amp;&amp; !encontrada) {
+      tarjeta.classList.add(<span class="str">'ring-2'</span>, <span class="str">'ring-red-500'</span>);
+      encontrada = <span class="kw">true</span>;
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="marcarPrimeraTarjetaAgotada">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> <code>mostrarTooltipEnCursor(tooltip, evento)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Dentro de una zona de la pantalla, un tooltip tiene que seguir al cursor del mouse: aparecer y posicionarse exactamente donde está el puntero cada vez que se mueve dentro de la zona.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="zona-e4" class="relative h-40 bg-slate-100 rounded-lg overflow-hidden"&gt;
+  &lt;div id="tooltip-e4" class="absolute hidden bg-black text-white text-xs px-2 py-1 rounded pointer-events-none"&gt;👆&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — mové el cursor dentro del recuadro</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">mostrarTooltipEnCursor</span>(tooltip, evento) {
+  tooltip.style.left = evento.clientX + <span class="str">'px'</span>;
+  tooltip.style.top = evento.clientY + <span class="str">'px'</span>;
+  tooltip.classList.remove(<span class="str">'hidden'</span>);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="mostrarTooltipEnCursor">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> <code>validarLongitudUsuario(inputUsuario, spanAyuda)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un campo de usuario tiene que tener entre 4 y 12 caracteres. Si no cumple, marcá el campo como inválido con un mensaje claro y mostrá ese mismo mensaje en el texto de ayuda de al lado. Si cumple, el campo tiene que quedar sin ningún error y el texto de ayuda vacío — sea cual sea el estado anterior.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="flex flex-col gap-1 p-4 max-w-xs"&gt;
+  &lt;label for="usuario-e5" class="text-sm font-medium"&gt;Usuario&lt;/label&gt;
+  &lt;input id="usuario-e5" type="text" class="border rounded px-2 py-1"&gt;
+  &lt;span id="ayuda-usuario-e5" class="text-xs text-red-500"&gt;&lt;/span&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribí en el campo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">validarLongitudUsuario</span>(inputUsuario, spanAyuda) {
+  <span class="kw">const</span> longitud = inputUsuario.value.length;
+  <span class="kw">const</span> esValido = longitud &gt;= <span class="num">4</span> &amp;&amp; longitud &lt;= <span class="num">12</span>;
+
+  <span class="kw">if</span> (!esValido) {
+    inputUsuario.setCustomValidity(<span class="str">'El usuario debe tener entre 4 y 12 caracteres'</span>);
+    spanAyuda.textContent = <span class="str">'El usuario debe tener entre 4 y 12 caracteres'</span>;
+  } <span class="kw">else</span> {
+    inputUsuario.setCustomValidity(<span class="str">''</span>);
+    spanAyuda.textContent = <span class="str">''</span>;
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarLongitudUsuario">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> <code>activarAcordeon(panel)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un acordeón de preguntas frecuentes: al hacer click en la pregunta, su respuesta tiene que mostrarse u ocultarse alternando entre clicks. El estado accesible del botón (<code>aria-expanded</code>) tiene que reflejar siempre si la respuesta está visible o no. Un solo listener en el panel completo tiene que bancarse cualquier cantidad de preguntas.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="faq-e6" class="divide-y divide-slate-200 rounded-lg border"&gt;
+  &lt;div class="faq-item"&gt;
+    &lt;button class="faq-pregunta w-full text-left p-3 font-medium" aria-expanded="false"&gt;¿Qué es Tailwind?&lt;/button&gt;
+    &lt;div class="faq-respuesta hidden p-3 text-sm text-slate-600"&gt;Un framework de utilidades CSS.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="faq-item"&gt;
+    &lt;button class="faq-pregunta w-full text-left p-3 font-medium" aria-expanded="false"&gt;¿Qué es el DOM?&lt;/button&gt;
+    &lt;div class="faq-respuesta hidden p-3 text-sm text-slate-600"&gt;La representación en árbol del HTML.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarAcordeon</span>(panel) {
+  panel.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">const</span> boton = e.target.closest(<span class="str">'.faq-pregunta'</span>);
+    <span class="kw">if</span> (!boton) <span class="kw">return</span>;
+
+    <span class="kw">const</span> respuesta = boton.nextElementSibling;
+    <span class="kw">const</span> abierta = respuesta.classList.toggle(<span class="str">'hidden'</span>) === <span class="kw">false</span>;
+    boton.setAttribute(<span class="str">'aria-expanded'</span>, String(abierta));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarAcordeon">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> <code>filtrarListaEnVivo(inputBusqueda, contenedorItems)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">A medida que se escribe en el buscador, la lista de abajo tiene que mostrar solo los ítems cuyo nombre contenga el texto escrito (sin importar mayúsculas/minúsculas). Con el buscador vacío, todos los ítems vuelven a verse.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — ocultar un ítem es agregarle la clase <code>hidden</code>; mostrarlo es quitársela (mismo mecanismo que ya viste en el fixture de <code>activarAcordeon</code> y <code>mostrarTooltipEnCursor</code>).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="p-4 max-w-sm"&gt;
+  &lt;input id="busqueda-e7" type="text" placeholder="Buscar fruta..." class="border rounded px-2 py-1 w-full mb-2"&gt;
+  &lt;ul id="lista-e7" class="divide-y"&gt;
+    &lt;li class="item-lista p-2" data-nombre="Manzana"&gt;Manzana&lt;/li&gt;
+    &lt;li class="item-lista p-2" data-nombre="Pera"&gt;Pera&lt;/li&gt;
+    &lt;li class="item-lista p-2" data-nombre="Mango"&gt;Mango&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — escribí en el buscador</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">filtrarListaEnVivo</span>(inputBusqueda, contenedorItems) {
+  inputBusqueda.addEventListener(<span class="str">'input'</span>, () =&gt; {
+    <span class="kw">const</span> texto = inputBusqueda.value.toLowerCase();
+    <span class="kw">const</span> items = contenedorItems.querySelectorAll(<span class="str">'.item-lista'</span>);
+
+    items.forEach(item =&gt; {
+      <span class="kw">const</span> coincide = item.dataset.nombre.toLowerCase().includes(texto);
+      item.classList.toggle(<span class="str">'hidden'</span>, !coincide);
+    });
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="filtrarListaEnVivo">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> <code>activarStepperCarrito(botonMas, botonMenos, spanCantidad)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un contador de cantidad para un carrito: el botón "+" suma de a uno sin límite superior, el botón "-" resta de a uno pero nunca puede bajar de 0. El número mostrado tiene que reflejar siempre el valor real.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="flex items-center gap-2 p-4 w-fit border rounded-lg"&gt;
+  &lt;button id="menos-e8" class="w-8 h-8 rounded bg-slate-200 font-bold"&gt;−&lt;/button&gt;
+  &lt;span id="cantidad-e8" class="w-8 text-center font-semibold" data-cantidad="0"&gt;0&lt;/span&gt;
+  &lt;button id="mas-e8" class="w-8 h-8 rounded bg-slate-200 font-bold"&gt;+&lt;/button&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarStepperCarrito</span>(botonMas, botonMenos, spanCantidad) {
+  <span class="kw">const</span> actualizar = (nuevaCantidad) =&gt; {
+    spanCantidad.textContent = nuevaCantidad;
+    spanCantidad.dataset.cantidad = nuevaCantidad;
+  };
+
+  botonMas.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> actual = Number(spanCantidad.dataset.cantidad);
+    actualizar(actual + <span class="num">1</span>);
+  });
+
+  botonMenos.addEventListener(<span class="str">'click'</span>, () =&gt; {
+    <span class="kw">const</span> actual = Number(spanCantidad.dataset.cantidad);
+    actualizar(Math.max(<span class="num">0</span>, actual - <span class="num">1</span>));
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarStepperCarrito">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E9 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> <code>activarCierreModalFuera(modal)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un modal con overlay: si el usuario hace click en el fondo oscuro (fuera de la tarjeta de contenido), el modal se cierra. Si hace click en cualquier parte DEL contenido, tiene que quedarse abierto.</p>
+          <p class="ex-explanation">Contrato exacto que revisa el test — "cerrar" es agregarle la clase <code>hidden</code> al modal completo (el mismo mecanismo que en <code>activarAcordeon</code>).</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div id="modal-e9" class="fixed inset-0 bg-black/50 flex items-center justify-center"&gt;
+  &lt;div id="modal-contenido-e9" class="bg-white rounded-lg p-6 max-w-sm"&gt;
+    &lt;p&gt;Contenido del modal&lt;/p&gt;
+    &lt;button&gt;Aceptar&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-demo ex-demo--tall"><span class="ex-demo-label">Demo en vivo — clickeá fuera de la tarjeta para cerrar</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarCierreModalFuera</span>(modal) {
+  modal.addEventListener(<span class="str">'click'</span>, (e) =&gt; {
+    <span class="kw">if</span> (e.target === modal) {
+      modal.classList.add(<span class="str">'hidden'</span>);
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarCierreModalFuera">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> <code>activarDragReordenable(lista)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una lista de tareas se puede reordenar arrastrando: al soltar un ítem arrastrado sobre otro, el arrastrado tiene que insertarse justo antes del ítem sobre el que se soltó. Todo el comportamiento se engancha en el contenedor de la lista, no ítem por ítem.</p>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul id="lista-e10" class="p-4 max-w-xs"&gt;
+  &lt;li draggable="true" class="drag-item cursor-move bg-white p-2 rounded shadow mb-1"&gt;Tarea A&lt;/li&gt;
+  &lt;li draggable="true" class="drag-item cursor-move bg-white p-2 rounded shadow mb-1"&gt;Tarea B&lt;/li&gt;
+  &lt;li draggable="true" class="drag-item cursor-move bg-white p-2 rounded shadow mb-1"&gt;Tarea C&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-demo"><span class="ex-demo-label">Demo en vivo — arrastrá para reordenar</span></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarDragReordenable</span>(lista) {
+  <span class="kw">let</span> elementoArrastrado = <span class="kw">null</span>;
+
+  lista.addEventListener(<span class="str">'dragstart'</span>, (e) =&gt; {
+    elementoArrastrado = e.target.closest(<span class="str">'.drag-item'</span>);
+  });
+
+  lista.addEventListener(<span class="str">'dragover'</span>, (e) =&gt; {
+    e.preventDefault();
+  });
+
+  lista.addEventListener(<span class="str">'drop'</span>, (e) =&gt; {
+    <span class="kw">const</span> destino = e.target.closest(<span class="str">'.drag-item'</span>);
+    <span class="kw">if</span> (!destino || destino === elementoArrastrado) <span class="kw">return</span>;
+    lista.insertBefore(elementoArrastrado, destino);
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarDragReordenable">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 1 — SELECCIÓN (3 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🔍 Grupo 1 — Selección <span style="font-size:.8rem;color:var(--text-muted);">(3 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>3</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E1 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>textoBadge(tarjeta, alternativo)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cada tarjeta de producto puede llevar o no una etiqueta destacada (por ejemplo "Nuevo" u "Oferta"). Recibe la tarjeta y un texto alternativo. Si la tarjeta tiene esa etiqueta, devolvé su texto; si no la tiene, devolvé el texto alternativo — sin que el programa se rompa por buscar algo que no está.</p>
+          <p class="ex-explanation">Cuando algo puede no existir en la página, buscarlo y asumir directamente que está ahí es una de las causas más comunes de que un script se detenga en seco a mitad de ejecución. Conviene pensar primero en el caso "no está" y después en el caso feliz.</p>
+          <div class="ex-samples">
+            textoBadge(tarjetaConEtiqueta, <span class="str">"Sin etiqueta"</span>) <span class="arrow-sample">→</span> <span class="str">"Nuevo"</span><br>
+            textoBadge(tarjetaSinEtiqueta, <span class="str">"Sin etiqueta"</span>) <span class="arrow-sample">→</span> <span class="str">"Sin etiqueta"</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="tarjeta"&gt;
+  &lt;span class="badge"&gt;Nuevo&lt;/span&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">textoBadge</span>(tarjeta, alternativo) {
+  <span class="kw">const</span> etiqueta = tarjeta.querySelector(<span class="str">'.badge'</span>);
+  <span class="kw">return</span> etiqueta ? etiqueta.textContent : alternativo;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="textoBadge">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>productosVisibles(lista)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un listado de productos filtrado por el usuario marca con una clase los que no cumplen el filtro, ocultándolos visualmente. Recibe el contenedor del listado y devolvé un array con el texto de los productos que siguen visibles — los ocultos no cuentan.</p>
+          <p class="ex-explanation">Que un elemento siga existiendo en el HTML no significa que el usuario lo esté viendo — "existe" y "está visible" son preguntas distintas, y confundirlas es un bug clásico en listados con filtros.</p>
+          <div class="ex-samples">
+            productosVisibles(listaConDosOcultos) <span class="arrow-sample">→</span> [<span class="str">"Mouse"</span>, <span class="str">"Monitor"</span>]<br>
+            productosVisibles(listaSinOcultos) <span class="arrow-sample">→</span> [<span class="str">"Mouse"</span>, <span class="str">"Teclado"</span>, <span class="str">"Monitor"</span>]
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul class="lista"&gt;
+  &lt;li class="producto"&gt;Mouse&lt;/li&gt;
+  &lt;li class="producto oculto"&gt;Teclado&lt;/li&gt;
+  &lt;li class="producto"&gt;Monitor&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">productosVisibles</span>(lista) {
+  <span class="kw">const</span> productos = lista.querySelectorAll(<span class="str">'.producto:not(.oculto)'</span>);
+  <span class="kw">return</span> Array.from(productos).map(p =&gt; p.textContent);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="productosVisibles">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>siguienteItem(menu)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En un menú de navegación, un ítem lleva marcada la sección activa. Recibe el menú y devolvé el texto del ítem que va justo después del activo — útil para una navegación tipo "siguiente" por teclado. Si el activo es el último, o si ningún ítem está marcado como activo, devolvé <code>null</code>.</p>
+          <p class="ex-explanation">Cuando la posición de un elemento respecto a sus hermanos importa, hay que poder moverse por la estructura del documento a partir de ese elemento, no solo encontrarlo.</p>
+          <div class="ex-samples">
+            siguienteItem(menuConProductosActivo) <span class="arrow-sample">→</span> <span class="str">"Contacto"</span><br>
+            siguienteItem(menuConContactoActivo) <span class="arrow-sample">→</span> <span class="kw">null</span> <span class="cmt">// Contacto es el último</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul class="menu"&gt;
+  &lt;li&gt;Inicio&lt;/li&gt;
+  &lt;li class="activo"&gt;Productos&lt;/li&gt;
+  &lt;li&gt;Contacto&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">siguienteItem</span>(menu) {
+  <span class="kw">const</span> activo = menu.querySelector(<span class="str">'.activo'</span>);
+  <span class="kw">if</span> (!activo) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">const</span> siguiente = activo.nextElementSibling;
+  <span class="kw">return</span> siguiente ? siguiente.textContent : <span class="kw">null</span>;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="siguienteItem">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 2 — MANIPULACIÓN (5 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>✏️ Grupo 2 — Manipulación <span style="font-size:.8rem;color:var(--text-muted);">(5 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>5</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E4 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟡 <code>mostrarNombreUsuario(parrafo, nombre)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un formulario de registro permite elegir un nombre de usuario, y ese nombre se muestra luego en un párrafo de bienvenida. El problema: cualquier usuario podría escribir código HTML o de script como si fuera su nombre. Recibe el párrafo y el nombre ingresado, y mostralo siempre como texto plano — nunca como HTML que el navegador interprete o ejecute.</p>
+          <p class="ex-explanation">Insertar texto que viene de un usuario directamente en la página, dejando que el navegador lo interprete como marcado, es la puerta de entrada a inyecciones de código. Todo dato externo se trata como texto, nunca como HTML de confianza.</p>
+          <div class="ex-samples">
+            mostrarNombreUsuario(parrafo, <span class="str">"Ana"</span>) <span class="arrow-sample">→</span> el párrafo muestra <span class="str">"Ana"</span><br>
+            mostrarNombreUsuario(parrafo, <span class="str">"&lt;b&gt;Ana&lt;/b&gt;"</span>) <span class="arrow-sample">→</span> el párrafo muestra literalmente <span class="str">"&lt;b&gt;Ana&lt;/b&gt;"</span>, no negrita
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;p class="usuario"&gt;&lt;/p&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">mostrarNombreUsuario</span>(parrafo, nombre) {
+  parrafo.textContent = nombre;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="mostrarNombreUsuario">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>datosProductoCard(tarjeta)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cada tarjeta de producto guarda su precio, categoría y stock como atributos personalizados en el propio elemento HTML (pensados para leerse desde JS, no para mostrarse directo). Recibe la tarjeta y devolvé un objeto plano <code>{ precio, categoria, stock }</code> listo para usarse en un carrito — con <code>precio</code> y <code>stock</code> ya convertidos a número, no como texto.</p>
+          <p class="ex-explanation">Los atributos leídos desde el HTML siempre llegan como texto, aunque parezcan números. Si no los convertís, sumar dos "números" así puede pegarlos como texto en vez de sumarlos — un bug silencioso porque JS no avisa del error de tipo.</p>
+          <div class="ex-samples">
+            datosProductoCard(tarjeta) <span class="arrow-sample">→</span> { precio: <span class="num">19.99</span>, categoria: <span class="str">"electronica"</span>, stock: <span class="num">5</span> }
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="producto-card"
+     data-precio="19.99"
+     data-categoria="electronica"
+     data-stock="5"&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">datosProductoCard</span>(tarjeta) {
+  <span class="kw">return</span> {
+    precio: Number(tarjeta.dataset.precio),
+    categoria: tarjeta.dataset.categoria,
+    stock: Number(tarjeta.dataset.stock)
+  };
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="datosProductoCard">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>alternarFavorito(boton)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un botón tipo "me gusta" cambia de estado cada vez que se pulsa: si estaba apagado pasa a estar activo, y viceversa. Recibe el botón y devolvé <code>true</code> si quedó activo después de esta llamada, o <code>false</code> si quedó inactivo. Debe funcionar bien llamándolo varias veces seguidas sobre el mismo botón.</p>
+          <p class="ex-explanation">Un estado que se invierte cada vez que se llama a la función necesita que esa función sepa en qué estado está el elemento AHORA, no solo que lo fije siempre en un valor.</p>
+          <div class="ex-samples">
+            alternarFavorito(boton) <span class="arrow-sample">→</span> <span class="kw">true</span> &nbsp;<span class="cmt">// primera vez, se activa</span><br>
+            alternarFavorito(boton) <span class="arrow-sample">→</span> <span class="kw">false</span> &nbsp;<span class="cmt">// segunda vez, se desactiva</span><br>
+            alternarFavorito(boton) <span class="arrow-sample">→</span> <span class="kw">true</span> &nbsp;<span class="cmt">// tercera vez, se activa de nuevo</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;button class="like"&gt;&lt;/button&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">alternarFavorito</span>(boton) {
+  boton.classList.toggle(<span class="str">'activo'</span>);
+  <span class="kw">return</span> boton.classList.contains(<span class="str">'activo'</span>);
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="alternarFavorito">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E7 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟢 <code>agregarTarea(lista, texto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En una lista de tareas pendientes, cada tarea nueva se añade al final de la lista. Recibe el contenedor de la lista y el texto de la tarea, agregala como un nuevo ítem, y devolvé cuántas tareas hay en total después de añadirla. Tiene que funcionar bien aunque se llame varias veces seguidas para ir agregando tareas una tras otra.</p>
+          <p class="ex-explanation">Agregar contenido nuevo a una lista que ya existe en la página, sin reconstruir toda la lista desde cero, es una operación constante en interfaces dinámicas: tareas pendientes, comentarios, resultados de búsqueda...</p>
+          <div class="ex-samples">
+            agregarTarea(lista, <span class="str">"Comprar pan"</span>) <span class="arrow-sample">→</span> <span class="num">1</span><br>
+            agregarTarea(lista, <span class="str">"Estudiar JS"</span>) <span class="arrow-sample">→</span> <span class="num">2</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul class="tareas"&gt;&lt;/ul&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">agregarTarea</span>(lista, texto) {
+  <span class="kw">const</span> li = document.createElement(<span class="str">'li'</span>);
+  li.textContent = texto;
+  lista.appendChild(li);
+  <span class="kw">return</span> lista.children.length;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="agregarTarea">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E8 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>eliminarTarea(lista, texto)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Cuando una tarea se completa, desaparece de la lista de pendientes. Recibe el contenedor de la lista y el texto de la tarea a quitar, eliminala de la lista, y devolvé cuántas tareas quedan. Si el texto no corresponde a ninguna tarea existente, no cambies nada y devolvé la cantidad de tareas que ya había.</p>
+          <p class="ex-explanation">Quitar un elemento del documento solo tiene sentido sobre un elemento que efectivamente ya está ahí — primero hay que localizarlo, y contemplar qué pasa cuando la búsqueda no encuentra nada.</p>
+          <div class="ex-samples">
+            eliminarTarea(lista, <span class="str">"Estudiar JS"</span>) <span class="arrow-sample">→</span> <span class="num">2</span> &nbsp;<span class="cmt">// quedan 2 de 3</span><br>
+            eliminarTarea(lista, <span class="str">"Bailar"</span>) <span class="arrow-sample">→</span> <span class="num">3</span> &nbsp;<span class="cmt">// no existía, no cambia nada</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul class="tareas"&gt;
+  &lt;li&gt;Comprar pan&lt;/li&gt;
+  &lt;li&gt;Estudiar JS&lt;/li&gt;
+  &lt;li&gt;Pagar factura&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">eliminarTarea</span>(lista, texto) {
+  <span class="kw">const</span> items = Array.from(lista.querySelectorAll(<span class="str">'li'</span>));
+  <span class="kw">const</span> item = items.find(li =&gt; li.textContent === texto);
+  <span class="kw">if</span> (item) item.remove();
+  <span class="kw">return</span> lista.children.length;
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="eliminarTarea">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 3 — EVENTOS (5 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>⚡ Grupo 3 — Eventos <span style="font-size:.8rem;color:var(--text-muted);">(5 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>5</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E9 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>evitarNavegacion(enlace)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Un enlace se usa como disparador de una acción en JS (por ejemplo, abrir un panel), no para navegar a otra página. Recibe el enlace y hacé que, al hacer click, el navegador NO siga el <code>href</code> ni recargue la página.</p>
+          <p class="ex-explanation">Por defecto, cualquier click sobre un enlace dispara la navegación del navegador, pase lo que pase en tu código JS. Cuando el enlace es solo un gancho para lógica propia, hay que decirle explícitamente al navegador que no siga su comportamiento normal.</p>
+          <div class="ex-samples">
+            evitarNavegacion(enlace)<br>
+            <span class="cmt">// tras un click sobre el enlace, el navegador no navega a ningún lado</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;a href="#" class="enlace"&gt;Ver más&lt;/a&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">evitarNavegacion</span>(enlace) {
+  enlace.addEventListener(<span class="str">'click'</span>, (evento) =&gt; {
+    evento.preventDefault();
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="evitarNavegacion">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E10 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🔴 <code>activarDelegacionTareas(lista)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En una lista de tareas, al hacer click sobre cualquier tarea esa tarea concreta debe marcarse como completada visualmente, y un segundo click la desmarca. La lista puede ir creciendo con tareas nuevas después de haber activado este comportamiento, y esas tareas nuevas también deben poder marcarse igual, sin volver a configurar nada. Un click sobre una tarea nunca debe afectar a las demás.</p>
+          <p class="ex-explanation">Enganchar el comportamiento a cada ítem por separado deja de funcionar en cuanto aparece un ítem que no existía cuando se configuró todo. Hay una forma de reaccionar a los clicks de todos los ítems de un contenedor, presentes y futuros, sin repetir la configuración por cada uno.</p>
+          <div class="ex-samples">
+            activarDelegacionTareas(lista)<br>
+            <span class="cmt">// click en el primer ítem → solo ese ítem cambia</span><br>
+            <span class="cmt">// se agrega un ítem nuevo a la lista</span><br>
+            <span class="cmt">// click en el ítem nuevo → también cambia, sin volver a llamar activarDelegacionTareas</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;ul class="tareas"&gt;
+  &lt;li&gt;Tarea 1&lt;/li&gt;
+  &lt;li&gt;Tarea 2&lt;/li&gt;
+&lt;/ul&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarDelegacionTareas</span>(lista) {
+  lista.addEventListener(<span class="str">'click'</span>, (evento) =&gt; {
+    <span class="kw">const</span> item = evento.target.closest(<span class="str">'li'</span>);
+    <span class="kw">if</span> (item && lista.contains(item)) {
+      item.classList.toggle(<span class="str">'done'</span>);
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarDelegacionTareas">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E11 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>activarEnvioConEnter(input, alEnviar)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En un chat, el mensaje se envía pulsando la tecla Enter dentro del campo de texto, sin necesidad de ningún botón. Recibe el campo de texto y una función <code>alEnviar</code>. Cuando el usuario pulsa Enter, llamá a <code>alEnviar</code> pasándole el texto actual del campo. Si pulsa cualquier otra tecla, no debe pasar nada.</p>
+          <p class="ex-explanation">No todas las teclas significan lo mismo dentro de un mismo campo — "algo pasó en el teclado" no alcanza como información; hace falta distinguir cuál tecla se pulsó antes de decidir si reaccionar o no.</p>
+          <div class="ex-samples">
+            activarEnvioConEnter(input, miFuncion)<br>
+            <span class="cmt">// el usuario escribe "Hola" y pulsa Enter → miFuncion("Hola")</span><br>
+            <span class="cmt">// el usuario pulsa cualquier otra tecla → miFuncion no se llama</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;input type="text" class="mensaje"&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarEnvioConEnter</span>(input, alEnviar) {
+  input.addEventListener(<span class="str">'keydown'</span>, (evento) =&gt; {
+    <span class="kw">if</span> (evento.key === <span class="str">'Enter'</span>) {
+      alEnviar(input.value);
+    }
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarEnvioConEnter">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E12 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🔴 <code>activarArrastre(tarjeta)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Una tarjeta de la interfaz se puede arrastrar con el ratón: el usuario la pulsa, la mueve por la pantalla sin soltar el botón, y la tarjeta lo sigue en tiempo real actualizando su posición (<code>left</code>/<code>top</code>). Al soltar el botón, la tarjeta se queda donde está y deja de seguir al cursor — mover el ratón después de soltar no debe volver a moverla. Recibe la tarjeta.</p>
+          <p class="ex-explanation">Un arrastre tiene tres momentos distintos — empieza, está en curso, termina — y cada uno necesita reaccionar a una interacción distinta del ratón. El momento más fácil de olvidar es "terminó": sin él, la tarjeta seguiría al cursor para siempre, incluso después de soltar el botón.</p>
+          <div class="ex-samples">
+            activarArrastre(tarjeta)<br>
+            <span class="cmt">// el usuario pulsa sobre la tarjeta y mueve el ratón → la tarjeta se mueve con él</span><br>
+            <span class="cmt">// el usuario suelta el botón y sigue moviendo el ratón → la tarjeta ya no se mueve</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;div class="tarjeta-arrastrable"
+     style="position:absolute;left:0px;top:0px;"&gt;
+&lt;/div&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarArrastre</span>(tarjeta) {
+  <span class="kw">let</span> arrastrando = <span class="kw">false</span>;
+
+  tarjeta.addEventListener(<span class="str">'mousedown'</span>, () =&gt; {
+    arrastrando = <span class="kw">true</span>;
+  });
+
+  document.addEventListener(<span class="str">'mousemove'</span>, (evento) =&gt; {
+    <span class="kw">if</span> (!arrastrando) <span class="kw">return</span>;
+    tarjeta.style.left = evento.clientX + <span class="str">'px'</span>;
+    tarjeta.style.top = evento.clientY + <span class="str">'px'</span>;
+  });
+
+  document.addEventListener(<span class="str">'mouseup'</span>, () =&gt; {
+    arrastrando = <span class="kw">false</span>;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarArrastre">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E13 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>activarContadorCaracteres(input, contador)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Debajo de un campo de texto hay un pequeño contador que muestra cuántos caracteres se llevan escritos, y se actualiza al instante con cada letra que se escribe o se borra — no solo cuando el usuario termina de escribir o cambia de campo. Recibe el campo de texto y el elemento contador, y mantené el contador sincronizado con la longitud del texto en todo momento.</p>
+          <p class="ex-explanation">Hay eventos de formulario que solo se disparan cuando el campo pierde el foco, y otros que se disparan con cada cambio de valor, tecla a tecla. Un contador "en vivo" necesita el segundo tipo, no el primero.</p>
+          <div class="ex-samples">
+            activarContadorCaracteres(input, contador)<br>
+            <span class="cmt">// el usuario escribe "Hola" letra por letra → el contador va mostrando 1, 2, 3, 4</span>
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;input type="text" class="mensaje-texto"&gt;
+&lt;span class="contador"&gt;0&lt;/span&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">activarContadorCaracteres</span>(input, contador) {
+  input.addEventListener(<span class="str">'input'</span>, () =&gt; {
+    contador.textContent = input.value.length;
+  });
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="activarContadorCaracteres">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- GRUPO 4 — FORMULARIOS (2 ejercicios) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📋 Grupo 4 — Formularios <span style="font-size:.8rem;color:var(--text-muted);">(2 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>2</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <!-- E14 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>datosFormulario(formulario)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">Antes de enviar un formulario de registro (con campos como nombre y email) a un servidor, hace falta juntar todos sus valores actuales en un único objeto, usando el nombre de cada campo como clave. Recibe el formulario y devolvé ese objeto.</p>
+          <p class="ex-explanation">Un formulario HTML ya sabe agrupar sus propios campos por nombre — no hace falta ir campo por campo a mano si sabés dónde buscar esa agrupación ya lista.</p>
+          <div class="ex-samples">
+            datosFormulario(formularioRegistro) <span class="arrow-sample">→</span> { nombre: <span class="str">"Pau"</span>, email: <span class="str">"pau@mail.com"</span> }
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;form class="registro"&gt;
+  &lt;input name="nombre" value="Pau"&gt;
+  &lt;input name="email" value="pau@mail.com"&gt;
+&lt;/form&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">datosFormulario</span>(formulario) {
+  <span class="kw">const</span> datos = <span class="kw">new</span> FormData(formulario);
+  <span class="kw">return</span> Object.fromEntries(datos.entries());
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="datosFormulario">⏳ Cargando resultados...</div>
+        </div>
+
+        <!-- E15 -->
+        <div class="ex" data-pending>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>validarConfirmacionEmail(email, confirmarEmail)</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">En un formulario de registro, el usuario escribe su email dos veces para confirmar que no se equivocó al tipearlo. Recibe el campo de email y el campo de confirmación. Si no coinciden, marcá el campo de confirmación como inválido con un mensaje propio explicando el problema — el navegador debe considerar el formulario no válido por ese campo. Si coinciden, quitá esa marca para que el campo vuelva a considerarse correcto.</p>
+          <p class="ex-explanation">Los formularios HTML tienen su propio sistema de validación incorporado (el que muestra esos globos nativos del navegador), y se puede participar en él con reglas propias, no solo con las automáticas de tipo o formato.</p>
+          <div class="ex-samples">
+            <span class="cmt">// email = "pau@mail.com", confirmarEmail = "otro@mail.com"</span><br>
+            validarConfirmacionEmail(email, confirmarEmail) <span class="arrow-sample">→</span> el campo de confirmación queda inválido<br>
+            <span class="cmt">// email = "pau@mail.com", confirmarEmail = "pau@mail.com"</span><br>
+            validarConfirmacionEmail(email, confirmarEmail) <span class="arrow-sample">→</span> el campo de confirmación queda válido de nuevo
+          </div>
+          <button class="ex-html-btn" onclick="toggleHtml(this)">📄 Ver HTML</button>
+          <div class="ex-html"><pre>&lt;input type="email" class="email" value="pau@mail.com"&gt;
+&lt;input type="email" class="confirmar-email" value=""&gt;</pre></div>
+          <div class="ex-fixture"></div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">function</span> <span class="fn">validarConfirmacionEmail</span>(email, confirmarEmail) {
+  <span class="kw">if</span> (confirmarEmail.value !== email.value) {
+    confirmarEmail.setCustomValidity(<span class="str">'Los emails no coinciden'</span>);
+  } <span class="kw">else</span> {
+    confirmarEmail.setCustomValidity(<span class="str">''</span>);
+  }
+}</pre>
+          </div>
+          <div class="ex-result" data-fn="validarConfirmacionEmail">⏳ Cargando resultados...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Agosto 2026 · Sesión de práctica JS/DOM
+    </div>
+  </div>
+</main>
+
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+
+function toggleHtml(btn) {
+  const html = btn.nextElementSibling;
+  html.classList.toggle('is-visible');
+  btn.textContent = html.classList.contains('is-visible') ? '📄 Ocultar HTML' : '📄 Ver HTML';
+}
+</script>
+
+<script src="dia-19-dom-soluciones.js"></script>
+<script src="dia-19-dom-runner.js"></script>
+<script src="../../nav.js"></script>
+
+</body>
+</html>

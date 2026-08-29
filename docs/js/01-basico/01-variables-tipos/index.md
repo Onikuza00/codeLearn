@@ -163,6 +163,25 @@ No puedes mezclar `number` y `bigint` en una operación directa — hay que conv
 
 ---
 
+## `Math` — operaciones numéricas comunes {: .topic-title }
+
+`Math` es un objeto global con métodos matemáticos, siempre en mayúscula y sin necesidad de instanciar nada (`Math.metodo(...)`, nunca `new Math()`):
+
+```js
+Math.round(4.5);   // 5 — redondea al entero más cercano
+Math.floor(4.9);   // 4 — SIEMPRE hacia abajo
+Math.ceil(4.1);    // 5 — SIEMPRE hacia arriba
+Math.abs(-7);      // 7 — valor absoluto, sin signo
+Math.max(3, 9, 1);  // 9
+Math.min(3, 9, 1);  // 1
+Math.random();      // decimal entre 0 (incluido) y 1 (excluido)
+```
+
+!!! tip "`round()` no es lo mismo que `floor()` — importa cuál elegís"
+    `Math.round()` redondea al más cercano (hacia arriba desde `.5`); `Math.floor()` trunca siempre hacia abajo, sin importar el decimal. Para un porcentaje o índice donde cualquier resto por mínimo que sea no debería "contar", `floor()` es la opción correcta — `round()` puede redondear hacia arriba un resultado que en realidad todavía no llegó al 100%.
+
+---
+
 ## Nombres de variables — reglas y convenciones {: .topic-title }
 
 **Reglas obligatorias** — si las rompes, JavaScript da error:

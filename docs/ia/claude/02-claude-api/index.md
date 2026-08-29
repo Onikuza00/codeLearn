@@ -6,7 +6,15 @@
 
 ## Temario {: .topic-title }
 
-> ⏳ Curso arrancado el 10/08/2026 — temario a completar sesión a sesión.
+| Sección del curso | Temario | Qué cubre |
+|---|---|---|
+| Accessing the API | [Acceso a la API](01-acceso-api/index.md) | El flujo completo de una solicitud, los campos que lleva y qué hace Claude internamente con el texto |
+| Accessing the API | [Creando la conexión](02-creando-conexion/index.md) | Primera llamada real al SDK — instalación, cliente, `messages.create()` (adaptado a JavaScript/Node.js) |
+| Making Basic Requests | [Conversaciones multiturno](03-conversaciones-multiturno/index.md) | Mantener el historial de mensajes entre turnos de usuario y asistente |
+| Making Basic Requests | [Prompting](04-system-prompts/index.md) | El parámetro `system`, para fijar el rol y las reglas de comportamiento de Claude |
+| Making Basic Requests | [Temperatura](05-temperature/index.md) | Controlar cuánta variación tienen las respuestas |
+| Making Basic Requests | [Streaming](06-streaming/index.md) | Recibir la respuesta en fragmentos a medida que se genera, en vez de esperar el mensaje completo |
+| Making Basic Requests | [Datos estructurados](07-datos-estructurados/index.md) | Prellenar el mensaje del asistente + secuencias de parada, para obtener JSON/código/listas sin texto envolvente |
 
 ---
 

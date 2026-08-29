@@ -64,7 +64,8 @@ h1.bloque-ia + blockquote,
 h1.section-architecture + blockquote,
 h1.section-twig + blockquote,
 h1.section-live + blockquote,
-h1.section-stimulus + blockquote {
+h1.section-stimulus + blockquote,
+h1.section-fundamentos + blockquote {
     position: relative;
     border: none;
     background: none;
@@ -84,7 +85,8 @@ h1.bloque-ia + blockquote::before,
 h1.section-architecture + blockquote::before,
 h1.section-twig + blockquote::before,
 h1.section-live + blockquote::before,
-h1.section-stimulus + blockquote::before {
+h1.section-stimulus + blockquote::before,
+h1.section-fundamentos + blockquote::before {
     content: "Definición";
     display: block;
     font-size: 0.56rem;
@@ -120,6 +122,12 @@ h1.section-live + blockquote::before {
 h1.section-stimulus + blockquote::before {
     background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
 }
+h1.section-fundamentos + blockquote::before {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+}
+h1.bloque-tailwind + blockquote::before {
+    background: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%);
+}
 
 /* ─── Títulos de sección ─── */
 
@@ -129,7 +137,7 @@ h1 {
     padding-bottom: 0.4em;
     padding-right: 0.1em;
     font-size: 2.4rem !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
     letter-spacing: -0.02em;
     display: inline-block;
 }
@@ -245,6 +253,67 @@ h1::after {
     background-clip: text !important;
 }
 
+/* Symfony — Fundamentos (degradado referencial del bloque Symfony) */
+.section-fundamentos {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-fundamentos::after {
+    background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+}
+.section-fundamentos:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Symfony — h1 igualado a los apunts del profesor (tamaño, sin línea decorativa),
+   manteniendo nuestro propio degradado de color en el texto */
+h1.section-fundamentos,
+h1.section-architecture,
+h1.section-twig,
+h1.section-live,
+h1.section-stimulus {
+    font-size: 1.6rem !important;
+    padding-bottom: 0;
+}
+h1.section-fundamentos::after,
+h1.section-architecture::after,
+h1.section-twig::after,
+h1.section-live::after,
+h1.section-stimulus::after {
+    display: none;
+}
+
+h1.section-fundamentos ~ h2 {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Fundamentos — h2.topic-title: mismo color + línea inferior degradada */
+.md-typeset .section-fundamentos ~ h2.topic-title {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+.md-typeset .section-fundamentos ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+}
+.md-typeset .section-fundamentos ~ h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
 /* ─── Admonitions ─── */
 
 .admonition {
@@ -265,6 +334,22 @@ h1.section-architecture ~ h2 {
     background-clip: text;
     font-weight: 700;
 }
+.md-typeset .section-architecture ~ h2.topic-title {
+    background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+.md-typeset .section-architecture ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #3949ab, #5c6bc0);
+}
+.md-typeset .section-architecture ~ h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
 
 /* Twig — h2 */
 h1.section-twig ~ h2 {
@@ -273,6 +358,22 @@ h1.section-twig ~ h2 {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 700;
+}
+.md-typeset .section-twig ~ h2.topic-title {
+    background: linear-gradient(135deg, #536dfe 0%, #7c4dff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+.md-typeset .section-twig ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #536dfe, #7c4dff);
+}
+.md-typeset .section-twig ~ h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
 }
 
 /* Live — h2 */
@@ -283,6 +384,22 @@ h1.section-live ~ h2 {
     background-clip: text;
     font-weight: 700;
 }
+.md-typeset .section-live ~ h2.topic-title {
+    background: linear-gradient(135deg, #7c4dff 0%, #aa00ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+.md-typeset .section-live ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #7c4dff, #aa00ff);
+}
+.md-typeset .section-live ~ h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
 
 /* Stimulus — h2 */
 h1.section-stimulus ~ h2 {
@@ -291,6 +408,22 @@ h1.section-stimulus ~ h2 {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 700;
+}
+.md-typeset .section-stimulus ~ h2.topic-title {
+    background: linear-gradient(135deg, #9c27b0 0%, #e040fb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+.md-typeset .section-stimulus ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #9c27b0, #e040fb);
+}
+.md-typeset .section-stimulus ~ h2.topic-title code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
 }
 
 /* ─── Variaciones de color por sección (continuación) ─── */
@@ -505,6 +638,40 @@ h1.section-responsive ~ h2 {
     font-weight: 700;
 }
 
+/* Formularios — h1 */
+.section-formularios {
+    background: linear-gradient(135deg, #db2777 0%, #f472b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-formularios::after {
+    background: linear-gradient(90deg, #db2777, #f472b6);
+}
+.section-formularios:hover {
+    background: linear-gradient(135deg, #f472b6 0%, #db2777 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Select personalizado — h1 */
+.section-select {
+    background: linear-gradient(135deg, #be123c 0%, #fb7185 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-select::after {
+    background: linear-gradient(90deg, #be123c, #fb7185);
+}
+.section-select:hover {
+    background: linear-gradient(135deg, #fb7185 0%, #be123c 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
 /* Quitar fondo de inline code dentro de h2 con degradado */
 h1[class^="section-"] ~ h2 code {
     background: none;
@@ -558,6 +725,23 @@ h1[class^="section-"] ~ h2 code {
 }
 .section-objetos:hover {
     background: linear-gradient(135deg, #34d399 0%, #059669 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque DOM — h1 (naranja, un color por subbloque) ─── */
+.section-dom {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-dom::after {
+    background: linear-gradient(90deg, #ea580c, #fb923c);
+}
+.section-dom:hover {
+    background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -814,11 +998,10 @@ h1.section-bem ~ h2 {
 
 .md-typeset h2.topic-title {
     margin: 1.5rem 0 0.9rem !important;
-    padding-bottom: 0.4em;
     font-size: 1.3rem !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
     letter-spacing: -0.02em;
-    display: inline-block;
+    display: block;
     position: relative;
     background: linear-gradient(135deg, #d6d6d6 0%, #636b6b 100%);
     -webkit-background-clip: text;
@@ -827,15 +1010,15 @@ h1.section-bem ~ h2 {
     color: transparent;
 }
 
-/* Línea inferior degradada */
+/* Línea inferior degradada — ocupa el 100% del ancho disponible */
 .md-typeset h2.topic-title::after {
     content: '';
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 3px;
-    border-radius: 3px;
+    height: 1px;
+    border-radius: 1px;
     background: linear-gradient(90deg, #b8b8b8, #7a8484);
 }
 
@@ -971,6 +1154,49 @@ h1.bloque-ia:hover {
 }
 
 .md-typeset .bloque-ia ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Bloque Tailwind — h1 en degradado cian→azul (color de marca de Tailwind) ─── */
+
+h1.bloque-tailwind {
+    background: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-tailwind::after {
+    background: linear-gradient(90deg, #0EA5E9, #38BDF8) !important;
+}
+
+h1.bloque-tailwind:hover {
+    background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque Tailwind — h2 unificado (cian→azul), gana a .topic-title gris ─── */
+
+.md-typeset .bloque-tailwind ~ h2,
+.md-typeset .bloque-tailwind ~ h2.topic-title {
+    background: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-tailwind ~ h2::after,
+.md-typeset .bloque-tailwind ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #0EA5E9, #38BDF8);
+}
+
+.md-typeset .bloque-tailwind ~ h2 code {
     background: transparent;
     -webkit-text-fill-color: inherit;
     color: inherit;

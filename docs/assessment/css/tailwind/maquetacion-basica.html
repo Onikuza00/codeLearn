@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind — Maquetación básica — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-css); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-css); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+    }
+    .exercise-card.is-open .exercise-card-header .arrow-fold { transform: rotate(180deg); }
+    .exercise-card:not(.is-open) .exercise-card-body { display: none; }
+    .exercise-card-body { padding: 0 1.5rem 1.5rem; cursor: default; }
+    .ex {
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 1rem;
+      margin-bottom: .75rem;
+    }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .5rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title { font-weight: 600; font-size: .95rem; }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--accent-css-dim);
+      color: var(--accent-css);
+      font-size: .75rem;
+      font-weight: 700;
+      margin-right: .25rem;
+    }
+    .ex-status {
+      font-size: .75rem;
+      padding: .15rem .5rem;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .ex-status.pending { background: #3b3b1a; color: #facc15; }
+    .ex-status.done { background: #1a3b1a; color: #4ade80; }
+    .ex-desc { margin: 0 0 .5rem; font-size: .88rem; line-height: 1.5; }
+    .ex-demo { font-size: .82rem; color: var(--text-muted); margin-bottom: .5rem; }
+    .ex-html {
+      background: #1a1a2e;
+      border-radius: 6px;
+      padding: .75rem;
+      font-size: .82rem;
+      margin-bottom: .75rem;
+      overflow-x: auto;
+    }
+    .ex-html code { font-family: 'JetBrains Mono', monospace; }
+    .ex-samples {
+      background: #0f0f1a;
+      border-radius: 6px;
+      padding: .75rem;
+      margin-bottom: .5rem;
+      font-size: .82rem;
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .ex-tag { color: #e879f9; }
+    .ex-class { color: #facc15; }
+    .ex-prop { color: #38bdf8; }
+    .ex-val { color: #4ade80; }
+    .ex-comment { color: #64748b; font-style: italic; }
+    .ex-solution-btn {
+      background: var(--accent-css-dim);
+      color: var(--accent-css);
+      border: 1px solid var(--accent-css);
+      padding: .35rem .85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .8rem;
+      transition: all .2s;
+    }
+    .ex-solution-btn:hover { background: var(--accent-css); color: #000; }
+    .ex-code {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, opacity .3s ease;
+      opacity: 0;
+    }
+    .ex-code.is-visible {
+      max-height: 2000px;
+      opacity: 1;
+      margin-top: .75rem;
+    }
+    .ex-code pre {
+      background: #0f0f1a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .75rem;
+      overflow-x: auto;
+      font-size: .82rem;
+      line-height: 1.6;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .lesson {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin-top: .75rem;
+      padding: .5rem .75rem;
+      border-left: 3px solid var(--accent-css);
+      background: rgba(0, 229, 255, 0.05);
+      border-radius: 0 6px 6px 0;
+    }
+    .lesson strong { color: var(--text-primary); }
+    .exercise-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <div style="max-width: 860px; margin: 0 auto; padding: 0 1rem 3rem;">
+
+    <div class="hero-exercise">
+      <h1>🎨 <span>Tailwind</span> — Maquetación básica</h1>
+      <p class="subtitle">🧱 componentes web reales con utility classes — flexbox, grid y responsive · 6 ejercicios</p>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SESIÓN 16/08/2026 — MAQUETACIÓN BÁSICA         -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🧱 16/08/2026 — Maquetación básica <span style="font-size:.8rem;color:var(--text-muted);">(6 ejercicios)</span></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#64748b;">6✅</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil
+        </p>
+
+        <!-- E1 — Navbar -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 Navbar</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Maquetá esta barra de navegación: el logo a la izquierda, los links a la derecha, todo alineado verticalmente al centro, y separación uniforme entre los tres links.</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">nav</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">span</span>&gt;CodeLearn&lt;/<span class="ex-tag">span</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">ul</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">li</span>&gt;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Inicio&lt;/<span class="ex-tag">a</span>&gt;&lt;/<span class="ex-tag">li</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">li</span>&gt;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Cursos&lt;/<span class="ex-tag">a</span>&gt;&lt;/<span class="ex-tag">li</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">li</span>&gt;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Contacto&lt;/<span class="ex-tag">a</span>&gt;&lt;/<span class="ex-tag">li</span>&gt;<br>
+              &nbsp;&nbsp;&lt;/<span class="ex-tag">ul</span>&gt;<br>
+              &lt;/<span class="ex-tag">nav</span>&gt;
+            </code>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>&lt;<span class="ex-tag">nav</span> <span class="ex-class">class</span>=<span class="ex-val">"flex justify-between items-center px-6 py-4"</span>&gt;
+  &lt;<span class="ex-tag">span</span> <span class="ex-class">class</span>=<span class="ex-val">"font-bold"</span>&gt;CodeLearn&lt;/<span class="ex-tag">span</span>&gt;
+  &lt;<span class="ex-tag">ul</span> <span class="ex-class">class</span>=<span class="ex-val">"flex gap-6"</span>&gt;
+    &lt;<span class="ex-tag">li</span>&gt;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Inicio&lt;/<span class="ex-tag">a</span>&gt;&lt;/<span class="ex-tag">li</span>&gt;
+    &lt;<span class="ex-tag">li</span>&gt;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Cursos&lt;/<span class="ex-tag">a</span>&gt;&lt;/<span class="ex-tag">li</span>&gt;
+    &lt;<span class="ex-tag">li</span>&gt;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Contacto&lt;/<span class="ex-tag">a</span>&gt;&lt;/<span class="ex-tag">li</span>&gt;
+  &lt;/<span class="ex-tag">ul</span>&gt;
+&lt;/<span class="ex-tag">nav</span>&gt;</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>justify-between</strong> reparte los hijos directos a los extremos; <strong>items-center</strong> los alinea en el eje vertical. El <code>gap</code> va en el contenedor que agrupa los elementos que necesitan separación entre sí, no en cada uno.
+          </div>
+        </div>
+
+        <!-- E2 — Card de producto -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 Card de producto</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">La card debe verse como una columna, con separación uniforme entre sus elementos, fondo blanco, esquinas redondeadas y una sombra suave alrededor.</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">article</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">img</span> <span class="ex-class">src</span>=<span class="ex-val">"mouse.jpg"</span> <span class="ex-class">alt</span>=<span class="ex-val">"Mouse inalámbrico"</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">h3</span>&gt;Mouse inalámbrico&lt;/<span class="ex-tag">h3</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">p</span>&gt;Ergonómico, batería de larga duración.&lt;/<span class="ex-tag">p</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">span</span>&gt;29,99€&lt;/<span class="ex-tag">span</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">button</span>&gt;Añadir al carrito&lt;/<span class="ex-tag">button</span>&gt;<br>
+              &lt;/<span class="ex-tag">article</span>&gt;
+            </code>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>&lt;<span class="ex-tag">article</span> <span class="ex-class">class</span>=<span class="ex-val">"flex flex-col gap-2 bg-white rounded-lg shadow-md p-4"</span>&gt;
+  &lt;<span class="ex-tag">img</span> <span class="ex-class">src</span>=<span class="ex-val">"mouse.jpg"</span> <span class="ex-class">alt</span>=<span class="ex-val">"Mouse inalámbrico"</span>&gt;
+  &lt;<span class="ex-tag">h3</span>&gt;Mouse inalámbrico&lt;/<span class="ex-tag">h3</span>&gt;
+  &lt;<span class="ex-tag">p</span>&gt;Ergonómico, batería de larga duración.&lt;/<span class="ex-tag">p</span>&gt;
+  &lt;<span class="ex-tag">span</span>&gt;29,99€&lt;/<span class="ex-tag">span</span>&gt;
+  &lt;<span class="ex-tag">button</span>&gt;Añadir al carrito&lt;/<span class="ex-tag">button</span>&gt;
+&lt;/<span class="ex-tag">article</span>&gt;</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>flex-col</strong> apila los hijos en columna. El <code>shadow-md</code> necesita un fondo opaco (<code>bg-white</code>) para notarse — sobre fondo transparente casi no se ve.
+          </div>
+        </div>
+
+        <!-- E3 — Grid de 3 columnas -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 Grid de servicios</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Las tres cards en 3 columnas iguales con separación entre ellas en escritorio. En pantallas menores a 768px, deben apilarse en una sola columna.</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">section</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span>&gt;Servicio 1&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span>&gt;Servicio 2&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span>&gt;Servicio 3&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &lt;/<span class="ex-tag">section</span>&gt;
+            </code>
+          </div>
+          <div class="ex-samples">
+            <span class="ex-comment">/* &lt;768px → 1 columna */</span><br>
+            <span class="ex-comment">/* &gt;=768px → 3 columnas */</span>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>&lt;<span class="ex-tag">section</span> <span class="ex-class">class</span>=<span class="ex-val">"grid grid-cols-1 md:grid-cols-3 gap-4"</span>&gt;
+  &lt;<span class="ex-tag">div</span>&gt;Servicio 1&lt;/<span class="ex-tag">div</span>&gt;
+  &lt;<span class="ex-tag">div</span>&gt;Servicio 2&lt;/<span class="ex-tag">div</span>&gt;
+  &lt;<span class="ex-tag">div</span>&gt;Servicio 3&lt;/<span class="ex-tag">div</span>&gt;
+&lt;/<span class="ex-tag">section</span>&gt;</pre>
+          </div>
+          <div class="lesson">
+            🔑 Tailwind es <strong>mobile-first</strong>: la clase sin prefijo (<code>grid-cols-1</code>) es la base para móvil, y <code>md:</code> la sobreescribe a partir de ese breakpoint hacia arriba. Nunca al revés.
+          </div>
+        </div>
+
+        <!-- E4 — Hero centrado -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 Hero centrado</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Todo el contenido centrado horizontal y verticalmente, ocupando la altura completa de la pantalla, con el texto alineado al centro.</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">section</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">h1</span>&gt;Aprendé a programar de verdad&lt;/<span class="ex-tag">h1</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">p</span>&gt;JS, CSS y Symfony desde cero, con proyectos reales.&lt;/<span class="ex-tag">p</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">button</span>&gt;Empezar ahora&lt;/<span class="ex-tag">button</span>&gt;<br>
+              &lt;/<span class="ex-tag">section</span>&gt;
+            </code>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>&lt;<span class="ex-tag">section</span> <span class="ex-class">class</span>=<span class="ex-val">"flex flex-col items-center justify-center min-h-screen text-center gap-4"</span>&gt;
+  &lt;<span class="ex-tag">h1</span>&gt;Aprendé a programar de verdad&lt;/<span class="ex-tag">h1</span>&gt;
+  &lt;<span class="ex-tag">p</span>&gt;JS, CSS y Symfony desde cero, con proyectos reales.&lt;/<span class="ex-tag">p</span>&gt;
+  &lt;<span class="ex-tag">button</span>&gt;Empezar ahora&lt;/<span class="ex-tag">button</span>&gt;
+&lt;/<span class="ex-tag">section</span>&gt;</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>justify-center</strong> centra en el eje principal (vertical, porque es <code>flex-col</code>); <strong>items-center</strong> centra en el eje cruzado (horizontal). <code>min-h-screen</code> le da la altura para que el centrado vertical tenga espacio real.
+          </div>
+        </div>
+
+        <!-- E5 — Footer con 3 bloques -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🔴 Footer con bloques de enlaces</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">Tres bloques de igual ancho, uno al lado del otro en pantallas grandes. En móvil, apilados uno debajo del otro. Cada bloque mantiene su título arriba y sus links en columna debajo.</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">footer</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">h4</span>&gt;Producto&lt;/<span class="ex-tag">h4</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Precios&lt;/<span class="ex-tag">a</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Funciones&lt;/<span class="ex-tag">a</span>&gt;<br>
+              &nbsp;&nbsp;&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">h4</span>&gt;Empresa&lt;/<span class="ex-tag">h4</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Sobre nosotros&lt;/<span class="ex-tag">a</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Blog&lt;/<span class="ex-tag">a</span>&gt;<br>
+              &nbsp;&nbsp;&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">h4</span>&gt;Soporte&lt;/<span class="ex-tag">h4</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Ayuda&lt;/<span class="ex-tag">a</span>&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Contacto&lt;/<span class="ex-tag">a</span>&gt;<br>
+              &nbsp;&nbsp;&lt;/<span class="ex-tag">div</span>&gt;<br>
+              &lt;/<span class="ex-tag">footer</span>&gt;
+            </code>
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>&lt;<span class="ex-tag">footer</span> <span class="ex-class">class</span>=<span class="ex-val">"grid grid-cols-1 md:grid-cols-3 gap-8 p-8"</span>&gt;
+  &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>=<span class="ex-val">"flex flex-col gap-2"</span>&gt;
+    &lt;<span class="ex-tag">h4</span>&gt;Producto&lt;/<span class="ex-tag">h4</span>&gt;
+    &lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Precios&lt;/<span class="ex-tag">a</span>&gt;
+    &lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Funciones&lt;/<span class="ex-tag">a</span>&gt;
+  &lt;/<span class="ex-tag">div</span>&gt;
+  &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>=<span class="ex-val">"flex flex-col gap-2"</span>&gt;
+    &lt;<span class="ex-tag">h4</span>&gt;Empresa&lt;/<span class="ex-tag">h4</span>&gt;
+    &lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Sobre nosotros&lt;/<span class="ex-tag">a</span>&gt;
+    &lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Blog&lt;/<span class="ex-tag">a</span>&gt;
+  &lt;/<span class="ex-tag">div</span>&gt;
+  &lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>=<span class="ex-val">"flex flex-col gap-2"</span>&gt;
+    &lt;<span class="ex-tag">h4</span>&gt;Soporte&lt;/<span class="ex-tag">h4</span>&gt;
+    &lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Ayuda&lt;/<span class="ex-tag">a</span>&gt;
+    &lt;<span class="ex-tag">a</span> <span class="ex-class">href</span>=<span class="ex-val">"#"</span>&gt;Contacto&lt;/<span class="ex-tag">a</span>&gt;
+  &lt;/<span class="ex-tag">div</span>&gt;
+&lt;/<span class="ex-tag">footer</span>&gt;</pre>
+          </div>
+          <div class="lesson">
+            🔑 El <code>gap</code> del grid separa las 3 columnas entre sí; el <code>gap</code> de cada <code>div</code> interno separa sus propios elementos verticales. Son dos gaps distintos, en dos contenedores distintos.
+          </div>
+        </div>
+
+        <!-- E6 — Pricing card con badge -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 Card de precio con etiqueta</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">La etiqueta "Más popular" va pegada en la esquina superior derecha de la card, sobresaliendo un poco por fuera del borde, sin empujar el resto del contenido ni ocupar espacio en el flujo normal.</p>
+          <div class="ex-html">
+            <code>
+              &lt;<span class="ex-tag">div</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">span</span>&gt;Más popular&lt;/<span class="ex-tag">span</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">h3</span>&gt;Plan Profesional&lt;/<span class="ex-tag">h3</span>&gt;<br>
+              &nbsp;&nbsp;&lt;<span class="ex-tag">p</span>&gt;79€ / mes&lt;/<span class="ex-tag">p</span>&gt;<br>
+              &lt;/<span class="ex-tag">div</span>&gt;
+            </code>
+          </div>
+          <p class="ex-demo">💡 pensá qué elemento necesita salir del flujo normal del documento para "flotar" sobre otro</p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre>&lt;<span class="ex-tag">div</span> <span class="ex-class">class</span>=<span class="ex-val">"relative p-6 bg-white rounded-lg shadow-md"</span>&gt;
+  &lt;<span class="ex-tag">span</span> <span class="ex-class">class</span>=<span class="ex-val">"absolute -top-3 -right-3 bg-pink-500 text-white text-xs px-2 py-1 rounded-full"</span>&gt;Más popular&lt;/<span class="ex-tag">span</span>&gt;
+  &lt;<span class="ex-tag">h3</span>&gt;Plan Profesional&lt;/<span class="ex-tag">h3</span>&gt;
+  &lt;<span class="ex-tag">p</span>&gt;79€ / mes&lt;/<span class="ex-tag">p</span>&gt;
+&lt;/<span class="ex-tag">div</span>&gt;</pre>
+          </div>
+          <div class="lesson">
+            🔑 <strong>relative</strong> en el padre define el punto de referencia; <strong>absolute</strong> en el hijo lo saca del flujo normal y lo posiciona respecto a ese padre. Los valores negativos (<code>-top-3</code>, <code>-right-3</code>) lo empujan por fuera del borde.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-footer">
+      CodeLearn Assessment — Agosto 2026 · Tailwind, maquetación básica
+    </div>
+  </div>
+</main>
+
+<script>
+// Toggle card (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (click en botón "Ver solución")
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+
+<script src="../../nav.js"></script>
+
+</body>
+</html>
