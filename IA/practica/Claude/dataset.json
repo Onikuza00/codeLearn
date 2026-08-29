@@ -1,0 +1,14 @@
+[
+  {
+    "task": "Crear un objeto JSON con la configuración de un bucket S3: versionado habilitado, hosting de sitio web estático y bloqueo de acceso público desactivado",
+    "format": "json"
+  },
+  {
+    "task": "Crear una expresión regular que valide identificadores de instancias EC2 (i- seguido de 17 caracteres hexadecimales, por ejemplo i-0123456789abcdef0)",
+    "format": "regex"
+  },
+  {
+    "task": "Crear un objeto JSON que represente una política de IAM que permita s3:GetObject sobre todos los objetos de un bucket llamado mi-bucket",
+    "format": "json"
+  }
+]

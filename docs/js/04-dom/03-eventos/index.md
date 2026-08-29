@@ -182,6 +182,25 @@ lista.addEventListener('click', function (event) {
 
 En delegación, `currentTarget` es siempre el padre (fijo); `target` cambia según qué hijo se haya pulsado — por eso es `target` el que hay que comprobar para saber "cuál" se clicó.
 
+### `contains()` — saber si un clic fue realmente "fuera"
+
+Para cerrar un menú o dropdown al clicar fuera de él, comparar el `target` por `id` es frágil: cualquier elemento anidado dentro del menú tiene su propio `id` (o ninguno), así que compararlo contra el `id` del contenedor nunca detecta esos casos correctamente.
+
+```js
+document.addEventListener('click', function (event) {
+    const dentroDelMenu = menu.contains(event.target);
+    const dentroDelBoton = boton.contains(event.target);
+    if (!dentroDelMenu && !dentroDelBoton) {
+        menu.classList.add('hidden');
+    }
+});
+```
+
+`elemento.contains(otroElemento)` devuelve `true` si `otroElemento` ES el propio `elemento`, o es descendiente suyo a cualquier profundidad — a diferencia de comparar por `===` o por `.id`, no importa cuán anidado esté el clic dentro del menú o del botón.
+
+!!! tip "El listener va en `document`, no en el menú"
+    Un clic "fuera" del menú, por definición, no ocurre dentro del menú — así que un listener enganchado en el propio menú nunca lo va a ver. Hace falta escuchar en un antepasado común a todo lo que existe en la página, y `document` siempre lo es.
+
 ### Cuándo usar delegación y cuándo no
 
 | Usa un listener por elemento | Usa delegación |
@@ -201,6 +220,7 @@ En delegación, `currentTarget` es siempre el padre (fijo); `target` cambia seg�
 | [Eventos de ratón](01-raton/index.md) | `click`, `dblclick`, `mousedown`/`mouseup`, `mousemove`, `mouseover`/`mouseout`, `contextmenu` |
 | [Eventos de teclado](02-teclado/index.md) | `keydown`, `keyup`, `key` vs `code`, teclas modificadoras |
 | [Eventos de página y formularios](03-pagina-formularios/index.md) | `load`, `resize`, `scroll`, `focus`/`blur`, `change` vs `input` |
+| [Arrastrar y soltar](04-arrastrar-soltar/index.md) | `draggable`, `dragstart`/`dragover`/`drop`, `insertBefore()` |
 
 ---
 

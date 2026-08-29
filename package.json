@@ -3,6 +3,7 @@
     "@anthropic-ai/sdk": "^0.117.1",
     "dotenv": "^17.4.2",
     "got": "^11.5.2",
-    "sharp": "^0.35.3"
-  }
+    "sharp": "^0.35.3" 
+  },
+  "type": "module"
 }

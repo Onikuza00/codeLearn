@@ -204,9 +204,9 @@
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 12/08/2026 — Gestor de tareas mínimo</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>11</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>11</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -220,10 +220,10 @@
         </p>
 
         <!-- E1 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">1</span> 🟢 Entidad <code>Tarea</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Creá la entidad <code>Tarea</code> con <code>make:entity</code>: <code>title</code> (string), <code>done</code> (bool), <code>createdAt</code> (datetime). Migrá la BD.</p>
           <p class="ex-explanation">Repaso del flujo completo: <code>make:entity</code> → <code>make:migration</code> → <code>doctrine:migrations:migrate</code>. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/01-entity/">Doctrine → Entity</a>.</p>
@@ -246,10 +246,10 @@
         </div>
 
         <!-- E2 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>GET /tareas</code> — listar</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Ruta + método de controller que devuelva todas las tareas usando el <strong>Repository</strong> (no el EntityManager a mano) y las renderice con Twig.</p>
           <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → Repository</a> — <code>findAll()</code> es uno de los 5 métodos que ya trae hecho.</p>
@@ -269,10 +269,10 @@
         </div>
 
         <!-- E3 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>GET /tareas/{id}</code> — mostrar</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Ruta + método que muestre una tarea. Usá <strong>ParamConverter</strong> — el argumento tipado como <code>Tarea $tarea</code> directo, nada de <code>find($id)</code> a mano.</p>
           <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → ParamConverter</a>. Si <code>{id}</code> no existe, Symfony lanza el 404 solo.</p>
@@ -293,10 +293,10 @@
         </div>
 
         <!-- E4 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">4</span> 🟢 Twig — <code>tarea/index.html.twig</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Extiende <code>base.html.twig</code>. Un <code>{% for %}</code> listando títulos con link a <code>tarea_show</code>. Si no hay tareas, usá el <code>{% else %}</code> del propio <code>for</code>.</p>
           <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Estructuras de control</a> y <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Enlaces dinámicos</a> (<code>path()</code>).</p>
@@ -316,10 +316,10 @@
         </div>
 
         <!-- E5 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🟢 Twig — <code>tarea/show.html.twig</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">El título, y un <code>{% if %}</code>/<code>{% else %}</code> que muestre "✅ Hecha" o "⏳ Pendiente" según <code>tarea.done</code>.</p>
           <p class="ex-explanation">Notación de punto: <code>tarea.done</code> llama a <code>isDone()</code>/<code>getDone()</code> por detrás — nunca accede a la propiedad privada directo. Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Tipos de variables</a>.</p>
@@ -338,10 +338,10 @@
         </div>
 
         <!-- E6 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>POST /tareas</code> — crear</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Ruta + método que reciba <code>title</code> por query string (<code>Request $request</code>, <code>$request->query->get('title')</code>) y cree una <code>Tarea</code> nueva con el <strong>EntityManager</strong>: <code>persist()</code> + <code>flush()</code>. <code>done = false</code>, <code>createdAt = new \DateTimeImmutable()</code>.</p>
           <p class="ex-explanation">Primera vez usando el EntityManager en este proyecto — hasta ahora solo leíste con el Repository. <code>persist()</code> solo prepara, <code>flush()</code> ejecuta el INSERT real. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → El EntityManager</a>.</p>
@@ -367,10 +367,10 @@
         </div>
 
         <!-- E7 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">7</span> 🟢 <code>POST /tareas/{id}/completar</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Marcá una tarea existente como hecha: ParamConverter para traerla (<code>Tarea $tarea</code>), <code>setDone(true)</code>, y <code>flush()</code> — <strong>sin <code>persist()</code></strong>.</p>
           <p class="ex-explanation">La entidad ya está gestionada por Doctrine (vino de la BD vía ParamConverter) — modificarla y hacer <code>flush()</code> alcanza. <code>persist()</code> es solo para entidades NUEVAS que Doctrine todavía no conoce.</p>
@@ -391,10 +391,10 @@
         </div>
 
         <!-- E8 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">8</span> 🟢 <code>POST /tareas/{id}/borrar</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Borrá una tarea existente: ParamConverter para traerla, <code>remove()</code> + <code>flush()</code>.</p>
           <p class="ex-explanation"><code>remove()</code> es el opuesto simétrico de <code>persist()</code> — marca para borrar, no ejecuta nada hasta el <code>flush()</code>. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → El EntityManager</a>.</p>
@@ -415,10 +415,10 @@
         </div>
 
         <!-- E9 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">9</span> 🔴 QueryBuilder — <code>findPendientes()</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">En <code>TareaRepository</code>, un método personalizado <code>findPendientes()</code> que devuelva solo las tareas con <code>done = false</code>, ordenadas por <code>createdAt</code> descendente (las más nuevas primero). Usalo en la ruta <code>GET /tareas</code> en vez de <code>findAll()</code>.</p>
           <p class="ex-explanation">Mismo patrón que <code>findByNameLike</code> de la doc: <code>createQueryBuilder</code> → <code>where</code> → <code>setParameter</code> → <code>orderBy</code> → <code>getQuery</code> → <code>getResult</code>. Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → QueryBuilder</a> (línea por línea).</p>
@@ -438,10 +438,10 @@
         </div>
 
         <!-- E10 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">10</span> 🟡 Twig — <code>include</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Sacá el <code>&lt;li&gt;</code> del <code>{% for %}</code> de <code>tarea/index.html.twig</code> a un fragmento nuevo <code>tarea/_item.html.twig</code>, e incluilo con <code>{% include %}</code> pasándole la variable <code>tarea</code>.</p>
           <p class="ex-explanation">Diferencia con <code>extends</code>: <code>include</code> mete un trozo pequeño y reutilizable en un punto cualquiera, no hereda la estructura entera. Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Include</a>.</p>
@@ -460,10 +460,10 @@
         </div>
 
         <!-- E11 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">11</span> 🟢 Twig — filtros</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">En <code>tarea/index.html.twig</code>: un título con el total de tareas usando el filtro <code>length</code>, y en cada <code>&lt;li&gt;</code> la fecha de <code>createdAt</code> formateada con <code>date('d/m/Y')</code>.</p>
           <p class="ex-explanation">Filtros encadenables con <code>|</code>. Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Filtros útiles</a> (tabla completa: <code>length</code>, <code>date</code>, <code>default</code>, etc).</p>
@@ -488,9 +488,9 @@
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 17/08/2026 — Formularios: crear y editar tareas</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>10</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>10</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -504,10 +504,10 @@
         </p>
 
         <!-- F1 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>TareaType</code> con <code>make:form</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Genera <code>TareaType</code> vinculado a la entidad <code>Tarea</code> con el maker. El maker añade un campo por cada propiedad de la entidad — dejalo solo con <code>title</code>, editable, con <code>label</code> y <code>required</code>. <code>done</code> y <code>createdAt</code> los gestiona el servidor, no el usuario desde el formulario.</p>
           <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/06-formularios/#makeform-paso-a-paso">Formularios → make:form paso a paso</a> y <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → buildForm()</a>.</p>
@@ -536,10 +536,10 @@
         </div>
 
         <!-- F2 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">2</span> 🟡 Constraints sobre <code>title</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Añade Constraints sobre la propiedad <code>title</code> de la entidad <code>Tarea</code>: no puede estar vacío, y mínimo 3 caracteres. Mensajes de error en castellano.</p>
           <p class="ex-explanation">Las Constraints van sobre la <strong>entidad</strong>, no sobre el formulario — el formulario las aplica solo. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#constraints">Formularios → Constraints</a>.</p>
@@ -555,10 +555,10 @@
         </div>
 
         <!-- F3 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>GET/POST /tareas/crear</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Un único método de controller que sirva las dos cosas: en <code>GET</code> muestra el formulario vacío; en <code>POST</code> válido, guarda la tarea con el <strong>EntityManager</strong> y redirige al listado; en <code>POST</code> inválido, vuelve a mostrar el formulario con los errores.</p>
           <p class="ex-explanation">Combina lo que ya usaste en <code>crear()</code> de Fundamentos (Ejercicio 6: <code>persist()</code> + <code>flush()</code>) con el flujo nuevo de Formularios. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#procesamiento-con-el-controlador">Formularios → Procesamiento con el controlador</a>.</p>
@@ -594,10 +594,10 @@
         </div>
 
         <!-- F4 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">4</span> 🟢 Twig — <code>tarea/crear.html.twig</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Extiende <code>base.html.twig</code>. Renderiza el formulario con las funciones Twig de Symfony — no hace falta control fino por campo todavía, con el renderizado automático alcanza.</p>
           <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → Renderizado en Twig</a> (<code>form_start</code> / <code>form_widget</code> / <code>form_end</code>).</p>
@@ -614,10 +614,10 @@
         </div>
 
         <!-- F5 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🔴 <code>GET/POST /tareas/{id}/editar</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Mismo <code>TareaType</code>, reutilizado para editar una tarea que ya existe: ParamConverter la trae, el formulario nace ya relleno con sus datos. Al guardar, no hace falta <code>persist()</code> — la entidad ya la conoce Doctrine.</p>
           <p class="ex-explanation">Combina ParamConverter (Fundamentos E3/E7/E8) con Formularios: <code>createForm(TareaType::class, $tarea)</code> con una entidad YA cargada precarga sus valores actuales en el formulario, sin que hagas nada extra.</p>
@@ -647,10 +647,10 @@
         </div>
 
         <!-- F6 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">6</span> 🟢 Botón <code>guardar</code> personalizado</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Añade a <code>TareaType</code> un campo de tipo <code>SubmitType</code> llamado <code>guardar</code>, con <code>label</code> propio ("Guardar tarea") y una clase CSS a través de <code>attr</code>.</p>
           <p class="ex-explanation">Refuerzo directo de la tabla de opciones del tercer argumento de <code>add()</code>. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → Opciones del tercer argumento</a> (<code>label</code>, <code>attr</code>).</p>
@@ -666,10 +666,10 @@
         </div>
 
         <!-- F7 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">7</span> 🟡 Campo <code>done</code> como <code>ChoiceType</code> expandido</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">En el formulario de edición (no en el de crear), añade el campo <code>done</code> como <code>ChoiceType</code> con dos opciones ("Pendiente" / "Hecha") mostradas como radio buttons, no como desplegable.</p>
           <p class="ex-explanation">Combina la opción personalizada del <code>configureOptions()</code> (patrón <code>esAdmin</code> del PDF: una opción propia que <code>buildForm()</code> lee para decidir qué campos añadir) con <code>ChoiceType</code> + <code>expanded</code>. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → Tipos de campo</a> y <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">→ Opciones (choices, expanded)</a>.</p>
@@ -696,10 +696,10 @@
         </div>
 
         <!-- F8 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">8</span> 🔴 Formulario de búsqueda (sin entidad)</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Un <code>BusquedaType</code> con un único campo <code>termino</code> (texto), <strong>sin</strong> vincularlo a ninguna clase. En <code>GET /tareas</code>, si llega un término, filtra las tareas cuyo <code>title</code> lo contenga.</p>
           <p class="ex-explanation">Un formulario no siempre está atado a una entidad — sin <code>data_class</code>, simplemente recoge datos sueltos. Combina esto con QueryBuilder (Fundamentos E9: <code>createQueryBuilder</code> → <code>where</code> → <code>setParameter</code>), usando el operador <code>LIKE</code>.</p>
@@ -728,10 +728,10 @@
         </div>
 
         <!-- F9 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">9</span> 🟡 Borrar con formulario, no con link</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Sustituye el link directo de borrado (Fundamentos E8) por un mini-formulario de un solo botón (<code>SubmitType</code>, sin campos de datos) que haga <code>POST</code> a la misma ruta de borrar.</p>
           <p class="ex-explanation">Un link <code>&lt;a&gt;</code> hace siempre <code>GET</code> y no lleva token CSRF — cualquier página podría "borrar por ti" con solo poner ese link. Un formulario sí protege la acción. Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → el tip del token CSRF en <code>form_end()</code></a>.</p>
@@ -745,10 +745,10 @@
         </div>
 
         <!-- F10 -->
-        <div class="ex">
+        <div class="ex" data-done>
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">10</span> 🟢 Errores de validación campo a campo</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">Cambia <code>tarea/crear.html.twig</code> de renderizado automático (<code>form_widget</code>) a renderizado individual con <code>form_row</code>, campo por campo, para tener control sobre el HTML.</p>
           <p class="ex-explanation">Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → Renderizado individual</a>. <code>form_row</code> ya incluye label + input + errores de ese campo, no hace falta nada más.</p>
@@ -759,6 +759,1719 @@
     {{ form_row(formularioTarea.guardar) }}
 {{ form_end(formularioTarea) }}</pre>
           </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- FORMULARIOS + TAILWIND — Catálogo de Product -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 29/08/2026 — Formularios + Tailwind: catálogo de <code>Product</code></h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>12</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <p class="ex-explanation">
+          Slice vertical completo sobre la entidad <code>Product</code> (<code>Backend/assessment/symfony/</code>):
+          entidad → constraints → formulario → controlador → plantillas Twig maquetadas con Tailwind.
+          Mezcla Formularios de Symfony con la maquetación de Tailwind (navbar, grid de tarjetas, badges,
+          estados <code>hover</code>/<code>group</code>, mobile-first) y repasa de paso Doctrine, Repository y filtros Twig.
+          <strong>Regla:</strong> sin IA, sin mirar apuntes en los ejercicios de controlador (P4, P5). Consultá la teoría solo para dudas puntuales.
+        </p>
+
+        <!-- P1 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 Setup Tailwind + arreglar la entidad <code>Product</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            En <code>base.html.twig</code>, carga Tailwind por CDN (<code>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</code> antes de <code>&lt;/head&gt;</code>).
+            Después corrige la entidad: <code>description</code> a <code>Types::TEXT</code>, <code>price</code> a <code>Types::DECIMAL(10, 2)</code>,
+            añade <code>stock</code> (<code>int</code>) y <code>createdAt</code> (<code>DateTimeImmutable</code>, asignado en el constructor). Migra la BD.
+          </p>
+          <p class="ex-explanation">
+            El CDN de Tailwind es <strong>solo para este ejercicio</strong> — en producción va <code>symfonycasts/tailwind-bundle</code> con build real
+            (<a href="../../../tailwind/00-fundamentos/04-configuracion/">Tailwind → Configuración</a>).
+            <code>DECIMAL</code> es la columna correcta para dinero (<code>float</code> arrastra errores de redondeo), pero ojo: Doctrine te lo devuelve como <code>string</code> en PHP, no <code>float</code>.
+            Ver <a href="../../../symfony/00-fundamentos/04-doctrine/01-entity/">Doctrine → Entity</a>.
+          </p>
+          <div class="ex-samples">
+            symfony console make:migration<br>
+            symfony console doctrine:migrations:migrate
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Entity/Product.php</span>
+<span class="kw">use</span> Doctrine\DBAL\Types\Types;
+
+<span class="op">#[ORM\Column(</span>type: Types::DECIMAL, precision: 10, scale: 2<span class="op">)]</span>
+<span class="kw">private</span> ?<span class="kw">string</span> $price = <span class="kw">null</span>;   <span class="cmt">// DECIMAL vuelve como string en PHP</span>
+
+<span class="op">#[ORM\Column(</span>type: Types::TEXT<span class="op">)]</span>
+<span class="kw">private</span> ?<span class="kw">string</span> $description = <span class="kw">null</span>;
+
+<span class="op">#[ORM\Column]</span>
+<span class="kw">private</span> ?<span class="kw">int</span> $stock = <span class="kw">null</span>;
+
+<span class="op">#[ORM\Column]</span>
+<span class="kw">private</span> ?\DateTimeImmutable $createdAt = <span class="kw">null</span>;
+
+<span class="kw">public function</span> <span class="fn">__construct</span>()
+{
+    $this->createdAt = <span class="kw">new</span> \DateTimeImmutable();
+}</pre>
+          </div>
+        </div>
+
+        <!-- P2 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 Constraints sobre <code>Product</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Añade validación sobre las propiedades de la entidad: <code>name</code> obligatorio y mínimo 3 caracteres,
+            <code>price</code> obligatorio y positivo, <code>stock</code> positivo o cero, <code>description</code> obligatoria. Mensajes en castellano.
+          </p>
+          <p class="ex-explanation">
+            Los <code>#[Assert\*]</code> conviven con los <code>#[ORM\Column]</code> en la MISMA propiedad — son dos familias distintas:
+            <code>ORM\Column</code> mapea a la BD, <code>Assert\*</code> valida el dato. <code>isValid()</code> dispara el Validator sobre el objeto ya rellenado.
+            Ver <a href="../../../symfony/00-fundamentos/06-formularios/#constraints">Formularios → Constraints</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">use</span> Symfony\Component\Validator\Constraints <span class="kw">as</span> Assert;
+
+<span class="op">#[Assert\NotBlank(</span>message: <span class="str">'El nombre es obligatorio.'</span><span class="op">)]</span>
+<span class="op">#[Assert\Length(</span>min: 3, minMessage: <span class="str">'Mínimo 3 caracteres.'</span><span class="op">)]</span>
+<span class="kw">private</span> ?<span class="kw">string</span> $name = <span class="kw">null</span>;
+
+<span class="op">#[Assert\NotBlank(</span>message: <span class="str">'El precio es obligatorio.'</span><span class="op">)]</span>
+<span class="op">#[Assert\Positive(</span>message: <span class="str">'El precio debe ser mayor que 0.'</span><span class="op">)]</span>
+<span class="kw">private</span> ?<span class="kw">string</span> $price = <span class="kw">null</span>;
+
+<span class="op">#[Assert\PositiveOrZero(</span>message: <span class="str">'El stock no puede ser negativo.'</span><span class="op">)]</span>
+<span class="kw">private</span> ?<span class="kw">int</span> $stock = <span class="kw">null</span>;</pre>
+          </div>
+        </div>
+
+        <!-- P3 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟢 <code>ProductType</code> con <code>make:form</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Genera <code>ProductType</code> vinculado a <code>Product</code>. Ajusta los tipos a mano: <code>name</code> como <code>TextType</code> con <code>label</code> y <code>placeholder</code>,
+            <code>price</code> como <code>MoneyType</code> (<code>currency: 'EUR'</code>), <code>description</code> como <code>TextareaType</code> con <code>attr: {rows: 4}</code>, <code>stock</code> como <code>IntegerType</code>.
+            <code>createdAt</code> NO va en el formulario — lo pone el servidor.
+          </p>
+          <p class="ex-explanation">
+            Cada tipo de campo se importa con su propio <code>use</code>. Ver
+            <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → buildForm()</a> y la tabla de tipos de campo.
+          </p>
+          <div class="ex-samples">
+            symfony console make:form ProductType Product
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Form/ProductType.php</span>
+<span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+{
+    $builder
+        ->add(<span class="str">'name'</span>, TextType::class, [
+            <span class="str">'label'</span> => <span class="str">'Nombre'</span>,
+            <span class="str">'attr'</span> => [<span class="str">'placeholder'</span> => <span class="str">'Camiseta técnica'</span>],
+        ])
+        ->add(<span class="str">'price'</span>, MoneyType::class, [
+            <span class="str">'label'</span> => <span class="str">'Precio'</span>,
+            <span class="str">'currency'</span> => <span class="str">'EUR'</span>,
+        ])
+        ->add(<span class="str">'description'</span>, TextareaType::class, [
+            <span class="str">'label'</span> => <span class="str">'Descripción'</span>,
+            <span class="str">'attr'</span> => [<span class="str">'rows'</span> => <span class="num">4</span>],
+        ])
+        ->add(<span class="str">'stock'</span>, IntegerType::class, [<span class="str">'label'</span> => <span class="str">'Unidades'</span>]);
+}
+
+<span class="kw">public function</span> <span class="fn">configureOptions</span>(OptionsResolver $resolver): void
+{
+    $resolver->setDefaults([<span class="str">'data_class'</span> => Product::class]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- P4 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🔴 Controlador — <code>GET/POST /product/new</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Un único método: en <code>GET</code> muestra el formulario vacío; en <code>POST</code> válido guarda con el <strong>EntityManager</strong>
+            (<code>persist()</code> + <code>flush()</code>) y redirige al listado; en <code>POST</code> inválido vuelve a renderizar con los errores.
+            <strong>De memoria, sin mirar apuntes.</strong>
+          </p>
+          <p class="ex-explanation">
+            <code>handleRequest()</code> es la bisagra: en <code>GET</code> no hace nada, en <code>POST</code> lee los datos y muta <code>$product</code>.
+            El orden <code>isSubmitted() &amp;&amp; isValid()</code> no se invierte nunca. El <code>redirectToRoute()</code> tras guardar es Post/Redirect/Get, no es opcional.
+            Ver <a href="../../../symfony/00-fundamentos/06-formularios/#procesamiento-con-el-controlador">Formularios → Procesamiento con el controlador</a>.
+          </p>
+          <div class="ex-samples">
+            GET /product/new <span class="arrow-sample">→</span> 200, formulario vacío<br>
+            POST /product/new (válido) <span class="arrow-sample">→</span> 302 a <code>app_product</code>, producto creado<br>
+            POST /product/new (name vacío) <span class="arrow-sample">→</span> 200, formulario con el error
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/product/new'</span><span class="op">, name:</span> <span class="str">'product_new'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">new</span>(Request $request, EntityManagerInterface $em): Response
+{
+    $product = <span class="kw">new</span> Product();
+    $form = $this->createForm(ProductType::class, $product);
+    $form->handleRequest($request);
+
+    <span class="kw">if</span> ($form->isSubmitted() && $form->isValid()) {
+        $em->persist($product);
+        $em->flush();
+
+        <span class="kw">return</span> $this->redirectToRoute(<span class="str">'app_product'</span>);
+    }
+
+    <span class="kw">return</span> $this->render(<span class="str">'product/new.html.twig'</span>, [
+        <span class="str">'form'</span> => $form,
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- P5 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🔴 Controlador — <code>GET/POST /product/{id}/edit</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Mismo <code>ProductType</code>, reutilizado para editar. El <code>EntityValueResolver</code> trae <code>Product $product</code> por el type-hint;
+            <code>createForm()</code> con esa entidad ya cargada precarga sus valores. Al guardar válido: <code>flush()</code> <strong>sin <code>persist()</code></strong>.
+            Explicá en voz alta por qué acá no hace falta <code>persist()</code> y en <code>new</code> sí.
+          </p>
+          <p class="ex-explanation">
+            <code>persist()</code> = "empezá a seguir este objeto nuevo". <code>flush()</code> = "sincronizá a la BD todo lo que ya seguís".
+            La entidad de <code>edit</code> viene de la BD → Doctrine ya la gestiona → <code>flush()</code> basta (dirty checking → UPDATE).
+            <code>ParamConverter</code> es el nombre viejo (deprecado); hoy es <code>EntityValueResolver</code>, integrado desde Symfony 6.2.
+            Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/#paramconverter">Doctrine → ParamConverter / EntityValueResolver</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">#[Route(</span><span class="str">'/product/{id}/edit'</span><span class="op">, name:</span> <span class="str">'product_edit'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">edit</span>(Product $product, Request $request, EntityManagerInterface $em): Response
+{
+    $form = $this->createForm(ProductType::class, $product, [<span class="str">'is_edit'</span> => <span class="kw">true</span>]);
+    $form->handleRequest($request);
+
+    <span class="kw">if</span> ($form->isSubmitted() && $form->isValid()) {
+        $em->flush(); <span class="cmt">// sin persist(): $product ya la gestiona Doctrine</span>
+
+        <span class="kw">return</span> $this->redirectToRoute(<span class="str">'app_product'</span>);
+    }
+
+    <span class="kw">return</span> $this->render(<span class="str">'product/edit.html.twig'</span>, [
+        <span class="str">'form'</span> => $form,
+        <span class="str">'product'</span> => $product,
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- P6 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟢 Tailwind — <code>base.html.twig</code> mobile-first</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Monta el esqueleto en <code>base.html.twig</code>: un <code>&lt;header&gt;</code> <code>sticky top-0</code> con el logo a la izquierda y un botón
+            "Nuevo producto" (link a <code>product_new</code>) a la derecha; un <code>&lt;main&gt;</code> centrado (<code>mx-auto max-w-5xl px-4 py-8</code>) que envuelve
+            <code>{% block body %}</code>; y un <code>&lt;footer&gt;</code>. Base sin prefijo = mobile; subís con <code>sm:</code> / <code>lg:</code>.
+          </p>
+          <p class="ex-explanation">
+            Header logo-izq + acción-der es el patrón <code>flex items-center justify-between</code>.
+            Ver <a href="../../../tailwind/02-layout/01-flexbox/">Tailwind → Flexbox</a> y
+            <a href="../../../tailwind/03-responsive-estados/01-breakpoints/">Tailwind → Breakpoints</a> (mobile-first: el prefijo es el <em>mínimo</em> ancho, no el máximo).
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">{% block</span> body <span class="op">%}</span>
+  <span class="op">&lt;header class="sticky top-0 z-10 border-b bg-white/90 backdrop-blur"&gt;</span>
+    <span class="op">&lt;div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3"&gt;</span>
+      <span class="op">&lt;a href="</span>{{ path(<span class="str">'app_product'</span>) }}<span class="op">" class="text-lg font-bold"&gt;</span>Catálogo<span class="op">&lt;/a&gt;</span>
+      <span class="op">&lt;a href="</span>{{ path(<span class="str">'product_new'</span>) }}<span class="op">"</span>
+         <span class="op">class="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-700"&gt;</span>
+        Nuevo producto
+      <span class="op">&lt;/a&gt;</span>
+    <span class="op">&lt;/div&gt;</span>
+  <span class="op">&lt;/header&gt;</span>
+
+  <span class="op">&lt;main class="mx-auto max-w-5xl px-4 py-8"&gt;</span>
+    <span class="op">{% block</span> body_content <span class="op">%}{% endblock %}</span>
+  <span class="op">&lt;/main&gt;</span>
+
+  <span class="op">&lt;footer class="border-t py-6 text-center text-sm text-gray-500"&gt;</span>CodeLearn — Symfony + Tailwind<span class="op">&lt;/footer&gt;</span>
+<span class="op">{% endblock %}</span>
+
+<span class="cmt">{# nota: si preferís no renombrar el block, dejá &lt;main&gt;{% block body %}{% endblock %}&lt;/main&gt;</span>
+<span class="cmt">   y que cada plantilla siga usando {% block body %} — las de tareas/ seguirían funcionando #}</span></pre>
+          </div>
+        </div>
+
+        <!-- P7 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🟡 Tailwind — <code>product/index.html.twig</code>: grid responsive</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Ajusta <code>index()</code> para pasar <code>products</code> (del <code>ProductRepository</code>, con <code>findAll()</code>).
+            En la plantilla: un título con el total (<code>{{ products|length }}</code>) y un grid <code>grid gap-6 sm:grid-cols-2 lg:grid-cols-3</code>
+            con un <code>{% for %}</code> … <code>{% else %}</code> ("No hay productos todavía").
+          </p>
+          <p class="ex-explanation">
+            1 columna en móvil, 2 desde <code>sm</code>, 3 desde <code>lg</code> — sin una sola media query escrita a mano.
+            Ver <a href="../../../tailwind/02-layout/02-grid/">Tailwind → Grid</a> y <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Estructuras de control</a> (el <code>{% else %}</code> del <code>for</code>).
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Controller/ProductController.php</span>
+<span class="kw">public function</span> <span class="fn">index</span>(ProductRepository $productRepository): Response
+{
+    <span class="kw">return</span> $this->render(<span class="str">'product/index.html.twig'</span>, [
+        <span class="str">'products'</span> => $productRepository->findAll(),
+    ]);
+}
+
+<span class="cmt">{# templates/product/index.html.twig #}</span>
+<span class="op">{% extends</span> <span class="str">'base.html.twig'</span> <span class="op">%}</span>
+<span class="op">{% block</span> body <span class="op">%}</span>
+  <span class="op">&lt;h1 class="mb-6 text-2xl font-bold"&gt;</span>Productos ({{ products|length }})<span class="op">&lt;/h1&gt;</span>
+
+  <span class="op">&lt;div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"&gt;</span>
+    <span class="op">{% for</span> product <span class="kw">in</span> products <span class="op">%}</span>
+      <span class="op">{% include</span> <span class="str">'product/_card.html.twig'</span> <span class="kw">with</span> { product: product } <span class="op">%}</span>
+    <span class="op">{% else %}</span>
+      <span class="op">&lt;p class="text-gray-500"&gt;</span>No hay productos todavía.<span class="op">&lt;/p&gt;</span>
+    <span class="op">{% endfor %}</span>
+  <span class="op">&lt;/div&gt;</span>
+<span class="op">{% endblock %}</span></pre>
+          </div>
+        </div>
+
+        <!-- P8 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🟡 Twig — <code>product/_card.html.twig</code>: componente + <code>include</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Saca la tarjeta a un fragmento propio e inclúyelo con <code>{% include ... with {product: product} %}</code>.
+            La tarjeta: caja <code>rounded-xl border p-5 shadow-sm</code>, nombre en <code>font-semibold</code>,
+            precio formateado con <code>|number_format(2, ',', '.')</code> y <code>€</code>, descripción con <code>line-clamp-2</code>.
+          </p>
+          <p class="ex-explanation">
+            <code>include</code> mete un trozo reutilizable en un punto cualquiera (no hereda estructura como <code>extends</code>).
+            El precio es <code>string</code> (viene de <code>DECIMAL</code>) — <code>number_format</code> lo formatea igual.
+            Ver <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Include</a> y <a href="../../../symfony/00-fundamentos/05-twig/">Twig → Filtros</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">{# templates/product/_card.html.twig #}</span>
+<span class="op">&lt;article class="rounded-xl border p-5 shadow-sm"&gt;</span>
+  <span class="op">&lt;h2 class="font-semibold"&gt;</span>{{ product.name }}<span class="op">&lt;/h2&gt;</span>
+  <span class="op">&lt;p class="mb-3 line-clamp-2 text-sm text-gray-600"&gt;</span>{{ product.description }}<span class="op">&lt;/p&gt;</span>
+  <span class="op">&lt;span class="text-lg font-bold"&gt;</span>{{ product.price|number_format(2, <span class="str">','</span>, <span class="str">'.'</span>) }} €<span class="op">&lt;/span&gt;</span>
+<span class="op">&lt;/article&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- P9 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🟡 Tailwind — badge de stock + estados <code>hover</code>/<code>group</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            En <code>_card.html.twig</code>: un badge según <code>product.stock</code> — <code>{% if product.stock == 0 %}</code> "Agotado" (rojo),
+            <code>{% else %}</code> "En stock" (verde). Y haz la tarjeta interactiva: <code>class="group ... transition hover:shadow-md hover:-translate-y-0.5"</code>,
+            con el nombre en <code>group-hover:text-blue-600 transition</code>.
+          </p>
+          <p class="ex-explanation">
+            El badge: <code>inline-block rounded-full px-3 py-1 text-xs font-medium</code> + <code>bg-red-100 text-red-700</code> / <code>bg-green-100 text-green-700</code>.
+            <strong>🧠 Callback:</strong> comparar <code>product.stock == 0</code> es la propiedad que el enunciado señala — el mismo principio del Fallo 41 de JS
+            (condiciones que aciertan por casualidad al mirar la propiedad derivada). En Twig, <code>==</code> hace la coerción, así que no arrastra el problema de <code>dataset</code> siempre-string (Fallo 43).
+            Ver <a href="../../../tailwind/03-responsive-estados/03-group-peer/">Tailwind → group / peer</a> y
+            <a href="../../../tailwind/04-efectos-visuales/05-transiciones-animacion/">Tailwind → Transiciones</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="op">&lt;article class="group rounded-xl border p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"&gt;</span>
+  <span class="op">&lt;div class="mb-2 flex items-start justify-between gap-2"&gt;</span>
+    <span class="op">&lt;h2 class="font-semibold transition group-hover:text-blue-600"&gt;</span>{{ product.name }}<span class="op">&lt;/h2&gt;</span>
+    <span class="op">{% if</span> product.stock == <span class="num">0</span> <span class="op">%}</span>
+      <span class="op">&lt;span class="inline-block rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700"&gt;</span>Agotado<span class="op">&lt;/span&gt;</span>
+    <span class="op">{% else %}</span>
+      <span class="op">&lt;span class="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700"&gt;</span>En stock<span class="op">&lt;/span&gt;</span>
+    <span class="op">{% endif %}</span>
+  <span class="op">&lt;/div&gt;</span>
+  <span class="cmt">{# ...descripción, precio... #}</span>
+<span class="op">&lt;/article&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- P10 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🔴 Borrar con formulario (no con link) + token CSRF</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            En la tarjeta, un mini-formulario <code>POST</code> a <code>product_delete</code> con un botón "Borrar" y un
+            <code>&lt;input type="hidden" name="_token"&gt;</code> con <code>csrf_token('delete' ~ product.id)</code>.
+            El controlador <code>delete</code> (<code>methods: ['POST']</code>) valida el token con <code>isCsrfTokenValid()</code> antes de <code>remove()</code> + <code>flush()</code>.
+          </p>
+          <p class="ex-explanation">
+            Un <code>&lt;a&gt;</code> hace siempre <code>GET</code> y no lleva token — cualquier web podría incrustar ese link y "borrar por ti".
+            El formulario + token CSRF es lo que protege la acción. Por eso mismo nunca reemplazás <code>form_end()</code> a mano sin reponer el token.
+            Ver <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → el tip del token CSRF</a>.
+          </p>
+          <div class="ex-samples">
+            POST /product/1/delete (token válido) <span class="arrow-sample">→</span> 302, producto 1 borrado<br>
+            POST /product/1/delete (sin token) <span class="arrow-sample">→</span> no borra
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">{# dentro de _card.html.twig #}</span>
+<span class="op">&lt;form method="post" action="</span>{{ path(<span class="str">'product_delete'</span>, { id: product.id }) }}<span class="op">"</span>
+      <span class="op">onsubmit="return confirm('¿Borrar este producto?')"&gt;</span>
+  <span class="op">&lt;input type="hidden" name="_token" value="</span>{{ csrf_token(<span class="str">'delete'</span> ~ product.id) }}<span class="op">"&gt;</span>
+  <span class="op">&lt;button class="text-sm text-red-600 hover:underline"&gt;</span>Borrar<span class="op">&lt;/button&gt;</span>
+<span class="op">&lt;/form&gt;</span>
+
+<span class="cmt">// src/Controller/ProductController.php</span>
+<span class="op">#[Route(</span><span class="str">'/product/{id}/delete'</span><span class="op">, name:</span> <span class="str">'product_delete'</span><span class="op">, methods:</span> [<span class="str">'POST'</span>]<span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">delete</span>(Request $request, Product $product, EntityManagerInterface $em): Response
+{
+    <span class="kw">if</span> ($this->isCsrfTokenValid(<span class="str">'delete'</span> . $product->getId(), $request->request->get(<span class="str">'_token'</span>))) {
+        $em->remove($product);
+        $em->flush();
+    }
+
+    <span class="kw">return</span> $this->redirectToRoute(<span class="str">'app_product'</span>);
+}</pre>
+          </div>
+        </div>
+
+        <!-- P11 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🟡 <code>ProductType</code> con opción propia: crear vs editar</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Añade a <code>configureOptions()</code> una opción propia <code>is_edit</code> (por defecto <code>false</code>).
+            En <code>buildForm()</code>, el campo <code>stock</code> solo se añade si <code>$options['is_edit']</code> es <code>true</code>;
+            y el botón <code>SubmitType</code> <code>guardar</code> cambia su <code>label</code> ("Crear producto" / "Guardar cambios").
+            El controlador <code>edit</code> pasa <code>['is_edit' =&gt; true]</code> como tercer argumento de <code>createForm()</code>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: una opción propia en <code>configureOptions()</code> que <code>buildForm()</code> lee para decidir qué campos montar
+            (el patrón <code>esAdmin</code> / <code>esEdicion</code> del PDF). Un mismo <code>Type</code>, dos comportamientos.
+            Ver <a href="../../../symfony/00-fundamentos/06-formularios/#configureoptions">Formularios → configureOptions()</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+{
+    $builder
+        ->add(<span class="str">'name'</span>, TextType::class, [<span class="str">'label'</span> => <span class="str">'Nombre'</span>])
+        ->add(<span class="str">'price'</span>, MoneyType::class, [<span class="str">'label'</span> => <span class="str">'Precio'</span>, <span class="str">'currency'</span> => <span class="str">'EUR'</span>])
+        ->add(<span class="str">'description'</span>, TextareaType::class, [<span class="str">'label'</span> => <span class="str">'Descripción'</span>, <span class="str">'attr'</span> => [<span class="str">'rows'</span> => <span class="num">4</span>]]);
+
+    <span class="kw">if</span> ($options[<span class="str">'is_edit'</span>]) {
+        $builder->add(<span class="str">'stock'</span>, IntegerType::class, [<span class="str">'label'</span> => <span class="str">'Unidades en almacén'</span>]);
+    }
+
+    $builder->add(<span class="str">'guardar'</span>, SubmitType::class, [
+        <span class="str">'label'</span> => $options[<span class="str">'is_edit'</span>] ? <span class="str">'Guardar cambios'</span> : <span class="str">'Crear producto'</span>,
+        <span class="str">'attr'</span> => [<span class="str">'class'</span> => <span class="str">'rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700'</span>],
+    ]);
+}
+
+<span class="kw">public function</span> <span class="fn">configureOptions</span>(OptionsResolver $resolver): void
+{
+    $resolver->setDefaults([
+        <span class="str">'data_class'</span> => Product::class,
+        <span class="str">'is_edit'</span> => <span class="kw">false</span>,
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- P12 -->
+        <div class="ex" data-done>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">12</span> 🔴 Buscador sin entidad + QueryBuilder + form inline Tailwind</span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Un <code>ProductSearchType</code> <strong>sin <code>data_class</code></strong>, con un campo <code>term</code> (<code>TextType</code>, <code>required: false</code>) y un <code>SubmitType</code>.
+            En <code>ProductRepository</code>, <code>findByNameLike(string $term)</code> con QueryBuilder + <code>LIKE</code>.
+            En <code>GET /product</code>, si llega <code>term</code>, filtra; si no, <code>findAll()</code>.
+            Renderiza el buscador en el header con <code>form_start(searchForm, {attr: {class: 'flex gap-2'}})</code>.
+          </p>
+          <p class="ex-explanation">
+            Un formulario no siempre está atado a una entidad — sin <code>data_class</code> recoge datos sueltos que lees con
+            <code>$form-&gt;get('term')-&gt;getData()</code>. El buscador va por <code>GET</code> (<code>['method' =&gt; 'GET']</code>), no <code>POST</code>: es una consulta, no una mutación.
+            Ver <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/#querybuilder">Doctrine → QueryBuilder</a>.
+          </p>
+          <div class="ex-samples">
+            GET /product?product_search[term]=camiseta <span class="arrow-sample">→</span> solo productos cuyo nombre contiene "camiseta"
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Form/ProductSearchType.php — sin configureOptions con data_class</span>
+<span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+{
+    $builder
+        ->add(<span class="str">'term'</span>, TextType::class, [
+            <span class="str">'required'</span> => <span class="kw">false</span>,
+            <span class="str">'label'</span> => <span class="kw">false</span>,
+            <span class="str">'attr'</span> => [<span class="str">'placeholder'</span> => <span class="str">'Buscar productos...'</span>],
+        ])
+        ->add(<span class="str">'buscar'</span>, SubmitType::class, [<span class="str">'label'</span> => <span class="str">'Buscar'</span>]);
+}
+
+<span class="cmt">// src/Repository/ProductRepository.php</span>
+<span class="kw">public function</span> <span class="fn">findByNameLike</span>(<span class="kw">string</span> $term): array
+{
+    <span class="kw">return</span> $this->createQueryBuilder(<span class="str">'p'</span>)
+        ->where(<span class="str">'p.name LIKE :term'</span>)
+        ->setParameter(<span class="str">'term'</span>, <span class="str">'%'</span> . $term . <span class="str">'%'</span>)
+        ->orderBy(<span class="str">'p.createdAt'</span>, <span class="str">'DESC'</span>)
+        ->getQuery()
+        ->getResult();
+}
+
+<span class="cmt">// src/Controller/ProductController.php — index()</span>
+$form = $this->createForm(ProductSearchType::class, <span class="kw">null</span>, [<span class="str">'method'</span> => <span class="str">'GET'</span>]);
+$form->handleRequest($request);
+$term = $form->get(<span class="str">'term'</span>)->getData();
+
+$products = $term
+    ? $productRepository->findByNameLike($term)
+    : $productRepository->findAll();</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SERVICIOS — Contenedor, inyección y utilidades -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 30/08/2026 — Servicios: contenedor, inyección y utilidades (+ Tailwind)</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>1</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>11</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil &nbsp;|&nbsp;
+          <span style="color:#22c55e;">●</span> completado
+          <span style="color:#eab308;">●</span> repasar
+          <span style="color:#64748b;">●</span> pendiente
+        </p>
+
+        <p class="ex-explanation">
+          Servicios (Service Container) alrededor de la entidad <code>Product</code> (<code>Backend/assessment/symfony/</code>):
+          crear servicios a mano, inyección por constructor, autowiring, <code>#[Autowire]</code> para escalares,
+          Twig Extension, cliente de API con <code>HttpClientInterface</code>, <code>RequestStack</code>.
+          De paso se repasa lo que más falló en Formularios: <strong>CSRF a mano</strong>, <strong>formulario sin <code>data_class</code></strong>,
+          <strong>leer el dato del form y no del <code>Request</code></strong>, <code>persist()</code> vs <code>flush()</code>, capa de tipo PHP vs columna Doctrine,
+          y maquetación Tailwind (mobile-first, badges, grid, estados <code>hover</code>).
+          <strong>Regla:</strong> sin IA. <strong>S1 y S5 de memoria, sin apuntes.</strong> Teoría de apoyo:
+          <a href="../../../symfony/00-fundamentos/07-servicios/">Fundamentos → Servicios</a>.
+        </p>
+
+        <!-- S1 -->
+        <div class="ex" data-review>
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 Checkpoint de memoria: slice vertical de <code>Product</code></span>
+            <span class="ex-status review">🔁 Repasar</span>
+          </div>
+          <p class="ex-desc">
+            Sin apuntes y sin la card de Formularios delante. Rehacé de memoria el slice completo de <code>Product</code>:
+            entidad con los tipos de columna correctos, <code>ProductType</code>, controlador <code>new</code> + <code>edit</code>, y una plantilla que extiende <code>base.html.twig</code>.
+            Explicá en voz alta cada decisión: por qué <code>price</code> es <code>string</code>, cuándo va <code>persist()</code> y cuándo no, por qué <code>redirectToRoute()</code> recibe un nombre de ruta y no un path.
+          </p>
+          <p class="ex-explanation">
+            Patrón: <strong>retrieval practice</strong> — recuperar de memoria consolida más que releer. Si algo no sale, es dato: volvé a
+            <a href="../../../symfony/00-fundamentos/06-formularios/">Formularios</a> antes de seguir con Servicios.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// Checklist para contrastar DESPUÉS de intentarlo — no lo copies antes</span>
+<span class="cmt">// Entity:  price       -&gt; #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)] private ?string</span>
+<span class="cmt">//          description -&gt; #[ORM\Column(type: Types::TEXT)] private ?string</span>
+<span class="cmt">//          stock       -&gt; #[ORM\Column] private int $stock = 0   (con default, NOT NULL)</span>
+<span class="cmt">//          createdAt   -&gt; asignado en __construct(), new \DateTimeImmutable()</span>
+<span class="cmt">// ProductType: name (TextType) · price (MoneyType, currency EUR) · description (TextareaType)</span>
+<span class="cmt">//             configureOptions -&gt; data_class =&gt; Product::class</span>
+<span class="cmt">// Controller new():  new Product() -&gt; createForm -&gt; handleRequest</span>
+<span class="cmt">//   -&gt; if (isSubmitted() &amp;&amp; isValid()) { persist(); flush(); redirectToRoute('product_index'); }</span>
+<span class="cmt">//   -&gt; else render('product/new.html.twig', ['form' =&gt; $form])</span>
+<span class="cmt">// Controller edit(Product $product): entidad ya gestionada -&gt; flush() SIN persist()</span>
+<span class="cmt">// Template: {% extends 'base.html.twig' %} + {% block body %} ... {% endblock %}</span></pre>
+          </div>
+        </div>
+
+        <!-- S2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 Primer servicio: <code>SlugGenerator</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Creá <code>src/Service/SlugGenerator.php</code>: una clase PHP normal, sin <code>extends</code>, sin atributos, sin registrarla en ningún sitio.
+            Método <code>generate(string $text): string</code> que baje a minúsculas, quite acentos, reemplace lo no alfanumérico por <code>-</code> y recorte guiones sobrantes.
+            Inyectalo en el controlador <code>new</code> por type-hint y guardá el resultado en una propiedad nueva <code>slug</code> de <code>Product</code>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: <strong>inyección por type-hint</strong>. El bloque <code>App\</code> con <code>resource: '../src/'</code> de <code>services.yaml</code> ya registra
+            <strong>toda</strong> clase de <code>src/</code> como servicio — no hay que tocar el YAML. No existe <code>make:service</code>.
+          </p>
+          <div class="ex-samples">
+            symfony console make:entity Product &nbsp;<span class="arrow-sample">→</span>&nbsp; añadir propiedad <code>slug</code> (string)
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Service/SlugGenerator.php</span>
+<span class="kw">namespace</span> App\Service;
+
+<span class="kw">class</span> <span class="fn">SlugGenerator</span>
+{
+    <span class="kw">public function</span> <span class="fn">generate</span>(<span class="kw">string</span> $text): <span class="kw">string</span>
+    {
+        $text = strtolower(trim($text));
+        $text = iconv(<span class="str">'UTF-8'</span>, <span class="str">'ASCII//TRANSLIT'</span>, $text);
+        $text = preg_replace(<span class="str">'/[^a-z0-9]+/'</span>, <span class="str">'-'</span>, $text);
+
+        <span class="kw">return</span> trim($text, <span class="str">'-'</span>);
+    }
+}
+
+<span class="cmt">// src/Controller/ProductController.php — new()</span>
+<span class="kw">public function</span> <span class="fn">new</span>(Request $request, EntityManagerInterface $em, SlugGenerator $slugger): Response
+{
+    <span class="cmt">// ... dentro del if (isSubmitted() &amp;&amp; isValid()):</span>
+    $product->setSlug($slugger->generate($product->getName()));
+    $em->persist($product);
+    $em->flush();
+}</pre>
+          </div>
+        </div>
+
+        <!-- S3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>PriceCalculator</code> + argumento escalar con <code>#[Autowire]</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Servicio <code>PriceCalculator</code> con <code>withVat(string $price): string</code> que devuelva el precio con IVA, 2 decimales, como <code>string</code>.
+            El tipo de IVA <strong>no</strong> se escribe en el código: se define como parámetro <code>app.vat_rate</code> en <code>services.yaml</code> y se inyecta en el constructor con <code>#[Autowire(param: 'app.vat_rate')]</code>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: <strong>argumento que no es un servicio</strong>. El contenedor no puede resolver <code>float $vatRate</code> por el type-hint — hay que decírselo.
+            Y ojo con las dos capas: <code>$price</code> llega como <code>string</code> (columna <code>DECIMAL</code> de Doctrine), no <code>float</code>.
+            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#argumentos-que-no-son-servicios">Servicios → Argumentos que no son servicios</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt"># config/services.yaml</span>
+parameters:
+    app.vat_rate: <span class="num">0.21</span>
+
+<span class="cmt">// src/Service/PriceCalculator.php</span>
+<span class="kw">namespace</span> App\Service;
+
+<span class="kw">use</span> Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+<span class="kw">class</span> <span class="fn">PriceCalculator</span>
+{
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="op">#[Autowire(</span>param: <span class="str">'app.vat_rate'</span><span class="op">)]</span>
+        <span class="kw">private</span> <span class="kw">float</span> $vatRate,
+    ) {
+    }
+
+    <span class="kw">public function</span> <span class="fn">withVat</span>(<span class="kw">string</span> $price): <span class="kw">string</span>
+    {
+        <span class="kw">return</span> number_format((<span class="kw">float</span>) $price * (<span class="num">1</span> + $this->vatRate), <span class="num">2</span>, <span class="str">'.'</span>, <span class="str">''</span>);
+    }
+}</pre>
+          </div>
+        </div>
+
+        <!-- S4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 Twig Extension: filtro <code>con_iva</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Con <code>make:twig-extension</code> generá <code>AppExtension</code>, recibí <code>PriceCalculator</code> por constructor y exponé un <code>TwigFilter</code> <code>con_iva</code> que llame a <code>withVat</code>.
+            Usalo en la ficha del producto: el <strong>precio base en tamaño grande y peso fuerte</strong>, y justo debajo el <strong>precio con IVA en texto más pequeño y color atenuado</strong>, precedido de la etiqueta "IVA inc.".
+          </p>
+          <p class="ex-explanation">
+            Patrón: un servicio <strong>no se inyecta en la plantilla</strong>. Se expone a través de una Twig Extension, que a su vez es un servicio y se registra sola por <code>autoconfigure</code>.
+            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#servicios-en-twig-y-en-comandos">Servicios → Servicios en Twig y en comandos</a>.
+          </p>
+          <div class="ex-samples">
+            symfony console make:twig-extension AppExtension
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Twig/AppExtension.php</span>
+<span class="kw">namespace</span> App\Twig;
+
+<span class="kw">use</span> App\Service\PriceCalculator;
+<span class="kw">use</span> Twig\Extension\AbstractExtension;
+<span class="kw">use</span> Twig\TwigFilter;
+
+<span class="kw">class</span> <span class="fn">AppExtension</span> <span class="kw">extends</span> AbstractExtension
+{
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> PriceCalculator $calculator) {}
+
+    <span class="kw">public function</span> <span class="fn">getFilters</span>(): array
+    {
+        <span class="kw">return</span> [ <span class="kw">new</span> TwigFilter(<span class="str">'con_iva'</span>, [$this->calculator, <span class="str">'withVat'</span>]) ];
+    }
+}</pre>
+<pre><span class="cmt">{# product/show.html.twig — clases Tailwind: búscalas tú #}</span>
+<span class="op">&lt;p class="</span><span class="cmt">[precio grande, peso fuerte]</span><span class="op">"&gt;</span>{{ product.price }} €<span class="op">&lt;/p&gt;</span>
+<span class="op">&lt;p class="</span><span class="cmt">[texto pequeño, color atenuado]</span><span class="op">"&gt;</span>IVA inc.: {{ product.price|con_iva }} €<span class="op">&lt;/p&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- S5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🔴 De memoria: subida de imagen + <code>FileUploadValidator</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Sin apuntes. Ruta <code>POST /product/{id}/image</code>. Servicio <code>FileUploadValidator</code> con <code>validate(UploadedFile $file): array</code> que devuelva la lista de errores (máx 2 MB, solo <code>image/jpeg</code> y <code>image/png</code>).
+            En el controlador: si hay errores, <code>addFlash</code> y redirigí; si no, mové el archivo y guardá la ruta en <code>Product::imagePath</code>.
+            Maquetá el formulario: <strong>input de archivo, botón de enviar tipo píldora con color de acento</strong>; si hay flash de error, <strong>un banner con fondo rojo claro y borde rojo</strong>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: la validación <strong>no vive en el controlador</strong>. El servicio recibe el <code>UploadedFile</code> como <strong>argumento del método</strong> y devuelve el resultado —
+            no guarda el archivo ni nada de <em>esta</em> petición en una propiedad (el servicio es compartido).
+            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#crear-un-servicio-propio">Servicios → Crear un servicio propio</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Service/FileUploadValidator.php — contrástalo con la doc 07-servicios</span>
+<span class="kw">namespace</span> App\Service;
+
+<span class="kw">use</span> Symfony\Component\HttpFoundation\File\UploadedFile;
+
+<span class="kw">class</span> <span class="fn">FileUploadValidator</span>
+{
+    <span class="kw">private const</span> MAX_BYTES = <span class="num">2</span> * <span class="num">1024</span> * <span class="num">1024</span>;
+    <span class="kw">private const</span> ALLOWED = [<span class="str">'image/jpeg'</span>, <span class="str">'image/png'</span>];
+
+    <span class="cmt">/** @return string[] */</span>
+    <span class="kw">public function</span> <span class="fn">validate</span>(UploadedFile $file): array
+    {
+        $errors = [];
+        <span class="kw">if</span> ($file->getSize() &gt; self::MAX_BYTES) {
+            $errors[] = <span class="str">'El archivo supera los 2 MB.'</span>;
+        }
+        <span class="kw">if</span> (!in_array($file->getMimeType(), self::ALLOWED, <span class="kw">true</span>)) {
+            $errors[] = <span class="str">'Formato no permitido (solo JPG o PNG).'</span>;
+        }
+
+        <span class="kw">return</span> $errors;
+    }
+}
+
+<span class="cmt">// src/Controller/ProductController.php</span>
+<span class="op">#[Route(</span><span class="str">'/product/{id}/image'</span><span class="op">, name:</span> <span class="str">'product_image'</span><span class="op">, methods:</span> [<span class="str">'POST'</span>]<span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">image</span>(Request $request, Product $product, EntityManagerInterface $em, FileUploadValidator $validator): Response
+{
+    $file = $request->files->get(<span class="str">'image'</span>);
+    $errors = $validator->validate($file);
+
+    <span class="kw">if</span> ($errors) {
+        <span class="kw">foreach</span> ($errors <span class="kw">as</span> $e) { $this->addFlash(<span class="str">'error'</span>, $e); }
+
+        <span class="kw">return</span> $this->redirectToRoute(<span class="str">'product_show'</span>, [<span class="str">'id'</span> => $product->getId()]);
+    }
+
+    $name = uniqid() . <span class="str">'.'</span> . $file->guessExtension();
+    $file->move($this->getParameter(<span class="str">'kernel.project_dir'</span>) . <span class="str">'/public/uploads'</span>, $name);
+    $product->setImagePath(<span class="str">'uploads/'</span> . $name);
+    $em->flush();
+
+    <span class="kw">return</span> $this->redirectToRoute(<span class="str">'product_show'</span>, [<span class="str">'id'</span> => $product->getId()]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- S6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 CSRF a mano: borrar producto</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            En la ficha, reemplazá cualquier link de borrado por un <code>&lt;form method="post"&gt;</code> con un <code>&lt;input type="hidden" name="_token"&gt;</code>
+            cuyo valor sea <code>csrf_token('delete-product-' ~ product.id)</code>. En el controlador, <code>isCsrfTokenValid('delete-product-' . $product-&gt;getId(), $request-&gt;request-&gt;get('_token'))</code> antes de <code>remove()</code> + <code>flush()</code>.
+            Estilá el botón discreto: <strong>texto pequeño en color de peligro, subrayado al pasar el ratón, sin fondo</strong>.
+          </p>
+          <p class="ex-explanation">
+            Patrón que falló en Formularios: la <strong>cadena de intención</strong> (<code>'delete-product-' ~ id</code>) y el <strong>nombre del campo</strong> (<code>_token</code>)
+            tienen que ser <strong>idénticos</strong> en Twig y en el controlador, o <code>get('_token')</code> devuelve <code>null</code> y el token nunca valida.
+            Un <code>&lt;a&gt;</code> hace GET y no lleva token — no protege nada.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">{# product/show.html.twig — clases Tailwind: búscalas tú #}</span>
+<span class="op">&lt;form method="post" action="</span>{{ path(<span class="str">'product_delete'</span>, {id: product.id}) }}<span class="op">"&gt;</span>
+    <span class="op">&lt;input type="hidden" name="_token" value="</span>{{ csrf_token(<span class="str">'delete-product-'</span> ~ product.id) }}<span class="op">"&gt;</span>
+    <span class="op">&lt;button class="</span><span class="cmt">[texto pequeño, color peligro, subrayado en hover, sin fondo]</span><span class="op">"&gt;</span>Borrar<span class="op">&lt;/button&gt;</span>
+<span class="op">&lt;/form&gt;</span>
+
+<span class="cmt">// src/Controller/ProductController.php</span>
+<span class="op">#[Route(</span><span class="str">'/product/{id}/delete'</span><span class="op">, name:</span> <span class="str">'product_delete'</span><span class="op">, methods:</span> [<span class="str">'POST'</span>]<span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">delete</span>(Request $request, Product $product, EntityManagerInterface $em): Response
+{
+    <span class="kw">if</span> ($this->isCsrfTokenValid(<span class="str">'delete-product-'</span> . $product->getId(), $request->request->get(<span class="str">'_token'</span>))) {
+        $em->remove($product);
+        $em->flush();
+    }
+
+    <span class="kw">return</span> $this->redirectToRoute(<span class="str">'product_index'</span>);
+}</pre>
+          </div>
+        </div>
+
+        <!-- S7 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🔴 Form sin <code>data_class</code> por GET: leer el dato del form, no del <code>Request</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>PriceConvertType</code> <strong>sin <code>data_class</code></strong>: un campo <code>amount</code> (<code>NumberType</code>, <code>required: false</code>) y un <code>SubmitType</code>.
+            En <code>GET /tools/convert</code>, montá el form con <code>['method' =&gt; 'GET']</code>, y leé el valor con <code>$form-&gt;get('amount')-&gt;getData()</code> —
+            <strong>no</strong> con <code>$request-&gt;query-&gt;get('amount')</code>. Si hay valor, multiplicá por una tasa fija y mostralo.
+            Maquetá: <strong>input y botón en una misma fila</strong>, y el resultado debajo <strong>en un recuadro con borde y esquinas redondeadas</strong>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: con un <code>Form</code> montado, el dato ya lo metió <code>handleRequest()</code> en el form — se lee del form, no del <code>Request</code> a mano
+            (esto es "copiar la forma correcta al contexto equivocado" si mezclás las dos vías). Sin <code>data_class</code> no hay entidad.
+            Una consulta va por <code>GET</code>, no <code>POST</code>. Ver <a href="../../../symfony/00-fundamentos/06-formularios/">Formularios → Formulario sin entidad</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Form/PriceConvertType.php — sin configureOptions con data_class</span>
+<span class="kw">public function</span> <span class="fn">buildForm</span>(FormBuilderInterface $builder, array $options): void
+{
+    $builder
+        ->add(<span class="str">'amount'</span>, NumberType::class, [<span class="str">'required'</span> => <span class="kw">false</span>, <span class="str">'label'</span> => <span class="kw">false</span>])
+        ->add(<span class="str">'convertir'</span>, SubmitType::class);
+}
+
+<span class="cmt">// src/Controller/ToolsController.php</span>
+<span class="op">#[Route(</span><span class="str">'/tools/convert'</span><span class="op">, name:</span> <span class="str">'tools_convert'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">convert</span>(Request $request): Response
+{
+    $form = $this->createForm(PriceConvertType::class, <span class="kw">null</span>, [<span class="str">'method'</span> => <span class="str">'GET'</span>]);
+    $form->handleRequest($request);
+
+    $amount = $form->get(<span class="str">'amount'</span>)->getData();     <span class="cmt">// NO $request->query->get('amount')</span>
+    $result = $amount !== <span class="kw">null</span> ? $amount * <span class="num">1.08</span> : <span class="kw">null</span>;
+
+    <span class="kw">return</span> $this->render(<span class="str">'tools/convert.html.twig'</span>, [
+        <span class="str">'form'</span> => $form,
+        <span class="str">'result'</span> => $result,
+    ]);
+}</pre>
+          </div>
+        </div>
+
+        <!-- S8 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">8</span> 🔴 API externa: <code>ExchangeRateClient</code> con <code>HttpClientInterface</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Servicio <code>ExchangeRateClient</code> que reciba <code>HttpClientInterface</code> y <code>LoggerInterface</code> por constructor (propiedades promocionadas),
+            más la URL base con <code>#[Autowire('%env(EXCHANGE_API_URL)%')]</code>. Método <code>rate(string $from, string $to): float</code>.
+            Enchufá este servicio en el <code>S7</code> en vez de la tasa fija.
+          </p>
+          <p class="ex-explanation">
+            Patrón: <strong>servicio que depende de otros servicios</strong>, y el type-hint va <strong>contra la interfaz</strong> (<code>HttpClientInterface</code>), no una clase concreta —
+            así en los tests entra un cliente falso. La URL / clave viven en <code>.env.local</code>, <strong>nunca</strong> en el código.
+            <code>symfony/http-client</code> ya está instalado. Ver <a href="../../../symfony/00-fundamentos/07-servicios/#inyeccion-por-constructor-un-servicio-que-usa-otros">Servicios → Inyección por constructor</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt"># .env.local  (no se sube al repo)</span>
+EXCHANGE_API_URL=https://api.exchangerate.host
+
+<span class="cmt">// src/Service/ExchangeRateClient.php</span>
+<span class="kw">namespace</span> App\Service;
+
+<span class="kw">use</span> Psr\Log\LoggerInterface;
+<span class="kw">use</span> Symfony\Component\DependencyInjection\Attribute\Autowire;
+<span class="kw">use</span> Symfony\Contracts\HttpClient\HttpClientInterface;
+
+<span class="kw">class</span> <span class="fn">ExchangeRateClient</span>
+{
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">private</span> HttpClientInterface $http,
+        <span class="kw">private</span> LoggerInterface $logger,
+        <span class="op">#[Autowire(</span><span class="str">'%env(EXCHANGE_API_URL)%'</span><span class="op">)]</span>
+        <span class="kw">private</span> <span class="kw">string</span> $baseUrl,
+    ) {
+    }
+
+    <span class="kw">public function</span> <span class="fn">rate</span>(<span class="kw">string</span> $from, <span class="kw">string</span> $to): <span class="kw">float</span>
+    {
+        $this->logger->info(<span class="str">"Tasa {$from}-&gt;{$to}"</span>);
+
+        $res = $this->http->request(<span class="str">'GET'</span>, $this->baseUrl . <span class="str">'/latest'</span>, [
+            <span class="str">'query'</span> => [<span class="str">'base'</span> => $from, <span class="str">'symbols'</span> => $to],
+        ]);
+
+        <span class="kw">return</span> (<span class="kw">float</span>) ($res->toArray()[<span class="str">'rates'</span>][$to] ?? <span class="num">0.0</span>);
+    }
+}</pre>
+          </div>
+        </div>
+
+        <!-- S9 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">9</span> 🟢 Interrogar al contenedor: <code>debug:</code> / <code>lint:</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Corré los tres comandos y anotá la respuesta: ¿qué ids de servicio resuelve <code>LoggerInterface</code>?
+            ¿Con qué argumentos queda montado <code>PriceCalculator</code> (se ve el <code>vatRate</code>)? ¿<code>lint:container</code> compila?
+          </p>
+          <p class="ex-explanation">
+            Patrón: el contenedor es <strong>inspeccionable</strong> — no adivines qué se inyecta ni por qué falla, preguntáselo.
+          </p>
+          <div class="ex-samples">
+            symfony console debug:autowiring LoggerInterface<br>
+            symfony console debug:container App\Service\PriceCalculator<br>
+            symfony console lint:container
+          </div>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// debug:autowiring LoggerInterface</span>
+<span class="cmt">//   -> lista alias: 'monolog.logger', 'monolog.logger.request', 'monolog.logger.php'...</span>
+<span class="cmt">// debug:container App\Service\PriceCalculator</span>
+<span class="cmt">//   -> muestra la clase, si es público/privado, y sus argumentos resueltos (vatRate = 0.21)</span>
+<span class="cmt">// lint:container</span>
+<span class="cmt">//   -> "The container was linted successfully" — o el error EXACTO de compilación</span></pre>
+          </div>
+        </div>
+
+        <!-- S10 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">10</span> 🔴 Elegir implementación: <code>DiscountPolicy</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Interfaz <code>DiscountPolicy</code> con <code>discountFor(Product $product): float</code> (0.0–1.0). Dos implementaciones:
+            <code>BlackFridayPolicy</code> (20% si <code>stock &gt; 50</code>) y <code>ClearancePolicy</code> (30% si <code>createdAt</code> es de hace más de un año).
+            En <code>PriceCalculator</code>, inyectá una concreta con <code>#[Autowire(service: BlackFridayPolicy::class)]</code>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: una interfaz con <strong>varias implementaciones</strong> → el autowiring no sabe cuál querés y <strong>falla al compilar</strong> (<code>lint:container</code> te lo canta).
+            Se desambigua nombrando el servicio concreto. Los ids salen de <code>debug:autowiring DiscountPolicy</code>.
+            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#elegir-entre-varias-implementaciones">Servicios → Elegir entre varias implementaciones</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Service/Discount/DiscountPolicy.php</span>
+<span class="kw">namespace</span> App\Service\Discount;
+
+<span class="kw">use</span> App\Entity\Product;
+
+<span class="kw">interface</span> <span class="fn">DiscountPolicy</span>
+{
+    <span class="kw">public function</span> <span class="fn">discountFor</span>(Product $product): <span class="kw">float</span>;
+}
+
+<span class="cmt">// src/Service/Discount/BlackFridayPolicy.php</span>
+<span class="kw">class</span> <span class="fn">BlackFridayPolicy</span> <span class="kw">implements</span> DiscountPolicy
+{
+    <span class="kw">public function</span> <span class="fn">discountFor</span>(Product $product): <span class="kw">float</span>
+    {
+        <span class="kw">return</span> $product->getStock() &gt; <span class="num">50</span> ? <span class="num">0.20</span> : <span class="num">0.0</span>;
+    }
+}
+
+<span class="cmt">// src/Service/Discount/ClearancePolicy.php</span>
+<span class="kw">class</span> <span class="fn">ClearancePolicy</span> <span class="kw">implements</span> DiscountPolicy
+{
+    <span class="kw">public function</span> <span class="fn">discountFor</span>(Product $product): <span class="kw">float</span>
+    {
+        <span class="kw">return</span> $product->getCreatedAt() &lt; <span class="kw">new</span> \DateTimeImmutable(<span class="str">'-1 year'</span>) ? <span class="num">0.30</span> : <span class="num">0.0</span>;
+    }
+}
+
+<span class="cmt">// src/Service/PriceCalculator.php — constructor</span>
+<span class="kw">public function</span> <span class="fn">__construct</span>(
+    <span class="op">#[Autowire(</span>param: <span class="str">'app.vat_rate'</span><span class="op">)]</span> <span class="kw">private</span> <span class="kw">float</span> $vatRate,
+    <span class="op">#[Autowire(</span>service: BlackFridayPolicy::class<span class="op">)]</span> <span class="kw">private</span> DiscountPolicy $discount,
+) {}</pre>
+          </div>
+        </div>
+
+        <!-- S11 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">11</span> 🟡 La <code>Request</code> dentro de un servicio: <code>RequestStack</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Servicio <code>LocaleAwareFormatter</code> que reciba <code>RequestStack</code> por constructor, lea <code>getCurrentRequest()?-&gt;getLocale()</code>
+            y formatee un precio con separador decimal según el locale (<code>es</code> → coma, <code>en</code> → punto).
+          </p>
+          <p class="ex-explanation">
+            Patrón: un servicio <strong>no recibe <code>Request</code> por el constructor</strong> — cuando el contenedor lo construye no hay ninguna petición.
+            <code>RequestStack</code> es la puerta a "la petición actual", y el <code>?-&gt;</code> es obligatorio (en un comando de consola no hay request).
+            Aun así, lo preferible es pasar el locale como argumento del método desde el controlador.
+            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#la-request-dentro-de-un-servicio">Servicios → La Request dentro de un servicio</a>.
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Service/LocaleAwareFormatter.php</span>
+<span class="kw">namespace</span> App\Service;
+
+<span class="kw">use</span> Symfony\Component\HttpFoundation\RequestStack;
+
+<span class="kw">class</span> <span class="fn">LocaleAwareFormatter</span>
+{
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> RequestStack $requestStack) {}
+
+    <span class="kw">public function</span> <span class="fn">money</span>(<span class="kw">string</span> $price): <span class="kw">string</span>
+    {
+        $locale = $this->requestStack->getCurrentRequest()?->getLocale() ?? <span class="str">'es'</span>;
+        $decimal = $locale === <span class="str">'en'</span> ? <span class="str">'.'</span> : <span class="str">','</span>;
+        $thousands = $locale === <span class="str">'en'</span> ? <span class="str">','</span> : <span class="str">'.'</span>;
+
+        <span class="kw">return</span> number_format((<span class="kw">float</span>) $price, <span class="num">2</span>, $decimal, $thousands);
+    }
+}</pre>
+          </div>
+        </div>
+
+        <!-- S12 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">12</span> 🔴 Ficha de producto completa, maquetada</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Juntá todo en <code>GET /product/{id}</code>. El controlador orquesta: trae el <code>Product</code> por type-hint y pide a los servicios lo calculado
+            (<code>PriceCalculator</code>, <code>ExchangeRateClient</code>). La plantilla solo pinta: nombre, descripción <strong>recortada a 3 líneas con puntos suspensivos</strong>,
+            precio base <strong>grande y en negrita</strong>, precio con IVA (filtro <code>con_iva</code>) y equivalente en USD <strong>en texto menor y atenuado</strong>,
+            <strong>badge de stock tipo píldora con tres colores</strong> (agotado / últimas unidades / en stock), imagen si existe,
+            link <code>&lt;a&gt;</code> a editar y form de borrado con CSRF (S6).
+            Mobile-first: <strong>una columna en móvil; desde tablet, imagen a la izquierda (~1/3) y datos a la derecha</strong>.
+            Contenedor <strong>centrado con ancho máximo de lectura</strong> y <strong>separación generosa entre bloques</strong>.
+          </p>
+          <p class="ex-explanation">
+            Patrón: el controlador <strong>orquesta y delega</strong> en servicios; la plantilla no calcula nada.
+            Reutilizá <code>{% if %}/{% elseif %}/{% else %}</code> para el badge y <code>==</code> (Twig, no <code>===</code>).
+          </p>
+          <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
+          <div class="ex-code">
+<pre><span class="cmt">// src/Controller/ProductController.php</span>
+<span class="op">#[Route(</span><span class="str">'/product/{id}'</span><span class="op">, name:</span> <span class="str">'product_show'</span><span class="op">)]</span>
+<span class="kw">public function</span> <span class="fn">show</span>(Product $product, ExchangeRateClient $rates): Response
+{
+    $priceUsd = (<span class="kw">float</span>) $product->getPrice() * $rates->rate(<span class="str">'EUR'</span>, <span class="str">'USD'</span>);
+
+    <span class="kw">return</span> $this->render(<span class="str">'product/show.html.twig'</span>, [
+        <span class="str">'product'</span> => $product,
+        <span class="str">'priceUsd'</span> => $priceUsd,
+    ]);
+}</pre>
+<pre><span class="cmt">{# product/show.html.twig — estructura; las clases Tailwind las buscas tú #}</span>
+<span class="op">{% extends</span> <span class="str">'base.html.twig'</span> <span class="op">%}</span>
+<span class="op">{% block</span> body <span class="op">%}</span>
+<span class="op">&lt;article class="</span><span class="cmt">[centrado, ancho máx lectura; 1 col en móvil, 2 cols desde tablet]</span><span class="op">"&gt;</span>
+  <span class="op">{% if</span> product.imagePath <span class="op">%}</span><span class="op">&lt;img src="</span>{{ asset(product.imagePath) }}<span class="op">" alt="</span>{{ product.name }}<span class="op">"&gt;</span><span class="op">{% endif %}</span>
+  <span class="op">&lt;div&gt;</span>
+    <span class="op">&lt;h1&gt;</span>{{ product.name }}<span class="op">&lt;/h1&gt;</span>
+    <span class="op">&lt;span class="</span><span class="cmt">[píldora; color según stock]</span><span class="op">"&gt;</span>
+      <span class="op">{% if</span> product.stock == <span class="num">0</span> <span class="op">%}</span>Agotado<span class="op">{% elseif</span> product.stock &lt; <span class="num">10</span> <span class="op">%}</span>Últimas unidades<span class="op">{% else %}</span>En stock<span class="op">{% endif %}</span>
+    <span class="op">&lt;/span&gt;</span>
+    <span class="op">&lt;p class="</span><span class="cmt">[recorte a 3 líneas]</span><span class="op">"&gt;</span>{{ product.description }}<span class="op">&lt;/p&gt;</span>
+    <span class="op">&lt;p class="</span><span class="cmt">[grande, negrita]</span><span class="op">"&gt;</span>{{ product.price }} €<span class="op">&lt;/p&gt;</span>
+    <span class="op">&lt;p class="</span><span class="cmt">[pequeño, atenuado]</span><span class="op">"&gt;</span>IVA inc.: {{ product.price|con_iva }} € · ≈ {{ priceUsd|number_format(<span class="num">2</span>) }} USD<span class="op">&lt;/p&gt;</span>
+    <span class="op">&lt;a href="</span>{{ path(<span class="str">'product_edit'</span>, {id: product.id}) }}<span class="op">"&gt;</span>Editar<span class="op">&lt;/a&gt;</span>
+    <span class="cmt">{# + el form de borrado con CSRF del S6 #}</span>
+  <span class="op">&lt;/div&gt;</span>
+<span class="op">&lt;/article&gt;</span>
+<span class="op">{% endblock %}</span></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- REPASO FINAL DESDE 0 — Gestor de tareas (SaaS) -->
+    <!-- ============================================= -->
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 30/08/2026 · Repaso final desde 0 — A: Setup + Entidades</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p class="ex-explanation">
+          Repaso final de Symfony: se rehace <strong>todo desde un proyecto nuevo</strong> (<code>symfony new</code>), maquetando un
+          SaaS pequeño y elegante con Twig + Tailwind — un <strong>gestor de tareas</strong> (dashboard, lista responsive, CRUD, filtros),
+          con una pantalla de <strong>contacto</strong> como feature secundaria. 5 bloques (A–E), ≥6 ejercicios cada uno.
+          <strong>Sin IA, sin soluciones en la card</strong> — la teoría de Fundamentos es la referencia.
+          <strong>No se toca <code>Backend/assessment/symfony/</code></strong>: proyecto aparte (<code>Backend/repaso-tareas/</code>).
+          <br><br>
+          <strong>Método — ver el resultado a medida que se avanza:</strong> desde el bloque B ya hay una plantilla base y una lista renderizando
+          en el navegador. Cada bloque siguiente añade algo visible (formulario, badges, filtros, stats). El bloque E <strong>no crea la UI de cero</strong>:
+          es la <strong>pasada de maquetación fina</strong> sobre lo que ya se ve. Al pie de B, C y D dice qué abrir en el navegador para comprobarlo.
+        </p>
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">
+          🟢 fácil · 🟡 medio · 🔴 difícil
+        </p>
+
+        <!-- A1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 Proyecto nuevo + base de datos</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>symfony new repaso-tareas --webapp</code>, arrancá con <code>symfony serve</code> y verificá la página de bienvenida.
+            En <code>.env.local</code>, configurá la conexión a MySQL (XAMPP), base nueva <code>repaso_tareas</code>, y <code>doctrine:database:create</code>.
+          </p>
+          <p class="ex-explanation">
+            <code>--webapp</code> trae Twig, Form, Validator, Doctrine y Maker de una. Un proyecto Symfony es una base mínima + bundles que añaden capacidades.
+          </p>
+          <div class="ex-samples">
+            symfony new repaso-tareas --webapp<br>
+            symfony console doctrine:database:create
+          </div>
+        </div>
+
+        <!-- A2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 Entidad <code>Task</code> con <code>make:entity</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>make:entity Task</code>: <code>title</code> (string), <code>description</code> (text), <code>dueDate</code> (datetime_immutable, nullable),
+            <code>createdAt</code> (datetime_immutable). <code>status</code> y <code>priority</code> quedan para A4.
+          </p>
+          <p class="ex-explanation">
+            <code>description</code> como <code>text</code>, no <code>string</code>, porque es texto largo — cuándo cada uno en
+            <a href="../../../symfony/00-fundamentos/04-doctrine/01-entity/">Doctrine → Entity</a>. El type-hint de PHP y el tipo de columna son dos capas distintas.
+          </p>
+        </div>
+
+        <!-- A3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>createdAt</code> en el constructor + migración</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Añadí <code>public function __construct()</code> que asigne <code>$this-&gt;createdAt = new \DateTimeImmutable()</code>.
+            <code>make:migration</code> + <code>doctrine:migrations:migrate</code>.
+          </p>
+          <p class="ex-explanation">
+            La columna es NOT NULL y nadie la rellena desde el formulario → sin asignarla al construir, el <code>persist()</code> peta.
+            Patrón: propiedad "de nacimiento", se pone en el constructor.
+          </p>
+        </div>
+
+        <!-- A4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 Enums PHP: <code>TaskStatus</code> y <code>TaskPriority</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            En <code>src/Enum/</code>: <code>enum TaskStatus: string { case Todo = 'todo'; case Doing = 'doing'; case Done = 'done'; }</code> y
+            <code>TaskPriority</code> (Low / Medium / High). Añadilas a <code>Task</code> con <code>#[ORM\Column(enumType: TaskStatus::class)]</code>. Migrá.
+          </p>
+          <p class="ex-explanation">
+            Un enum PHP respaldado (<code>: string</code>) da valores cerrados y con nombre, en vez de strings mágicos sueltos. Doctrine lo mapea con <code>enumType:</code>.
+          </p>
+        </div>
+
+        <!-- A5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 Constraints sobre <code>Task</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>title</code>: <code>NotBlank</code> + <code>Length(min: 3, max: 120)</code>. <code>description</code>: <code>NotBlank</code>.
+            <code>dueDate</code>: <code>GreaterThan('today')</code> (nullable — solo valida si hay valor). Mensajes en castellano.
+          </p>
+          <p class="ex-explanation">
+            Las Constraints van sobre la <strong>entidad</strong>, no el formulario. Cada una tiene que ser verdad de ese campo.
+            <a href="../../../symfony/00-fundamentos/06-formularios/#constraints">Formularios → Constraints</a>.
+          </p>
+        </div>
+
+        <!-- A6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 Segunda entidad <code>Project</code> + relación</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>Project</code> (<code>name</code>, <code>createdAt</code>). Relación: una <code>Task</code> pertenece a un <code>Project</code> (<code>ManyToOne</code>),
+            un <code>Project</code> tiene muchas <code>Task</code> (<code>OneToMany</code>). Con <code>make:entity</code> sobre <code>Task</code>, campo <code>project</code> tipo <code>relation</code>. Migrá.
+          </p>
+          <p class="ex-explanation">
+            El lado <code>ManyToOne</code> (en <code>Task</code>) es el dueño y lleva la clave foránea; el <code>OneToMany</code> (en <code>Project</code>) es el inverso, con <code>mappedBy</code>.
+            <code>make:entity</code> te ofrece generar los dos lados.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 30/08/2026 · Repaso final desde 0 — B: Controladores</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">🟢 fácil · 🟡 medio · 🔴 difícil</p>
+
+        <p class="ex-explanation" style="border-left-color:#22c55e;">
+          👁 <strong>Al terminar este bloque</strong> abrís <code>/tasks</code> en el navegador y ves la lista de tareas renderizada (sin estilo todavía),
+          más <code>/tasks/{id}</code> y el borrado funcionando. A partir de aquí, cada bloque suma algo visible.
+        </p>
+
+        <!-- B1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>TaskController</code> + <code>index()</code> + plantillas base</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>make:controller TaskController</code>. Dejá solo <code>index()</code>: <code>#[Route('/tasks', name: 'task_index')]</code>,
+            trae todas las tareas con el <strong>Repository</strong> (<code>findAll()</code>) inyectado por type-hint.
+            Creá también <code>base.html.twig</code> mínima (sin Tailwind aún: <code>&lt;body&gt;</code> + <code>{% block body %}{% endblock %}</code>)
+            y <code>task/index.html.twig</code> con un <code>{% for %}</code> básico que liste los títulos. El objetivo es <strong>ver algo en <code>/tasks</code> ya</strong>.
+          </p>
+          <p class="ex-explanation">
+            El controlador orquesta, no consulta a mano.
+            <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/">Doctrine → Repository</a>.
+          </p>
+        </div>
+
+        <!-- B2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>show()</code> con <code>EntityValueResolver</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>#[Route('/tasks/{id}', name: 'task_show')]</code> con argumento <code>Task $task</code> directo — sin <code>find($id)</code> a mano.
+            Si el id no existe, 404 automático.
+          </p>
+          <p class="ex-explanation">
+            El resolver matchea <code>{id}</code> → <code>find()</code> → inyecta la entidad gestionada. Dejar que el framework resuelva la carga por type-hint.
+          </p>
+        </div>
+
+        <!-- B3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>findByStatus()</code> con QueryBuilder</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>TaskRepository::findByStatus(TaskStatus $status): array</code> — <code>where('t.status = :s')</code>, <code>setParameter</code>,
+            <code>orderBy('t.dueDate', 'ASC')</code>. Usalo en una ruta <code>/tasks/status/{status}</code>.
+          </p>
+          <p class="ex-explanation">
+            Patrón <code>createQueryBuilder → where → setParameter → orderBy → getQuery → getResult</code>.
+            <a href="../../../symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/#querybuilder">Doctrine → QueryBuilder</a>.
+          </p>
+        </div>
+
+        <!-- B4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>findVencidas()</code> — dos condiciones</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Tareas con <code>dueDate &lt; now</code> <strong>y</strong> <code>status != done</code>. QueryBuilder con <code>where</code> + <code>andWhere</code>,
+            <code>:now</code> como parámetro (<code>new \DateTimeImmutable()</code>).
+          </p>
+          <p class="ex-explanation">
+            <code>andWhere</code> encadena condiciones con AND. Nunca concatenar el valor en el DQL — siempre <code>setParameter</code>.
+          </p>
+        </div>
+
+        <!-- B5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>delete()</code> con CSRF a mano</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>#[Route('/tasks/{id}/delete', name: 'task_delete', methods: ['POST'])]</code>.
+            <code>isCsrfTokenValid('delete-task-' . $task-&gt;getId(), $request-&gt;request-&gt;get('_token'))</code> → <code>remove()</code> + <code>flush()</code>.
+            En Twig, mini-form con <code>&lt;input type="hidden" name="_token" value="{{ csrf_token('delete-task-' ~ task.id) }}"&gt;</code>.
+          </p>
+          <p class="ex-explanation">
+            La cadena de intención y el <code>name="_token"</code> tienen que ser <strong>idénticos</strong> en Twig y en el controlador.
+            Un <code>&lt;a&gt;</code> hace GET sin token — no protege. <code>remove()</code> es el opuesto de <code>persist()</code>.
+          </p>
+        </div>
+
+        <!-- B6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 Filtro por query string, sin formulario</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>/tasks?status=doing&amp;q=texto</code>. Leé <code>$request-&gt;query-&gt;get('status')</code> y <code>-&gt;get('q')</code>, y armá la consulta en el Repository
+            combinando <code>status</code> (igualdad) y <code>q</code> (<code>LIKE</code> sobre <code>title</code>). Sin nada → <code>findAll()</code>.
+          </p>
+          <p class="ex-explanation">
+            Para un filtro simple no hace falta un <code>Form</code> — la query string directa vale. En C6 se hace la versión con <code>Form</code> sin <code>data_class</code>, para comparar.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 30/08/2026 · Repaso final desde 0 — C: Formularios</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">🟢 fácil · 🟡 medio · 🔴 difícil</p>
+
+        <p class="ex-explanation" style="border-left-color:#22c55e;">
+          👁 <strong>Al terminar este bloque</strong>: <code>/tasks/new</code> muestra un formulario funcionando, crear una tarea la guarda y redirige,
+          <code>/tasks/{id}/edit</code> edita, y el buscador de <code>/tasks</code> filtra. Todo sin estilo todavía — eso es el bloque E.
+        </p>
+
+        <!-- C1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>TaskType</code> con <code>make:form</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>title</code> (<code>TextType</code>), <code>description</code> (<code>TextareaType</code>, <code>attr</code> rows 4),
+            <code>dueDate</code> (<code>DateType</code>, <code>widget: 'single_text'</code>), <code>priority</code> (<code>EnumType</code>, <code>class: TaskPriority::class</code>),
+            <code>project</code> (<code>EntityType</code>, <code>class: Project::class</code>, <code>choice_label: 'name'</code>). <code>data_class =&gt; Task::class</code>.
+          </p>
+          <p class="ex-explanation">
+            Cada tipo de campo mapea a un tipo de dato; <code>EnumType</code> resuelve el enum y <code>EntityType</code> la relación.
+            <a href="../../../symfony/00-fundamentos/06-formularios/#buildform">Formularios → buildForm</a>.
+          </p>
+        </div>
+
+        <!-- C2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🔴 <code>new()</code> — el flujo entero, línea a línea</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>new Task()</code> → <code>createForm(TaskType::class, $task)</code> → <code>handleRequest($request)</code> →
+            <code>if (isSubmitted() &amp;&amp; isValid())</code> → <code>persist</code> + <code>flush</code> + <code>addFlash</code> + <code>redirectToRoute</code> (PRG) →
+            <code>render('task/new.html.twig', ['form' =&gt; $form])</code> en el else. Ruta <code>methods: ['GET', 'POST']</code>.
+            <strong>Explicá cada línea en voz alta.</strong>
+          </p>
+          <p class="ex-explanation">
+            Este es el hueco del checkpoint S1. <code>createForm</code> solo envuelve; <code>handleRequest</code> es lo único que rellena la entidad;
+            el <code>if</code> va en ese orden por el corto-circuito de <code>&amp;&amp;</code>; el redirect es Post/Redirect/Get.
+            <a href="../../../symfony/00-fundamentos/06-formularios/#los-tres-argumentos-de-createform">Formularios → Procesamiento con el controlador</a>.
+          </p>
+        </div>
+
+        <!-- C3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🔴 <code>edit()</code> — las dos diferencias vs <code>new</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Mismo <code>TaskType</code>. Argumento <code>Task $task</code> por <code>EntityValueResolver</code> → el form nace relleno.
+            Al guardar, <strong><code>flush()</code> sin <code>persist()</code></strong>. Ruta <code>methods: ['GET', 'POST']</code>. Nombrá <strong>las dos</strong> cosas que cambian.
+          </p>
+          <p class="ex-explanation">
+            La entidad viene de la BD → Doctrine ya la sigue → <code>flush()</code> detecta los cambios (dirty checking → UPDATE).
+            <a href="../../../symfony/00-fundamentos/06-formularios/#editar-el-mismo-formulario-para-crear-y-actualizar">Formularios → Editar</a>.
+          </p>
+        </div>
+
+        <!-- C4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 Twig del formulario</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>task/new.html.twig</code> extiende <code>base.html.twig</code>, <code>{% block body %}</code> con <code>{{ form(form) }}</code>
+            (y su <code>{% endblock %}</code> — no lo olvides). Después pasalo a renderizado campo a campo con <code>form_row(form.title)</code>, etc.
+          </p>
+          <p class="ex-explanation">
+            <code>{{ form() }}</code> pinta todo (apertura, campos, errores, cierre con CSRF). <code>form_row</code> da control campo a campo.
+            <a href="../../../symfony/00-fundamentos/06-formularios/#renderizado-en-twig">Formularios → Renderizado en Twig</a>.
+          </p>
+        </div>
+
+        <!-- C5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 Opción propia <code>is_edit</code> en <code>configureOptions()</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>is_edit</code> (default <code>false</code>). En <code>buildForm()</code>, el campo <code>status</code> (<code>EnumType</code>)
+            <strong>solo se añade si <code>$options['is_edit']</code></strong> — al crear, la tarea nace en <code>Todo</code>; el estado solo se toca editando.
+            <code>edit()</code> pasa <code>['is_edit' =&gt; true]</code> como 3er argumento de <code>createForm()</code>.
+          </p>
+          <p class="ex-explanation">
+            Patrón <code>esAdmin</code>/<code>esEdicion</code>: una opción propia que <code>buildForm</code> lee para decidir qué campos montar. Un <code>Type</code>, dos comportamientos.
+          </p>
+        </div>
+
+        <!-- C6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 <code>TaskSearchType</code> sin <code>data_class</code>, por GET</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Campos <code>q</code> (<code>TextType</code>, <code>required: false</code>) y <code>status</code> (<code>EnumType</code>, <code>required: false</code>).
+            En <code>index()</code>: <code>createForm(TaskSearchType::class, null, ['method' =&gt; 'GET'])</code>, <code>handleRequest</code>,
+            y leés con <code>$form-&gt;get('q')-&gt;getData()</code> — <strong>no</strong> del <code>$request</code>. Filtrás con el Repository.
+          </p>
+          <p class="ex-explanation">
+            Sin <code>data_class</code> no hay entidad; el dato se lee del form campo a campo. Un buscador va por GET (consulta, no mutación).
+            <a href="../../../symfony/00-fundamentos/06-formularios/#formulario-sin-entidad">Formularios → Formulario sin entidad</a>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 30/08/2026 · Repaso final desde 0 — D: Servicios</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">🟢 fácil · 🟡 medio · 🔴 difícil</p>
+
+        <p class="ex-explanation" style="border-left-color:#22c55e;">
+          👁 <strong>Al terminar este bloque</strong>: al crear una tarea se le genera una referencia visible, el dashboard (<code>/</code>) muestra los contadores,
+          y en la lista aparece la fecha con "hace X" del filtro Twig. Sigue sin maquetar — el bloque E lo pule todo.
+        </p>
+
+        <!-- D1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>ReferenceGenerator</code> — primer servicio</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>src/Service/ReferenceGenerator.php</code>: <code>forTask(Task $task): string</code> que devuelve <code>TSK-20260830-4F2A</code>
+            (prefijo + fecha de <code>createdAt</code> + 4 hex aleatorios en mayúsculas). Clase normal, sin <code>extends</code>, sin registrarla.
+            Inyectala en <code>new()</code> por type-hint y guardá el resultado en una propiedad nueva <code>reference</code> de <code>Task</code>.
+          </p>
+          <p class="ex-explanation">
+            El bloque <code>App\</code> de <code>services.yaml</code> ya registra <code>src/</code> — no hay <code>make:service</code>.
+            El servicio <strong>transforma</strong>, no valida; su resultado es un dato que la entidad necesita un hueco (propiedad + setter) para sostener.
+            <a href="../../../symfony/00-fundamentos/07-servicios/#crear-un-servicio-propio">Servicios → Crear un servicio propio</a>.
+          </p>
+        </div>
+
+        <!-- D2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 <code>TaskStats</code> — servicio que usa el Repository</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>resumen(): array</code> → <code>['total' =&gt; n, 'pendientes' =&gt; n, 'vencidas' =&gt; n]</code>, usando <code>TaskRepository</code>
+            inyectado por constructor (propiedad promocionada). Usalo en el controlador del dashboard.
+          </p>
+          <p class="ex-explanation">
+            Servicio que depende de otro servicio, declarado en el constructor. La lógica del dashboard vive aquí, no en el controlador.
+          </p>
+        </div>
+
+        <!-- D3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>#[Autowire]</code> escalar desde <code>.env</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>TaskNotifier</code> con <code>#[Autowire('%env(ADMIN_EMAIL)%')] private string $adminEmail</code> en el constructor.
+            El valor va en <code>.env.local</code>, nunca en el código.
+          </p>
+          <p class="ex-explanation">
+            El contenedor no adivina un <code>string</code> por el type-hint; se lo decís con <code>#[Autowire]</code>. Secretos y config de entorno → <code>.env.local</code>.
+            <a href="../../../symfony/00-fundamentos/07-servicios/#argumentos-que-no-son-servicios">Servicios → Argumentos que no son servicios</a>.
+          </p>
+        </div>
+
+        <!-- D4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🔴 <code>TaskNotifier</code> — <code>MailerInterface</code> + <code>LoggerInterface</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Inyectá <code>MailerInterface</code> y <code>LoggerInterface</code> (propiedades promocionadas, type-hint contra la interfaz).
+            <code>taskCreated(Task $task)</code>: loguea y manda un email a <code>$adminEmail</code>. Llamalo en <code>new()</code> tras el <code>flush()</code>.
+          </p>
+          <p class="ex-explanation">
+            <code>composer require symfony/mailer</code>. Type-hint contra la interfaz para poder cambiar la implementación (mailer falso en tests).
+            En dev el email se ve en el profiler sin enviarse.
+            <a href="../../../symfony/00-fundamentos/07-servicios/#inyeccion-por-constructor-un-servicio-que-usa-otros">Servicios → Inyección por constructor</a>.
+          </p>
+        </div>
+
+        <!-- D5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 Twig Extension: filtro <code>fecha_relativa</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>make:twig-extension AppExtension</code>. Filtro <code>fecha_relativa</code> (recibe un <code>\DateTimeInterface</code>, devuelve "hace 3 h", "en 2 días")
+            respaldado por un servicio <code>DateHumanizer</code>. La extensión recibe el servicio por constructor.
+          </p>
+          <p class="ex-explanation">
+            Un servicio no se inyecta en la plantilla; se expone con una Twig Extension, que es un servicio y <code>autoconfigure</code> la registra sola.
+            <a href="../../../symfony/00-fundamentos/07-servicios/#servicios-en-twig-y-en-comandos">Servicios → Servicios en Twig</a>.
+          </p>
+        </div>
+
+        <!-- D6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 Elegir implementación: <code>TaskSorter</code></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Interfaz <code>TaskSorter</code> con <code>sort(array $tasks): array</code>. Dos implementaciones: <code>ByDueDateSorter</code> y <code>ByPrioritySorter</code>.
+            En el controlador del listado, inyectá una concreta con <code>#[Autowire(service: ByDueDateSorter::class)]</code>.
+            Comprobá con <code>debug:autowiring TaskSorter</code> y <code>lint:container</code>.
+          </p>
+          <p class="ex-explanation">
+            Una interfaz con varias implementaciones → el autowiring falla al compilar → se desambigua nombrando el servicio.
+            <a href="../../../symfony/00-fundamentos/07-servicios/#elegir-entre-varias-implementaciones">Servicios → Elegir entre varias implementaciones</a>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exercise-card">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📅 30/08/2026 · Repaso final desde 0 — E: Maquetación SaaS (Tailwind)</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <p class="ex-explanation">
+          Maquetación con Tailwind. Los enunciados describen la <strong>intención visual</strong>, no las clases — las buscás tú en la doc de Tailwind.
+          Mobile-first: la base es móvil, los breakpoints suben.
+        </p>
+
+        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:.85rem;">🟢 fácil · 🟡 medio · 🔴 difícil</p>
+
+        <!-- E1 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">1</span> 🟡 <code>base.html.twig</code> — layout de app</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Barra superior fija: nombre del producto a la izquierda, un enlace "Nueva tarea" con aspecto de botón a la derecha.
+            Debajo, el contenido centrado con un ancho máximo de lectura y aire a los lados. En móvil todo en una columna.
+            La barra necesita fondo propio y quedar por encima del contenido al hacer scroll.
+          </p>
+          <p class="ex-explanation">
+            <code>{% block body %}</code> es el hueco; lo que lo envuelve (barra + contenedor) es fijo en todas las páginas.
+            <a href="../../../tailwind/02-layout/">Tailwind → Layout</a>.
+          </p>
+        </div>
+
+        <!-- E2 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">2</span> 🟡 Dashboard con tarjetas de estadística</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            En <code>/</code>: tres tarjetas en fila (total / pendientes / vencidas, de <code>TaskStats</code>), cada una con el número grande y la etiqueta pequeña debajo,
+            esquinas redondeadas y una sombra sutil. En móvil se apilan. La de "vencidas" con acento de peligro si el número es mayor que 0.
+          </p>
+          <p class="ex-explanation">
+            El controlador pide el resumen a <code>TaskStats</code> y lo pasa; la plantilla solo pinta. Grid que colapsa a una columna en móvil.
+          </p>
+        </div>
+
+        <!-- E3 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">3</span> 🔴 Lista de tareas — grid responsive de tarjetas</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            En <code>/tasks</code>: grid de tarjetas — una columna en móvil, dos en tablet, tres en escritorio. Cada tarjeta: título en semibold,
+            descripción recortada a dos líneas, y dos badges tipo píldora — uno de estado (colores distintos para Todo / Doing / Done) y uno de prioridad.
+            Fecha de vencimiento con el filtro <code>fecha_relativa</code>, en rojo si está vencida. Al pasar el ratón, la tarjeta se eleva un poco y coge algo de sombra.
+          </p>
+          <p class="ex-explanation">
+            <code>{% for task in tasks %}</code> con <code>{% else %}</code> dentro para el <em>empty state</em>. El badge se resuelve con
+            <code>{% if %}/{% elseif %}/{% else %}</code> sobre <code>task.status.value</code> (Twig compara con <code>==</code>, no <code>===</code>).
+            Cada tarjeta en su parcial <code>_task_card.html.twig</code>, incluido con <code>{% include ... with { task: task } %}</code>.
+          </p>
+        </div>
+
+        <!-- E4 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">4</span> 🟡 <em>Empty state</em></span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            Cuando no hay tareas (o el filtro no devuelve nada): en vez de un grid vacío, un bloque centrado con un icono/emoji grande atenuado,
+            un texto ("No hay tareas") y el botón de crear. Va en el <code>{% else %}</code> del <code>{% for %}</code>.
+          </p>
+          <p class="ex-explanation">
+            Un buen <em>empty state</em> no es opcional en un SaaS — es la primera pantalla que ve un usuario nuevo.
+          </p>
+        </div>
+
+        <!-- E5 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">5</span> 🟡 Formulario elegante</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>task/new.html.twig</code> y <code>edit</code>: cada campo con su label encima, el input a ancho completo con borde suave y un estado de foco visible
+            (anillo o cambio de borde), y los errores de validación en rojo justo debajo del campo que falla. Botón de enviar destacado, con cambio al pasar el ratón.
+            En pantalla ancha, el formulario va centrado con un ancho cómodo, no a todo lo ancho.
+          </p>
+          <p class="ex-explanation">
+            Renderizado campo a campo con <code>form_row</code> para controlar el HTML. Symfony ya mete los errores dentro de cada <code>form_row</code>.
+          </p>
+        </div>
+
+        <!-- E6 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">6</span> 🔴 Página de contacto — cierra el círculo</span>
+            <span class="ex-status pending">⏳ Pendiente</span>
+          </div>
+          <p class="ex-desc">
+            <code>/contacto</code>: un <code>ContactType</code> <strong>sin <code>data_class</code></strong> (nombre, email, mensaje), maquetado como una tarjeta centrada.
+            Al enviar válido → <code>TaskNotifier</code> (o un <code>ContactNotifier</code> análogo) manda el email y se muestra un mensaje de éxito elegante
+            (banner con acento positivo), sin recargar a una página vacía.
+          </p>
+          <p class="ex-explanation">
+            Cierra el círculo: formulario sin entidad + servicio de notificación + flash + Post/Redirect/Get, todo junto y maquetado.
+          </p>
         </div>
 
       </div>

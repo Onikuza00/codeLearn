@@ -4,12 +4,18 @@
 
 ---
 
-## Regla definitiva: una página por track/día, nunca archivos nuevos por tanda
+## Regla definitiva: una página por track, nunca archivos nuevos por tanda
 
-- UN solo HTML por track/día con TODAS las cards de ejercicios de ese track.
-- Los ejercicios nuevos SIEMPRE se añaden como card nueva en ese MISMO HTML.
+- UN solo HTML por track con TODAS las cards de ejercicios de ese track, sin importar cuántos días distintos aporten ejercicios.
 - Las funciones/definiciones se añaden a los MISMOS dos JS ya existentes: `{tema}-soluciones.js` (stubs/soluciones) y `{tema}-runner.js` (definiciones/tests) — NUNCA crear un HTML separado ni un JS nuevo por tanda.
 - Estructura de archivos: `{tema}.html` + `{tema}-soluciones.js` + `{tema}-runner.js`.
+
+### Antes de crear: comprobar el nav del header (norma de Pau, 22/08/2026)
+
+`docs/assessment/nav.js` (inyectado en cada página vía `<div id="site-nav"></div>` + `<script src="../../nav.js">`) es la fuente única de qué tracks existen y a qué HTML apunta cada uno. Antes de montar un ejercicio nuevo:
+
+1. **Comprobar si su track ya tiene sección en el nav.** Si SÍ existe (ej. "🌐 DOM" ya apunta a `dia-19-dom.html`) → el ejercicio nuevo NO crea un HTML separado, aunque combine el track con otro tema (ej. DOM + Tailwind sigue siendo el track DOM). Se añade como `.exercise-card` nueva dentro del MISMO HTML que ya representa ese track, colocada PRIMERO — antes de las cards existentes — con su propio título de fecha para separarla del resto (mismo patrón ya usado entre 19/08 y 20/08 en `dia-19-dom.html`).
+2. **Si el track es genuinamente nuevo** (ninguna sección del nav lo cubre) → sí se crea el HTML nuevo, pero hay que enlazarlo en `nav.js` (nueva `section(...)` dentro del dropdown que corresponda) en el MISMO paso — sin esto, la página no es alcanzable desde ningún sitio de `assessment/index.html` ni del resto del nav.
 
 ## Estructura de la card de ejercicio
 

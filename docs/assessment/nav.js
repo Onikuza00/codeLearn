@@ -46,7 +46,7 @@
       link(base + 'js/ejercicios/dia-13-metodos-avanzados.html', 'zap', 'Día 13 — find/some/every · this · errores', '15 ejercicios, 5 grupos', 'js'),
       { open: true }) +
     section('🌐 DOM',
-      link(base + 'js/ejercicios/dia-19-dom.html', 'zap', 'Día 19 — DOM, Eventos y Formularios', '15 ejercicios, 4 grupos', 'js'),
+      link(base + 'js/ejercicios/dia-19-dom.html', 'zap', 'Día 19 — DOM, Eventos y Formularios', '55 ejercicios, 8 grupos', 'js'),
       { open: true });
 
   const dropdownCss =

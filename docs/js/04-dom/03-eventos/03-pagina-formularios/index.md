@@ -91,6 +91,9 @@ campo.addEventListener('change', function () {
 !!! warning "change no es 'en tiempo real'"
     Si necesitas reaccionar mientras el usuario escribe (validación en vivo, contador de caracteres...), `change` no sirve — solo se dispara al salir del campo. Usa `input` para eso. `change` sí es el correcto para `<select>` y checkboxes/radios, donde "cambiar" significa una acción puntual, no una secuencia de teclas.
 
+!!! tip "El checkbox ya se marca solo — el `change` llega DESPUÉS"
+    Marcar o desmarcar un checkbox al hacer clic es comportamiento nativo del navegador, no hace falta ninguna línea de JS para que pase. El orden real es: 1) el usuario hace clic, 2) el navegador actualiza `.checked` por su cuenta, 3) recién ahí se dispara `'change'`. Dentro del listener, `checkbox.checked` ya refleja el valor NUEVO — nunca hace falta asignarlo a mano para el checkbox que el usuario tocó directamente. Asignarlo manualmente (`checkbox.checked = ...`) solo hace falta cuando es el propio código el que fuerza el cambio en OTRO elemento (por ejemplo, sincronizar varios checkboxes desde uno "maestro").
+
 ---
 
 ## `select`, `cut`, `copy`, `paste` {: .topic-title }

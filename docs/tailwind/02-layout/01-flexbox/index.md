@@ -133,6 +133,39 @@
 !!! warning "`order-` es solo visual"
     El orden en el DOM no cambia — solo el orden en pantalla. Para lectores de pantalla y navegación por teclado, el orden real sigue siendo el del HTML. No abuses de `order-` para maquetar contenido que debería estar ya ordenado en el HTML.
 
+### `flex-1` en layouts responsive — trucos reales
+
+El patrón más común en producción: una barra lateral de ancho fijo + un contenido que ocupa todo lo que sobra, apilados en móvil y en fila en escritorio.
+
+```html
+<div class="flex flex-col md:flex-row">
+  <aside class="md:w-64">Barra lateral</aside>
+  <main class="flex-1">Contenido — ocupa el resto del ancho en escritorio</main>
+</div>
+```
+
+!!! warning "`flex-1` cambia de eje junto con `flex-direction`"
+    Igual que `justify-`/`items-` (ver aviso más arriba), `flex-1` reparte el eje PRINCIPAL, y ese eje depende de `flex-direction`. En el ejemplo de arriba, en móvil el contenedor está en `flex-col`: ahí `flex-1` en `<main>` reparte ALTURA, no ancho — no fuerza que ocupe el 100% del ancho por sí solo. Si en móvil también necesitas ancho completo, hay que pedirlo explícito con `w-full`, no dar por hecho que `flex-1` ya lo cubre.
+
+!!! danger "`flex-1` no encoge contenido largo por defecto — el gotcha más común"
+    Por spec, un hijo flex tiene `min-width: auto`, que en la práctica significa "no encoger nunca por debajo del tamaño de su contenido" (un texto largo sin espacios, una imagen). Esto hace que `flex-1` a veces NO reparta el espacio como se espera: el contenido se desborda del contenedor en vez de truncarse o ajustarse. La solución es añadir `min-w-0` (o `min-h-0` en `flex-col`) al hijo con `flex-1`, que resetea ese mínimo implícito y permite que sí encoja — muchas veces combinado con `truncate` para cortar el texto con `…`.
+
+    ```html
+    <div class="flex">
+      <div class="flex-1 min-w-0">
+        <p class="truncate">Un título larguísimo que si no fuera por min-w-0 desbordaría la tarjeta</p>
+      </div>
+    </div>
+    ```
+
+**Alternativas a `flex-1` cuando el reparto tiene que ser predecible:**
+
+| Necesidad | Herramienta | Por qué |
+|---|---|---|
+| "Que ocupe todo lo que sobra" (1 elemento flexible junto a otros fijos) | `flex-1` | Es justo para eso — no conoce fracciones, solo "el resto" |
+| Columnas con fracción fija y que cambie por breakpoint (ej. mitad en tablet, un tercio en escritorio) | `basis-1/2 md:basis-1/3` | `flex-1` ignora el tamaño base; si el reparto tiene que ser una fracción concreta y no "lo que sobra", `basis-` es más explícito |
+| Varias columnas de ancho mínimo que se auto-ajustan sin media queries manuales | `grid` con `grid-cols-[repeat(auto-fit,minmax(...,1fr))]` | Flexbox no tiene equivalente nativo a `auto-fit`/`minmax()` — para ese caso, Grid es la herramienta correcta, no un truco de `flex-wrap` |
+
 ---
 
 ## 📖 Referencias

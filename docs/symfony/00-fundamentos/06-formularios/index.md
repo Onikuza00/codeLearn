@@ -249,7 +249,23 @@ El `label` (y el resto de opciones) normalmente se define UNA sola vez, en `buil
 
 ## Procesamiento con el controlador {: .topic-title }
 
-El mismo método que crea el formulario también lo procesa. El flujo se basa en tres llamadas sobre el objeto `$form`:
+El mismo método que crea el formulario también lo procesa.
+
+### Los tres argumentos de `createForm()`
+
+`$this->createForm()` acepta tres argumentos; solo el primero es obligatorio:
+
+| # | Argumento | Para qué |
+|---|---|---|
+| 1 | `TareaType::class` | Qué formulario construir. |
+| 2 | La entidad (`$tarea`) o `null` | El dato al que se ata el formulario: precarga los campos y recibe los valores enviados. Con `data_class` se pasa la entidad; sin `data_class` (un buscador) se pasa `null`. Por defecto `null`. |
+| 3 | Array de opciones | `method`, `action`, opciones propias declaradas en `configureOptions()` (como `is_edit`), `csrf_protection`… Por defecto `[]`. |
+
+Estos tres argumentos son lo que cambia entre **crear** (`new Tarea()` como 2º), **editar** (la entidad ya cargada) y **buscar** (`null` + `['method' => 'GET']`, ver [Formulario sin entidad](#formulario-sin-entidad)).
+
+### El flujo sobre `$form`
+
+Una vez creado, el procesamiento se basa en tres llamadas sobre el objeto `$form`:
 
 | Método | Qué hace |
 |---|---|
@@ -284,8 +300,122 @@ public function crear(Request $request, EntityManagerInterface $em): Response
 }
 ```
 
+!!! info "`persist()` solo para entidades nuevas; `flush()` siempre"
+    `persist($tarea)` no guarda nada — le dice a Doctrine *"empieza a seguir este objeto, es nuevo y todavía no está en la base de datos"*. `flush()` es el que ejecuta: mira todo lo que Doctrine está siguiendo, calcula los `INSERT`/`UPDATE`/`DELETE` necesarios y los lanza en una transacción.
+
+    Por eso al **crear** hacen falta los dos, pero al **editar** una entidad que viene de la base de datos solo hace falta `flush()`: esa entidad ya la sigue Doctrine desde que la cargó, y detecta los cambios de propiedades por su cuenta (*dirty checking*). Llamar a `persist()` sobre ella no hace daño, pero sobra.
+
 !!! tip "Post/Redirect/Get: por qué el `redirectToRoute()` no es opcional"
     Tras guardar con éxito, redirigir (en vez de renderizar directamente una vista de confirmación) no es una cuestión de estilo — es el patrón **Post/Redirect/Get**. Sin la redirección, el navegador recuerda ese `POST` como la "última petición" de esa pestaña: si el usuario pulsa F5, el navegador reenvía el mismo formulario otra vez, duplicando la tarea en la base de datos. Al redirigir a una ruta `GET`, un F5 posterior repite esa `GET` (inofensiva), nunca el `POST` original.
+
+## Editar: el mismo formulario para crear y actualizar {: .topic-title }
+
+El `Type` no distingue entre crear y editar — el mismo `TareaType` sirve para las dos cosas. Lo único que cambia es de dónde sale la entidad que se le pasa a `createForm()`:
+
+- **Crear:** `new Tarea()` — un objeto vacío. El formulario nace sin valores.
+- **Editar:** una `Tarea` ya cargada de la base de datos. El formulario nace **relleno con sus valores actuales**, sin hacer nada extra.
+
+En el controlador de edición, la entidad llega por el type-hint gracias al `EntityValueResolver` (ver [Doctrine → ParamConverter / EntityValueResolver](../04-doctrine/02-repository-entitymanager/index.md#paramconverter)) — no hay que buscarla a mano:
+
+```php hl_lines="2 4 8"
+#[Route('/tareas/{id}/editar', name: 'tarea_editar', methods: ['GET', 'POST'])]
+public function editar(Tarea $tarea, Request $request, EntityManagerInterface $em): Response
+{
+    $form = $this->createForm(TareaType::class, $tarea); // $tarea ya trae sus datos → el form nace relleno
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $em->flush(); // sin persist(): Doctrine ya sigue a $tarea desde que la cargó
+
+        return $this->redirectToRoute('app_tareas');
+    }
+
+    return $this->render('tarea/crear.html.twig', [ // se puede reutilizar la misma plantilla
+        'formularioTarea' => $form->createView(),
+    ]);
+}
+```
+
+Diferencias respecto a `crear()`, resaltadas arriba: la entidad es un parámetro (no un `new`), y se guarda con `flush()` a secas.
+
+!!! tip "El `methods: ['GET', 'POST']` no es opcional aquí"
+    La acción de editar sirve dos peticiones distintas: en `GET` muestra el formulario ya relleno, en `POST` procesa el envío. Si solo declaras `methods: ['POST']`, entrar a la URL desde el navegador (que es un `GET`) devuelve un `405 Method Not Allowed` y nunca llegas a ver el formulario.
+
+## Formulario sin entidad {: .topic-title }
+
+No todo formulario mapea a una entidad. Un buscador, un filtro, un "contactar" que solo manda un email — recogen datos sueltos que no se guardan como fila. Para eso, el `Type` se crea **sin `data_class`**:
+
+```php
+class TareaBusquedaType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('texto', TextType::class, ['required' => false, 'label' => false])
+            ->add('buscar', SubmitType::class);
+    }
+
+    // configureOptions se queda vacío: sin data_class
+}
+```
+
+Sin `data_class`, `$form->getData()` devuelve un **array asociativo** (`['texto' => 'symfony']`) en vez de un objeto hidratado. El valor de cada campo se lee con `$form->get('nombre')->getData()`:
+
+```php
+#[Route('/tareas', name: 'app_tareas')]
+public function index(Request $request, TareaRepository $repo): Response
+{
+    $form = $this->createForm(TareaBusquedaType::class, null, ['method' => 'GET']);
+    $form->handleRequest($request);
+
+    $texto = $form->get('texto')->getData();
+    $tareas = $texto
+        ? $repo->findByTituloLike($texto)
+        : $repo->findAll();
+
+    return $this->render('tarea/index.html.twig', [
+        'tareas' => $tareas,
+        'formularioBusqueda' => $form->createView(),
+    ]);
+}
+```
+
+!!! tip "Un buscador va por `GET`, no por `POST`"
+    `['method' => 'GET']` en `createForm()` hace que el formulario envíe por `GET`: los datos van en la URL (`?tarea_busqueda[texto]=symfony`), la búsqueda se puede compartir y guardar en favoritos, y un F5 no reenvía nada. `POST` es para lo que cambia estado; una consulta no lo hace.
+
+## Borrar con CSRF a mano {: .topic-title }
+
+Un enlace de borrado (`<a href="/tareas/5/borrar">`) tiene dos problemas: hace `GET` (que no debe cambiar estado) y no lleva token CSRF — cualquier web podría incrustar ese enlace y disparar el borrado con tu sesión. La solución es un mini-formulario de un solo botón, con el token puesto a mano:
+
+```twig
+<form method="post" action="{{ path('tarea_borrar', { id: tarea.id }) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('borrar' ~ tarea.id) }}">
+    <button>Borrar</button>
+</form>
+```
+
+- `csrf_token('borrar' ~ tarea.id)` genera un token para una **intención** — el string `'borrar' ~ tarea.id` (`~` concatena en Twig). Meter la id en la intención evita que un token válido para una tarea sirva para borrar otra.
+- Ese `<button>` **sí es semánticamente correcto**: es una acción sobre esta página (enviar el formulario), no navegación a otra.
+
+En el controlador se valida esa misma intención antes de tocar la base de datos:
+
+```php
+#[Route('/tareas/{id}/borrar', name: 'tarea_borrar', methods: ['POST'])]
+public function borrar(Request $request, Tarea $tarea, EntityManagerInterface $em): Response
+{
+    if ($this->isCsrfTokenValid('borrar' . $tarea->getId(), $request->request->get('_token'))) {
+        $em->remove($tarea);
+        $em->flush();
+    }
+
+    return $this->redirectToRoute('app_tareas');
+}
+```
+
+!!! warning "La intención tiene que ser idéntica en los dos sitios"
+    `'borrar' ~ tarea.id` en Twig y `'borrar' . $tarea->getId()` en PHP tienen que producir exactamente el mismo string. Y el `name` del `<input>` (`_token`) tiene que coincidir con lo que lee el controlador (`$request->request->get('_token')`) — son los dos extremos del mismo cable. Si algo no cuadra, `isCsrfTokenValid()` devuelve `false` siempre y el borrado nunca ocurre.
+
+    `remove()` marca la entidad para borrar (el opuesto simétrico de `persist()`); `flush()` ejecuta el `DELETE`.
 
 ## 📚 Fuentes {: .topic-title }
 | Fuente | Enlace |

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Producto Index{% endblock %}
+
+{% block body %}
+<div class="flex flex-col items-center gap-2 p-3">
+    <h1 class="text-2xl font-bold text-sky-900">Productos: <span class="text-red-600">{{ products|length }}</span></h1>
+    {{ form(searchForm) }}
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for item in products %}
+    {% include 'product/_card.html.twig' with { prod: item }%}
+     {% else %}
+    <h2 class="text-sm font-normal text-red-400">No hay productos a mostrar.</h2>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

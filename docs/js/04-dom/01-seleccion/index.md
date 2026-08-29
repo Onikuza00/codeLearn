@@ -51,15 +51,47 @@ Es más rápido que `querySelector` porque el navegador indexa los ids, pero sol
 
 ## `getElementsByClassName()` y `getElementsByTagName()` {: .topic-title }
 
-Localizan elementos por clase o por etiqueta. Devuelven una `HTMLCollection`, **viva**: si el DOM cambia después, la colección se actualiza sola.
+Localizan elementos por clase o por etiqueta. Devuelven una `HTMLCollection`.
 
 ```js
 const tarjetas = document.getElementsByClassName('tarjeta');
 const parrafos = document.getElementsByTagName('p');
 ```
 
-!!! warning "HTMLCollection viva vs NodeList estática"
-    `getElementsByClassName`/`getElementsByTagName` devuelven una colección **viva**: si añades o quitas elementos con esa clase/etiqueta, la longitud de la colección cambia sola, incluso dentro de un bucle que la está recorriendo. `querySelectorAll` devuelve una `NodeList` **estática**: una foto fija en el momento en que se ejecutó, aunque el DOM cambie después. Por eso `querySelectorAll` es más predecible como punto de partida.
+---
+
+## `HTMLCollection` vs `NodeList` {: .topic-title }
+
+Ninguna de las dos es un array: son colecciones "array-like" (tienen `.length` y acceso por índice `[0]`), pero cada una se comporta distinto a la hora de recorrerlas y de reaccionar a cambios en el DOM.
+
+| | `HTMLCollection` | `NodeList` |
+|---|---|---|
+| La devuelven | `getElementsByClassName()`, `getElementsByTagName()`, `.children` | `querySelectorAll()`, `.childNodes` |
+| ¿Viva o estática? | **Siempre viva** | Depende del método — ver aviso abajo |
+| `for...of` | ❌ No es iterable directamente | ✅ Sí |
+| `.forEach()` | ❌ No existe | ✅ Sí |
+| `.map()` / `.filter()` / `.reduce()` | ❌ Ninguna de las dos los tiene | ❌ Ninguna de las dos los tiene |
+| Acceso por índice `[0]` / `.item(i)` | ✅ | ✅ |
+| `.namedItem('id')` | ✅ (busca además por `id` o `name`) | ❌ No existe |
+
+Para usar métodos de array con cualquiera de las dos hace falta convertirla primero:
+
+```js
+const tarjetas = document.getElementsByClassName('tarjeta'); // HTMLCollection
+
+tarjetas.forEach(t => {});       // ❌ TypeError: tarjetas.forEach is not a function
+for (const t of tarjetas) {}     // ❌ TypeError: tarjetas is not iterable
+
+const arrayTarjetas = Array.from(tarjetas); // ✅ o [...tarjetas] — ahora sí: map/filter/reduce
+```
+
+!!! warning "HTMLCollection siempre viva — NodeList no siempre estática"
+    `getElementsByClassName()`/`getElementsByTagName()`/`.children` devuelven una colección **viva**: si añades o quitas elementos que cumplen el criterio, la colección (y su `.length`) se actualiza sola — incluso en medio de un bucle que la está recorriendo, lo que puede saltear elementos o dejar el bucle corriendo más o menos vueltas de las esperadas.
+
+    `NodeList` no es siempre estática: depende de qué método la generó. `querySelectorAll()` devuelve una NodeList **estática** (una foto fija del momento en que se ejecutó, aunque el DOM cambie después). `.childNodes`, en cambio, devuelve una NodeList **viva**. No asumir que toda `NodeList` se comporta como la de `querySelectorAll()`.
+
+!!! tip "Recorrer y borrar a la vez, sobre una colección viva"
+    Si hay que eliminar elementos mientras se recorre una colección VIVA (`HTMLCollection` o `.childNodes`), un `for` clásico hacia adelante es peligroso: al borrar el elemento `i`, el que estaba en `i+1` pasa a ocupar esa posición y el bucle lo salta sin procesarlo. Dos formas seguras de evitarlo: recorrer el índice hacia atrás (`for (let i = coleccion.length - 1; i >= 0; i--)`), o convertir a un array estático primero con `Array.from()`/`[...coleccion]` antes de iterar.
 
 ---
 

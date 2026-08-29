@@ -44,7 +44,7 @@ Animaciones ya listas, se repiten solas sin necesidad de un estado (`hover:`, et
 
 ```html
 <div class="animate-spin">⏳</div>
-<span class="animate-ping absolute h-3 w-3 rounded-full bg-sky-400"></span>
+<span class="animate-ping absolute size-3 rounded-full bg-sky-400"></span>
 ```
 
 | Clase | Efecto |

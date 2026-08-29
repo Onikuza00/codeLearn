@@ -35,12 +35,32 @@ class Product
     #[ORM\Column(length: 255)]   // VARCHAR(255)
     private ?string $name = null;
 
-    #[ORM\Column]                // tipo detectado por el type-hint de PHP (float → FLOAT/DOUBLE)
-    private ?float $price = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]  // DECIMAL(10,2) — dinero
+    private ?string $price = null;
+
+    #[ORM\Column(type: Types::TEXT)]   // TEXT — texto largo, sin límite fijo
+    private ?string $description = null;
+
+    #[ORM\Column]                // sin type: lo deduce del type-hint (int → INT, bool → BOOLEAN...)
+    private ?int $stock = null;
 }
 ```
 
 `make:entity` genera también los getters/setters — no se escriben a mano. Los setters devuelven `static` (`return $this;`) para poder encadenarlos.
+
+!!! tip "El tipo de columna: cuándo `#[ORM\Column]` a secas no alcanza"
+    Sin `type:`, Doctrine deduce la columna del type-hint de PHP (`int → INT`, `bool → BOOLEAN`, `string → VARCHAR(255)`, `\DateTimeImmutable → DATETIME`). Hay dos casos donde eso no sirve y hay que forzarlo:
+
+    - **Dinero → `decimal`, nunca `float`.** Un `float` arrastra errores de redondeo binario (`0.1 + 0.2` no da exactamente `0.3`). `decimal` guarda el número exacto, con `precision` (dígitos totales) y `scale` (decimales). Doctrine te lo devuelve como **`string`** en PHP para no perder precisión — por eso el type-hint es `?string $price`, no `?float`.
+    - **Texto largo → `text`.** `VARCHAR(255)` corta a 255 caracteres; `text` no tiene límite fijo. También se mapea a `?string`, y no lleva `length`.
+
+    `Types::DECIMAL` / `Types::TEXT` salen de la clase `Doctrine\DBAL\Types\Types` — hay que importarla arriba del archivo:
+
+    ```php
+    use Doctrine\DBAL\Types\Types;
+    ```
+
+    `Types::DECIMAL` es solo la constante que vale el string `'decimal'`. Puedes escribir directamente `type: 'decimal'` / `type: 'text'` sin ningún `use`; la constante solo te protege de un typo (el IDE la autocompleta, el string no).
 
 !!! tip "Por qué `?string $name`, si la columna es NOT NULL"
     Fijate que `$name` es `?string` (nullable en PHP) aunque la columna en la BD **no** acepte `NULL` (no tiene `nullable: true`). No es un descuido de `make:entity` — es a propósito: si la propiedad fuera `string` a secas, PHP no te dejaría ni instanciar `new Product()` sin pasarle el nombre ya en el constructor, y nunca llegarías a validarlo. Al ser nullable en PHP, el objeto puede existir temporalmente "incompleto" (recién creado, antes de llamar a `setName()`), y es el **Validator** de Symfony (constraint `NotBlank`/`NotNull`, mapeada automáticamente desde el `nullable: false` de Doctrine) quien atrapa ese hueco como un error de validación normal — no un `TypeError` de PHP.
@@ -56,7 +76,7 @@ class Product
      | Tipo | Pregunta extra |
      |---|---|
      | `string` | *"Field length"* (default `255`) — es el `length: 255` de tu `$name` |
-     | `decimal` | *"Precision"* (default `10`) + *"Scale"* (default `0`) — **no** es el caso de `$price`: ese campo es `float`, no `decimal`, y por eso no tiene ninguna opción extra en tu código |
+     | `decimal` | *"Precision"* (default `10`, dígitos totales) + *"Scale"* (default `0`, decimales) — es lo que lleva `$price` para dinero: `DECIMAL(10, 2)`. La propiedad queda como `?string` en PHP, no `?float` (ver el tip de arriba) |
      | `enum` | clase del enum + *"¿puede guardar varios valores?"* |
      | relación (`ManyToOne`...) | wizard aparte — pendiente, otra subsección de Doctrine |
    - Siempre al final: *"Can this field be null in the database (nullable)"* (default `false`) — es el `?` de `private ?string $name` cuando respondés que sí.
@@ -68,7 +88,7 @@ Reconstruido sobre tu `Product.php` real, así se vería la sesión completa:
 |---|---|
 | Class name | `Product` |
 | New property name → Field type → (extra) → nullable | `name` → `string` → length `255` → `no` |
-| Add another property? → Field type → (extra) → nullable | `price` → `float` → *(sin pregunta extra)* → `no` |
+| Add another property? → Field type → (extra) → nullable | `price` → `decimal` → precision `10`, scale `2` → `no` |
 | Add another property? → Field type → (extra) → nullable | `imageUrl` → `string` → length `500` → `no` |
 | Add another property? → Field type → nullable | `likes` → `integer` → `no` |
 | Add another property? | *(vacío)* → termina |

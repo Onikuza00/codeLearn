@@ -1,0 +1,14 @@
+<div class="group rounded-xl border shadow-sm p-5 transition hover:shadow-md hover:-translate-y-0.5">
+    {% if prod.stock == 0 %}
+    <span class="text-red-700 inline-block rounded-full px-3 py-1 text-xs font-medium bg-red-100">Agotado</span>
+    {% else %}
+    <span class="text-green-700 inline-block rounded-full px-3 py-1 text-xs font-medium bg-green-100">En stock</span>
+    {% endif %}
+    <h2 class="font-semibold group-hover:text-blue-600">Nombre: {{ prod.name }}</h2>
+    <span class="text-base">Precio: <b class="text-red-600">{{ prod.price|number_format(2, ',', '.')}}€</b></span>
+    <span class="line-clamp-2">{{ prod.description}}</span>
+    <form method="POST" action="{{path('product_delete',{ id:prod.id })}}">
+        <input type="hidden" name="_token" value="{{csrf_token('delete' ~ prod.id)}}">
+        <button class="text-sm text-red-600 hover:underline">Borrar</button>
+    </form>
+</div>

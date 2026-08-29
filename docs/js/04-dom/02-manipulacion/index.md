@@ -61,6 +61,16 @@ Para los atributos más comunes hay un atajo directo como propiedad del elemento
 | `type` | `input.type` |
 | `selected` | `opcion.selected = true` (en un `<option>`) |
 
+!!! tip "Los atributos `aria-*` no tienen propiedad directa — siempre `setAttribute`"
+    Los atributos de accesibilidad (`aria-expanded`, `aria-hidden`, `aria-selected`...) comunican a lectores de pantalla el estado de un elemento — no cambian nada visual por sí solos, es responsabilidad del CSS/JS reflejar ese mismo estado (ej. mostrar/ocultar con `classList`) en paralelo.
+
+    ```js
+    boton.setAttribute('aria-expanded', 'true');   // string 'true', no el booleano true
+    boton.getAttribute('aria-expanded');            // 'true' o 'false', siempre string
+    ```
+
+    No existe un atajo como `boton.ariaExpanded` que funcione de forma fiable entre navegadores — siempre `setAttribute`/`getAttribute`, y siempre con el string `'true'`/`'false'`, nunca el booleano.
+
 !!! warning "value como propiedad y como atributo NO siempre coinciden"
     ```html
     <input type="text" value="valor inicial">
@@ -133,6 +143,18 @@ elemento.classList.contains('activo');            // true / false
 elemento.classList.replace('activo', 'inactivo'); // sustituye una por otra
 ```
 
+!!! danger "`classList.add()` no acepta un string con varias clases separadas por espacio"
+    Cada argumento de `.add()`/`.remove()`/`.toggle()` es UN token, y un token no puede contener espacios. Esto explota especialmente al maquetar con Tailwind, donde es habitual querer aplicar varias utilidades de una — `flex`, `flex-col`, `gap-2` — de golpe:
+
+    ```js
+    elemento.classList.add('flex flex-col gap-2'); // ❌ SyntaxError: el token contiene espacios
+
+    elemento.classList.add('flex', 'flex-col', 'gap-2'); // ✅ un argumento por clase
+    elemento.className = 'flex flex-col gap-2';          // ✅ className SÍ acepta el string completo
+    ```
+
+    `className` sustituye TODO el atributo `class` de una vez (borra lo que hubiera antes); `classList.add()` suma clases sin tocar las que ya estaban. Elegí según si querés reemplazar o acumular.
+
 !!! tip "`toggle()` es el patrón típico de un interruptor"
     ```js
     boton.addEventListener('click', () => {
@@ -140,6 +162,24 @@ elemento.classList.replace('activo', 'inactivo'); // sustituye una por otra
     });
     ```
     Una sola línea reemplaza el `if (tiene la clase) quitarla; si no, ponerla` — `toggle()` ya decide eso por ti.
+
+!!! danger "`toggle()` sin segundo argumento invierte lo que YA HABÍA, no fuerza tu condición"
+    ```js
+    // ❌ dos clicks seguidos con la MISMA categoría dan resultados distintos,
+    // porque toggle() no mira tu condición, mira si la clase ya estaba puesta
+    productos.forEach(p => {
+      if (p.dataset.categoria === categoria) p.classList.toggle('hidden');
+    });
+
+    // ✅ segundo argumento: un booleano que FUERZA el resultado
+    // true  → la clase queda puesta (la agrega si no estaba)
+    // false → la clase queda quitada (la saca si estaba)
+    productos.forEach(p => {
+      const coincide = p.dataset.categoria === categoria;
+      p.classList.toggle('hidden', !coincide);
+    });
+    ```
+    Sin el segundo argumento, `toggle()` decide solo mirando el estado ACTUAL de la clase — ideal para un interruptor simple (un solo click, un solo cambio). Pero si el resultado depende de una condición que podés evaluar de nuevo en cada llamada (¿coincide con el filtro?, ¿está seleccionado?), hace falta forzarlo con el booleano — si no, repetir la misma acción puede revertir un resultado que ya era correcto.
 
 ---
 

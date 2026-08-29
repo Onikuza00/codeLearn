@@ -30,12 +30,13 @@ theme:
 
 nav:
   - Inicio: index.md
-  - 🗺️ Planes:
-    - planning/index.md
-    - Próxima Sesión: planning/aprendizaje.md
   - 🗺️ Way to Code:
     - waytoCode/index.md
-    - 🎯 Ejercicio activo: waytoCode/ejercicio.md
+    - 📋 Plan de aprendizaje: waytoCode/plan.md
+    - 🎯 Próxima sesión: waytoCode/proxima-sesion.md
+    - 🚨 Repaso urgente:
+      - "JS / DOM": waytoCode/repaso-urgente-js.md
+      - Symfony: waytoCode/repaso-urgente-symfony.md
     - 2026:
       - waytoCode/2026/index.md
       - "Mes 06 — Junio":
@@ -75,6 +76,11 @@ nav:
           - "Lunes 17 — Symfony: Twig + Formularios": waytoCode/2026/08/semana-3/2026-08-17.md
           - "Miércoles 19 — DOM: querySelector + eventos": waytoCode/2026/08/semana-3/2026-08-19.md
           - "Jueves 20 — DOM: Manipulación": waytoCode/2026/08/semana-3/2026-08-20.md
+          - "Sábado 22 — Repaso DOM + Tailwind": waytoCode/2026/08/semana-3/2026-08-22.md
+          - "Domingo 23 — Refuerzo DOM + API de Claude": waytoCode/2026/08/semana-3/2026-08-23.md
+        - "Semana 04 — Refuerzo DOM + Symfony":
+          - "Martes 25 — Refuerzo DOM": waytoCode/2026/08/semana-4/2026-08-25.md
+          - "Sábado 29 — Symfony Formularios": waytoCode/2026/08/semana-4/2026-08-29.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -140,7 +146,7 @@ nav:
       - tailwind/03-responsive-estados/index.md
       - "Breakpoints": tailwind/03-responsive-estados/01-breakpoints/index.md
       - "Pseudo-clases y estados": tailwind/03-responsive-estados/02-pseudoclases-estados/index.md
-      - "group y peer": tailwind/03-responsive-estados/03-group-peer/index.md
+      - "group, peer y has": tailwind/03-responsive-estados/03-group-peer/index.md
     - "Efectos visuales":
       - tailwind/04-efectos-visuales/index.md
       - "Sombras": tailwind/04-efectos-visuales/01-sombras/index.md
@@ -193,6 +199,7 @@ nav:
         - "Eventos de ratón": js/04-dom/03-eventos/01-raton/index.md
         - "Eventos de teclado": js/04-dom/03-eventos/02-teclado/index.md
         - "Eventos de página y formularios": js/04-dom/03-eventos/03-pagina-formularios/index.md
+        - "Arrastrar y soltar": js/04-dom/03-eventos/04-arrastrar-soltar/index.md
       - "Formularios": js/04-dom/04-formularios/index.md
   - Frontend:
     - frontend/index.md
@@ -204,6 +211,7 @@ nav:
     - backend/index.md
     - PHP:
       - backend/01-php/index.md
+      - "Métodos básicos": backend/01-php/01-metodos-basicos/index.md
   - Symfony:
     - symfony/index.md
     - "Bloque 00 - Fundamentos":
@@ -217,6 +225,7 @@ nav:
         - "02 - Repository y EntityManager": symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/index.md
       - "05 - Twig": symfony/00-fundamentos/05-twig/index.md
       - "06 - Formularios": symfony/00-fundamentos/06-formularios/index.md
+      - "07 - Servicios": symfony/00-fundamentos/07-servicios/index.md
     - "Bloque 01 - Web Components":
       - Arquitectura: symfony/web-components/arquitectura.md
       - TwigComponents: symfony/web-components/twig-components.md
@@ -247,6 +256,19 @@ nav:
         - ia/claude/02-claude-api/index.md
         - "Acceso a la API": ia/claude/02-claude-api/01-acceso-api/index.md
         - "Creando la conexión": ia/claude/02-claude-api/02-creando-conexion/index.md
+        - "Conversaciones multiturno": ia/claude/02-claude-api/03-conversaciones-multiturno/index.md
+        - "Prompting": ia/claude/02-claude-api/04-system-prompts/index.md
+        - "Temperatura": ia/claude/02-claude-api/05-temperature/index.md
+        - "Streaming": ia/claude/02-claude-api/06-streaming/index.md
+        - "Datos estructurados": ia/claude/02-claude-api/07-datos-estructurados/index.md
+        - "Evaluación de prompts":
+          - "Evaluación de prompts": ia/claude/02-claude-api/08-evaluacion-prompts/index.md
+          - "Generación de conjuntos de datos de prueba": ia/claude/02-claude-api/08-evaluacion-prompts/01-generacion-datasets/index.md
+          - "Ejecutar la evaluación": ia/claude/02-claude-api/08-evaluacion-prompts/02-ejecutar-evaluacion/index.md
+          - "Calificadores": ia/claude/02-claude-api/08-evaluacion-prompts/03-calificadores/index.md
+          - "Calificación basada en modelos": ia/claude/02-claude-api/08-evaluacion-prompts/03-calificadores/01-calificacion-por-modelo/index.md
+          - "Calificación basada en código": ia/claude/02-claude-api/08-evaluacion-prompts/03-calificadores/02-calificacion-por-codigo/index.md
+        - "Ingeniería de prompts": ia/claude/02-claude-api/09-prompt-engineering/index.md
       - "Automatizaciones":
         - ia/claude/03-automatizaciones/index.md
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md
@@ -264,6 +286,11 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.highlight:
       anchor_linenums: true
+      extend_pygments_lang:
+        - name: php
+          lang: php
+          options:
+            startinline: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.details

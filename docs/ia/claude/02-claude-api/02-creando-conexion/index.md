@@ -25,8 +25,16 @@ import 'dotenv/config';
 import Anthropic from '@anthropic-ai/sdk';
 
 const client = new Anthropic(); // lee ANTHROPIC_API_KEY del entorno automáticamente
-const model = 'claude-sonnet-4-0';
+const model = 'claude-sonnet-5';
 ```
+
+!!! warning "Troubleshooting real — 4 fallos encadenados (22/08/2026)"
+    Montar esto por primera vez tiró 4 errores distintos, uno detrás de otro. Quedan documentados porque son gotchas reales, no hipotéticos:
+
+    1. **Este script nunca se carga desde `index.html` con `<script src="claude.js">`.** Es código de Node (usa `dotenv`, lee variables de entorno del sistema) — un navegador no tiene acceso a eso. Y aunque de alguna forma funcionara, expondría tu `ANTHROPIC_API_KEY` a cualquiera que abra el inspector del navegador. Se ejecuta con `node claude.js` desde la terminal.
+    2. **`package.json` necesita `"type": "module"`** como propiedad de nivel raíz (hermana de `"dependencies"`, NO dentro de ese objeto). Sin eso, Node trata el archivo como CommonJS por defecto y el `import`/`await` de nivel superior rompe con `SyntaxError: Cannot use import statement outside a module`.
+    3. **El nombre de la variable en `.env` tiene que ser EXACTO: `ANTHROPIC_API_KEY`.** Si se llama distinto, `new Anthropic()` no la encuentra aunque el archivo exista y la clave sea válida — el error es `Could not resolve authentication method`, no un error de autenticación propiamente dicho.
+    4. **Los ids de modelo son snapshots pineados que caducan.** Si aparece `404 not_found_error: model: ...`, el id quedó obsoleto — hay que comprobar el id actual en la [doc oficial de modelos](https://platform.claude.com/docs/en/about-claude/models/overview), no asumirlo.
 
 ## La función `create` {: .topic-title }
 
@@ -73,8 +81,14 @@ El objeto `message` trae mucha metadata, pero el texto generado está en:
 message.content[0].text
 ```
 
-!!! tip "Cuando hay más de un bloque de contenido"
-    Con respuestas simples de texto, `message.content[0].text` alcanza. Si la respuesta puede traer varios bloques (por ejemplo, uso de herramientas), hay que recorrer `message.content` y comprobar `block.type === "text"` antes de leer `block.text`.
+!!! warning "Sonnet 5 antepone un bloque de `thinking` — `content[0]` no siempre es el texto"
+    Los modelos con adaptive thinking (Sonnet 5, Opus 5...) devuelven primero un bloque `{ type: "thinking", ... }` con el razonamiento interno, y el texto real queda en un bloque posterior. Asumir `message.content[0].text` a ciegas devuelve `undefined` — y si ese `undefined` se guarda como respuesta y se reenvía en el siguiente turno de una conversación multiturno, la API rechaza la solicitud con `messages.N.content: Field required`.
+
+    Hay que **buscar** el bloque de texto, no asumir su posición:
+
+    ```js
+    return message.content.find(block => block.type === "text").text;
+    ```
 
 ---
 

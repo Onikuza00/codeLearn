@@ -166,8 +166,8 @@ DOM: `querySelector`, `textContent`, `addEventListener`, cambiar estilos desde J
 | **Mié 19/08** | 9-14h (5h) | 🟢 Tailwind — velocidad | Maquetación avanzada, tanda nueva más compleja que la Semana 2 |
 | **Jue 20/08** | 9-14h (5h) | 🟣 Symfony | Servicios |
 | **Vie 21/08** | flexible | — | Candidato a día libre (de los 1-2 sueltos); si se trabaja, buffer para lo que se haya atrasado |
-| **Sáb 22/08** | 8-20h (12h, en bloques) | 🔵 JS/DOM + 🟢 Tailwind | DOM combinado con lógica (crear elementos, formularios, eventos) + sprint de maquetación Tailwind cronometrado |
-| **Dom 23/08** | 8-20h (12h, en bloques) | 🟣 Symfony + 🔵 JS/DOM + cierre | Rematar Servicios si falta · mini proyecto: validador de formulario visual · cierre de semana + planificación Semana 4 |
+| **Sáb 22/08** | 8-20h (12h, en bloques) | 🔵 JS/DOM + 🟢 Tailwind | Ejercicios mezclados de DOM y Tailwind en la misma sesión, no bloques separados |
+| **Dom 23/08** | 8-20h (12h, en bloques) | 🟣 Symfony + 🔵 repaso + cierre | Servicios (Service Container) · repaso de formulario (DOM) · cierre de semana + planificación Semana 4 |
 
 ### 🧠 Concepto clave de la semana
 > **"El DOM es donde tu lógica JS se vuelve visible"** — hasta ahora todo vivía en funciones que devolvían valores; esta semana esos valores empiezan a cambiar lo que se ve en pantalla.
