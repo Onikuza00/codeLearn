@@ -4,9 +4,9 @@
 
 ---
 
-## 🎯 Por qué este plan (contexto real, 08/08/2026)
+## 🎯 Por qué este plan (contexto, 08/08/2026)
 
-Se terminaron las prácticas. La empresa ofreció continuidad, pero sin senior que guíe y con contrato de pocas horas — se toma como puente mientras se busca activamente, no como destino. El mes ya no es "avanzar cómodo": es consolidar lo que abre puertas reales, más lo que pide el trabajo actual mientras dura el puente.
+El foco del mes no es "avanzar cómodo": es consolidar lo que abre puertas reales en el mercado, más el track de Symfony avanzado que corre en paralelo.
 
 **Lo que dice el mercado (investigado 08/08/2026):**
 
@@ -19,7 +19,7 @@ Se terminaron las prácticas. La empresa ofreció continuidad, pero sin senior q
 
 **Decisión de stack:** ampliar a React + Node (no reemplaza Vue/Symfony, que ya está sólido). Maximiza opciones en ambos mercados sin abandonar lo que ya es empleable en Girona.
 
-**Segundo objetivo, no negociable:** el jefe del contrato puente pidió consolidar **Symfony + Messenger + integración RAG + webhooks**. No tiene plazo fijo, pero espera progreso constante — entra como track paralelo dentro de las 37h/semana, sin dominar el tiempo total.
+**Segundo objetivo:** consolidar **Symfony + Messenger + integración RAG + webhooks**. Sin plazo fijo, con progreso constante — entra como track paralelo dentro de las 37h/semana, sin dominar el tiempo total.
 
 **Fuera del roadmap (ya resuelto o pospuesto):**
 - **Portfolio/CV** — ya está hecho, no consume horas de este plan.
@@ -34,7 +34,7 @@ Se terminaron las prácticas. La empresa ofreció continuidad, pero sin senior q
 | Stack | Dónde estás | Lo que sabés | Lo que te falta |
 |-------|:-----------:|--------------|-----------------|
 | **Vue** | Intermedio | Componentes, templates, reactive data, directives | Entender qué hace Vue por debajo (reactividad = getters/setters) |
-| **Symfony** | Intermedio | MVC, routing, Doctrine, JWT, Twig | Messenger, integración RAG, webhooks (pedido del jefe) |
+| **Symfony** | Intermedio | MVC, routing, Doctrine, JWT, Twig | Messenger, integración RAG, webhooks |
 | **CSS** | **8/10** | Flex, Grid, BEM, CQ, `:has()`, `@layer`, GSAP | Tailwind (arranca directo), CSS Nesting (repaso corto previo) |
 | **JS puro** | **5.5/10** | Loops, split/join, includes, indexOf, early returns | Métodos arrays, objetos como estructuras, callbacks, closures, async |
 
@@ -59,7 +59,7 @@ Cada concepto JS está elegido porque **mapea directamente** a React o Node:
 |---|---|
 | JS puro | 5.5/10 → 7.5/10 |
 | CSS | 8/10 → 8.5/10 + Tailwind funcional |
-| Symfony (Messenger/RAG/webhooks) | Progreso constante, sin nota — lo pide el trabajo |
+| Symfony (Messenger/RAG/webhooks) | Progreso constante, sin nota |
 
 ---
 
@@ -191,17 +191,17 @@ DOM: `querySelector`, `textContent`, `addEventListener`, cambiar estilos desde J
 
 ## 🔧 Track paralelo — Symfony + Messenger + RAG + webhooks
 
-*(pedido del jefe, ~8-9h/semana repartidas en 1-2 sesiones, sin día fijo)*
+*(~8-9h/semana repartidas en 1-2 sesiones, sin día fijo)*
 
 No compite con el objetivo principal — corre en paralelo, con progreso visible cada semana en vez de nota final.
 
-**Progresión de conceptos (a validar/ajustar con lo que pida el trabajo real):**
+**Progresión de conceptos (a validar/ajustar sobre la marcha):**
 1. Repaso de fundamentos ya sólidos (MVC, Doctrine, JWT) — solo lo justo para engranar con lo nuevo.
 2. **Messenger:** buses de mensajes, handlers, colas async, reintentos.
 3. **Integración RAG:** cómo el backend Symfony consume/orquesta un pipeline de retrieval (embeddings, búsqueda vectorial, contexto hacia el LLM).
 4. **Webhooks:** endpoints de recepción, validación de firma, idempotencia, manejo de reintentos/fallos.
 
-*(Este bloque se ajusta sesión a sesión según lo que pida el trabajo — no sigue una fecha cerrada como los bloques de JS/CSS.)*
+*(Este bloque se ajusta sesión a sesión — no sigue una fecha cerrada como los bloques de JS/CSS.)*
 
 ---
 

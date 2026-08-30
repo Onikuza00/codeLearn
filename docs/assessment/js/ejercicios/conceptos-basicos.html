@@ -40,7 +40,7 @@
       transition: transform .2s;
       font-size: .8rem;
     }
-    .exercise-card.is-open .arrow-fold {
+    .exercise-card.is-open > .exercise-card-header .arrow-fold {
       transform: rotate(180deg);
     }
     .exercise-card-body {
@@ -49,8 +49,22 @@
       border-top: 1px solid var(--border);
       padding-top: 1rem;
     }
-    .exercise-card.is-open .exercise-card-body {
+    .exercise-card.is-open > .exercise-card-body {
       display: block;
+    }
+
+    /* Card maestra: agrupa los bloques del mismo tema */
+    .exercise-card--master {
+      border-color: var(--accent-js-dim);
+      background: var(--bg-elevated);
+      margin-bottom: 1rem;
+    }
+    .exercise-card--master > .exercise-card-header h3 {
+      font-size: 1.15rem;
+      color: var(--accent-js);
+    }
+    .exercise-card--master > .exercise-card-body {
+      padding-top: 1rem;
     }
     .ex {
       background: var(--bg-elevated);
@@ -206,6 +220,19 @@
   </section>
 
   <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ===== MAESTRA ===== -->
+    <div class="exercise-card exercise-card--master is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🏋️ Conceptos Básicos</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">0✅</span>
+          <span style="font-size:.75rem;color:#eab308;">0🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">12⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
 
     <!-- ============================================= -->
     <!-- SESIÓN 16/08/2026 — REPASO GENERAL             -->
@@ -1308,6 +1335,10 @@
 
       </div>
     </div>
+
+      </div>
+    </div>
+    <!-- ===== /MAESTRA ===== -->
 
     <div class="exercise-footer">
       CodeLearn Assessment — Julio 2026 · Sesión de práctica JS

@@ -4,56 +4,60 @@
 
 ---
 
-## Domingo 30/08 — Repaso final de Symfony desde 0 (12 h)
+## Estado tras el domingo 30/08
 
-### Objetivo
+Repaso final de Symfony desde 0 (`Backend/assessment/Ex-Symfony/gestor-tareas/`): **A, B, C completos; D1–D4 hechos**. Sesión cortada a las ~9 h por acumulación (12 h el sábado). Ver [daily del 30/08](/waytoCode/2026/08/semana-4/2026-08-30/).
 
-Rehacer **todo** Symfony desde un proyecto nuevo, maquetando un **SaaS pequeño y elegante con Twig + Tailwind**: un **gestor de tareas** (dashboard con stats, lista responsive, CRUD completo, filtros) con una **página de contacto** como feature secundaria (para el ángulo de formulario + servicio de notificación). Profundidad sobre amplitud — una app redonda explicando cada línea, no un speed-run de cuatro temas.
+**Contexto que condiciona septiembre:** las mañanas dejan de estar libres a partir de la primera semana. Tiempo de estudio real: ~3-4 h por las tardes, 2-3 días/semana. Los dos primeros findes, 12 h sábado + domingo y luego libre.
 
-> Decisión del agente (Pau dijo "nuse"): gestor de tareas como espina, no un formulario de contacto suelto. Un contact form es una *página*, no un SaaS — no ejercita lista/CRUD/dashboard/estados. El gestor de tareas sí, y encima es el redo desde 0 del primer bloque de Symfony (12/08), que es el repaso más limpio posible. El formulario de contacto entra como una pantalla más dentro de la app.
+---
 
-### Reglas
+## 🎯 Objetivos generales de septiembre (por ahora)
 
-- **Proyecto nuevo aparte.** `symfony new` limpio (p. ej. `Backend/repaso-tareas/`). **No tocar `Backend/assessment/symfony/`** — ese código funciona y es la referencia para contrastar (mismo motivo por el que no se borró `Product` en S1).
-- Sin IA en los ejercicios. Consultar teoría solo para dudas puntuales.
-- Explicar cada decisión en voz alta antes de escribir.
+No es un calendario cerrado — solo la dirección. El semana a semana se fija cada semana con las horas reales.
 
-### Bloques de ejercicios
+**Decisión 30/08:** aparcar React. Consolidar JS y seguir con Symfony. Cerrar el certificado de Claude API.
 
-En `assessment/symfony/ejercicios/` → card **"🔁 Repaso final desde 0 — gestor de tareas (SaaS)"** (5 sub-cards plegadas, ≥5 ejercicios cada una):
-
-| Bloque | Contenido |
+| Frente | Objetivo del mes |
 |---|---|
-| **A — Setup + Entidades** | `symfony new`, `make:entity Task` (title, description `TEXT`, `status`/`priority` como enum PHP, `dueDate`, `createdAt` en constructor), constraints, 2ª entidad (`Project` o `Tag`) + relación `ManyToOne` / `OneToMany`, migraciones |
-| **B — Controladores** | `make:controller`, CRUD entero (index / show / new / edit / delete), `EntityValueResolver` (404 auto), borrar con CSRF a mano, Repository con QueryBuilder (`findByStatus`, `findVencidas`, búsqueda `LIKE`) |
-| **C — Formularios** | `TaskType` reutilizado crear+editar, flujo del controlador **línea a línea** (el hueco de S1), renderizado Twig (`form()` y `form_row`), opción propia en `configureOptions` (`is_edit` → `status` solo en edición), form sin `data_class` para el filtro por GET |
-| **D — Servicios** | servicio a mano inyectado por type-hint (`TaskStats` para los contadores del dashboard), `#[Autowire]` escalar desde `.env`, servicio que usa otros (`TaskNotifier` con `MailerInterface` + `LoggerInterface`), Twig Extension (`fecha_relativa`, badge de prioridad), `RequestStack`, elegir implementación |
-| **E — Capstone maquetación SaaS** | layout con nav/sidebar, dashboard con tarjetas de stats, lista de tareas responsive (grid de cards con badges de estado/prioridad, mobile-first, focus/hover), *empty states*, formulario elegante con errores por campo, la **página de contacto** como pantalla secundaria (form + `TaskNotifier`) |
+| **Backend — Symfony** | Cerrar el repaso (D5, D6, bloque E) → **Seguridad** (auth, roles, voters ≈ ABAC, `#[IsGranted]`, login/JWT) → **Testing** (PHPUnit, tests funcionales, fixtures). Messenger + RAG entran solo cuando el jefe empuje el RAG de verdad. |
+| **Frontend — JS** | **Async**: Promises → `fetch` → `async`/`await` → `try/catch` con `await`. Luego **módulos** (`import`/`export`) y **storage** (`localStorage`/`sessionStorage`/cookies + `JSON`). React aparcado. **Drilling de DOM de fondo**: cada sesión, un ejercicio de los patrones 🔴 de [`repaso-urgente-js.md`](/waytoCode/repaso-urgente-js/) antes de lo demás. |
+| **IA** | Cerrar el **curso de Claude API** (retomar en `gradeByModel()`, `docs/ia/claude/02-claude-api/08-evaluacion-prompts/`). Capturar en `docs/ia/` los patrones que salgan de la práctica real (prompts, evals, tool use, RAG). |
 
-### Últimas 2 h — curso de Claude API
+---
 
-Retomar en `gradeByModel()` (documentado en `docs/ia/claude/02-claude-api/08-evaluacion-prompts/`, sin implementar ni probar en `claude2.js`). Continuar después de "Calificación basada en modelos".
+## 📅 Próxima semana
 
-### Prep hecha el sábado 29 (por el agente)
+Solo objetivos, sin repartir por días.
 
-- Card de ejercicios de los 5 bloques A–E.
-- Reestructuración de `docs/assessment/`: un tema = una card, cada día = subcard plegada por defecto (JS y Symfony).
+**Symfony:**
 
-### Checkpoint que sigue abierto
+- Terminar los ejercicios pendientes de **Servicios**: D5 (`DateHumanizer` + Twig Extension `fecha_relativa`, empezar por el servicio), D6 (`TaskSorter` con dos implementaciones + `#[Autowire(service: ...)]`), y lo que quede de la card S1–S12.
+- Empezar **y cerrar Seguridad**: autenticación con **JWT**, `User` provider, roles, permisos (voters, `#[IsGranted]`).
 
-El flujo del controlador `new`/`edit` **de memoria** — S1 quedó en 🔁 Repasar (salió entidad y estructura de `FormType`, se cayó la secuencia línea a línea del controlador). El **Bloque C** lo vuelve a machacar desde 0.
+**JS:**
+
+- **Dominar** los ejercicios de DOM pendientes (patrones 🔴 de [`repaso-urgente-js.md`](/waytoCode/repaso-urgente-js/)).
+- Cerrar el **bloque asíncrono**: Promises → `fetch` → `async`/`await` → `try/catch` con `await`. Si da tiempo, entero.
+
+**Curso de Claude API:**
+
+- Apretar fuerte, sobre todo el fin de semana. Retomar en `gradeByModel()` (`docs/ia/claude/02-claude-api/08-evaluacion-prompts/`).
+
+No entra esta semana: bloque E (maquetación Tailwind del SaaS) — queda para después.
+
+---
 
 ## ⚠️ Normas vigentes
 
-- **Tailwind en ejercicios:** describir la intención visual con palabras ("título en semibold", "badge tipo píldora"), NUNCA pasar clases ni strings de `class="..."`. (`feedback_tailwind_no_pasar_clases`)
-- **Docs — bloques PHP:** no escribir `<?php` en los ejemplos; el coloreado es global vía `startinline` en `mkdocs.yml`.
-- **Daily log:** solo se documentan fallos **conceptuales** con su 🧠. Lo de apuntado/typo/naming/imports/media-corrección no se documenta.
-- **Disciplina de Pau (detectada 29/08):** media corrección (arreglar una parte y dejar el resto), decir "así?/listo" sin releer ni guardar. Antídoto: enunciado línea a línea, tachando cada requisito.
+- **Tono:** explicaciones y correcciones más académicas, menos jerga densa. Concepto en palabras llanas primero, una idea por frase, definir el término. (`feedback_tono_academico`)
+- **Tailwind en ejercicios:** describir la intención visual con palabras, NUNCA pasar clases. (`feedback_tailwind_no_pasar_clases`)
+- **Daily log:** solo fallos **conceptuales** con su 🧠. Typo/naming/imports/media-corrección no se documentan.
+- **Disciplina de Pau:** media corrección (arreglar una parte y dejar el resto), decir "así?/listo" sin releer. Antídoto: enunciado línea a línea, tachando cada requisito. Reincidió en D1, D4.
+- **Documentar antes de pedir:** si la card pide una API/patrón que no está en los docs, documentarlo primero. (Pasó con Mailer/Logger en D4 → se creó [Servicios → utilidades](/symfony/01-servicios/), 7 subsecciones.)
 
-## ⏳ Pendiente de fondo (sin cambios)
+---
 
-- **FUSTES ESTEBA:** sin novedades de la 2ª entrevista / prueba de pizarra.
-- **VoraData:** vuelta el 1/09. Contrato parcial. Línea dura: no renunciar a la ayuda hasta contrato firmado con horas + tarifa (fecha límite 3/09).
-- **Servicios (card S1–S12):** S1 hecho (🔁), S2 (`SlugGenerator`) casi cerrado. S8/S10/S11 (cliente API, varias implementaciones, `RequestStack`) no los cubre el formulario de contacto — pescarlos si sobra tiempo.
-- **JS:** hueco de `fetch`/Promises/async-await sigue abierto, antes de React.
-- **Fallos DOM acumulados:** ver `GOTCHAS.md` y `repaso-urgente-js.md`. Sesión estrecha de repaso pendiente.
+## ⏳ Pendiente de fondo
+
+- **Fallos DOM acumulados:** `GOTCHAS.md` (Fallos 37-67) y `repaso-urgente-js.md`. Se ataca con el drilling de fondo, no con una sesión aparte.

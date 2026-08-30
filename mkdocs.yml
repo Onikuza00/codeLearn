@@ -81,6 +81,7 @@ nav:
         - "Semana 04 — Refuerzo DOM + Symfony":
           - "Martes 25 — Refuerzo DOM": waytoCode/2026/08/semana-4/2026-08-25.md
           - "Sábado 29 — Symfony Formularios": waytoCode/2026/08/semana-4/2026-08-29.md
+          - "Domingo 30 — Symfony: repaso final desde 0": waytoCode/2026/08/semana-4/2026-08-30.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -201,6 +202,21 @@ nav:
         - "Eventos de página y formularios": js/04-dom/03-eventos/03-pagina-formularios/index.md
         - "Arrastrar y soltar": js/04-dom/03-eventos/04-arrastrar-soltar/index.md
       - "Formularios": js/04-dom/04-formularios/index.md
+    - "Asincronía":
+      - js/05-asincronia/index.md
+      - "Callbacks": js/05-asincronia/01-callbacks/index.md
+      - "Promesas": js/05-asincronia/02-promesas/index.md
+      - "Promesas — composición": js/05-asincronia/03-promesas-avanzado/index.md
+      - "Fetch API": js/05-asincronia/04-fetch/index.md
+      - "async / await": js/05-asincronia/05-async-await/index.md
+      - "WebSockets": js/05-asincronia/06-websockets/index.md
+      - "Capa de API": js/05-asincronia/07-capa-de-api/index.md
+      - "Server-Sent Events": js/05-asincronia/08-server-sent-events/index.md
+    - "Almacenamiento":
+      - js/06-almacenamiento/index.md
+      - "Web Storage": js/06-almacenamiento/01-web-storage/index.md
+      - "Cookies": js/06-almacenamiento/02-cookies/index.md
+    - "Módulos": js/07-modulos/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -212,6 +228,13 @@ nav:
     - PHP:
       - backend/01-php/index.md
       - "Métodos básicos": backend/01-php/01-metodos-basicos/index.md
+    - "Arquitectura":
+      - backend/02-arquitectura/index.md
+      - "01 - Autenticación y permisos": backend/02-arquitectura/01-autenticacion-permisos/index.md
+      - "02 - Integrar un sistema externo": backend/02-arquitectura/02-integracion-externa/index.md
+      - "03 - Portal de cliente": backend/02-arquitectura/03-portal-cliente/index.md
+      - "04 - Asistente de IA": backend/02-arquitectura/04-asistente-ia/index.md
+      - "05 - Importación masiva": backend/02-arquitectura/05-importacion-masiva/index.md
   - Symfony:
     - symfony/index.md
     - "Bloque 00 - Fundamentos":
@@ -223,10 +246,46 @@ nav:
         - symfony/00-fundamentos/04-doctrine/index.md
         - "01 - Entity": symfony/00-fundamentos/04-doctrine/01-entity/index.md
         - "02 - Repository y EntityManager": symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/index.md
+        - "03 - Enums": symfony/00-fundamentos/04-doctrine/03-enums/index.md
+        - "04 - Relaciones": symfony/00-fundamentos/04-doctrine/04-relaciones/index.md
       - "05 - Twig": symfony/00-fundamentos/05-twig/index.md
       - "06 - Formularios": symfony/00-fundamentos/06-formularios/index.md
-      - "07 - Servicios": symfony/00-fundamentos/07-servicios/index.md
-    - "Bloque 01 - Web Components":
+      - "07 - Pruebas Unitarias":
+        - symfony/00-fundamentos/07-pruebas-unitarias/index.md
+        - "01 - Pruebas unitarias": symfony/00-fundamentos/07-pruebas-unitarias/01-unitarias/index.md
+        - "02 - Pruebas de integración": symfony/00-fundamentos/07-pruebas-unitarias/02-integracion/index.md
+        - "03 - Pruebas de aplicación": symfony/00-fundamentos/07-pruebas-unitarias/03-aplicacion/index.md
+        - "04 - Depuración y errores": symfony/00-fundamentos/07-pruebas-unitarias/04-depuracion-errores/index.md
+    - "Bloque 01 - Servicios":
+      - symfony/01-servicios/index.md
+      - "01 - Enviar emails": symfony/01-servicios/01-enviar-emails/index.md
+      - "02 - Subida y validación de archivos": symfony/01-servicios/02-subida-de-archivos/index.md
+      - "03 - Llamar a una API externa": symfony/01-servicios/03-llamar-una-api-externa/index.md
+      - "04 - Cachear resultados costosos": symfony/01-servicios/04-cache/index.md
+      - "05 - Slugs y referencias únicas": symfony/01-servicios/05-slugs-y-referencias/index.md
+      - "06 - Comandos de consola": symfony/01-servicios/06-comandos-de-consola/index.md
+      - "07 - Limitar peticiones (Rate Limiter)": symfony/01-servicios/07-rate-limiter/index.md
+    - "Bloque 02 - Seguridad":
+      - symfony/02-seguridad/index.md
+      - "01 - El usuario y los proveedores": symfony/02-seguridad/01-usuario-y-providers/index.md
+      - "02 - Contraseñas": symfony/02-seguridad/02-contrasenas/index.md
+      - "03 - Cortafuegos": symfony/02-seguridad/03-firewalls/index.md
+      - "04 - Autorización": symfony/02-seguridad/04-autorizacion/index.md
+      - "05 - Voters": symfony/02-seguridad/05-voters/index.md
+      - "06 - CSRF": symfony/02-seguridad/06-csrf/index.md
+      - "07 - LDAP": symfony/02-seguridad/07-ldap/index.md
+      - "08 - JWT": symfony/02-seguridad/08-jwt/index.md
+    - "Bloque 03 - API REST":
+      - symfony/03-api-rest/index.md
+      - "01 - Serialización": symfony/03-api-rest/01-serializacion/index.md
+      - "02 - CRUD completo": symfony/03-api-rest/02-crud/index.md
+      - "03 - Validación y errores": symfony/03-api-rest/03-validacion-errores/index.md
+    - "Bloque 04 - Deploy":
+      - symfony/04-deploy/index.md
+      - "01 - Preparar el despliegue": symfony/04-deploy/01-preparacion/index.md
+      - "02 - El servidor web": symfony/04-deploy/02-servidor-web/index.md
+      - "03 - Automatizar": symfony/04-deploy/03-automatizacion/index.md
+    - "Bloque 05 - Web Components":
       - Arquitectura: symfony/web-components/arquitectura.md
       - TwigComponents: symfony/web-components/twig-components.md
       - LiveComponents: symfony/web-components/live-components.md
@@ -235,6 +294,21 @@ nav:
     - gsap/index.md
   - DevOps:
     - devops/index.md
+    - "Docker":
+      - devops/01-docker/index.md
+      - "Comandos básicos": devops/01-docker/01-comandos/index.md
+      - "Dockerfile": devops/01-docker/02-dockerfile/index.md
+      - "Volúmenes": devops/01-docker/03-volumenes/index.md
+      - "Docker Compose": devops/01-docker/04-compose/index.md
+      - "Redes": devops/01-docker/05-redes/index.md
+      - "Publicar imágenes": devops/01-docker/06-publicar/index.md
+      - "Un stack de Symfony": devops/01-docker/07-stack-symfony/index.md
+    - "Comandos de Linux":
+      - devops/02-linux/index.md
+      - "Ficheros y directorios": devops/02-linux/01-ficheros/index.md
+      - "Ver y buscar": devops/02-linux/02-ver-buscar/index.md
+      - "Permisos": devops/02-linux/03-permisos/index.md
+      - "Procesos y servicios": devops/02-linux/04-procesos/index.md
   - SDD:
     - sdd/index.md
     - Fases: sdd/fases.md

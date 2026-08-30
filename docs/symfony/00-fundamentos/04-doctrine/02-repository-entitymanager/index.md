@@ -96,6 +96,32 @@ Línea por línea, qué hace y para qué sirve cada una:
 $productRepository->findByNameLike('zapa');   // encuentra "Zapatillas", "Zapato de tacón"...
 ```
 
+### Varias condiciones, fechas y enums {: .topic-title }
+
+`where()` pone la primera condición; `andWhere()` añade las demás, unidas con `AND` (hay `orWhere()` para `OR`). Ese `AND`/`OR` es del DQL — **nunca** un `&&` de PHP entre dos strings.
+
+```php
+public function findOfertas(): array
+{
+    return $this->createQueryBuilder('p')
+        ->where('p.price < :max')
+        ->andWhere('p.stock > :min')
+        ->setParameter('max', 20)
+        ->setParameter('min', 0)
+        ->orderBy('p.price', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+```
+
+Es lo mismo que `->where('p.price < :max AND p.stock > :min')` en una sola llamada.
+
+| Caso | Cómo |
+|---|---|
+| **Fecha "ahora"** | Es un valor dinámico → parámetro: `->andWhere('p.createdAt < :now')->setParameter('now', new \DateTimeImmutable())`. No existe un `now` suelto en DQL. |
+| **Enum** | Pasás el caso (`TaskStatus::Done`) como parámetro; Doctrine lo convierte a su `->value` para la consulta: `->andWhere('t.status != :s')->setParameter('s', TaskStatus::Done)`. No escribas el string a mano. |
+| **Excluir `NULL`** | `p.dueDate < :now` ya deja fuera las filas con `dueDate` a `NULL` (en SQL, `NULL < x` no es verdadero). Para dejarlo explícito: `->andWhere('p.dueDate IS NOT NULL')`. |
+
 ## ParamConverter {: .topic-title }
 
 Todo el patrón manual (`find()` + comprobar `null` + `createNotFoundException()`) se puede evitar gracias al **ParamConverter** (hoy formalmente `EntityValueResolver`, mismo nombre de siempre en la comunidad).
