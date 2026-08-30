@@ -1,6 +1,6 @@
 # Claude API { .bloque-ia }
 
-> Curso oficial de Anthropic Academy en Skilljar. Cómo llamar a la API de Claude desde tu propio backend (Messages API, tool use) — la pieza que falta para integrar Claude en Symfony (RAG, pedido del jefe). Estos apuntes se documentan a medida que avanza el curso.
+> Curso oficial de Anthropic Academy en Skilljar. Cómo llamar a la API de Claude desde tu propio backend (Messages API, tool use) — la pieza que falta para integrar Claude en Symfony (RAG). Estos apuntes se documentan a medida que avanza el curso.
 
 ---
 

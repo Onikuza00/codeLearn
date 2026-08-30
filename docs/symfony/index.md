@@ -1,20 +1,18 @@
 # Symfony
 
-> **Bloque activo:** 00 — Fundamentos
+> **Bloque activo:** 02 — Seguridad
 
 ## Bloques
 
-| Bloque | Tema | Estado |
-|--------|------|--------|
-| 00 | Fundamentos | **En curso** |
-| 01 | Web Components | Pausado |
-| 02 | React vs Symfony WC | Pendiente |
-
-## Enlaces
-
-- [Fundamentos — Bloque 00](00-fundamentos/index.md)
-- [Web Components — Bloque 01](web-components/arquitectura.md)
-- React vs Symfony WC *(pendiente)*
+| Bloque | Tema | Contenido | Estado |
+|--------|------|-----------|--------|
+| 00 | [Fundamentos](00-fundamentos/index.md) | Estructura, controladores, rutas, Doctrine, Twig, formularios, pruebas | Completo |
+| 01 | [Servicios](01-servicios/index.md) | Inyección de dependencias y siete utilidades habituales | Completo |
+| 02 | [Seguridad](02-seguridad/index.md) | Usuarios, contraseñas, cortafuegos, autorización, voters, CSRF, LDAP, JWT | **En curso** |
+| 03 | [API REST](03-api-rest/index.md) | Serialización, CRUD en JSON, validación y errores | Completo |
+| 04 | [Deploy](04-deploy/index.md) | Preparación, servidor web, automatización y *rollback* | Completo |
+| 05 | [Web Components](web-components/arquitectura.md) | Twig Components, Live Components, Stimulus | Pausado |
+| 06 | React vs Symfony WC | Comparativa | Pendiente |
 
 ## Fuentes de verdad
 

@@ -324,6 +324,22 @@ class LocaleContext
 
 Aun así, la vía preferida sigue siendo pasar el dato como **argumento del método** desde el controlador (que sí tiene la `Request` a mano) en vez de que el servicio vaya a buscarlo.
 
+---
+
+## Utilidades {: .topic-title }
+
+Recetas de servicios que aparecen en casi cualquier aplicación web o SaaS. Cada una con instalación, ejemplo paso a paso y sus gotchas.
+
+| # | Utilidad | Para qué |
+|---|---|---|
+| 01 | [Enviar emails](01-enviar-emails/index.md) | Avisos, confirmaciones, recuperar contraseña — `MailerInterface` + `Email` / `TemplatedEmail` |
+| 02 | [Subida y validación de archivos](02-subida-de-archivos/index.md) | Aceptar imágenes/vídeos/PDF con seguridad — MIME real, tamaño, mover, nombre único |
+| 03 | [Llamar a una API externa](03-llamar-una-api-externa/index.md) | Integrar un servicio de terceros — `HttpClientInterface`, errores, timeout, reintentos |
+| 04 | [Cachear resultados costosos](04-cache/index.md) | Evitar recalcular o re-pedir lo mismo — `CacheInterface`, `get()` con callback, expiración |
+| 05 | [Slugs y referencias únicas](05-slugs-y-referencias/index.md) | URLs legibles y códigos de factura/pedido — `SluggerInterface`, unicidad frente a colisiones |
+| 06 | [Comandos de consola](06-comandos-de-consola/index.md) | Tareas de mantenimiento, imports, resúmenes por cron — `make:command`, `SymfonyStyle` |
+| 07 | [Limitar peticiones (Rate Limiter)](07-rate-limiter/index.md) | Proteger login y endpoints de API del abuso — `RateLimiterFactory`, `consume()` |
+
 ## 📚 Fuentes {: .topic-title }
 | Fuente | Enlace |
 |---|---|

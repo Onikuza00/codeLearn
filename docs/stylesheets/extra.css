@@ -61,6 +61,8 @@ h1[class^="section-"] code {
 h1.bloque-css + blockquote,
 h1.bloque-js + blockquote,
 h1.bloque-ia + blockquote,
+h1.bloque-tailwind + blockquote,
+h1.bloque-devops + blockquote,
 h1.section-architecture + blockquote,
 h1.section-twig + blockquote,
 h1.section-live + blockquote,
@@ -82,6 +84,8 @@ h1.section-fundamentos + blockquote {
 h1.bloque-css + blockquote::before,
 h1.bloque-js + blockquote::before,
 h1.bloque-ia + blockquote::before,
+h1.bloque-tailwind + blockquote::before,
+h1.bloque-devops + blockquote::before,
 h1.section-architecture + blockquote::before,
 h1.section-twig + blockquote::before,
 h1.section-live + blockquote::before,
@@ -127,6 +131,9 @@ h1.section-fundamentos + blockquote::before {
 }
 h1.bloque-tailwind + blockquote::before {
     background: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%);
+}
+h1.bloque-devops + blockquote::before {
+    background: linear-gradient(135deg, #0B4F8C 0%, #2496ED 100%);
 }
 
 /* ─── Títulos de sección ─── */
@@ -1197,6 +1204,49 @@ h1.bloque-tailwind:hover {
 }
 
 .md-typeset .bloque-tailwind ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* ─── Bloque DevOps — h1 en degradado azul marino→azul Docker ─── */
+
+h1.bloque-devops {
+    background: linear-gradient(135deg, #0B4F8C 0%, #2496ED 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-devops::after {
+    background: linear-gradient(90deg, #0B4F8C, #2496ED) !important;
+}
+
+h1.bloque-devops:hover {
+    background: linear-gradient(135deg, #2496ED 0%, #0B4F8C 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Bloque DevOps — h2 unificado, gana a .topic-title gris ─── */
+
+.md-typeset .bloque-devops ~ h2,
+.md-typeset .bloque-devops ~ h2.topic-title {
+    background: linear-gradient(135deg, #0B4F8C 0%, #2496ED 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-devops ~ h2::after,
+.md-typeset .bloque-devops ~ h2.topic-title::after {
+    background: linear-gradient(90deg, #0B4F8C, #2496ED);
+}
+
+.md-typeset .bloque-devops ~ h2 code {
     background: transparent;
     -webkit-text-fill-color: inherit;
     color: inherit;

@@ -121,10 +121,45 @@ Las más comunes:
 | `Choice(choices:)` | El valor tiene que estar dentro de una lista cerrada |
 | `Range(min:, max:)` | Número dentro de un rango |
 | `Positive` / `PositiveOrZero` | Número mayor que cero / mayor o igual que cero |
+| `GreaterThan` / `LessThan` (+ `...OrEqual`) | Número, string o fecha mayor/menor que un valor — ver abajo |
 | `Type(type:)` | Fuerza que el valor sea de un tipo concreto (`'integer'`, `'string'`...) |
 | `UniqueEntity` (Doctrine, va sobre la **clase**, no la propiedad) | No puede repetirse otro registro con el mismo valor en ese campo |
 
 No es una lista cerrada — hay más para fechas, archivos, IBAN, tarjetas, etc. Estas son las que más aparecen en una entidad típica; el listado completo está en la [referencia oficial de constraints](https://symfony.com/doc/current/reference/constraints.html).
+
+### Comparaciones y fechas {: .topic-title }
+
+Familia de constraints que comparan el valor contra otro: `GreaterThan`, `GreaterThanOrEqual`, `LessThan`, `LessThanOrEqual`, `EqualTo`, `NotEqualTo`. El primer argumento es contra qué se compara.
+
+```php
+#[Assert\GreaterThan(0)]
+#[Assert\LessThanOrEqual(100)]
+private ?int $stock = null;
+```
+
+**Con fechas**, el argumento puede ser un **string que entienda `\DateTime`** — Symfony construye el `\DateTime` en el momento de validar:
+
+| String | Significa |
+|---|---|
+| `'today'` | hoy a las 00:00:00 |
+| `'now'` | fecha y hora actuales |
+| `'+1 day'`, `'+2 weeks'` | relativo a ahora |
+| `'2026-01-01'` | fecha fija |
+
+```php
+#[Assert\GreaterThan(
+    value: 'today',
+    message: 'La fecha de entrega tiene que ser futura.',
+)]
+private ?\DateTimeImmutable $dueDate = null;
+```
+
+`GreaterThan('today')` = posterior a hoy; hoy mismo **no** vale. Para permitir hoy, `GreaterThanOrEqual`.
+
+!!! tip "Sobre `null` no dispara"
+    Como casi todas las constraints, las de comparación **ignoran `null`**: un valor no puesto pasa la validación. En una propiedad nullable (`?\DateTimeImmutable $dueDate = null`), `GreaterThan('today')` solo actúa cuando hay una fecha de verdad. Para exigir además que exista, se combina con `NotNull`.
+
+Comparar contra **otra propiedad** de la misma entidad en vez de un valor fijo: `#[Assert\GreaterThan(propertyPath: 'startDate')]`.
 
 ### Mensajes de error personalizados {: .topic-title }
 

@@ -72,6 +72,8 @@ Recién con la conexión resuelta tiene sentido `make:migration` — sin una BD 
 |---|---|---|
 | 01 | [Entity](01-entity/index.md) | **Hecho** |
 | 02 | [Repository y EntityManager](02-repository-entitymanager/index.md) | **Hecho** |
+| 03 | [Enums](03-enums/index.md) | **Hecho** |
+| 04 | [Relaciones](04-relaciones/index.md) | **Hecho** |
 
 ## 📚 Fuentes {: .topic-title }
 | Fuente | Enlace |

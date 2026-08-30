@@ -40,7 +40,7 @@
       transition: transform .2s;
       font-size: .8rem;
     }
-    .exercise-card.is-open .arrow-fold {
+    .exercise-card.is-open > .exercise-card-header .arrow-fold {
       transform: rotate(180deg);
     }
     .exercise-card-body {
@@ -49,8 +49,22 @@
       border-top: 1px solid var(--border);
       padding-top: 1rem;
     }
-    .exercise-card.is-open .exercise-card-body {
+    .exercise-card.is-open > .exercise-card-body {
       display: block;
+    }
+
+    /* Card maestra: agrupa los días/bloques de un mismo tema */
+    .exercise-card--master {
+      border-color: var(--accent-symfony-dim);
+      background: var(--bg-elevated);
+      margin-bottom: 1rem;
+    }
+    .exercise-card--master > .exercise-card-header h3 {
+      font-size: 1.15rem;
+      color: var(--accent-symfony);
+    }
+    .exercise-card--master > .exercise-card-body {
+      padding-top: 1rem;
     }
     .ex {
       background: var(--bg-elevated);
@@ -197,10 +211,23 @@
 
   <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
 
+    <!-- ===== MAESTRA: FUNDAMENTOS ===== -->
+    <div class="exercise-card exercise-card--master">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🧱 Fundamentos</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">11✅</span>
+          <span style="font-size:.75rem;color:#eab308;">0🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">0⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
     <!-- ============================================= -->
     <!-- FUNDAMENTOS — Gestor de tareas mínimo -->
     <!-- ============================================= -->
-    <div class="exercise-card is-open">
+    <div class="exercise-card">
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 12/08/2026 — Gestor de tareas mínimo</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
@@ -480,6 +507,23 @@
 
       </div>
     </div>
+
+      </div>
+    </div>
+    <!-- ===== /MAESTRA: FUNDAMENTOS ===== -->
+
+    <!-- ===== MAESTRA: FORMULARIOS ===== -->
+    <div class="exercise-card exercise-card--master">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>📝 Formularios</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">22✅</span>
+          <span style="font-size:.75rem;color:#eab308;">0🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">0⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
 
     <!-- ============================================= -->
     <!-- FORMULARIOS — Crear y editar tareas -->
@@ -1291,6 +1335,23 @@ $products = $term
       </div>
     </div>
 
+      </div>
+    </div>
+    <!-- ===== /MAESTRA: FORMULARIOS ===== -->
+
+    <!-- ===== MAESTRA: SERVICIOS ===== -->
+    <div class="exercise-card exercise-card--master">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>⚙️ Servicios</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">0✅</span>
+          <span style="font-size:.75rem;color:#eab308;">1🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">11⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
     <!-- ============================================= -->
     <!-- SERVICIOS — Contenedor, inyección y utilidades -->
     <!-- ============================================= -->
@@ -1321,7 +1382,7 @@ $products = $term
           <strong>leer el dato del form y no del <code>Request</code></strong>, <code>persist()</code> vs <code>flush()</code>, capa de tipo PHP vs columna Doctrine,
           y maquetación Tailwind (mobile-first, badges, grid, estados <code>hover</code>).
           <strong>Regla:</strong> sin IA. <strong>S1 y S5 de memoria, sin apuntes.</strong> Teoría de apoyo:
-          <a href="../../../symfony/00-fundamentos/07-servicios/">Fundamentos → Servicios</a>.
+          <a href="../../../symfony/01-servicios/">Fundamentos → Servicios</a>.
         </p>
 
         <!-- S1 -->
@@ -1415,7 +1476,7 @@ $products = $term
           <p class="ex-explanation">
             Patrón: <strong>argumento que no es un servicio</strong>. El contenedor no puede resolver <code>float $vatRate</code> por el type-hint — hay que decírselo.
             Y ojo con las dos capas: <code>$price</code> llega como <code>string</code> (columna <code>DECIMAL</code> de Doctrine), no <code>float</code>.
-            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#argumentos-que-no-son-servicios">Servicios → Argumentos que no son servicios</a>.
+            Ver <a href="../../../symfony/01-servicios/#argumentos-que-no-son-servicios">Servicios → Argumentos que no son servicios</a>.
           </p>
           <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
           <div class="ex-code">
@@ -1456,7 +1517,7 @@ parameters:
           </p>
           <p class="ex-explanation">
             Patrón: un servicio <strong>no se inyecta en la plantilla</strong>. Se expone a través de una Twig Extension, que a su vez es un servicio y se registra sola por <code>autoconfigure</code>.
-            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#servicios-en-twig-y-en-comandos">Servicios → Servicios en Twig y en comandos</a>.
+            Ver <a href="../../../symfony/01-servicios/#servicios-en-twig-y-en-comandos">Servicios → Servicios en Twig y en comandos</a>.
           </p>
           <div class="ex-samples">
             symfony console make:twig-extension AppExtension
@@ -1499,7 +1560,7 @@ parameters:
           <p class="ex-explanation">
             Patrón: la validación <strong>no vive en el controlador</strong>. El servicio recibe el <code>UploadedFile</code> como <strong>argumento del método</strong> y devuelve el resultado —
             no guarda el archivo ni nada de <em>esta</em> petición en una propiedad (el servicio es compartido).
-            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#crear-un-servicio-propio">Servicios → Crear un servicio propio</a>.
+            Ver <a href="../../../symfony/01-servicios/#crear-un-servicio-propio">Servicios → Crear un servicio propio</a>.
           </p>
           <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
           <div class="ex-code">
@@ -1648,7 +1709,7 @@ parameters:
           <p class="ex-explanation">
             Patrón: <strong>servicio que depende de otros servicios</strong>, y el type-hint va <strong>contra la interfaz</strong> (<code>HttpClientInterface</code>), no una clase concreta —
             así en los tests entra un cliente falso. La URL / clave viven en <code>.env.local</code>, <strong>nunca</strong> en el código.
-            <code>symfony/http-client</code> ya está instalado. Ver <a href="../../../symfony/00-fundamentos/07-servicios/#inyeccion-por-constructor-un-servicio-que-usa-otros">Servicios → Inyección por constructor</a>.
+            <code>symfony/http-client</code> ya está instalado. Ver <a href="../../../symfony/01-servicios/#inyeccion-por-constructor-un-servicio-que-usa-otros">Servicios → Inyección por constructor</a>.
           </p>
           <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
           <div class="ex-code">
@@ -1729,7 +1790,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
           <p class="ex-explanation">
             Patrón: una interfaz con <strong>varias implementaciones</strong> → el autowiring no sabe cuál querés y <strong>falla al compilar</strong> (<code>lint:container</code> te lo canta).
             Se desambigua nombrando el servicio concreto. Los ids salen de <code>debug:autowiring DiscountPolicy</code>.
-            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#elegir-entre-varias-implementaciones">Servicios → Elegir entre varias implementaciones</a>.
+            Ver <a href="../../../symfony/01-servicios/#elegir-entre-varias-implementaciones">Servicios → Elegir entre varias implementaciones</a>.
           </p>
           <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
           <div class="ex-code">
@@ -1783,7 +1844,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             Patrón: un servicio <strong>no recibe <code>Request</code> por el constructor</strong> — cuando el contenedor lo construye no hay ninguna petición.
             <code>RequestStack</code> es la puerta a "la petición actual", y el <code>?-&gt;</code> es obligatorio (en un comando de consola no hay request).
             Aun así, lo preferible es pasar el locale como argumento del método desde el controlador.
-            Ver <a href="../../../symfony/00-fundamentos/07-servicios/#la-request-dentro-de-un-servicio">Servicios → La Request dentro de un servicio</a>.
+            Ver <a href="../../../symfony/01-servicios/#la-request-dentro-de-un-servicio">Servicios → La Request dentro de un servicio</a>.
           </p>
           <button class="ex-solution-btn" onclick="toggleSolution(this)">Ver solución</button>
           <div class="ex-code">
@@ -1864,6 +1925,23 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       </div>
     </div>
 
+      </div>
+    </div>
+    <!-- ===== /MAESTRA: SERVICIOS ===== -->
+
+    <!-- ===== MAESTRA: REPASO FINAL DESDE 0 ===== -->
+    <div class="exercise-card exercise-card--master is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🔁 Repaso final desde 0 — gestor de tareas (SaaS)</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">12✅</span>
+          <span style="font-size:.75rem;color:#eab308;">0🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">18⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
     <!-- ============================================= -->
     <!-- REPASO FINAL DESDE 0 — Gestor de tareas (SaaS) -->
     <!-- ============================================= -->
@@ -1871,9 +1949,9 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 30/08/2026 · Repaso final desde 0 — A: Setup + Entidades</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>6</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -1899,7 +1977,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">1</span> 🟢 Proyecto nuevo + base de datos</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>symfony new repaso-tareas --webapp</code>, arrancá con <code>symfony serve</code> y verificá la página de bienvenida.
@@ -1918,7 +1996,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">2</span> 🟢 Entidad <code>Task</code> con <code>make:entity</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>make:entity Task</code>: <code>title</code> (string), <code>description</code> (text), <code>dueDate</code> (datetime_immutable, nullable),
@@ -1934,7 +2012,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>createdAt</code> en el constructor + migración</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             Añadí <code>public function __construct()</code> que asigne <code>$this-&gt;createdAt = new \DateTimeImmutable()</code>.
@@ -1950,7 +2028,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">4</span> 🟡 Enums PHP: <code>TaskStatus</code> y <code>TaskPriority</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             En <code>src/Enum/</code>: <code>enum TaskStatus: string { case Todo = 'todo'; case Doing = 'doing'; case Done = 'done'; }</code> y
@@ -1958,6 +2036,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
           </p>
           <p class="ex-explanation">
             Un enum PHP respaldado (<code>: string</code>) da valores cerrados y con nombre, en vez de strings mágicos sueltos. Doctrine lo mapea con <code>enumType:</code>.
+            Ver <a href="../../../symfony/00-fundamentos/04-doctrine/03-enums/">Doctrine → Enums</a>.
           </p>
         </div>
 
@@ -1965,7 +2044,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🟡 Constraints sobre <code>Task</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>title</code>: <code>NotBlank</code> + <code>Length(min: 3, max: 120)</code>. <code>description</code>: <code>NotBlank</code>.
@@ -1974,6 +2053,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
           <p class="ex-explanation">
             Las Constraints van sobre la <strong>entidad</strong>, no el formulario. Cada una tiene que ser verdad de ese campo.
             <a href="../../../symfony/00-fundamentos/06-formularios/#constraints">Formularios → Constraints</a>.
+            <code>GreaterThan('today')</code> y los strings de fecha en <a href="../../../symfony/00-fundamentos/04-doctrine/01-entity/#comparaciones-y-fechas">Doctrine → Entity → Comparaciones y fechas</a>.
           </p>
         </div>
 
@@ -1981,7 +2061,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">6</span> 🔴 Segunda entidad <code>Project</code> + relación</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>Project</code> (<code>name</code>, <code>createdAt</code>). Relación: una <code>Task</code> pertenece a un <code>Project</code> (<code>ManyToOne</code>),
@@ -1989,7 +2069,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
           </p>
           <p class="ex-explanation">
             El lado <code>ManyToOne</code> (en <code>Task</code>) es el dueño y lleva la clave foránea; el <code>OneToMany</code> (en <code>Project</code>) es el inverso, con <code>mappedBy</code>.
-            <code>make:entity</code> te ofrece generar los dos lados.
+            <code>make:entity</code> te ofrece generar los dos lados. Wizard, código generado y gotchas en <a href="../../../symfony/00-fundamentos/04-doctrine/04-relaciones/">Doctrine → Relaciones</a>.
           </p>
         </div>
 
@@ -2000,9 +2080,9 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 30/08/2026 · Repaso final desde 0 — B: Controladores</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>6</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -2019,7 +2099,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>TaskController</code> + <code>index()</code> + plantillas base</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>make:controller TaskController</code>. Dejá solo <code>index()</code>: <code>#[Route('/tasks', name: 'task_index')]</code>,
@@ -2037,7 +2117,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">2</span> 🟢 <code>show()</code> con <code>EntityValueResolver</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>#[Route('/tasks/{id}', name: 'task_show')]</code> con argumento <code>Task $task</code> directo — sin <code>find($id)</code> a mano.
@@ -2052,7 +2132,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">3</span> 🟡 <code>findByStatus()</code> con QueryBuilder</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>TaskRepository::findByStatus(TaskStatus $status): array</code> — <code>where('t.status = :s')</code>, <code>setParameter</code>,
@@ -2068,7 +2148,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">4</span> 🟡 <code>findVencidas()</code> — dos condiciones</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             Tareas con <code>dueDate &lt; now</code> <strong>y</strong> <code>status != done</code>. QueryBuilder con <code>where</code> + <code>andWhere</code>,
@@ -2083,7 +2163,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🟡 <code>delete()</code> con CSRF a mano</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>#[Route('/tasks/{id}/delete', name: 'task_delete', methods: ['POST'])]</code>.
@@ -2100,7 +2180,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">6</span> 🔴 Filtro por query string, sin formulario</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>/tasks?status=doing&amp;q=texto</code>. Leé <code>$request-&gt;query-&gt;get('status')</code> y <code>-&gt;get('q')</code>, y armá la consulta en el Repository
@@ -2118,9 +2198,9 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 30/08/2026 · Repaso final desde 0 — C: Formularios</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>0</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>6</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>6</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -2137,7 +2217,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">1</span> 🟢 <code>TaskType</code> con <code>make:form</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>title</code> (<code>TextType</code>), <code>description</code> (<code>TextareaType</code>, <code>attr</code> rows 4),
@@ -2154,7 +2234,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">2</span> 🔴 <code>new()</code> — el flujo entero, línea a línea</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>new Task()</code> → <code>createForm(TaskType::class, $task)</code> → <code>handleRequest($request)</code> →
@@ -2173,7 +2253,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">3</span> 🔴 <code>edit()</code> — las dos diferencias vs <code>new</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             Mismo <code>TaskType</code>. Argumento <code>Task $task</code> por <code>EntityValueResolver</code> → el form nace relleno.
@@ -2189,7 +2269,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">4</span> 🟡 Twig del formulario</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>task/new.html.twig</code> extiende <code>base.html.twig</code>, <code>{% block body %}</code> con <code>{{ form(form) }}</code>
@@ -2205,7 +2285,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🟡 Opción propia <code>is_edit</code> en <code>configureOptions()</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>is_edit</code> (default <code>false</code>). En <code>buildForm()</code>, el campo <code>status</code> (<code>EnumType</code>)
@@ -2221,7 +2301,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">6</span> 🔴 <code>TaskSearchType</code> sin <code>data_class</code>, por GET</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             Campos <code>q</code> (<code>TextType</code>, <code>required: false</code>) y <code>status</code> (<code>EnumType</code>, <code>required: false</code>).
@@ -2237,7 +2317,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       </div>
     </div>
 
-    <div class="exercise-card">
+    <div class="exercise-card is-open">
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 30/08/2026 · Repaso final desde 0 — D: Servicios</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
@@ -2263,14 +2343,16 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">
-            <code>src/Service/ReferenceGenerator.php</code>: <code>forTask(Task $task): string</code> que devuelve <code>TSK-20260830-4F2A</code>
-            (prefijo + fecha de <code>createdAt</code> + 4 hex aleatorios en mayúsculas). Clase normal, sin <code>extends</code>, sin registrarla.
-            Inyectala en <code>new()</code> por type-hint y guardá el resultado en una propiedad nueva <code>reference</code> de <code>Task</code>.
+            <code>src/Service/ReferenceGenerator.php</code>: método <code>forTask(Task $task): string</code> que devuelve una cadena con el formato
+            <code>TSK-20260830-4F2A</code> — prefijo fijo <code>TSK-</code>, fecha de <code>createdAt</code> en formato <code>Ymd</code>, un guion,
+            y 4 caracteres hexadecimales aleatorios en mayúsculas (2 bytes → 4 hex). Clase normal, sin <code>extends</code>, sin registrarla a mano.
+            Luego: inyéctala en <code>new()</code> por type-hint, y guarda el resultado en una propiedad nueva <code>reference</code> de <code>Task</code>
+            — como es una columna nueva, hace falta <code>make:migration</code> + <code>doctrine:migrations:migrate</code>.
           </p>
           <p class="ex-explanation">
             El bloque <code>App\</code> de <code>services.yaml</code> ya registra <code>src/</code> — no hay <code>make:service</code>.
             El servicio <strong>transforma</strong>, no valida; su resultado es un dato que la entidad necesita un hueco (propiedad + setter) para sostener.
-            <a href="../../../symfony/00-fundamentos/07-servicios/#crear-un-servicio-propio">Servicios → Crear un servicio propio</a>.
+            <a href="../../../symfony/01-servicios/#crear-un-servicio-propio">Servicios → Crear un servicio propio</a>.
           </p>
         </div>
 
@@ -2281,11 +2363,18 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">
-            <code>resumen(): array</code> → <code>['total' =&gt; n, 'pendientes' =&gt; n, 'vencidas' =&gt; n]</code>, usando <code>TaskRepository</code>
-            inyectado por constructor (propiedad promocionada). Usalo en el controlador del dashboard.
+            Servicio <code>src/Service/TaskStats.php</code> con un método <code>resumen(): array</code> que devuelve
+            <code>['total' =&gt; n, 'pendientes' =&gt; n, 'vencidas' =&gt; n]</code>:
+            <br>· <code>total</code>: todas las tareas.
+            <br>· <code>pendientes</code>: las que tienen estado <strong>distinto de <code>Done</code></strong>.
+            <br>· <code>vencidas</code>: pasadas de fecha y sin terminar — reutiliza <code>findVencidas()</code> del bloque B.
+            <br><code>TaskRepository</code> se inyecta por el constructor (propiedad promocionada <code>private</code>).
+            El controlador del dashboard (ruta <code>/</code>) <strong>no existe todavía</strong>: créalo (p. ej. <code>DashboardController</code>),
+            inyéctale <code>TaskStats</code>, llama a <code>resumen()</code> y pasa el array a la plantilla.
           </p>
           <p class="ex-explanation">
-            Servicio que depende de otro servicio, declarado en el constructor. La lógica del dashboard vive aquí, no en el controlador.
+            Segundo servicio, ahora con una dependencia: <code>TaskRepository</code>. El constructor es donde un servicio declara qué otros
+            servicios necesita. La lógica de contar vive en <code>TaskStats</code>; el controlador solo pide el resumen y renderiza.
           </p>
         </div>
 
@@ -2296,12 +2385,13 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">
-            <code>TaskNotifier</code> con <code>#[Autowire('%env(ADMIN_EMAIL)%')] private string $adminEmail</code> en el constructor.
-            El valor va en <code>.env.local</code>, nunca en el código.
+            Crea <code>src/Service/TaskNotifier.php</code> con <code>#[Autowire('%env(ADMIN_EMAIL)%')] private string $adminEmail</code>
+            en el constructor. El valor de <code>ADMIN_EMAIL</code> va en <code>.env.local</code>, nunca en el código.
+            En D4 le añades a <strong>esta misma clase</strong> el resto de dependencias — aquí solo el escalar.
           </p>
           <p class="ex-explanation">
             El contenedor no adivina un <code>string</code> por el type-hint; se lo decís con <code>#[Autowire]</code>. Secretos y config de entorno → <code>.env.local</code>.
-            <a href="../../../symfony/00-fundamentos/07-servicios/#argumentos-que-no-son-servicios">Servicios → Argumentos que no son servicios</a>.
+            <a href="../../../symfony/01-servicios/#argumentos-que-no-son-servicios">Servicios → Argumentos que no son servicios</a>.
           </p>
         </div>
 
@@ -2312,13 +2402,15 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">
-            Inyectá <code>MailerInterface</code> y <code>LoggerInterface</code> (propiedades promocionadas, type-hint contra la interfaz).
-            <code>taskCreated(Task $task)</code>: loguea y manda un email a <code>$adminEmail</code>. Llamalo en <code>new()</code> tras el <code>flush()</code>.
+            Sigue con la <strong>misma clase <code>TaskNotifier</code> de D3</strong>. Añade al constructor <code>MailerInterface</code> y
+            <code>LoggerInterface</code> (propiedades promocionadas, type-hint contra la interfaz).
+            Método <code>taskCreated(Task $task)</code>: escribe una línea en el log y envía un email a <code>$adminEmail</code>
+            (construye un objeto <code>Email</code> con asunto y cuerpo). Llámalo en <code>new()</code> después del <code>flush()</code>.
           </p>
           <p class="ex-explanation">
             <code>composer require symfony/mailer</code>. Type-hint contra la interfaz para poder cambiar la implementación (mailer falso en tests).
-            En dev el email se ve en el profiler sin enviarse.
-            <a href="../../../symfony/00-fundamentos/07-servicios/#inyeccion-por-constructor-un-servicio-que-usa-otros">Servicios → Inyección por constructor</a>.
+            En dev, con <code>MAILER_DSN=null://null</code> el email no se envía pero se ve en el profiler.
+            <a href="../../../symfony/01-servicios/#inyeccion-por-constructor-un-servicio-que-usa-otros">Servicios → Inyección por constructor</a>.
           </p>
         </div>
 
@@ -2329,12 +2421,13 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">
-            <code>make:twig-extension AppExtension</code>. Filtro <code>fecha_relativa</code> (recibe un <code>\DateTimeInterface</code>, devuelve "hace 3 h", "en 2 días")
-            respaldado por un servicio <code>DateHumanizer</code>. La extensión recibe el servicio por constructor.
+            <code>make:twig-extension AppExtension</code>. Registra un filtro <code>fecha_relativa</code> que recibe un <code>\DateTimeInterface</code>
+            y devuelve un texto tipo "hace 3 h" / "en 2 días". La lógica de convertir la diferencia de fechas en texto vive en un servicio propio
+            <code>DateHumanizer</code>, que la extensión recibe por constructor. Los umbrales (cuándo pasa de minutos a horas, de horas a días) los decides tú.
           </p>
           <p class="ex-explanation">
             Un servicio no se inyecta en la plantilla; se expone con una Twig Extension, que es un servicio y <code>autoconfigure</code> la registra sola.
-            <a href="../../../symfony/00-fundamentos/07-servicios/#servicios-en-twig-y-en-comandos">Servicios → Servicios en Twig</a>.
+            <a href="../../../symfony/01-servicios/#servicios-en-twig-y-en-comandos">Servicios → Servicios en Twig</a>.
           </p>
         </div>
 
@@ -2345,13 +2438,15 @@ EXCHANGE_API_URL=https://api.exchangerate.host
             <span class="ex-status pending">⏳ Pendiente</span>
           </div>
           <p class="ex-desc">
-            Interfaz <code>TaskSorter</code> con <code>sort(array $tasks): array</code>. Dos implementaciones: <code>ByDueDateSorter</code> y <code>ByPrioritySorter</code>.
-            En el controlador del listado, inyectá una concreta con <code>#[Autowire(service: ByDueDateSorter::class)]</code>.
-            Comprobá con <code>debug:autowiring TaskSorter</code> y <code>lint:container</code>.
+            Interfaz <code>TaskSorter</code> con un método <code>sort(array $tasks): array</code>. Dos clases que la implementan:
+            <code>ByDueDateSorter</code> (por fecha de vencimiento ascendente) y <code>ByPrioritySorter</code> (prioridad más alta primero:
+            <code>High</code> → <code>Medium</code> → <code>Low</code>; las tareas sin prioridad al final).
+            En <code>index()</code> de <code>TaskController</code>, inyecta una concreta con <code>#[Autowire(service: ByDueDateSorter::class)]</code>
+            y pásale la lista antes de renderizar. Comprueba con <code>debug:autowiring TaskSorter</code> y <code>lint:container</code>.
           </p>
           <p class="ex-explanation">
             Una interfaz con varias implementaciones → el autowiring falla al compilar → se desambigua nombrando el servicio.
-            <a href="../../../symfony/00-fundamentos/07-servicios/#elegir-entre-varias-implementaciones">Servicios → Elegir entre varias implementaciones</a>.
+            <a href="../../../symfony/01-servicios/#elegir-entre-varias-implementaciones">Servicios → Elegir entre varias implementaciones</a>.
           </p>
         </div>
 
@@ -2455,6 +2550,9 @@ EXCHANGE_API_URL=https://api.exchangerate.host
           </p>
           <p class="ex-explanation">
             Renderizado campo a campo con <code>form_row</code> para controlar el HTML. Symfony ya mete los errores dentro de cada <code>form_row</code>.
+            Para poner clases de Tailwind en los widgets necesitas un <em>form theme</em> propio
+            (<code>form_themes</code> en <code>config/packages/twig.yaml</code>, o <code>{% form_theme form 'ruta.html.twig' %}</code> en la plantilla)
+            o CSS global apuntando a las clases por defecto de Symfony. Decide el enfoque antes de empezar.
           </p>
         </div>
 
@@ -2477,6 +2575,10 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       </div>
     </div>
 
+      </div>
+    </div>
+    <!-- ===== /MAESTRA: REPASO FINAL DESDE 0 ===== -->
+
     <div class="exercise-footer">
       CodeLearn Assessment — Symfony · Fundamentos
     </div>
@@ -2484,15 +2586,29 @@ EXCHANGE_API_URL=https://api.exchangerate.host
 </main>
 
 <script>
+function cardKey(card) {
+  const h = card.querySelector(':scope > .exercise-card-header h3');
+  return 'excard:' + location.pathname + ':' + (h ? h.textContent.trim() : '');
+}
 function toggleExercise(el) {
   const card = el.closest('.exercise-card');
   card.classList.toggle('is-open');
+  try {
+    localStorage.setItem(cardKey(card), card.classList.contains('is-open') ? '1' : '0');
+  } catch (e) {}
 }
 function toggleSolution(btn) {
   const code = btn.nextElementSibling;
   code.classList.toggle('is-visible');
   btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
 }
+document.querySelectorAll('.exercise-card').forEach(function (card) {
+  try {
+    const saved = localStorage.getItem(cardKey(card));
+    if (saved === '1') card.classList.add('is-open');
+    else if (saved === '0') card.classList.remove('is-open');
+  } catch (e) {}
+});
 </script>
 
 <script src="../../nav.js"></script>
