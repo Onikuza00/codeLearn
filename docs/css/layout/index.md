@@ -23,6 +23,9 @@ No compiten. **Flexbox para componentes, Grid para páginas.**
 
 | Temario | Concepto | Estado |
 |---------|----------|--------|
+| [**Box model**](01-box-model/index.md) | Las cuatro capas, `box-sizing`, colapso de márgenes, desbordamiento | ✅ Completo |
+| [**Display y flujo**](02-display-flujo/index.md) | `block`/`inline`/`inline-block`, formas de ocultar, `flow-root`, `contents` | ✅ Completo |
+| [**Posición y apilamiento**](03-posicion-apilamiento/index.md) | Los cinco `position`, `sticky`, `z-index` y contexto de apilamiento | ✅ Completo |
 | [**Flexbox**](04-flexbox/index.md) | Layout unidimensional (filas o columnas) | ✅ Completo |
 | [**Grid**](05-grid/index.md) | Layout bidimensional (filas Y columnas) | ✅ Completo |
 

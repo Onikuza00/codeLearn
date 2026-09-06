@@ -111,7 +111,7 @@ precio ?? 100;   // 0   — ✅ respeta el 0 porque no es null/undefined
 
 ## Ternario `? :` {: .topic-title }
 
-El ternario condensa un `if`/`else` de una sola asignación en una línea. Se documenta con más detalle en [Estructuras de control](../03-estructuras-control/index.md) — acá el resumen comparativo con el `if`/`else` que reemplaza.
+El ternario condensa un `if`/`else` de una sola asignación en una línea. Se documenta con más detalle en [Control de flujo](../03-estructuras-control/index.md) — acá el resumen comparativo con el `if`/`else` que reemplaza.
 
 ```js
 const mensaje = edad >= 18 ? "Mayor de edad" : "Menor de edad";

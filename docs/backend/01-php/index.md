@@ -18,12 +18,16 @@ Las diferencias que más despistan al principio:
 | Lección | Estado | Qué cubre |
 |---|---|---|
 | [Métodos básicos](01-metodos-basicos/index.md) | ✅ | Funciones nativas por tipo (strings, arrays, números, comprobaciones, depuración) — qué hacen, sintaxis y ejemplo |
-| Variables, tipos y operadores | ⏳ | Tipos (`string`, `int`, `float`, `bool`, `array`, `null`), ámbito, constantes con `define()` / `const` |
-| Estructuras de control | ⏳ | `if`/`elseif`/`switch`, `while`/`do-while`/`for`/`foreach` |
-| Arrays a fondo | ⏳ | Indexados, asociativos, multidimensionales, recorrido con `foreach` |
-| Funciones y modularidad | ⏳ | Parámetros, valores por defecto, type hints, `declare(strict_types=1)`, `include`/`require` |
-| Interacción con el usuario | ⏳ | Superglobales (`$_GET`, `$_POST`, `$_SERVER`), formularios, validación, `htmlspecialchars` |
-| Cookies y sesiones | ⏳ | `setcookie()` / `$_COOKIE`, `session_start()` / `$_SESSION`, login/logout |
+| [Tipos y operadores](04-variables-tipos/index.md) | ✅ | Tipos, comillas simples vs. dobles, ámbito de función, constantes, `==` frente a `===`, `??` frente a `?:`, conversión |
+| [Control de flujo](05-estructuras-control/index.md) | ✅ | `if`/`elseif`, `switch` frente a `match`, bucles, `break`/`continue` con nivel, sintaxis alternativa para plantillas |
+| [Arrays](03-arrays/index.md) | ✅ | Indexados y asociativos, `foreach` y referencias, funciones de array, la familia `sort`/`usort`, multidimensionales |
+| [Funciones y tipado](06-funciones-tipado/index.md) | ✅ | Valores por defecto, `declare(strict_types=1)`, nullable y union types, argumentos con nombre, `readonly`, closures y `use()`, `fn()`, callables |
+| [POO](02-poo/index.md) | ✅ | Clases, propiedades y visibilidad, constructor y promoción, métodos, interfaces, `usort()` |
+| [POO avanzada](07-poo-avanzada/index.md) | ✅ | Herencia, clases abstractas frente a interfaces, traits, `static`/`self` frente a `$this`, enums |
+| [Namespaces y Composer](08-namespaces-composer/index.md) | ✅ | PSR-4, `namespace` y `use`, `composer.json` frente a `composer.lock`, autoload, rangos de versión |
+| [Excepciones](09-excepciones/index.md) | ✅ | `try`/`catch`/`finally`, jerarquía `Throwable`, `Error` frente a `Exception`, excepciones propias, encadenado |
+| [Formularios y validación](10-superglobales-formularios/index.md) | ✅ | `$_GET`/`$_POST`/`$_FILES`/`$_SERVER`, validar al entrar y escapar al salir, consultas preparadas, subida de ficheros, patrón PRG |
+| [Cookies y sesiones](11-cookies-sesiones/index.md) | ✅ | `setcookie()` y sus atributos, `$_SESSION`, login/logout, fijación de sesión, `password_hash()` |
 
 ---
 

@@ -27,6 +27,7 @@ Todo el acceso al DOM arranca desde el objeto global `document`, que representa 
 | [Manipulación del DOM](02-manipulacion/index.md) | `textContent`/`innerHTML`, atributos, estilos, `classList`, crear/eliminar elementos |
 | [Eventos](03-eventos/index.md) | `addEventListener`, objeto evento, propagación, delegación, ratón/teclado/página |
 | [Formularios](04-formularios/index.md) | `form.elements`, `FormData`, `checkValidity`/`reportValidity`, `validity`, `setCustomValidity` |
+| [Observers](05-observers/index.md) | `IntersectionObserver`, `ResizeObserver`, `MutationObserver` — y por qué sustituyen a `scroll`/`resize` |
 
 ---
 

@@ -26,21 +26,7 @@ Y para **inspeccionar** lo que hay registrado en el contenedor:
 
 ## Qué problema resuelve {: .topic-title }
 
-Cuando una clase crea sus propias dependencias con `new`, queda atada a esa implementación concreta y es difícil de testear o reutilizar:
-
-```php
-// ❌ la clase decide qué formateador usa — no hay forma de cambiarlo desde fuera
-class MessageGenerator
-{
-    public function getMessage(): string
-    {
-        $formatter = new TextFormatter();
-        return $formatter->format('...');
-    }
-}
-```
-
-La **inyección de dependencias** le da la vuelta: la clase declara qué necesita en el constructor y lo recibe ya construido. No sabe ni le importa de dónde sale.
+La **inyección de dependencias** consiste en que una clase no construya lo que necesita, sino que lo declare en el constructor y lo reciba ya construido. No sabe ni le importa de dónde sale.
 
 ```php
 // ✅ recibe la dependencia — se le puede pasar cualquier implementación de FormatterInterface
@@ -339,6 +325,7 @@ Recetas de servicios que aparecen en casi cualquier aplicación web o SaaS. Cada
 | 05 | [Slugs y referencias únicas](05-slugs-y-referencias/index.md) | URLs legibles y códigos de factura/pedido — `SluggerInterface`, unicidad frente a colisiones |
 | 06 | [Comandos de consola](06-comandos-de-consola/index.md) | Tareas de mantenimiento, imports, resúmenes por cron — `make:command`, `SymfonyStyle` |
 | 07 | [Limitar peticiones (Rate Limiter)](07-rate-limiter/index.md) | Proteger login y endpoints de API del abuso — `RateLimiterFactory`, `consume()` |
+| 08 | [Messenger](08-messenger/index.md) | Sacar trabajo de la petición — mensaje, handler, transportes, workers, reintentos e idempotencia |
 
 ## 📚 Fuentes {: .topic-title }
 | Fuente | Enlace |
