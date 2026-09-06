@@ -6,6 +6,7 @@
 
 | Fecha | Cambio | Resumen |
 |---|---|---|
+| 2026-09-06 | [github-pages](2026-09-06-github-pages/) | La documentación pasa a publicarse sola en `onikuza00.github.io/codeLearn` con GitHub Actions: `--strict` como puerta (si hay un enlace roto no publica), `site_url` corregido, versiones fijadas en `requirements.txt`, y `main` como única rama que publica — `develop` no. Añadido `README.md` de presentación |
 | 2026-08-29 | [php-startinline-highlight](2026-08-29-php-startinline-highlight/) | Los bloques ` ```php ` de la doc solo se coloreaban si empezaban con `<?php` (44 de 95 salían en gris). `pymdownx.highlight` con `extend_pygments_lang` redefine `php` con `startinline: true` → todo fragmento PHP se colorea, lleve o no la etiqueta, ahora y siempre |
 | 2026-08-29 | [quitar-context7-mcp](2026-08-29-quitar-context7-mcp/) | Arranque de sesión colgado minutos en "Cerebrating…": los hooks estaban bien (<0,4 s), el bloqueo era la init de MCP. `context7` (npx, ~10 s por arranque en Windows, sin usar en sesiones recientes) eliminado de `~/.claude/settings.json` |
 | 2026-08-22 | [setup-claude-js-raiz](2026-08-22-setup-claude-js-raiz/) | `claude.js` (raíz, curso API de Claude) no arrancaba: `index.html` lo cargaba como script de navegador (es Node), `package.json` sin `"type": "module"`, `.gitignore` sin cubrir `.env` plano. Los 3 corregidos |
