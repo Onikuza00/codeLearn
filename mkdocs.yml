@@ -1,7 +1,7 @@
 ﻿site_name: CodeLearn — Pau
 site_author: Pau Crosas Batista
 site_description: Documentación de aprendizaje — CSS, Frontend, Backend, GSAP, DevOps
-site_url: https://codelearn.pau.dev
+site_url: https://onikuza00.github.io/codeLearn/
 
 theme:
   name: material

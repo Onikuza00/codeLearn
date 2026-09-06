@@ -1,0 +1,50 @@
+name: Publicar documentación
+
+# Construye el sitio con MkDocs y lo publica en GitHub Pages.
+# develop es la rama de trabajo diario y no publica nada;
+# lo que se fusiona a main es lo que se hace público.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:          # también se puede lanzar a mano desde la pestaña Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si se lanzan dos despliegues seguidos, no se pisan entre ellos.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # --strict falla si hay un enlace roto: no se publica documentación rota.
+      - name: Construir el sitio
+        run: mkdocs build --strict
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4
