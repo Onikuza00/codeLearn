@@ -61,11 +61,13 @@ Cada fase tiene un objetivo ÚNICO y no se puede saltar.
 
 ## Temario — lo que iremos viendo
 
-1. [Fase a fase: cómo funciona cada una](fases.md)
-2. [SDD vs metodologías tradicionales](comparativa.md)
-3. [El rol del Orchestrator](orchestrator.md)
-4. [Cómo personalizar SDD para un proyecto real](personalizar.md)
-5. [Caso práctico: SDD en el trabajo de Pau](caso-practico.md)
+| Tema | Estado |
+|---|---|
+| [Fase a fase: cómo funciona cada una](fases.md) | ✅ |
+| SDD frente a metodologías tradicionales | ⏳ |
+| El rol del Orchestrator | ⏳ |
+| Cómo personalizar SDD para un proyecto real | ⏳ |
+| Caso práctico: SDD aplicado a un proyecto real | ⏳ |
 
 ---
 
