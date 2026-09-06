@@ -105,6 +105,7 @@ delete persona.age;      // eliminar propiedad
 | [Constructores](08-constructores/index.md) | Funciones constructoras, `new`, `prototype` |
 | [Clases](09-clases/index.md) | `class`, `constructor`, `static`, getters/setters, `#privado` |
 | [Herencia](10-herencia-clases/index.md) | `extends`, `super()`, sobrescribir métodos |
+| [Map y Set](11-map-set/index.md) | `Map` frente a objeto, `Set` para valores únicos, `WeakMap` y fugas de memoria |
 
 ---
 

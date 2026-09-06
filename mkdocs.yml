@@ -37,6 +37,10 @@ nav:
     - 🚨 Repaso urgente:
       - "JS / DOM": waytoCode/repaso-urgente-js.md
       - Symfony: waytoCode/repaso-urgente-symfony.md
+      - "Arquitectura y permisos": waytoCode/repaso-urgente-arquitectura.md
+      - "Asistente de IA (RAG)": waytoCode/repaso-urgente-asistente-ia.md
+      - "Importación masiva": waytoCode/repaso-urgente-importacion-masiva.md
+      - "🗣️ Frases de pizarra": waytoCode/repaso-urgente-frases-pizarra.md
     - 2026:
       - waytoCode/2026/index.md
       - "Mes 06 — Junio":
@@ -82,6 +86,20 @@ nav:
           - "Martes 25 — Refuerzo DOM": waytoCode/2026/08/semana-4/2026-08-25.md
           - "Sábado 29 — Symfony Formularios": waytoCode/2026/08/semana-4/2026-08-29.md
           - "Domingo 30 — Symfony: repaso final desde 0": waytoCode/2026/08/semana-4/2026-08-30.md
+      - "Mes 09 — Septiembre":
+        - "Semana 01 — Symfony + repaso de Arquitectura":
+          - "Martes 01 — Symfony Servicios + drilling DOM": waytoCode/2026/09/semana-1/2026-09-01.md
+          - "Sábado 05 — Repaso de arquitectura por casos": waytoCode/2026/09/semana-1/2026-09-05.md
+          - "Domingo 06 — Caso 4 (IA) + simulacro del Caso 2": waytoCode/2026/09/semana-1/2026-09-06.md
+  - Web:
+    - web/index.md
+    - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
+    - "02 - Métodos y códigos": web/02-metodos-y-codigos/index.md
+    - "03 - Cabeceras": web/03-cabeceras/index.md
+    - "04 - CORS": web/04-cors/index.md
+    - "05 - Caché HTTP": web/05-cache-http/index.md
+    - "06 - Seguridad web": web/06-seguridad-web/index.md
+    - "07 - Rendimiento web": web/07-rendimiento-web/index.md
   - CSS:
     - css/index.md
     - "Selectores":
@@ -93,6 +111,9 @@ nav:
       - "::before y ::after": css/selectores/05-pseudo-elementos/index.md
     - "Layout":
       - css/layout/index.md
+      - "Box model": css/layout/01-box-model/index.md
+      - "Display y flujo": css/layout/02-display-flujo/index.md
+      - "Posición y apilamiento": css/layout/03-posicion-apilamiento/index.md
       - Flexbox:
         - css/layout/04-flexbox/index.md
         - Conceptos: css/layout/04-flexbox/conceptos.md
@@ -166,7 +187,7 @@ nav:
       - js/01-basico/index.md
       - "Variables y tipos de datos": js/01-basico/01-variables-tipos/index.md
       - "Operadores": js/01-basico/02-operadores/index.md
-      - "Estructuras de control": js/01-basico/03-estructuras-control/index.md
+      - "Control de flujo": js/01-basico/03-estructuras-control/index.md
       - "Funciones": js/01-basico/04-funciones/index.md
       - "Valor vs. referencia": js/01-basico/05-paso-valor-referencia/index.md
       - "Try/Catch": js/01-basico/06-try-catch/index.md
@@ -191,6 +212,7 @@ nav:
       - "Constructores": js/03-objetos/08-constructores/index.md
       - "Clases": js/03-objetos/09-clases/index.md
       - "Herencia": js/03-objetos/10-herencia-clases/index.md
+      - "Map y Set": js/03-objetos/11-map-set/index.md
     - "DOM":
       - "DOM": js/04-dom/index.md
       - "Selección de elementos": js/04-dom/01-seleccion/index.md
@@ -202,6 +224,7 @@ nav:
         - "Eventos de página y formularios": js/04-dom/03-eventos/03-pagina-formularios/index.md
         - "Arrastrar y soltar": js/04-dom/03-eventos/04-arrastrar-soltar/index.md
       - "Formularios": js/04-dom/04-formularios/index.md
+      - "Observers": js/04-dom/05-observers/index.md
     - "Asincronía":
       - js/05-asincronia/index.md
       - "Callbacks": js/05-asincronia/01-callbacks/index.md
@@ -217,6 +240,7 @@ nav:
       - "Web Storage": js/06-almacenamiento/01-web-storage/index.md
       - "Cookies": js/06-almacenamiento/02-cookies/index.md
     - "Módulos": js/07-modulos/index.md
+    - "Expresiones regulares": js/08-regex/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -228,6 +252,16 @@ nav:
     - PHP:
       - backend/01-php/index.md
       - "Métodos básicos": backend/01-php/01-metodos-basicos/index.md
+      - "Tipos y operadores": backend/01-php/04-variables-tipos/index.md
+      - "Control de flujo": backend/01-php/05-estructuras-control/index.md
+      - "Arrays": backend/01-php/03-arrays/index.md
+      - "Funciones y tipado": backend/01-php/06-funciones-tipado/index.md
+      - "POO": backend/01-php/02-poo/index.md
+      - "POO avanzada": backend/01-php/07-poo-avanzada/index.md
+      - "Namespaces y Composer": backend/01-php/08-namespaces-composer/index.md
+      - "Excepciones": backend/01-php/09-excepciones/index.md
+      - "Formularios y validación": backend/01-php/10-superglobales-formularios/index.md
+      - "Cookies y sesiones": backend/01-php/11-cookies-sesiones/index.md
     - "Arquitectura":
       - backend/02-arquitectura/index.md
       - "01 - Autenticación y permisos": backend/02-arquitectura/01-autenticacion-permisos/index.md
@@ -248,7 +282,11 @@ nav:
         - "02 - Repository y EntityManager": symfony/00-fundamentos/04-doctrine/02-repository-entitymanager/index.md
         - "03 - Enums": symfony/00-fundamentos/04-doctrine/03-enums/index.md
         - "04 - Relaciones": symfony/00-fundamentos/04-doctrine/04-relaciones/index.md
-      - "05 - Twig": symfony/00-fundamentos/05-twig/index.md
+        - "05 - Índices y rendimiento": symfony/00-fundamentos/04-doctrine/05-indices/index.md
+        - "06 - Migraciones": symfony/00-fundamentos/04-doctrine/06-migraciones/index.md
+      - "05 - Twig":
+        - symfony/00-fundamentos/05-twig/index.md
+        - "01 - Extensiones": symfony/00-fundamentos/05-twig/01-extensiones/index.md
       - "06 - Formularios": symfony/00-fundamentos/06-formularios/index.md
       - "07 - Pruebas Unitarias":
         - symfony/00-fundamentos/07-pruebas-unitarias/index.md
@@ -265,6 +303,7 @@ nav:
       - "05 - Slugs y referencias únicas": symfony/01-servicios/05-slugs-y-referencias/index.md
       - "06 - Comandos de consola": symfony/01-servicios/06-comandos-de-consola/index.md
       - "07 - Limitar peticiones (Rate Limiter)": symfony/01-servicios/07-rate-limiter/index.md
+      - "08 - Messenger": symfony/01-servicios/08-messenger/index.md
     - "Bloque 02 - Seguridad":
       - symfony/02-seguridad/index.md
       - "01 - El usuario y los proveedores": symfony/02-seguridad/01-usuario-y-providers/index.md
@@ -316,6 +355,7 @@ nav:
     - ia/index.md
     - "Claude":
       - ia/claude/index.md
+      - "Glosario": ia/claude/00-glosario/index.md
       - "Claude Code in Action":
         - ia/claude/01-claude-code-in-action/index.md
         - "Dirigir sesiones largas": ia/claude/01-claude-code-in-action/02-dirigir-sesiones/index.md
@@ -348,6 +388,12 @@ nav:
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md
         - "Configuración de OpenSpec": ia/claude/03-automatizaciones/02-openspec/index.md
         - "Normas de documentación automáticas": ia/claude/03-automatizaciones/03-normas-documentacion/index.md
+    - "IA local":
+      - ia/local/index.md
+      - "01 - Conceptos de modelos": ia/local/01-conceptos/index.md
+      - "02 - Ollama": ia/local/02-ollama/index.md
+      - "03 - Open WebUI": ia/local/03-open-webui/index.md
+      - "04 - Configuración": ia/local/04-configuracion/index.md
   - Ejercicios: http://localhost:8000/assessment/index.html
 
 markdown_extensions:

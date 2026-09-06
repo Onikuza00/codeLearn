@@ -1,4 +1,4 @@
-# Estructuras de control { .bloque-js }
+# Control de flujo { .bloque-js }
 
 > Las estructuras de control deciden **qué código se ejecuta** (condicionales) y **cuántas veces** (bucles). Sin ellas, un programa es una lista de instrucciones que se ejecutan una sola vez, de arriba a abajo, sin decisiones.
 

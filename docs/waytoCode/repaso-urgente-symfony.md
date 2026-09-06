@@ -23,18 +23,17 @@
 |:---:|---|---|
 | 🔴 1 | El flujo del controlador `new`/`edit` no sale de memoria | S1 (2 respuestas seguidas mal) |
 | 🔴 2 | Tipo PHP vs tipo de columna Doctrine son dos capas | P1 |
-| 🔴 3 | Cada nombre corto necesita su `use` con el namespace correcto | P1, P3, P4, S2, D3, D4 |
-| 🟠 4 | `redirectToRoute()` recibe el **nombre** de la ruta, no la URL | P4 |
-| 🟠 5 | `persist()` solo para lo nuevo; `flush()` siempre | P5, S2 |
-| 🟠 6 | Las Constraints van sobre la **entidad**, no el formulario | P2 |
-| 🟠 7 | Un objeto no es su representación textual ni un campo suyo | **D1, D4 (30/08)** |
-| 🟠 8 | El contrato de la firma se cumple en el cuerpo | **D2, D4 (30/08)** |
-| 🟡 9 | Servicio = **transforma**, no valida; su resultado necesita hueco en la entidad | S2, D1 |
-| 🟡 10 | Autowiring: servicio por type-hint, escalar con `#[Autowire]` | S2, D3 |
-| 🟡 11 | CSRF a mano: la intención y el `name` idénticos en los dos extremos | P10 |
-| 🟡 12 | Form sin `data_class`: leer del **form**, no del `Request` | P12 |
-| 🟢 13 | Twig: `{% endblock %}`, `{% for X in LISTA %}`, `==` (no `===`) | S2, P7, P9 |
-| 🟢 14 | `.env` es de sintaxis estricta: `CLAVE="valor"`, sin espacios | **D3 (30/08)** |
+| 🟠 3 | `redirectToRoute()` recibe el **nombre** de la ruta, no la URL | P4 |
+| 🟠 4 | `persist()` solo para lo nuevo; `flush()` siempre | P5, S2 |
+| 🟠 5 | Las Constraints van sobre la **entidad**, no el formulario | P2 |
+| 🟠 6 | Un objeto no es su representación textual ni un campo suyo | **D1, D4 (30/08)** |
+| 🟠 7 | El contrato de la firma se cumple en el cuerpo | **D2, D4 (30/08)** |
+| 🟡 8 | Servicio = **transforma**, no valida; su resultado necesita hueco en la entidad | S2, D1 |
+| 🟡 9 | Autowiring: servicio por type-hint, escalar con `#[Autowire]` | S2, D3 |
+| 🟡 10 | CSRF a mano: la intención y el `name` idénticos en los dos extremos | P10 |
+| 🟡 11 | Form sin `data_class`: leer del **form**, no del `Request` | P12 |
+| 🟢 12 | Twig: `{% endblock %}`, `{% for X in LISTA %}`, `==` (no `===`) | S2, P7, P9 |
+| 🟢 13 | `.env` es de sintaxis estricta: `CLAVE="valor"`, sin espacios | **D3 (30/08)** |
 
 ---
 
@@ -85,16 +84,8 @@
 
     El puente: `DECIMAL` ↔ `#[ORM\Column(type: Types::DECIMAL)]` ↔ type-hint `?string`. Dinero **nunca** `float`.
 
-!!! danger "🔴 3 · Cada nombre corto necesita su `use`"
-    `use` es de PHP, no de Symfony. Sin él, `LoggerInterface` se resuelve contra el namespace del archivo (`App\Service\LoggerInterface` → no existe → fatal). Reincidió el 30/08 con `Autowire`, `TaskSearchType`, `Task` y `App\Entity\Task` en el notifier.
 
-    - **Lleva `use`:** toda clase / interfaz / atributo cuyo nombre corto escribas. `#[Autowire(...)]` **es** la clase `Autowire` → `use Symfony\Component\DependencyInjection\Attribute\Autowire;`.
-    - **No lleva `use`:** primitivos (`string`, `int`, `bool`, `array`), nombres con `\` delante (`\DateTimeImmutable`), clases del mismo namespace.
-    - **Gotcha:** `HttpClientInterface` vive en `Symfony\Contracts\HttpClient\…` (Contracts), **no** `Symfony\Component\HttpClient\…`.
-
-    `symfony console debug:autowiring <algo>` da el FQCN entero.
-
-!!! warning "🟠 4 · `redirectToRoute()` recibe el nombre de la ruta"
+!!! warning "🟠 3 · `redirectToRoute()` recibe el nombre de la ruta"
     ```php
     return $this->redirectToRoute('/tareas');       // ❌ P4 — eso es un path, y encima no existía
     return $this->redirectToRoute('product_index'); // ✅ el NAME del #[Route(name: ...)]
@@ -102,14 +93,14 @@
 
     Y una acción que redirige a **su propia ruta** es un bucle infinito (`ERR_TOO_MANY_REDIRECTS`).
 
-!!! warning "🟠 5 · `persist()` solo para lo nuevo; `flush()` siempre"
+!!! warning "🟠 4 · `persist()` solo para lo nuevo; `flush()` siempre"
     `persist($x)` = "Doctrine, **empieza a seguir** este objeto nuevo". `flush()` = "sincroniza todo lo que sigues".
 
     - **Crear:** `persist()` + `flush()`.
     - **Editar:** solo `flush()` — la entidad ya la sigue Doctrine desde que la cargó (dirty checking → UPDATE).
     - **Borrar:** `remove()` + `flush()`.
 
-!!! warning "🟠 6 · Las Constraints van sobre la entidad"
+!!! warning "🟠 5 · Las Constraints van sobre la entidad"
     ```php
     // ❌ P2 — Length(min: 3) sobre un precio no significa nada; y era regla de "name"
     #[Assert\Length(min: 3)]
@@ -118,7 +109,7 @@
 
     Cada constraint tiene que ser **verdad de ese campo**. `price` → `Positive` (>0). `stock` → `PositiveOrZero` (≥0). `NotBlank` rechaza `null` **y** `""`; `NotNull` solo `null`.
 
-!!! warning "🟠 7 · Un objeto no es su representación textual ni un campo suyo · 30/08"
+!!! warning "🟠 6 · Un objeto no es su representación textual ni un campo suyo · 30/08"
     ```php
     // ❌ D1 — getCreatedAt() devuelve un objeto DateTimeImmutable, no texto
     $ref = "TSK-" . $task->getCreatedAt() . "-" . $hex;
@@ -134,7 +125,7 @@
 
     El type-hint dice **qué forma** tiene que tener el dato: un `string` se saca con `->format()` / `->value` / `.textContent`; una entidad se pasa entera, no un getter suyo. Primo del fallo 🟢 de JS "un elemento no es el valor que contiene".
 
-!!! warning "🟠 8 · El contrato de la firma se cumple en el cuerpo · 30/08"
+!!! warning "🟠 7 · El contrato de la firma se cumple en el cuerpo · 30/08"
     ```php
     // ❌ D2 — la firma promete : array, pero no hay return
     public function resumen(): array
@@ -159,7 +150,7 @@
 
     Lo que promete la cabecera (`: array`, `: string`, promoción con `private`) tiene que cumplirse dentro. Calcular valores en variables locales **no es** devolverlos; un argumento sin `private`/`public` **no se guarda** en el objeto.
 
-!!! tip "🟡 9 · Servicio: transforma, no valida — y su resultado necesita un hueco"
+!!! tip "🟡 8 · Servicio: transforma, no valida — y su resultado necesita un hueco"
     En S2 la confusión fue: "es un servicio, ¿no necesito getter/setter?". Sí.
 
     - El servicio (`SlugGenerator`, `ReferenceGenerator`) **produce un dato**. Para guardarlo, la entidad necesita: propiedad `#[ORM\Column]` + `getX()`/`setX()` + **migración**.
@@ -168,7 +159,7 @@
 
     📖 [Servicios → Crear un servicio propio](/symfony/01-servicios/#crear-un-servicio-propio)
 
-!!! tip "🟡 10 · Autowiring — servicio vs escalar"
+!!! tip "🟡 9 · Autowiring — servicio vs escalar"
     ```php
     public function __construct(
         private HttpClientInterface $http,          // ✅ servicio/interfaz → automático, sin atributo
@@ -179,7 +170,7 @@
 
     Type-hint de clase/interfaz → autowiring lo resuelve solo. Type-hint primitivo (`string`, `int`) → **siempre** `#[Autowire]` (env, `param:`, o literal).
 
-!!! tip "🟡 11 · CSRF a mano — los dos extremos del cable"
+!!! tip "🟡 10 · CSRF a mano — los dos extremos del cable"
     ```twig
     <input type="hidden" name="_token" value="{{ csrf_token('delete-task-' ~ task.id) }}">
     ```
@@ -189,7 +180,7 @@
 
     La **cadena de intención** (`'delete-task-' ~ id`) y el **nombre del campo** (`_token`) tienen que ser idénticos en los dos sitios, o `get('_token')` devuelve `null` y nunca valida. Un `<a>` hace GET sin token — no protege.
 
-!!! tip "🟡 12 · Form sin `data_class` — leer del form, no del `Request`"
+!!! tip "🟡 11 · Form sin `data_class` — leer del form, no del `Request`"
     ```php
     $form = $this->createForm(TaskSearchType::class, null, ['method' => 'GET']);
     $form->handleRequest($request);
@@ -199,7 +190,7 @@
 
     Sin `data_class` no hay entidad. Un buscador va por **GET** (consulta, no mutación). `createForm()` tiene **3 argumentos**: Type, dato (`null` aquí), opciones.
 
-!!! note "🟢 13 · Twig — lo que se cayó"
+!!! note "🟢 12 · Twig — lo que se cayó"
     - **`{% block body %}` necesita su `{% endblock %}`** (el error real de S2). Igual que `{% for %}` / `{% endfor %}`.
     - **`{% for X in LISTA %}`** — `X` es cada elemento, `LISTA` la colección. Invertirlo rompe en silencio.
     - **`{% else %}` va dentro del `{% for %}`**, entre el cuerpo y el `{% endfor %}` (empty state).
@@ -208,7 +199,7 @@
 
     📖 [Twig](/symfony/00-fundamentos/05-twig/)
 
-!!! note "🟢 14 · `.env` es de sintaxis estricta · 30/08"
+!!! note "🟢 13 · `.env` es de sintaxis estricta · 30/08"
     ```env
     ADMIN_EMAIL = "correo@dominio.com"   # ❌ espacios alrededor del = → FormatException al arrancar
     ADMIN_EMAIL="correo@dominio.com"     # ✅ pegado, en su propia línea

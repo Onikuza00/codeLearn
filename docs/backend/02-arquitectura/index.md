@@ -62,6 +62,33 @@ flowchart LR
 
 ---
 
+## Requisitos funcionales y no funcionales {: .topic-title }
+
+Nombrar esta distinción en el primer minuto ordena el resto del ejercicio, porque separa dos preguntas que se confunden fácilmente.
+
+**Funcional** — qué tiene que hacer el sistema, la lista de acciones observables. "Un cliente puede consultar sus pedidos." "Un administrador puede desactivar un usuario."
+
+**No funcional** — bajo qué condiciones tiene que hacerlo. No cambia QUÉ hace el sistema, cambia CÓMO de bien lo hace y qué pasa en los bordes.
+
+| Categoría | Pregunta que responde | Ejemplo |
+|---|---|---|
+| Rendimiento | ¿Cuánto tarda? | La búsqueda responde en menos de 300 ms |
+| Escalabilidad | ¿Aguanta crecer? | Pasar de mil a cien mil pedidos sin rediseñar |
+| Disponibilidad | ¿Puede caerse? | El pago funciona aunque el ERP esté caído |
+| Seguridad | ¿Quién puede ver o tocar qué? | Un comercial no ve los pedidos de otro |
+| Mantenibilidad | ¿Cuesta cambiarlo después? | Añadir un nuevo tipo de notificación sin tocar el resto |
+| Consistencia de datos | ¿Puede haber dos versiones distintas de la verdad? | El stock no puede quedar negativo |
+
+Las preguntas de la sección anterior — cuántos usuarios, con qué frecuencia cambia, qué pasa si el sistema externo no responde — son exactamente esto: requisitos no funcionales disfrazados de preguntas. Nombrarlos así demuestra que conoces el vocabulario, no solo la intuición.
+
+!!! tip "La frase que ordena el ejercicio"
+    "Antes de diseñar, separo los requisitos funcionales —qué hace el sistema— de los no funcionales —bajo qué condiciones—. Los segundos casi nunca están en el enunciado y hay que preguntarlos."
+
+!!! danger "El error más común: diseñar solo para lo funcional"
+    Un diseño que solo resuelve "qué hace" sin preguntar "cuántos, cuán rápido, qué pasa si falla" funciona en la demo y se cae en producción. Es la misma idea que el paso 5 del método (qué puede fallar), pero un nivel antes: si no se pregunta el no funcional, ni siquiera se sabe qué puede fallar.
+
+---
+
 ## Vocabulario para la pizarra {: .topic-title }
 
 Términos que conviene usar bien, porque señalan que has visto el problema antes.

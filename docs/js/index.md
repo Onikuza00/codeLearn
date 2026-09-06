@@ -13,3 +13,4 @@ Aprendizaje y práctica de JavaScript.
 - [Asincronía](05-asincronia/index.md) — Callbacks, promesas, `fetch`, `async`/`await`, WebSockets
 - [Almacenamiento](06-almacenamiento/index.md) — `localStorage`, `sessionStorage`, cookies, `data-*`
 - [Módulos](07-modulos/index.md) — `import`/`export`, `type="module"`, carga dinámica, empaquetadores
+- [Expresiones regulares](08-regex/index.md) — patrones, banderas, grupos con nombre, el bug de `test()` con `g`
