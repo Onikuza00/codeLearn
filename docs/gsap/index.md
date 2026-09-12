@@ -5,8 +5,7 @@
 ## Nivel actual: **Avanzado**
 
 Producción real confirmada:
-- [raymel.cat](https://www.raymel.cat) — ScrollTrigger, MorphSVG, SplitText, Lenis
-- [vorastudio.cat](https://www.vorastudio.cat) — diseño propio
+- Webs propias en producción — ScrollTrigger, MorphSVG, SplitText, Lenis
 
 ## Plugins dominados
 

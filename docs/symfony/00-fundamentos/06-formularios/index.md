@@ -383,6 +383,24 @@ public function index(Request $request, TareaRepository $repo): Response
 !!! tip "Un buscador va por `GET`, no por `POST`"
     `['method' => 'GET']` en `createForm()` hace que el formulario envíe por `GET`: los datos van en la URL (`?tarea_busqueda[texto]=symfony`), la búsqueda se puede compartir y guardar en favoritos, y un F5 no reenvía nada. `POST` es para lo que cambia estado; una consulta no lo hace.
 
+### Validar sin entidad: la opción `constraints` {: .topic-title }
+
+Sin `data_class` no hay ninguna propiedad de entidad donde poner un atributo `#[Assert\...]` — por eso, cuando el formulario sí necesita validar (un "contactar", por ejemplo), las constraints se pasan **directo en el campo**, con la opción `constraints`:
+
+```php
+use Symfony\Component\Validator\Constraints as Assert;
+
+$builder
+    ->add('email', EmailType::class, [
+        'constraints' => [
+            new Assert\NotBlank(),
+            new Assert\Email(),
+        ],
+    ]);
+```
+
+Mismas Constraints que ya conocés de la entidad (`NotBlank`, `Email`, `Length`...), mismo `use Symfony\Component\Validator\Constraints as Assert`, y `$form->isValid()` las comprueba igual — solo cambia dónde se declaran: en el campo del formulario, no en una propiedad de clase.
+
 ## Borrar con CSRF a mano {: .topic-title }
 
 Un enlace de borrado (`<a href="/tareas/5/borrar">`) tiene dos problemas: hace `GET` (que no debe cambiar estado) y no lleva token CSRF — cualquier web podría incrustar ese enlace y disparar el borrado con tu sesión. La solución es un mini-formulario de un solo botón, con el token puesto a mano:

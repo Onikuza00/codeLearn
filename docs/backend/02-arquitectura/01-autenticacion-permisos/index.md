@@ -79,7 +79,7 @@ Con esa forma, las dos reglas se responden con una consulta:
 
 ---
 
-## El paso a paso en la pizarra {: .topic-title }
+## El paso a paso {: .topic-title }
 
 **1.** «Separo dos cosas: **autenticación**, saber quién eres, y **autorización**, saber qué puedes hacer. Son dos preguntas distintas y fallan de forma distinta: la primera da un 401, la segunda un 403.»
 
@@ -107,7 +107,7 @@ Con esa forma, las dos reglas se responden con una consulta:
 | Sesión robada | Cookie `HttpOnly` + `Secure` + `SameSite`; caducidad corta |
 
 !!! danger "Ocultar el botón NO es proteger la acción"
-    Es el fallo que más se ve y el que peor sienta en una prueba técnica. Si la única defensa es un `if` en la plantilla, cualquiera escribe la URL a mano o lanza la petición desde la terminal.
+    Es el fallo que más se ve y el más grave. Si la única defensa es un `if` en la plantilla, cualquiera escribe la URL a mano o lanza la petición desde la terminal.
 
     Dilo tú antes de que te lo pregunten: **«esto lo oculto en la interfaz por comodidad, pero la protección real está en el servidor»**.
 

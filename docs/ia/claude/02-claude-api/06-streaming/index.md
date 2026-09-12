@@ -1,6 +1,6 @@
 # Streaming { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js.
+> Recibir la respuesta en fragmentos a medida que Claude la genera, en vez de esperar a que llegue el mensaje completo.
 
 ---
 

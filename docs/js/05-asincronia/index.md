@@ -72,7 +72,7 @@ console.log("2 — síncrono");
     2. Todas las microtareas pendientes (`.then`, `.catch`, `await`).
     3. Las tareas normales (`setTimeout`, `setInterval`, eventos).
 
-    Con esas tres pasadas se resuelve prácticamente cualquier pregunta de entrevista sobre orden de salida.
+    Con esas tres pasadas se resuelve prácticamente cualquier duda sobre el orden de salida.
 
 ---
 

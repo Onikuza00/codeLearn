@@ -1,6 +1,6 @@
 # Ejecutar la evaluación { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js.
+> Las tres funciones que procesan todo el dataset y devuelven resultados estructurados: generar la respuesta, calificarla, y promediar.
 
 ---
 

@@ -85,7 +85,7 @@ La idea central: **tres caminos distintos según qué necesita cada dato.**
 
 ---
 
-## El paso a paso en la pizarra {: .topic-title }
+## El paso a paso {: .topic-title }
 
 **1.** «Lo primero: la web **no** habla con el ERP. Pongo un adaptador en medio que es el único que conoce su formato. Todo lo demás habla con mi modelo.»
 

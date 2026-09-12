@@ -53,17 +53,11 @@ Para lógica de backend, "corré los tests" alcanza. Para una landing con animac
 
 ## Hooks útiles para este tipo de proyecto {: .topic-title }
 
+El hook de formateo automático con `prettier` ya está en [Hooks](../05-hooks/index.md) — para este tipo de proyecto conviene sumarle uno de `PreToolUse` que bloquee comandos destructivos comunes en medio de una sesión larga:
+
 ```json
 {
   "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          { "type": "command", "command": "npx prettier --write $CLAUDE_FILE_PATH" }
-        ]
-      }
-    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -76,10 +70,7 @@ Para lógica de backend, "corré los tests" alcanza. Para una landing con animac
 }
 ```
 
-- El primero formatea automáticamente cada archivo que Claude toca — nunca más "olvidé correr prettier antes de entregar".
-- El segundo bloquea comandos destructivos comunes por accidente en medio de una sesión larga.
-
-Ver [Hooks](../05-hooks/index.md) para el detalle de cómo funcionan los eventos.
+Los dos hooks (el de `prettier` y este) van en el mismo `settings.json`, cada uno en su propia entrada.
 
 ---
 

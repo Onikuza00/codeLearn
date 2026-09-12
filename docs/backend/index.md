@@ -7,6 +7,6 @@
 | Bloque | Tema | Estado |
 |--------|------|--------|
 | 01 | [PHP fundamentos](01-php/index.md) | Pendiente |
-| 02 | [Arquitectura](02-arquitectura/index.md) — diseño de soluciones en pizarra | Disponible |
+| 02 | [Arquitectura](02-arquitectura/index.md) — diseño de soluciones | Disponible |
 
 > Symfony tiene su propia sección en el nav — ver [Symfony](../symfony/index.md).
