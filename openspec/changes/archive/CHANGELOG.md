@@ -6,6 +6,7 @@
 
 | Fecha | Cambio | Resumen |
 |---|---|---|
+| 2026-09-12 | [fix-mkdocs-serve-wdac](2026-09-12-fix-mkdocs-serve-wdac/) | El hook `SessionStart` dejó de levantar `mkdocs serve` sin avisar: una directiva de Control de aplicaciones de Windows (actualización reciente) bloquea `mkdocs.exe` directo, pero no `python.exe`. Fix: el hook lanza `python -m mkdocs serve` en vez de `mkdocs serve` |
 | 2026-09-06 | [github-pages](2026-09-06-github-pages/) | La documentación pasa a publicarse sola en `onikuza00.github.io/codeLearn` con GitHub Actions: `--strict` como puerta (si hay un enlace roto no publica), `site_url` corregido, versiones fijadas en `requirements.txt`, y `main` como única rama que publica — `develop` no. Añadido `README.md` de presentación |
 | 2026-08-29 | [php-startinline-highlight](2026-08-29-php-startinline-highlight/) | Los bloques ` ```php ` de la doc solo se coloreaban si empezaban con `<?php` (44 de 95 salían en gris). `pymdownx.highlight` con `extend_pygments_lang` redefine `php` con `startinline: true` → todo fragmento PHP se colorea, lleve o no la etiqueta, ahora y siempre |
 | 2026-08-29 | [quitar-context7-mcp](2026-08-29-quitar-context7-mcp/) | Arranque de sesión colgado minutos en "Cerebrating…": los hooks estaban bien (<0,4 s), el bloqueo era la init de MCP. `context7` (npx, ~10 s por arranque en Windows, sin usar en sesiones recientes) eliminado de `~/.claude/settings.json` |

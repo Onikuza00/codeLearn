@@ -37,10 +37,6 @@ nav:
     - 🚨 Repaso urgente:
       - "JS / DOM": waytoCode/repaso-urgente-js.md
       - Symfony: waytoCode/repaso-urgente-symfony.md
-      - "Arquitectura y permisos": waytoCode/repaso-urgente-arquitectura.md
-      - "Asistente de IA (RAG)": waytoCode/repaso-urgente-asistente-ia.md
-      - "Importación masiva": waytoCode/repaso-urgente-importacion-masiva.md
-      - "🗣️ Frases de pizarra": waytoCode/repaso-urgente-frases-pizarra.md
     - 2026:
       - waytoCode/2026/index.md
       - "Mes 06 — Junio":
@@ -91,6 +87,11 @@ nav:
           - "Martes 01 — Symfony Servicios + drilling DOM": waytoCode/2026/09/semana-1/2026-09-01.md
           - "Sábado 05 — Repaso de arquitectura por casos": waytoCode/2026/09/semana-1/2026-09-05.md
           - "Domingo 06 — Caso 4 (IA) + simulacro del Caso 2": waytoCode/2026/09/semana-1/2026-09-06.md
+        - "Semana 02 — Voters + reorientación del plan":
+          - "Lunes 07 — Voters a fondo + preguntas rápidas": waytoCode/2026/09/semana-2/2026-09-07.md
+          - "Miércoles 09 — Reorientación del plan": waytoCode/2026/09/semana-2/2026-09-09.md
+          - "Viernes 11 — Bloque D cerrado + Flujo Global": waytoCode/2026/09/semana-2/2026-09-11.md
+          - "Sábado 12 — Maquetación Tailwind cerrada": waytoCode/2026/09/semana-2/2026-09-12.md
   - Web:
     - web/index.md
     - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
@@ -251,7 +252,13 @@ nav:
     - backend/index.md
     - PHP:
       - backend/01-php/index.md
-      - "Métodos básicos": backend/01-php/01-metodos-basicos/index.md
+      - "Métodos básicos":
+        - backend/01-php/01-metodos-basicos/index.md
+        - "Cadenas de texto": backend/01-php/01-metodos-basicos/cadenas.md
+        - "Arrays": backend/01-php/01-metodos-basicos/arrays.md
+        - "Números y matemáticas": backend/01-php/01-metodos-basicos/numeros.md
+        - "Comprobar tipos y valores": backend/01-php/01-metodos-basicos/tipos-valores.md
+        - "Depuración": backend/01-php/01-metodos-basicos/depuracion.md
       - "Tipos y operadores": backend/01-php/04-variables-tipos/index.md
       - "Control de flujo": backend/01-php/05-estructuras-control/index.md
       - "Arrays": backend/01-php/03-arrays/index.md
@@ -287,7 +294,9 @@ nav:
       - "05 - Twig":
         - symfony/00-fundamentos/05-twig/index.md
         - "01 - Extensiones": symfony/00-fundamentos/05-twig/01-extensiones/index.md
-      - "06 - Formularios": symfony/00-fundamentos/06-formularios/index.md
+      - "06 - Formularios":
+        - symfony/00-fundamentos/06-formularios/index.md
+        - "01 - Form theme": symfony/00-fundamentos/06-formularios/01-form-theme/index.md
       - "07 - Pruebas Unitarias":
         - symfony/00-fundamentos/07-pruebas-unitarias/index.md
         - "01 - Pruebas unitarias": symfony/00-fundamentos/07-pruebas-unitarias/01-unitarias/index.md
@@ -348,11 +357,22 @@ nav:
       - "Ver y buscar": devops/02-linux/02-ver-buscar/index.md
       - "Permisos": devops/02-linux/03-permisos/index.md
       - "Procesos y servicios": devops/02-linux/04-procesos/index.md
-  - SDD:
-    - sdd/index.md
-    - Fases: sdd/fases.md
   - IA:
     - ia/index.md
+    - "Flujos de trabajo":
+      - flujos-trabajo/index.md
+      - "Flujo Global":
+        - flujos-trabajo/01-flujo-global/index.md
+        - "Normas globales": flujos-trabajo/01-flujo-global/01-normas-globales/index.md
+        - "OpenSpec": flujos-trabajo/01-flujo-global/02-openspec/index.md
+        - "Hooks": flujos-trabajo/01-flujo-global/03-hooks/index.md
+        - "Skills": flujos-trabajo/01-flujo-global/04-skills/index.md
+      - "Normas personalizadas": flujos-trabajo/01-flujo-global/05-normas-personalizadas/index.md
+      - "Engram": flujos-trabajo/02-engram/index.md
+      - "MCP": flujos-trabajo/03-mcp/index.md
+      - "SDD":
+        - sdd/index.md
+        - Fases: sdd/fases.md
     - "Claude":
       - ia/claude/index.md
       - "Glosario": ia/claude/00-glosario/index.md
@@ -380,9 +400,15 @@ nav:
           - "Generación de conjuntos de datos de prueba": ia/claude/02-claude-api/08-evaluacion-prompts/01-generacion-datasets/index.md
           - "Ejecutar la evaluación": ia/claude/02-claude-api/08-evaluacion-prompts/02-ejecutar-evaluacion/index.md
           - "Calificadores": ia/claude/02-claude-api/08-evaluacion-prompts/03-calificadores/index.md
-          - "Calificación basada en modelos": ia/claude/02-claude-api/08-evaluacion-prompts/03-calificadores/01-calificacion-por-modelo/index.md
-          - "Calificación basada en código": ia/claude/02-claude-api/08-evaluacion-prompts/03-calificadores/02-calificacion-por-codigo/index.md
-        - "Ingeniería de prompts": ia/claude/02-claude-api/09-prompt-engineering/index.md
+        - "Ingeniería de prompts":
+          - "Ingeniería de prompts": ia/claude/02-claude-api/09-prompt-engineering/index.md
+          - "Técnicas de prompt": ia/claude/02-claude-api/09-prompt-engineering/01-tecnicas-de-prompt/index.md
+        - "Uso de herramientas":
+          - "Uso de herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/index.md
+          - "Construir una herramienta": ia/claude/02-claude-api/10-uso-de-herramientas/01-construir-una-herramienta/index.md
+          - "Conversaciones con herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/02-conversaciones-con-herramientas/index.md
+          - "Streaming con herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/03-streaming-de-herramientas/index.md
+          - "Herramientas integradas": ia/claude/02-claude-api/10-uso-de-herramientas/04-herramientas-integradas/index.md
       - "Automatizaciones":
         - ia/claude/03-automatizaciones/index.md
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md
@@ -394,7 +420,7 @@ nav:
       - "02 - Ollama": ia/local/02-ollama/index.md
       - "03 - Open WebUI": ia/local/03-open-webui/index.md
       - "04 - Configuración": ia/local/04-configuracion/index.md
-  - Ejercicios: http://localhost:8000/assessment/index.html
+  - Ejercicios: assessment/index.html
 
 markdown_extensions:
   - pymdownx.superfences:

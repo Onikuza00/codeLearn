@@ -1,6 +1,6 @@
 # Prompting { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js. La diferencia clave: donde Python construye el diccionario de parámetros con un `if`, JS lo resuelve con un spread condicional sobre el objeto.
+> El parámetro `system`, para fijar el rol y las reglas de comportamiento de Claude durante toda la conversación.
 
 ---
 
@@ -55,7 +55,7 @@ async function chat(messages, system) {
 }
 ```
 
-`...(system && { system })` se lee así: si `system` es un valor truthy, se expande el objeto `{ system }` dentro de `params`; si `system` es `undefined` (no se pasó nada), la expresión completa vale `undefined`, y hacer spread de `undefined` no añade nada. El campo `system` termina existiendo en `params` solo cuando de verdad hay uno que enviar — es el equivalente en JS al `if system: params["system"] = system` de Python.
+`...(system && { system })` se lee así: si `system` es un valor truthy, se expande el objeto `{ system }` dentro de `params`; si `system` es `undefined` (no se pasó nada), la expresión completa vale `undefined`, y hacer spread de `undefined` no añade nada. El campo `system` termina existiendo en `params` solo cuando de verdad hay uno que enviar.
 
 Uso:
 

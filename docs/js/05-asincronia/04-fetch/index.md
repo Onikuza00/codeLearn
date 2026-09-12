@@ -72,7 +72,7 @@ Para abrir la caja y sacar el contenido hay un método por tipo de dato:
 
 ## `response.ok`: el error que todo el mundo comete {: .topic-title }
 
-Esta es la trampa más importante de `fetch`, y aparece en prácticamente todas las entrevistas.
+Esta es la trampa más importante de `fetch` y aparece en casi cualquier revisión de código.
 
 **`fetch` NO rechaza la promesa cuando el servidor responde con un error.** Un `404` o un `500` son respuestas HTTP perfectamente válidas: el servidor te contestó. Desde el punto de vista de `fetch`, la operación fue un éxito.
 

@@ -1,6 +1,6 @@
 # Conversaciones multiturno { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js. La diferencia clave respecto al resto del bloque: en JS, `chat()` tiene que ser `async` porque `client.messages.create()` devuelve una `Promise`.
+> Mantener el historial de mensajes entre turnos de usuario y asistente, ya que Claude no recuerda nada por sí solo entre solicitudes.
 
 ---
 
@@ -58,9 +58,11 @@ async function chat(messages) {
     max_tokens: 1000,
     messages,
   });
-  return message.content[0].text;
+  return message.content.find(block => block.type === 'text').text;
 }
 ```
+
+Extrae el texto buscando el bloque, no asumiendo su posición — el porqué está explicado en [Creando la conexión](/ia/claude/02-claude-api/02-creando-conexion/#extraer-la-respuesta).
 
 ## Ejemplo completo {: .topic-title }
 

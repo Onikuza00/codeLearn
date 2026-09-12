@@ -18,7 +18,7 @@
     - **Datos concretos del cliente** → consulta a la base de datos, con permisos. El modelo solo redacta la respuesta.
     - **Conocimiento de la documentación** → búsqueda por significado sobre los documentos. Eso es RAG.
 
-    Decir esto en el primer minuto ordena toda la pizarra.
+    Decir esto en el primer minuto ordena todo el planteamiento.
 
 ---
 
@@ -43,7 +43,7 @@ flowchart TB
 
 ---
 
-## Cómo funciona RAG, en una pizarra {: .topic-title }
+## Cómo funciona RAG {: .topic-title }
 
 **RAG** significa *Retrieval-Augmented Generation*: generación aumentada con recuperación. La idea, en una frase: **el modelo no sabe nada de tu empresa, así que le pasas lo relevante junto con la pregunta.**
 
@@ -82,7 +82,7 @@ flowchart LR
 
 ---
 
-## El paso a paso en la pizarra {: .topic-title }
+## El paso a paso {: .topic-title }
 
 **1.** «Separo dos tipos de pregunta. Las de **datos del cliente** no las responde el modelo: las responde la base de datos. Las de **conocimiento** sí necesitan buscar en la documentación.»
 
@@ -113,7 +113,7 @@ flowchart LR
        La consulta filtra por ese identificador. El modelo no puede cambiarlo.
     ```
 
-    La frase para la pizarra: **«los permisos se aplican en la consulta, no en el prompt»**. Es exactamente el mismo principio del [caso 1](../01-autenticacion-permisos/index.md): la comprobación va en el servidor, no en la capa que el usuario puede influir.
+    La frase clave: **«los permisos se aplican en la consulta, no en el prompt»**. Es exactamente el mismo principio del [caso 1](../01-autenticacion-permisos/index.md): la comprobación va en el servidor, no en la capa que el usuario puede influir.
 
 Lo mismo con los documentos: si hay documentación interna que un cliente no debe ver, **no puede estar en el mismo índice vectorial** al que accede el asistente público. Filtrar después de recuperar es tarde.
 

@@ -1,6 +1,6 @@
 # Temperatura { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js.
+> Controlar cuánta variación tienen las respuestas de Claude, y cuándo conviene subirla o bajarla.
 
 ---
 
@@ -57,9 +57,6 @@ const answer = await chat(messages, undefined, 1.0);
 
 !!! danger "Deprecado en modelos con adaptive thinking siempre activo"
     Confirmado en la práctica: enviar `temperature` a Sonnet 5 devuelve `400 invalid_request_error: 'temperature' is deprecated for this model`. Los modelos con adaptive thinking permanente (Sonnet 5, Opus 5...) gestionan su propio nivel de razonamiento automáticamente — el control manual clásico de `temperature` ya no aplica para esta generación. Antes de usar `temperature` en un modelo nuevo, comprobar primero si lo soporta.
-
-!!! warning "Python tiene argumentos con nombre, JS no (por defecto)"
-    En Python, `chat(messages, temperature=0.0)` salta directo al parámetro que te interesa, sin tocar `system`. En JS, los parámetros de una función normal son **posicionales** — para llegar a `temperature` (el tercero) hay que pasar `undefined` explícito en el lugar de `system` (el segundo), aunque no quieras usarlo. Si una función va a tener varios parámetros opcionales que se combinan de formas distintas, conviene diseñarla recibiendo un único objeto de opciones (`{ system, temperature }`) en vez de parámetros sueltos — así cada llamada solo nombra lo que necesita, como en Python.
 
 ---
 

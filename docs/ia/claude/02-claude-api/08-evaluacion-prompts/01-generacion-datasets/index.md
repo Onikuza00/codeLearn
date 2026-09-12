@@ -1,6 +1,6 @@
 # Generación de conjuntos de datos de prueba { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js.
+> Crear el dataset de evaluación automáticamente con Claude, en vez de escribir los casos de prueba a mano.
 
 ---
 

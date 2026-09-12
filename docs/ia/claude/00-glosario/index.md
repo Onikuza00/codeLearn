@@ -32,7 +32,6 @@ Lo primero que hay que interiorizar, porque cambia el comportamiento entero de l
 | `/rewind` | Volver a un punto anterior de la conversación |
 | `/resume` | Retomar una sesión anterior |
 | `/export` | Exportar la conversación |
-| `/todos` | Ver la lista de tareas en curso |
 
 **Configuración**
 
@@ -106,13 +105,7 @@ Se rotan con `Shift+Tab`:
 | **plan** | **Solo lee y planifica. No modifica nada** |
 | **bypassPermissions** | No pide nada |
 
-!!! tip "El modo plan antes de cualquier cambio grande"
-    En modo plan, Claude explora el código y propone un plan **sin tocar un solo fichero**. Lo revisas, corriges lo que no encaja, y solo entonces se ejecuta.
-
-    Para un cambio que toca varios ficheros, esos dos minutos de revisión ahorran deshacer media hora de trabajo mal enfocado. Es la diferencia entre dirigir y esperar a ver qué sale.
-
-!!! danger "`bypassPermissions` solo en entorno aislado"
-    Sin confirmaciones, un comando destructivo se ejecuta sin que lo veas venir. Tiene sentido en un contenedor desechable o en integración continua; en tu máquina de trabajo, no.
+Detalle y criterio de cuándo usar cada uno → [Habilidades de verificación y modos de permiso](/ia/claude/01-claude-code-in-action/04-verificacion-permisos/).
 
 ## La línea de comandos {: .topic-title }
 
@@ -151,9 +144,7 @@ Se rotan con `Shift+Tab`:
 | `.claude/skills/` | Habilidades propias |
 
 !!! tip "Un `CLAUDE.md` corto se cumple; uno largo se diluye"
-    Ahí van las **convenciones que no se deducen del código**: cómo se lanzan los tests, qué gestor de paquetes usa el proyecto, qué no se toca nunca, el formato de los commits.
-
-    Lo que ya está escrito en el código o en el `package.json` sobra. Cuanto más largo, menos peso tiene cada línea.
+    Desarrollado en [Cómo escribir un `CLAUDE.md` efectivo](/ia/claude/01-claude-code-in-action/03-claude-md/).
 
 ## Hooks {: .topic-title }
 

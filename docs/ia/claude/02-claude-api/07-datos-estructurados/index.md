@@ -1,6 +1,6 @@
 # Datos estructurados { .bloque-ia }
 
-> El curso lo enseña en Python — aquí va adaptado a JavaScript/Node.js.
+> Prellenar el mensaje del asistente y usar secuencias de parada para conseguir JSON, código o listas sin explicación ni texto envolvente.
 
 ---
 

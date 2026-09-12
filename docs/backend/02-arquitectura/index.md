@@ -1,12 +1,12 @@
 # Arquitectura { .section-fundamentos }
 
-> Resolver un caso en la pizarra no es escribir código: es enseñar cómo piensas. Lo que se evalúa es si sabes hacer las preguntas correctas, separar responsabilidades y justificar por qué descartas una opción.
+> Diseñar una solución no es escribir código: es ordenar cómo piensas — hacer las preguntas correctas, separar responsabilidades y justificar por qué descartas una opción.
 
 ---
 
 ## Qué se evalúa {: .topic-title }
 
-En una prueba de diseño en pizarra nadie espera sintaxis perfecta. Lo que se mira es otra cosa:
+Al diseñar una solución en alto nivel no importa la sintaxis perfecta. Importa otra cosa:
 
 | Se valora | Se penaliza |
 |---|---|
@@ -32,7 +32,7 @@ En una prueba de diseño en pizarra nadie espera sintaxis perfecta. Lo que se mi
 
 ## El método {: .topic-title }
 
-Seis pasos, siempre en el mismo orden. Tenerlos memorizados evita quedarse en blanco delante de la pizarra.
+Seis pasos, siempre en el mismo orden. Tenerlos memorizados evita quedarse en blanco.
 
 ```mermaid
 flowchart LR
@@ -89,7 +89,7 @@ Las preguntas de la sección anterior — cuántos usuarios, con qué frecuencia
 
 ---
 
-## Vocabulario para la pizarra {: .topic-title }
+## Vocabulario {: .topic-title }
 
 Términos que conviene usar bien, porque señalan que has visto el problema antes.
 
@@ -153,7 +153,7 @@ Las tres ideas que transmite:
 
 ## Los cinco casos {: .topic-title }
 
-Cinco enunciados del tipo que se plantea en una prueba de diseño, con el desarrollo paso a paso, lo que preguntarán después y los errores que descartan a un candidato.
+Cinco casos de diseño de solución, con el desarrollo paso a paso, las preguntas que suelen venir después y los errores más habituales.
 
 | Caso | Concepto central |
 |---------|----------|

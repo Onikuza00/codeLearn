@@ -2321,9 +2321,9 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 30/08/2026 · Repaso final desde 0 — D: Servicios</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>4</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>7</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>2</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -2418,7 +2418,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🟡 Twig Extension: filtro <code>fecha_relativa</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>make:twig-extension AppExtension</code>. Registra un filtro <code>fecha_relativa</code> que recibe un <code>\DateTimeInterface</code>
@@ -2434,15 +2434,36 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <!-- D6 -->
         <div class="ex">
           <div class="ex-head">
-            <span class="ex-title"><span class="ex-num">6</span> 🔴 Elegir implementación: <code>TaskSorter</code></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-title"><span class="ex-num">6</span> 🟡 <code>ByDueDateSorter</code> — interfaz ya escrita + closure en <code>usort</code></span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
-            Interfaz <code>TaskSorter</code> con un método <code>sort(array $tasks): array</code>. Dos clases que la implementan:
-            <code>ByDueDateSorter</code> (por fecha de vencimiento ascendente) y <code>ByPrioritySorter</code> (prioridad más alta primero:
-            <code>High</code> → <code>Medium</code> → <code>Low</code>; las tareas sin prioridad al final).
-            En <code>index()</code> de <code>TaskController</code>, inyecta una concreta con <code>#[Autowire(service: ByDueDateSorter::class)]</code>
-            y pásale la lista antes de renderizar. Comprueba con <code>debug:autowiring TaskSorter</code> y <code>lint:container</code>.
+            Ya existe la interfaz <code>TaskSorter</code> (<code>sort(array $tasks): array</code>) y una implementación de referencia,
+            <code>ByPrioritySorter</code>, que ordena usando un enum — puedes abrirla para ver el patrón de la interfaz, pero tu caso
+            <strong>no necesita ningún enum</strong>: no hay categorías cerradas, solo fechas que comparar directamente.
+            Implementa <code>ByDueDateSorter</code>: ordena el array de tareas por fecha de vencimiento, la más próxima primero, usando
+            <code>usort()</code> con una función de comparación que reciba dos tareas y compare sus fechas. Debe devolver el array ya ordenado,
+            no una fecha suelta.
+          </p>
+          <p class="ex-explanation">
+            Un closure es una función sin nombre guardada como valor y pasada como argumento — así le dices a <code>usort()</code> "cómo"
+            comparar dos elementos, sin escribir una clase aparte para ello.
+            <a href="../../../backend/01-php/06-funciones-tipado/#closures-funciones-dentro-de-variables">PHP → Closures: funciones dentro de variables</a>.
+          </p>
+        </div>
+
+        <!-- D7 -->
+        <div class="ex">
+          <div class="ex-head">
+            <span class="ex-title"><span class="ex-num">7</span> 🔴 Elegir implementación: <code>TaskSorter</code></span>
+            <span class="ex-status done">✅ Completado</span>
+          </div>
+          <p class="ex-desc">
+            Ya tienes dos implementaciones de <code>TaskSorter</code>: <code>ByDueDateSorter</code> (la del ejercicio anterior) y
+            <code>ByPrioritySorter</code> (dada, prioridad más alta primero: <code>High</code> → <code>Medium</code> → <code>Low</code>;
+            las tareas sin prioridad al final). En <code>index()</code> de <code>TaskController</code>, inyecta una concreta con
+            <code>#[Autowire(service: ByDueDateSorter::class)]</code> y pásale la lista antes de renderizar.
+            Comprueba con <code>debug:autowiring TaskSorter</code> y <code>lint:container</code>.
           </p>
           <p class="ex-explanation">
             Una interfaz con varias implementaciones → el autowiring falla al compilar → se desambigua nombrando el servicio.
@@ -2457,9 +2478,9 @@ EXCHANGE_API_URL=https://api.exchangerate.host
       <div class="exercise-card-header" onclick="toggleExercise(this)">
         <h3>📅 30/08/2026 · Repaso final desde 0 — E: Maquetación SaaS (Tailwind)</h3>
         <span style="display:flex;align-items:center;gap:.3rem;">
-          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>1</span>✅</span>
+          <span style="font-size:.75rem;color:#22c55e;"><span data-count-done>6</span>✅</span>
           <span style="font-size:.75rem;color:#eab308;"><span data-count-review>0</span>🔁</span>
-          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>5</span>⏳</span>
+          <span style="font-size:.75rem;color:#64748b;"><span data-count-pending>0</span>⏳</span>
           <span class="arrow-fold">▼</span>
         </span>
       </div>
@@ -2493,7 +2514,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">2</span> 🟡 Dashboard con tarjetas de estadística</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             En <code>/</code>: tres tarjetas en fila (total / pendientes / vencidas, de <code>TaskStats</code>), cada una con el número grande y la etiqueta pequeña debajo,
@@ -2508,7 +2529,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">3</span> 🔴 Lista de tareas — grid responsive de tarjetas</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             En <code>/tasks</code>: grid de tarjetas — una columna en móvil, dos en tablet, tres en escritorio. Cada tarjeta: título en semibold,
@@ -2526,7 +2547,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">4</span> 🟡 <em>Empty state</em></span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             Cuando no hay tareas (o el filtro no devuelve nada): en vez de un grid vacío, un bloque centrado con un icono/emoji grande atenuado,
@@ -2541,7 +2562,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">5</span> 🟡 Formulario elegante</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>task/new.html.twig</code> y <code>edit</code>: cada campo con su label encima, el input a ancho completo con borde suave y un estado de foco visible
@@ -2560,7 +2581,7 @@ EXCHANGE_API_URL=https://api.exchangerate.host
         <div class="ex">
           <div class="ex-head">
             <span class="ex-title"><span class="ex-num">6</span> 🔴 Página de contacto — cierra el círculo</span>
-            <span class="ex-status pending">⏳ Pendiente</span>
+            <span class="ex-status done">✅ Completado</span>
           </div>
           <p class="ex-desc">
             <code>/contacto</code>: un <code>ContactType</code> <strong>sin <code>data_class</code></strong> (nombre, email, mensaje), maquetado como una tarjeta centrada.

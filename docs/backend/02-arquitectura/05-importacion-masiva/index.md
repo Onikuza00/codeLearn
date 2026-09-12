@@ -72,7 +72,7 @@ Las cuatro piezas:
 
 ---
 
-## El paso a paso en la pizarra {: .topic-title }
+## El paso a paso {: .topic-title }
 
 **1.** «Separo **subir** de **procesar**. La subida guarda el fichero, crea un registro de importación en estado `pendiente` y responde al momento con su identificador. El usuario ve "recibido, procesando".»
 

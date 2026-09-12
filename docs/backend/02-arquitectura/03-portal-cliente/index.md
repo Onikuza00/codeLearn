@@ -55,7 +55,7 @@ Cinco decisiones que hay que justificar:
 
 ---
 
-## El paso a paso en la pizarra {: .topic-title }
+## El paso a paso {: .topic-title }
 
 **1.** «Como la interfaz va aparte, expongo una **API REST** y autentico con **token**. El cliente se identifica una vez, recibe un token corto y lo manda en cada petición.»
 

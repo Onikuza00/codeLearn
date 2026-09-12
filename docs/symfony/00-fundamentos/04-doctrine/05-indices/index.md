@@ -98,13 +98,13 @@ EXPLAIN SELECT * FROM pedido WHERE cliente_id = 42 ORDER BY fecha DESC;
 - En PostgreSQL, `Seq Scan` = recorrido completo (malo si la tabla es grande); `Index Scan using idx_cliente_fecha` = está usando el índice.
 - En MySQL, la columna `type` con valor `ALL` = recorrido completo; `ref` o `range` = usa índice.
 
-No hace falta dominar `EXPLAIN` para una prueba de diseño. Basta con saber que existe y que es la forma de **verificar** una decisión de rendimiento en vez de suponerla.
+No hace falta dominar `EXPLAIN` a este nivel. Basta con saber que existe y que es la forma de **verificar** una decisión de rendimiento en vez de suponerla.
 
 ---
 
-## La frase para una prueba de diseño {: .topic-title }
+## La frase para explicarlo {: .topic-title }
 
-!!! tip "Cómo se nombra en la pizarra"
+!!! tip "Cómo se nombra al explicarlo"
     «El listado filtra por `cliente_id` y ordena por `fecha`. Pondría un índice compuesto sobre esas dos columnas para que la base no recorra la tabla entera en cada consulta. Lo verificaría con `EXPLAIN`.»
 
     Es la respuesta a un requisito **no funcional** de rendimiento: no cambia qué hace el sistema, cambia cuánto tarda cuando la tabla crece.

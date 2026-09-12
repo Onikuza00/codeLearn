@@ -27,4 +27,4 @@ Sin este flujo, comparar dos prompts es una corazonada. Con él, cada cambio se 
 |---|---|
 | [Generación de conjuntos de datos de prueba](01-generacion-datasets/index.md) | Crear el dataset de evaluación automáticamente con Claude, en vez de a mano |
 | [Ejecutar la evaluación](02-ejecutar-evaluacion/index.md) | Las 3 funciones que procesan todo el dataset y devuelven resultados estructurados |
-| [Calificadores](03-calificadores/index.md) | Reemplazar la nota fija por una calificación real — tipos de calificador y calificación basada en modelos |
+| [Calificadores](03-calificadores/index.md) | Reemplazar la nota fija por una calificación real — calificador basado en modelo y basado en código |

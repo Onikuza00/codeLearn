@@ -1,6 +1,6 @@
 # Ingeniería de prompts { .bloque-ia }
 
-> Curso oficial de Anthropic Academy en Skilljar — el curso lo enseña en Python, aquí va adaptado a JavaScript/Node.js. Cómo coger un prompt que ya escribiste y mejorarlo de forma sistemática, midiendo cada cambio en vez de decidir "a ojo".
+> Cómo coger un prompt que ya escribiste y mejorarlo de forma sistemática, midiendo cada cambio en vez de decidir "a ojo".
 
 ---
 
@@ -11,7 +11,7 @@ La ingeniería de prompts no es acertar el prompt perfecto a la primera. Es un b
 1. **Fija un objetivo** — qué tiene que conseguir el prompt.
 2. **Escribe un prompt inicial** — un primer intento básico, aunque sea malo.
 3. **Evalúalo** — pásalo por el flujo de [evaluación de prompts](../08-evaluacion-prompts/index.md) (dataset + calificador) y saca la media.
-4. **Aplica una técnica** — ser claro y directo, ser específico, etiquetas XML, ejemplos… (los temas siguientes de este bloque).
+4. **Aplica una técnica** — ver [Técnicas de prompt](01-tecnicas-de-prompt/index.md): ser claro y directo, ser específico, etiquetas XML, ejemplos.
 5. **Vuelve a evaluar** — comprueba que la media **sube** de verdad.
 
 Los pasos 4 y 5 se repiten. Cada iteración debería mostrar una mejora medible en la puntuación.
@@ -81,12 +81,9 @@ Al ejecutar la evaluación obtienes una **puntuación numérica** y un **informe
 
 ## Temario { .topic-title }
 
-Técnicas que se aplican sobre el prompt base, una por lección (se irán enlazando a medida que avance el curso):
-
-- Ser claro y directo
-- Ser específico
-- Estructurar con etiquetas XML
-- Proporcionar ejemplos
+| Lección | Qué cubre |
+|---|---|
+| [Técnicas de prompt](01-tecnicas-de-prompt/index.md) | Ser claro y directo, ser específico, etiquetas XML y ejemplos — las técnicas que se aplican sobre el prompt base, una por iteración |
 
 ---
 
