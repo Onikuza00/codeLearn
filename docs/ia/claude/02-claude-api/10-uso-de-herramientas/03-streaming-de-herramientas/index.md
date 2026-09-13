@@ -4,11 +4,9 @@
 
 ---
 
-## Un nuevo tipo de fragmento: `input_json_delta` { .topic-title }
+## El evento `inputJson` { .topic-title }
 
-En streaming ya viste que la respuesta llega como eventos `content_block_delta`, cada uno con un `delta` de tipo `text_delta` para el texto normal. Cuando Claude está generando los argumentos de una herramienta, el `delta` es de otro tipo: `input_json_delta`, con un fragmento de JSON en `partial_json`.
-
-La forma más simple de consumirlo es con el helper de alto nivel del SDK, `.on('inputJson', ...)` — el mismo mecanismo que `.on('text', ...)` usaba para darte solo el texto ya extraído:
+`client.messages.stream(...)` devuelve un **emisor de eventos** — un objeto al que le decís "cuando pase X, ejecutá esta función", igual que `addEventListener('click', fn)` en el navegador. Con herramientas activas, el evento que interesa es `'inputJson'`: se dispara cada vez que llega un pedacito nuevo de los argumentos que Claude está armando para la herramienta.
 
 ```js
 const stream = client.messages.stream({
@@ -20,24 +18,32 @@ const stream = client.messages.stream({
 
 stream.on('inputJson', (partialJson, jsonSnapshot) => {
   console.log('Fragmento:', partialJson);
-  console.log('Acumulado hasta ahora:', jsonSnapshot);
+  console.log('Acumulado:', jsonSnapshot);
 });
 ```
 
-`partialJson` es el trozo nuevo que acaba de llegar; `jsonSnapshot` es el JSON completo acumulado hasta ese punto (todavía puede estar incompleto).
+!!! tip "Los dos parámetros del callback"
+    El SDK llama a esta función con dos valores fijos, siempre en el mismo orden — los nombres (`partialJson`, `jsonSnapshot`) los elegís vos:
+
+    - **`partialJson`** — el pedacito que acaba de llegar en esta llamada puntual, nada más.
+    - **`jsonSnapshot`** — la suma de todos los pedacitos recibidos hasta ahora, ya parseada como objeto (solo cuando ese texto junto ya es JSON válido — si no, se queda vacío).
 
 ## Por qué llega con retraso, en ráfagas { .topic-title }
 
-La API no reenvía cada fragmento apenas Claude lo genera — los retiene y los valida primero, un par clave-valor de nivel superior a la vez. Con un esquema como:
+Con una herramienta que recibe `{ format: 'time' }`, una ejecución real deja este rastro:
 
-```json
-{
-  "abstract": "...",
-  "meta": { "word_count": 847, "review": "..." }
-}
+```
+Fragmento: {"forma
+Acumulado: {}
+Fragmento: t": "ti
+Acumulado: {}
+Fragmento: me"}
+Acumulado: { format: 'time' }
 ```
 
-la API espera a que el valor completo de `abstract` esté listo, lo valida contra el esquema, y **recién ahí** manda de golpe todos los fragmentos acumulados de ese campo. Después repite el proceso con `meta`. El resultado que se percibe: pausas seguidas de ráfagas de texto, aunque el streaming esté activo — no es un fallo, es la validación haciendo su trabajo antes de soltar cada campo.
+`jsonSnapshot` se queda en `{}` durante los dos primeros fragmentos — el texto acumulado (`{"format`, `{"format": "ti`) todavía no es JSON válido. Recién en el tercer fragmento, cuando `{"format":"time"}` cierra y valida, `jsonSnapshot` muestra el objeto completo de una sola vez.
+
+La API no reenvía cada fragmento apenas Claude lo genera: los retiene y los valida primero, campo por campo. Con un esquema de varios campos, repite este proceso por cada uno — de ahí la sensación de pausas seguidas de ráfagas, aunque el streaming esté activo. No es un fallo, es la validación haciendo su trabajo antes de soltar cada campo.
 
 ## Streaming más granular (beta) { .topic-title }
 

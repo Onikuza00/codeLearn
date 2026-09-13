@@ -25,6 +25,9 @@
 | Uso de herramientas | [Conversaciones con herramientas](10-uso-de-herramientas/02-conversaciones-con-herramientas/index.md) | El bucle que encadena varias llamadas automáticamente, con manejo de errores |
 | Uso de herramientas | [Streaming con herramientas](10-uso-de-herramientas/03-streaming-de-herramientas/index.md) | Cómo llegan los argumentos de una herramienta fragmento a fragmento |
 | Uso de herramientas | [Herramientas integradas](10-uso-de-herramientas/04-herramientas-integradas/index.md) | Editor de texto y búsqueda web — herramientas que Claude ya trae hechas |
+| RAG y búsqueda agencial | [RAG y búsqueda agencial](11-rag-y-busqueda-agencial/index.md) | Por qué no basta con pegar el documento entero en el prompt, y qué resuelve segmentarlo |
+| RAG y búsqueda agencial | [Segmentación y búsqueda de texto](11-rag-y-busqueda-agencial/01-segmentacion-de-texto/index.md) | Partir un documento en párrafos y encontrar el más relevante por coincidencia de palabras |
+| RAG y búsqueda agencial | [Embeddings](11-rag-y-busqueda-agencial/02-embeddings/index.md) | Convertir texto en números para buscar por significado con similitud coseno, y cerrar el flujo RAG mandándole a Claude el chunk relevante junto con la pregunta |
 
 ---
 
