@@ -2106,6 +2106,192 @@ $form = $this->createForm(BusquedaType::class);  // solo para renderizar, sin ha
 
 ---
 
+# 🐘 SYMFONY · 12/09/2026 (Repaso final — Maquetación Tailwind, `gestor-tareas`)
+
+> Nota: entre el bloque de Formularios (17/08) y este repaso se completaron Doctrine avanzado, Servicios, API REST y Seguridad — no quedaron registrados en este archivo en su momento. Este bloque retoma el registro con el cierre del repaso final (E3-E6, Maquetación Tailwind).
+
+## 🐛 REGISTRO DE FALLOS Y MEJORAS
+
+### Fallo 50: badge de prioridad — comparando el campo equivocado (copy-paste sin ajustar)
+
+**❌ Código original (patrón del bug):**
+```twig
+{% if task.status.value == 'alta' %}bg-red-500{% endif %}
+{# ❌ copiado del badge de ESTADO — la condición debería mirar la PRIORIDAD, no el estado #}
+```
+
+**✅ Mejora:**
+```twig
+{% if task.priority.value == 'alta' %}bg-red-500{% endif %}
+```
+
+**🧠 Teoría:** copiar un bloque parecido (otro badge) y no releer cada variable dentro contra el contexto nuevo fue el error más repetido del día — pasó en este badge, en el controlador de contacto (Fallo 56) y en el notifier. Antes de reusar un bloque copiado, revisar CADA variable una por una, no solo la estructura general.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 51: `align-items: stretch` (por defecto) + intentar sacarlo del layout con `display: block`
+
+**❌ Código original (patrón del bug):**
+```html
+<div class="flex ...">
+  <span class="badge" style="display:block">Alta</span> <!-- ❌ no funciona -->
+</div>
+```
+
+**✅ Mejora:**
+```html
+<div class="flex items-center ...">
+  <span class="badge self-start">Alta</span>
+</div>
+```
+
+**🧠 Teoría:** un hijo directo de un contenedor `flex` se "blockifica" automáticamente aunque tenga `display: inline` — pero eso no lo saca del flujo del flex, solo cambia cómo se comporta puertas adentro. Para controlar la alineación de UN hijo dentro de un flex, la herramienta es `align-items`/`self-*` (`items-center`, `self-start`), nunca `display`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 52: `{% for %}` mal ubicado entre el parcial y la plantilla padre (reincidencia el mismo día: E3 → E6)
+
+**❌ Código original (patrón del bug):**
+```twig
+{# task_card_.html.twig (el parcial) #}
+{% for task in tasks %}      {# ❌ el for no va acá, va en el padre #}
+  <div class="card">{{ task.title }}</div>
+{% endfor %}
+
+{# index.html.twig (el padre) #}
+{% include 'task_card_.html.twig' %}   {# ❌ sin loop, se incluye una sola vez #}
+```
+
+**✅ Mejora:**
+```twig
+{# index.html.twig (el padre) #}
+{% for task in tasks %}
+  {% include 'task_card_.html.twig' with { task: task } %}
+{% endfor %}
+
+{# task_card_.html.twig (el parcial) #}
+<div class="card">{{ task.title }}</div>
+```
+
+**🧠 Teoría:** el parcial recibe UN elemento por vez (vía `with`), nunca la colección completa — el `{% for %}` siempre vive en quien llama al `include`, no dentro del parcial. Reincidió el mismo día en un contexto distinto (banner de flash en E6), señal de que todavía no está interiorizado del todo.
+
+**Estado:** ✅ Completado (reincidencia el mismo día — repasar antes del próximo `include` en loop)
+
+---
+
+### Fallo 53: `form_themes` registrado en el entorno equivocado (`when@test`)
+
+**❌ Código original:**
+```yaml
+when@test:
+    twig:
+        form_themes: ['bootstrap_5_layout.html.twig']  # ❌ solo aplica en test, no en dev
+```
+
+**✅ Mejora:**
+```yaml
+twig:
+    form_themes: ['bootstrap_5_layout.html.twig']  # a nivel raíz del archivo
+```
+
+**🧠 Teoría:** `when@entorno:` en `config/packages/*.yaml` limita esa configuración A ESE entorno exclusivamente — si el theme se necesita en desarrollo (que es donde se prueba visualmente), tiene que ir a nivel raíz, fuera de cualquier bloque `when@`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 54: `{{ parent() }}` sin `{% use %}` al principio del archivo
+
+**❌ Código original:**
+```twig
+{# form_theme.html.twig — sin la línea de use #}
+{% block form_widget_simple %}
+    {{ parent() }}  {# ❌ error: no hay bloque padre que extender #}
+{% endblock %}
+```
+
+**✅ Mejora:**
+```twig
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_widget_simple %}
+    {{ parent() }}
+{% endblock %}
+```
+
+**🧠 Teoría:** registrar un theme en `twig.yaml` y poder llamar `parent()` dentro de él son dos cosas distintas — la segunda exige `{% use 'plantilla_base.html.twig' %}` al principio del archivo, que es lo que le dice a Twig de dónde viene ese bloque "padre". Sin el `use`, `parent()` no tiene bloque al que referirse.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 55: `TextAreaType` — capitalización incorrecta de la clase real
+
+**❌ Código original:**
+```php
+use Symfony\Component\Form\Extension\Core\Type\TextAreaType; // ❌ no existe con esta capitalización
+```
+
+**✅ Mejora:**
+```php
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+```
+
+**🧠 Teoría:** PHP es case-sensitive para nombres de clase al momento de autoload — una `A` de más en `TextAreaType` no "casi funciona", directamente no encuentra la clase. Cuando algo similar a esto falle, primero revisar la capitalización exacta contra la documentación, no asumirla por analogía con otros `*Type`.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 56: controlador de contacto copiado del de tareas, sin adaptar
+
+**❌ Código original (patrón del bug):**
+```php
+$em->persist($task);   // ❌ $task no existe en este controlador — no hay entidad que persistir
+$em->flush();
+
+$mensaje = $dato->htmlspecialchars();  // ❌ "." es concatenación en PHP, no invocación de método
+```
+
+**✅ Mejora:**
+```php
+// sin persist/flush — este formulario no guarda una entidad, solo envía un email
+
+$mensajeLimpio = htmlspecialchars($dato);  // función global, se llama con paréntesis, no encadenada
+```
+
+**🧠 Teoría:** copiar el controlador de un flujo que SÍ persiste (crear tarea) a uno que no persiste nada (formulario de contacto) arrastra líneas que no tienen sentido en el contexto nuevo. Y en PHP el `.` es el operador de concatenación de strings — para llamar una función sobre un valor hace falta la sintaxis de función (`htmlspecialchars($dato)`), no la de método encadenado de otros lenguajes.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 57: `addFlash()` devuelve `void` — el `if` que lo envolvía nunca se cumplía
+
+**❌ Código original:**
+```php
+if ($this->addFlash('success', 'Mensaje enviado')) {  // ❌ addFlash() no devuelve nada
+    return $this->redirectToRoute('/');                // ❌ además, espera un NOMBRE de ruta, no una URL
+}
+// el redirect nunca se ejecuta
+```
+
+**✅ Mejora:**
+```php
+$this->addFlash('success', 'Mensaje enviado');
+return $this->redirectToRoute('app_dashboard');
+```
+
+**🧠 Teoría:** `addFlash()` solo guarda el mensaje en sesión, no devuelve nada útil para condicionar — envolverlo en un `if` bloquea código que debería ejecutarse siempre después. Y `redirectToRoute()` siempre espera el NOMBRE de una ruta (`app_dashboard`, el de la anotación `#[Route(name: ...)]`), nunca una URL literal como `'/'`.
+
+**Estado:** ✅ Completado
+
+---
+
 ## ✅ PATRONES QUE DOMINO (Symfony)
 
 - `make:entity` — flujo interactivo, tipos y longitudes correctos a la primera (`Tarea`: `title`, `done`, `createdAt`)
@@ -2138,6 +2324,203 @@ $form = $this->createForm(BusquedaType::class);  // solo para renderizar, sin ha
 - **Es un patrón de tres piezas, no una sola:** (1) declarar el default en `configureOptions()`, (2) leer esa opción dentro de `buildForm()` con un `if` para decidir qué campos añadir, (3) pasar el valor distinto desde el controlador en el `createForm(Type::class, $entidad, ['opcion' => valor])` de cada caso que lo necesite. Fallar cualquiera de las tres rompe el patrón completo, aunque el resto esté bien (Fallo 31). Concepto marcado explícitamente para dominar — repasarlo activamente la próxima vez que aparezca un formulario con comportamiento condicional.
 - **El nombre del campo en `add()` tiene que coincidir con una propiedad real de la entidad** (o llevar `mapped: false` si es a propósito) — nombres inventados como "edicion" en vez de "done" rompen el mapeo automático.
 
+### Twig — el `{% for %}` va en quien incluye, nunca dentro del parcial (reincidió el mismo día — Fallo 52, E3 y E6)
+- **Un parcial pensado para `{% include %}` recibe UN elemento por vez** (vía `with { variable: valor }`) — el bucle que lo llama tantas veces como haga falta vive siempre en la plantilla padre, nunca dentro del propio parcial. Reincidió dos veces el mismo día en contextos distintos (grid de tarjetas y banner de flash), señal de que hace falta un repaso activo antes del próximo `include` en loop.
+
+### CSS — un hijo de `flex` no sale del layout con `display`
+- **Un elemento hijo directo de un contenedor `flex` se "blockifica" automáticamente, pero eso no lo saca del flujo del flex** — para controlar su alineación individual la herramienta es `align-items`/`self-*` (`items-center`, `self-start`), nunca `display: block` (Fallo 51).
+
+### Controlador — `addFlash()` no devuelve nada, y `redirectToRoute()` pide un nombre de ruta, no una URL
+- **`addFlash()` solo guarda el mensaje en sesión — envolverlo en un `if` bloquea código que debería ejecutarse siempre.** Y `redirectToRoute()` siempre espera el nombre de una ruta (`app_dashboard`), nunca una URL literal como `'/'` (Fallo 57).
+
 ---
 
 *Bloque de Formularios (17/08/2026), F1-F9 completados: `make:form`, `configureOptions()`/`buildForm()`, Constraints, renderizado Twig (`form_widget`/`form_row`), procesamiento con `handleRequest`/`isSubmitted`/`isValid`, patrón de opción personalizada, formulario sin entidad + QueryBuilder con `LIKE`, y formulario de borrado (CSRF). Pendiente: F10 (`form_row` individual en `crear.html.twig`). Puntos a reforzar activamente (ver arriba): patrón de opción personalizada (3 piezas), `extends` vs `include` (reincidió dos veces), declarar `Request $request` cuando se usa (reincidió dos veces), reconocer cuándo un formulario necesita el ciclo completo vs solo lectura. Próxima sesión de Symfony según el PDF real (no el roadmap maestro): bloque 6 — Servicios (Service Container). Ver `project_symfony_plan_temario_pdf.md` en memoria persistente.*
+
+*Repaso final `gestor-tareas` cerrado entero el 12/09/2026: Servicios (D1-D7) y Maquetación Tailwind (E1-E6). Fallos 50-57 arriba corresponden solo al bloque de Maquetación (E3-E6) — Servicios (D1-D7) se completó sin fallos nuevos que registrar. Con esto el proyecto `gestor-tareas` queda cerrado por completo; siguiente bloque de Symfony pendiente de definir.*
+
+---
+
+# 🤖 CLAUDE API · 12/09/2026 (Prompt Engineering — ejercicio guiado `promptEngineer.js`)
+
+> Curso Anthropic Academy, retomado tras el repaso de Symfony. Ejercicio guiado paso a paso (código escrito por Pau, sin que se le diera la solución): reconstruir desde cero la conexión base y el `runPrompt` del ejercicio de plan de comidas.
+
+## 🐛 REGISTRO DE FALLOS Y MEJORAS
+
+### Fallo 58: array de mensajes declarado como variable global mutable
+
+**❌ Código original:**
+```js
+const MESSAGES = [];
+function addUserMessage(message, text){
+    MESSAGES.push({role: 'user', content: text})  // ❌ ignora el parámetro, usa una global compartida
+}
+```
+
+**✅ Mejora:**
+```js
+function addUserMessage(messages, text){
+    messages.push({role: 'user', content: text})
+}
+```
+
+**🧠 Teoría:** una función que recibe sus datos por parámetro es reusable — cada llamada trabaja con su propio array. Una función que depende de una variable de afuera queda pegada a esa única instancia: si el ejercicio corre sobre varios casos del dataset (uno por atleta), todas las llamadas compartirían el mismo historial y se contaminarían entre sí.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 59: `client.await.create(...)` — confundir la keyword `await` con una propiedad del SDK
+
+**❌ Código original:**
+```js
+async function chat(messages){
+    const message = await client.await.create({  // ❌ "await" no es una propiedad, es la keyword de JS
+        model: modelo,
+        max_tokens: 25000,
+        stream: true,  // ❌ sobrante de la lección de streaming, incompatible con .find() de después
+        messages,
+    });
+    return message.content.find((e) => e.type === 'text').text;
+}
+```
+
+**✅ Mejora:**
+```js
+async function chat(messages){
+    const message = await client.messages.create({
+        model: modelo,
+        max_tokens: 1000,
+        messages,
+    });
+    return message.content.find((e) => e.type === 'text').text;
+}
+```
+
+**🧠 Teoría:** `await` va SIEMPRE antes de una llamada que devuelve una promesa, nunca como parte de la ruta de un objeto — el namespace real del SDK es `client.messages` (el recurso de la API), que no tiene relación con el parámetro `messages` (el array de la conversación) más que compartir el nombre.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 60: interpolar un campo que no existe en el objeto (`promptInputs.altura` en vez de `.height`)
+
+**❌ Código original:**
+```js
+const prompt = `Genera un plan de comidas...
+- Altura: ${promptInputs.altura}`  // ❌ el dataset tiene el campo en inglés: "height"
+```
+
+**✅ Mejora:**
+```js
+const prompt = `Genera un plan de comidas...
+- Altura: ${promptInputs.height}`
+```
+
+**🧠 Teoría:** antes de asumir el nombre de un campo, comprobar contra el dato real (en este caso, `dataset-comidas.json`) — un nombre "lógico" en español no tiene por qué coincidir con cómo está definido el objeto real. `promptInputs.altura` no lanza error, simplemente devuelve `undefined` en silencio.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 61: función y parámetro con roles invertidos, más typos de nombre
+
+**❌ Código original:**
+```js
+async function promptInputs(array){  // ❌ el nombre de la función es el del dato; el del parámetro, genérico y falso ("array" no es un array, es un objeto)
+}
+// intentos siguientes: prunPrompts(...) / runPrompts(...) — typos sobre el nombre correcto
+```
+
+**✅ Mejora:**
+```js
+async function runPrompt(promptInputs){
+}
+```
+
+**🧠 Teoría:** el nombre de una función describe QUÉ HACE (`runPrompt` — ejecuta un prompt); el nombre de un parámetro describe QUÉ ES (`promptInputs` — los datos del atleta). Confundir esos dos roles es un error de nombres semánticos, no solo estético: dificulta razonar sobre el código al leerlo.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 62: helper agregado sin necesitarlo, y borrado por error junto con el que sí hacía falta
+
+**❌ Código original (patrón del bug):**
+```js
+function addUserMessage(messages, text){
+    messages.push({role: 'user', content: text})
+}
+
+function addAsistantMessage(messages, text){  // ❌ typo (Assistant) + no hace falta: el ejercicio es de un solo turno
+}
+```
+
+Al corregir, se borraron las dos funciones en vez de solo la que sobraba.
+
+**✅ Mejora:**
+```js
+function addUserMessage(messages, text){
+    messages.push({role: 'user', content: text})
+}
+// sin addAssistantMessage — cada llamada de runPrompt es una petición aislada, no hay ida y vuelta que armar
+```
+
+**🧠 Teoría:** antes de borrar código señalado como "de más", identificar exactamente qué línea/bloque es el sobrante — borrar una sección entera de un tirón se lleva puesto lo que sí servía. Y no todo ejercicio con la API necesita `addAssistantMessage`: solo hace falta cuando se reconstruye una conversación de varios turnos.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 63: `console.log(datos)` puesto antes de `const datos = ...` — *temporal dead zone*
+
+**❌ Código original:**
+```js
+async function generateEmbeddingsBatch(textos, inputType) {
+  const respuesta = await fetch(url, { /* ... */ });
+
+  console.log(datos)  // ❌ ReferenceError: Cannot access 'datos' before initialization
+  const datos = await respuesta.json();
+  return datos.data.map((item) => item.embedding);
+}
+```
+
+**✅ Mejora:**
+```js
+async function generateEmbeddingsBatch(textos, inputType) {
+  const respuesta = await fetch(url, { /* ... */ });
+
+  const datos = await respuesta.json();
+  console.log(datos)  // ✅ ya existe e inicializada
+  return datos.data.map((item) => item.embedding);
+}
+```
+
+**🧠 Teoría:** con `let`/`const`, la variable existe en el scope desde el principio de la función (está "hoisted"), pero no se puede leer hasta que su línea de declaración se ejecuta — esa zona intermedia es la *temporal dead zone*. No es lo mismo que una variable no declarada: el error es distinto (`Cannot access before initialization`, no `is not defined`), y la causa es el ORDEN de las líneas, no la existencia de la variable.
+
+**Estado:** ✅ Completado
+
+---
+
+### Fallo 64: orden de argumentos invertido en una función con dos parámetros de forma parecida
+
+**❌ Código original (3 intentos seguidos):**
+```js
+const queryEmbedding = await generateEmbeddingsBatch(query, 'query');       // ❌ falta envolver query en array
+const queryEmbedding = await generateEmbeddingsBatch(['query'], query);     // ❌ 'query' literal como textos, la pregunta real como inputType
+const chunkEmbeddings = await generateEmbeddingsBatch(['document'], chunk); // ❌ mismo swap, y además vuelve a llamar por chunk
+```
+
+**✅ Mejora:**
+```js
+const [queryEmbedding] = await generateEmbeddingsBatch([query], 'query');
+const chunkEmbeddings = await generateEmbeddingsBatch(chunks, 'document');
+```
+
+**🧠 Teoría:** `generateEmbeddingsBatch(textos, inputType)` — el primer parámetro SIEMPRE es el array de textos a convertir, el segundo SIEMPRE es la etiqueta de rol (`'query'`/`'document'`). Cuando los dos parámetros de una función son del mismo "tipo aparente" (dos strings, o un valor y su etiqueta), es fácil invertirlos sin que el editor avise — hay que fijarse en la firma de la función, no en qué "encaja visualmente" en cada hueco. `chunks` ya tenía la forma que la función esperaba (array de textos) y no necesitaba envolverse; `query` era un string suelto y sí.
+
+**Estado:** ✅ Completado
+
+---
+
+*Ejercicio base del curso Claude API cerrado el 12/09/2026: conexión, helpers, `chat()` y `runPrompt` (baseline ingenuo) funcionando de punta a punta contra `dataset-comidas.json`. Pendiente para la próxima: aplicar las técnicas de prompt engineering (ser claro y directo, específico, XML, ejemplos — ya documentadas en `docs/ia/claude/`) sobre este mismo `runPrompt`.*

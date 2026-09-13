@@ -92,6 +92,7 @@ nav:
           - "Miércoles 09 — Reorientación del plan": waytoCode/2026/09/semana-2/2026-09-09.md
           - "Viernes 11 — Bloque D cerrado + Flujo Global": waytoCode/2026/09/semana-2/2026-09-11.md
           - "Sábado 12 — Maquetación Tailwind cerrada": waytoCode/2026/09/semana-2/2026-09-12.md
+          - "Domingo 13 — RAG y búsqueda agencial": waytoCode/2026/09/semana-2/2026-09-13.md
   - Web:
     - web/index.md
     - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
@@ -409,6 +410,10 @@ nav:
           - "Conversaciones con herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/02-conversaciones-con-herramientas/index.md
           - "Streaming con herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/03-streaming-de-herramientas/index.md
           - "Herramientas integradas": ia/claude/02-claude-api/10-uso-de-herramientas/04-herramientas-integradas/index.md
+        - "RAG y búsqueda agencial":
+          - "RAG y búsqueda agencial": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/index.md
+          - "Segmentación y búsqueda de texto": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/01-segmentacion-de-texto/index.md
+          - "Embeddings": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/02-embeddings/index.md
       - "Automatizaciones":
         - ia/claude/03-automatizaciones/index.md
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md

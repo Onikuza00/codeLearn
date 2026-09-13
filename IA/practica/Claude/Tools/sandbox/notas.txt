@@ -1,0 +1,4 @@
+Lista de tareas pendientes:
+- Repasar RAG y búsqueda agencial
+- Practicar streaming con herramientas
+- Cerrar el bloque de asincronía en JS

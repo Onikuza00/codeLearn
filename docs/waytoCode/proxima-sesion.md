@@ -4,22 +4,27 @@
 
 ---
 
-## Estado tras el sábado 12/09
+## Estado tras el domingo 13/09
 
-**Symfony `gestor-tareas` cerrado entero**: Servicios (D1-D7) y Maquetación Tailwind (E1-E6), detalle en el [registro del sábado 12](/waytoCode/2026/09/semana-2/2026-09-12/). Repaso final desde 0 completo.
+**Curso de API de Claude — "Uso de herramientas con Claude" rehecho desde 0** (ejercicio completo redone paso a paso, sin copiar de la teoría) y **bloque nuevo "RAG y búsqueda agencial" abierto y avanzado**. Detalle completo en el [registro del domingo 13](/waytoCode/2026/09/semana-2/2026-09-13/).
 
-**Curso de API de Claude — sección "Uso de herramientas con Claude" CERRADA entera** (mismo día, misma sesión). Documentación nueva en `docs/ia/claude/02-claude-api/`: Técnicas de prompt (4 técnicas) y Uso de herramientas (4 subsecciones: construir una herramienta, conversaciones con herramientas, streaming con herramientas, herramientas integradas). Ejercicio guiado `IA/practica/Claude/Prompt/promptEngineer.js` (conexión base + `runPrompt`) completado, 6 fallos reales — ver el [registro del sábado 12](/waytoCode/2026/09/semana-2/2026-09-12/).
+De RAG están cerrados y documentados: segmentación de texto (3 estrategias — párrafo, tamaño con solapamiento, frase), búsqueda léxica por palabras clave, embeddings con VoyageAI, similitud/distancia coseno, la clase `VectorIndex` (guardar + buscar top-k), y el flujo RAG completo respondiendo con Claude. Documentación nueva en `docs/ia/claude/02-claude-api/11-rag-y-busqueda-agencial/`.
+
+**Quedan 2 bloques del curso sin tocar:** búsqueda léxica **BM25** y **canalización RAG de índice múltiple** (`Retriever` combinando `VectorIndex` + `BM25Index` con *reciprocal rank fusion*). Revisados en detalle (contenido de la lección ya leído), pero no implementados — implican refactorizar el interfaz de `VectorIndex` para compartir métodos con la futura `BM25Index`.
+
+Sin fecha fija para la próxima sesión — descanso tras 36h de estudio en 3 días; retoma trabajo el lunes o martes.
 
 ---
 
 ## 📅 Plan — próxima sesión
 
-**Curso de API de Claude** — siguiente sección: **RAG y búsqueda agencial** (segmentación de texto, embeddings, flujo RAG completo, BM25, índice múltiple).
+**Curso de API de Claude** — cerrar los 2 bloques pendientes de RAG: BM25 y canalización de índice múltiple (`Retriever`).
 
-**JS (en paralelo, poco a poco):**
+**JS (pendiente, prioridad):**
 
-- Cards de ejercicios de **asincronía / módulos / almacenamiento** (hay temario, no hay card).
-- Drilling de los 🔴 que reinciden: `setCustomValidity()`, los tres `contains()`, De Morgan, fuga global, off-by-one.
+- Repaso de **`fetch`** y **DOM**.
+
+**Symfony:** seguir avanzando con el temario (próximo bloque a confirmar contra el plan real, no fijar de antemano).
 
 **Octubre:** React fuerte, con el bloque JS ya cerrado.
 
@@ -31,9 +36,9 @@
 
 - **Todo ejercicio cierra con fase de maquetación responsive en Tailwind**, sea del track que sea. Se describe cómo debe verse, nunca las clases.
 - **Enunciados autocontenidos:** paso a paso, sin dar nada por sentado, sin tecnicismos sin definir, sin referencias a ejercicios anteriores.
-- **Teoría en `docs/` antes de cualquier ejercicio.** Si falta, escribirla primero.
+- **Teoría en `docs/` antes de cualquier ejercicio** — salvo excepción puntual pedida explícitamente (ej. bloque RAG del 13/09: ejercicio primero, docs después).
 - **Un concepto nuevo por ejercicio.**
-- **Tono:** concepto en palabras llanas primero, una idea por frase.
+- **Tono:** concepto en palabras llanas primero, una idea por frase; respuestas cortas, sin enrollarse.
 - **Disciplina — media corrección:** arreglar una parte y decir «¿así?» sin releer es el fallo que más pesa. Releer el bloque entero antes de dar algo por hecho.
 - **Daily log:** solo fallos conceptuales con su 🧠 corto (una frase, sin párrafos largos); sin fallos van en cuadrícula de totales. Nada de notas meta sobre cómo se escribió el log.
 - **Registro el mismo día:** daily log + esta página se actualizan al cierre de cada sesión, no al día siguiente.

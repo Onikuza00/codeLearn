@@ -4,33 +4,9 @@
 
 ---
 
-## La herramienta de edición de texto { .topic-title }
-
-A diferencia de una herramienta propia, el editor de texto viene con el esquema completo ya integrado en Claude — solo hace falta pasarle un fragmento pequeño que le diga qué versión usar, y Claude lo expande solo en la especificación completa por detrás.
-
-Le da a Claude la capacidad de: ver el contenido de un archivo o directorio, ver rangos de líneas concretos, reemplazar texto, crear archivos nuevos, insertar texto en una línea, y deshacer la última edición.
-
-**Lo que sí hay que escribir: la implementación real de cada operación.** El esquema es de Claude, pero las funciones que de verdad leen o escriben en el disco las escribís vos — Claude solo sabe *pedir* "ver este archivo" o "reemplazá este texto"; tu código es el que ejecuta esa operación sobre el sistema de archivos real.
-
-**El esquema depende del modelo, y cambia con el tiempo.** La cadena exacta no es fija: para `claude-3-7-sonnet`, por ejemplo, el nombre de la herramienta es `str_replace_editor` con tipo `text_editor_20250124`; en versiones posteriores el nombre cambia a `str_replace_based_edit_tool` con un tipo distinto. Antes de escribir el esquema a mano hay que consultar la [tabla oficial de versiones](https://docs.claude.com/en/docs/agents-and-tools/tool-use/text-editor-tool) para el modelo concreto que estés usando — copiar un ejemplo de un modelo viejo no funciona con uno nuevo.
-
-```js
-function getTextEditSchema(model) {
-  if (model.startsWith('claude-3-7-sonnet')) {
-    return { type: 'text_editor_20250124', name: 'str_replace_editor' };
-  }
-  // el nombre y el tipo cambian según el modelo — comprobar la tabla oficial
-}
-```
-
-**Ejemplo de uso:** pedirle a Claude "abrí `./main.py` y resumime su contenido" hace que use la herramienta para ver el archivo, lea el contenido, y devuelva el resumen. Pedirle además que modifique código ("agregá una función que calcule pi con 5 dígitos de precisión, y creá un test") hace que encadene ver el archivo, reemplazar su contenido, y crear un archivo nuevo — todo dentro del mismo flujo de herramientas ya conocido (bloques `tool_use`/`tool_result`, el bucle de conversación).
-
-!!! tip "Cuándo tiene sentido usarla"
-    Cuando estás construyendo una aplicación propia que necesita editar archivos programáticamente, o un entorno sin editor de código con IA integrada — es la forma de llevar esa capacidad de "editor con IA" dentro de tu propia app, con control total de qué puede tocar y qué no.
-
 ## La herramienta de búsqueda web { .topic-title }
 
-A diferencia de todas las herramientas anteriores, la búsqueda web no necesita ni función propia ni implementación — Claude gestiona toda la búsqueda por su cuenta. Solo hace falta declararla:
+No necesita función propia ni implementación — Claude gestiona toda la búsqueda por su cuenta. Solo hace falta declararla:
 
 ```js
 const webSearchSchema = {
@@ -40,25 +16,57 @@ const webSearchSchema = {
 };
 ```
 
-`max_uses` limita cuántas búsquedas puede hacer Claude en una sola conversación — una pregunta puede necesitar varias búsquedas encadenadas, y este campo evita que se dispare sin control.
+`max_uses` limita cuántas búsquedas puede encadenar Claude en una sola conversación. Con `allowed_domains` se puede restringir a fuentes de confianza (por ejemplo, `['nih.gov']` para consejos médicos, en vez de cualquier blog).
 
-**Restringir a dominios de confianza** con `allowed_domains` — útil cuando la respuesta depende de que la fuente sea fiable (por ejemplo, limitar consejos médicos a `nih.gov` en vez de cualquier blog):
+**Qué trae la respuesta:** en vez de un `tool_use` + `tool_result` normal, aparece `server_tool_use` (Claude ejecuta la búsqueda del lado del servidor, no vos) y `web_search_tool_result` con los resultados. Los bloques de texto pueden traer `citations`, que enlazan una afirmación concreta con la fuente de la que salió. No hace falta bucle ni `runTool` — todo llega resuelto en la misma respuesta.
+
+!!! tip "Dos activaciones distintas, no una"
+    1. **Una vez, a nivel organización** — activarla en la consola de Anthropic (configuración de privacidad).
+    2. **En cada llamada** donde la quieras disponible — declarar el schema en `tools`, igual que cualquier otra herramienta.
+
+    Con el schema declarado, Claude decide solo, pregunta por pregunta, si una búsqueda ayuda — no busca siempre.
+
+## La herramienta de edición de texto { .topic-title }
+
+El esquema viene completo desde Claude — solo hace falta `type` y `name`, sin `input_schema`. Pero a diferencia de la búsqueda web, esta SÍ manda `tool_use` normales: la implementación real de leer/escribir el archivo la escribís vos, con el mismo `runTool` de las herramientas propias.
 
 ```js
-const webSearchSchema = {
-  type: 'web_search_20250305',
-  name: 'web_search',
-  max_uses: 5,
-  allowed_domains: ['nih.gov'],
+const textEditorSchema = {
+  type: 'text_editor_20250728',
+  name: 'str_replace_based_edit_tool',
 };
 ```
 
-**Qué trae la respuesta.** A diferencia de una herramienta propia (un `tool_use` + un `tool_result`), acá aparecen bloques específicos: la consulta exacta que usó Claude, los resultados de la búsqueda (título + URL de cada uno), y bloques de cita que enlazan un fragmento concreto de la respuesta con la fuente de la que salió.
+!!! warning "El esquema cambia según el modelo — comprobar la tabla oficial"
+    La cadena exacta no es fija. `text_editor_20250728` es la versión vigente para los modelos actuales (Sonnet/Opus); versiones de modelos anteriores usaban otro `type` y otro `name` (`str_replace_editor`). Antes de escribir el esquema a mano, comprobar la [tabla de versiones oficial](https://docs.claude.com/en/docs/agents-and-tools/tool-use/text-editor-tool) — copiar un ejemplo viejo no funciona con un modelo nuevo. Un caso concreto: el comando `undo_edit` existía hasta `text_editor_20250124`, pero se quitó a partir de `text_editor_20250429` — la versión actual no lo tiene.
 
-!!! tip "Requiere activarla antes de usarla"
-    A diferencia del resto de herramientas, esta hay que habilitarla primero en la consola de Anthropic (configuración de privacidad de la organización) — si no está activada ahí, pasar el esquema en `tools` no alcanza.
+**Los 4 comandos que Claude puede pedir**, cada uno con su propio `input`:
 
-Con el esquema en el array de `tools`, Claude decide solo cuándo una búsqueda ayuda a responder — típicamente para eventos recientes, información especializada fuera de sus datos de entrenamiento, o verificación de datos contra fuentes concretas.
+| Comando | Campos de `input` | Qué hace |
+|---|---|---|
+| `view` | `path`, `view_range` (opcional) | Ver un archivo o directorio |
+| `str_replace` | `path`, `old_str`, `new_str` | Reemplazar un texto exacto por otro |
+| `create` | `path`, `file_text` | Crear un archivo nuevo |
+| `insert` | `path`, `insert_line`, `insert_text` | Insertar texto después de una línea |
+
+**Implementar `view`** — leer el archivo real que Claude pidió:
+
+```js
+function viewFile(path) {
+  return readFileSync(`./ruta/a/tu/carpeta/${path}`, 'utf-8');
+}
+
+const toolBlock = respuesta.content.find((block) => block.type === 'tool_use');
+const contenido = viewFile(toolBlock.input.path);
+```
+
+!!! tip "Claude manda el `path` con barra inicial"
+    El `input.path` que llega suele venir como `/archivo.txt`, no `archivo.txt` — Claude trata el sistema de archivos como si arrancara en `/`. Prefijar la ruta real con un template string (como arriba) resuelve esto sin problema, aunque quede una doble barra en el medio.
+
+!!! warning "Acotar siempre a una carpeta de pruebas"
+    Esta herramienta le da a Claude acceso real de lectura/escritura sobre el disco. Nunca resolver `path` directo contra la raíz del proyecto — prefijar siempre una carpeta de pruebas propia (sandbox), para que Claude solo pueda tocar lo que hay ahí adentro.
+
+`str_replace`, `create` e `insert` se implementan con el mismo patrón: una función por comando, enrutadas desde `runTool` según `toolInput.command`, usando `writeFileSync` de `node:fs` para escribir.
 
 ---
 
