@@ -8,11 +8,45 @@
 
 // 1) validarPrecioEnRango(inputPrecio, spanError)
 function validarPrecioEnRango(inputPrecio, spanError) {
+  function validar(){
+    const precio = Number(inputPrecio.value)
+    const mensaje = "Hay un error"
+
+    if(precio >= 10 && precio <= 500){
+      inputPrecio.setCustomValidity("");
+      spanError.textContent = ""
+    }else{
+      inputPrecio.setCustomValidity(mensaje)
+      spanError.textContent = mensaje
+    }
+
+  }
+  inputPrecio.addEventListener("input", validar)
+  validar();
 
 }
 
 // 2) validarTelefonoExacto(inputTelefono, spanError)
 function validarTelefonoExacto(inputTelefono, spanError) {
+  function validacion(){
+    const numeros = "0123456789"
+    const digito = inputTelefono.value.split("").every(x => numeros.includes(x))
+    const longi = inputTelefono.value.length === 9
+    const valido = digito && longi
+    const mensaje = "Hay un error"
+
+    if(valido){
+      inputTelefono.setCustomValidity("")
+      spanError.textContent = ""
+    }else{
+      inputTelefono.setCustomValidity(mensaje)
+      spanError.textContent = mensaje
+    }
+  }
+
+
+  inputTelefono.addEventListener("input", validacion)
+    validacion();
 
 }
 
@@ -156,14 +190,15 @@ const aplicarFiltros = () => {
 
 // 8) moverAbajo(lista)
 function moverAbajo(lista) {
-  lista.addEventListener("click", function(e){
-    const btn = e.target.closest(".btn-bajar")
-    if(!btn) return;
-    const item = e.target.closest(".item-lista")
-    const hermano = item.nextElementSibling
-    if(!hermano) return
-    lista.insertBefore(hermano, item)
+  lista.addEventListener("click", (e) => {
+    const btn = e.target.matches(".btn-bajar")
+    if(!btn) return
+      const item = e.target.closest(".item-lista")
+      const hermano = item.nextElementSibling
+      if(!hermano) return
+      if(item) lista.insertBefore(hermano, item)
   })
+
 }
 
 // 9) activarValoracionEstrellas(contenedor)
@@ -197,20 +232,21 @@ function resumirCarrito(contenedor) {
 
 // 1) activarFiltroCategorias(contenedorBotones, contenedorProductos)
 function activarFiltroCategorias(contenedorBotones, contenedorProductos) {
-  contenedorBotones.addEventListener("click", function(e){
-    let btn = e.target.closest(".filtro-btn")
-    if(!btn) return;
-    let categoria = btn.dataset.categoria
-
-    contenedorBotones.querySelectorAll(".filtro-btn").forEach(x => {
-      x.classList.toggle("filtro-btn--activo", x === btn)
-    })
-
-    contenedorProductos.querySelectorAll(".producto-card").forEach(n => {
-      let coincide = n.dataset.categoria === categoria || categoria === "todos"
-      n.classList.toggle("hidden", !coincide )
-    })
+  contenedorBotones.addEventListener("click", function(e) {
+    const btn = e.target.closest("button")
+    if(!btn) return
+      const categoria = btn.dataset.categoria
+      const todos = categoria === "todos"
+      contenedorProductos.querySelectorAll(".producto-card").forEach(x => {
+      const cat = x.dataset.categoria === categoria
+      const valido = cat || todos
+      x.classList.toggle("hidden", !valido)
   })
+      contenedorBotones.querySelectorAll(".filtro-btn").forEach(x => {
+          x.classList.toggle("filtro-btn--activo", x === btn)
+      })
+
+})
 }
 
 // 2) activarAcordeonExclusivo(panel)
@@ -273,34 +309,37 @@ function activarDropdownConCierre(boton, menu) {
 // 7) activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite)
 function activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite) {
   botonMas.addEventListener("click", () => {
-  let contador = Number(spanCantidad.dataset.cantidad)
-  contador = Math.min(limite, contador + 1)
-  spanCantidad.dataset.cantidad = contador
-  spanCantidad.textContent = `${contador}`
+    let valor = Number(spanCantidad.textContent)
+    if(valor < limite) {valor++
+     spanCantidad.textContent = valor;
+    }
   })
 
-  botonMenos.addEventListener("click", () => {
-    let contador = Number(spanCantidad.dataset.cantidad)
-    contador = Math.max(0, contador - 1)
-    spanCantidad.dataset.cantidad = contador
-    spanCantidad.textContent = `${contador}`
+   botonMenos.addEventListener("click", () => {
+    let valor = Number(spanCantidad.textContent)
+    if(valor > 0) {valor--
+     spanCantidad.textContent = valor;
+    }
   })
+
+
 
 }
 
 // 8) filtrarPorNombreOCategoria(inputBusqueda, contenedorItems)
 function filtrarPorNombreOCategoria(inputBusqueda, contenedorItems) {
-  inputBusqueda.addEventListener("input", function(e){
-    let item = e.target.value.toLowerCase()
-    contenedorItems.querySelectorAll(".item-producto").forEach(x => {
-      let coincide = false;
-      if(x.dataset.nombre.toLowerCase().includes(item) || x.dataset.categoria.toLowerCase().includes(item))
-        coincide = true;
-        x.classList.toggle("hidden", !coincide)
-    })
-  })
+  inputBusqueda.addEventListener("input", () => {
+    const valor = inputBusqueda.value.toLowerCase()
+    contenedorItems.querySelectorAll(".item-producto").forEach(x =>
+      {
+        const esVisible =  x.dataset.nombre.toLowerCase().includes(valor) || x.dataset.categoria.toLowerCase().includes(valor);
+        x.classList.toggle("hidden", !esVisible);
+      }
+    )
+  }
+)
+  }
 
-}
 
 // 9) moverArriba(lista)
 function moverArriba(lista) {
