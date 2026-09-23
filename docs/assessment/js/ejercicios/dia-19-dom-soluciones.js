@@ -91,7 +91,7 @@ function activarCierreAvisos(zona) {
       zona.dataset.restantes = contador
       zona.querySelector("#contador-avisos-r3").textContent = contador
       }
-    }) 
+    })
   })
 
 }
@@ -162,7 +162,7 @@ function moverAbajo(lista) {
     const item = e.target.closest(".item-lista")
     const hermano = item.nextElementSibling
     if(!hermano) return
-    lista.insertBefore(hermano, item) 
+    lista.insertBefore(hermano, item)
   })
 }
 
@@ -185,12 +185,12 @@ function activarValoracionEstrellas(contenedor) {
 // 10) resumirCarrito(contenedor)
 function resumirCarrito(contenedor) {
   let total = 0;
-  contenedor.querySelectorAll(".linea-carrito").forEach(x => { 
+  contenedor.querySelectorAll(".linea-carrito").forEach(x => {
     let precio = Number(x.dataset.precio)
     let cantidad = Number(x.dataset.cantidad)
     total += precio * cantidad
   })
-  contenedor.querySelector("#total-r10").textContent = `${total.toFixed(2)}€` 
+  contenedor.querySelector("#total-r10").textContent = `${total.toFixed(2)}€`
 }
 
 // ---------- Bloque 2 — Repaso ----------
@@ -201,7 +201,7 @@ function activarFiltroCategorias(contenedorBotones, contenedorProductos) {
     let btn = e.target.closest(".filtro-btn")
     if(!btn) return;
     let categoria = btn.dataset.categoria
-    
+
     contenedorBotones.querySelectorAll(".filtro-btn").forEach(x => {
       x.classList.toggle("filtro-btn--activo", x === btn)
     })
@@ -239,30 +239,35 @@ function marcarTodosAgotados(contenedor) {
 // 4) mostrarBarraProgresoScroll(barra, scrollY, alturaTotal)
 function mostrarBarraProgresoScroll(barra, scrollY, alturaTotal) {
   let mida = Math.round((scrollY / alturaTotal) * 100)
-  barra.style.width = `${mida}%` 
+  barra.style.width = `${mida}%`
 }
 
 // 5) validarRangoNumerico(inputEdad, spanError)
 function validarRangoNumerico(inputEdad, spanError) {
-  if(Number(inputEdad.value) >= 18 && Number(inputEdad.value) <= 65){
-    spanError.textContent = ""
-    inputEdad.setCustomValidity(spanError.textContent)
+  const edad = Number(inputEdad.value)
+  const mensaje = "Error en el rango de edades"
+
+  if(edad >= 18 && edad <= 65){
+    spanError.textContent = "";
+    inputEdad.setCustomValidity('');
   }else{
-    spanError.textContent = "Error"
-    inputEdad.setCustomValidity(spanError.textContent)
+    inputEdad.setCustomValidity(mensaje);
+    spanError.textContent = mensaje;
   }
 }
 
 // 6) activarDropdownConCierre(boton, menu)
 function activarDropdownConCierre(boton, menu) {
-boton.addEventListener("click", () =>
- menu.classList.toggle("hidden")
-)
-document.addEventListener("click", (e) => {
-  if(menu.contains(e.target)) return;
-  if(boton.contains(e.target)) return;
-    menu.classList.add("hidden")
-})
+  boton.addEventListener("click", () => {
+    menu.classList.toggle("hidden")
+  })
+
+  document.addEventListener("click", (e) => {
+    if(!menu.contains(e.target) && !boton.contains(e.target))
+      menu.classList.add("hidden")
+  })
+
+
 }
 
 // 7) activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite)
@@ -280,7 +285,7 @@ function activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite) {
     spanCantidad.dataset.cantidad = contador
     spanCantidad.textContent = `${contador}`
   })
- 
+
 }
 
 // 8) filtrarPorNombreOCategoria(inputBusqueda, contenedorItems)
@@ -345,20 +350,20 @@ function renderizarProductos(contenedor, productos) {
   precio.textContent = `${box.precio.toFixed(2)}€`
   precio.className = "product-card-precio"
   card.appendChild(precio)
-  
+
   let esInferior = box.stock === 0
   let badge = document.createElement("span")
   badge.textContent = esInferior ? "Agotado" : "Disponible"
   badge.className = esInferior ? "stock-badge bg-red-100 text-red-700" : "stock-badge bg-green-100 text-green-700"
   card.appendChild(badge)
-  }) 
+  })
 }
 
 // 2) activarSeleccionMasiva(contenedorTabla)
 function activarSeleccionMasiva(contenedorTabla) {
   let inputs = contenedorTabla.querySelectorAll(".check-fila")
   let master = contenedorTabla.querySelector("#check-todos")
- 
+
   contenedorTabla.addEventListener("change", function(e){
      let todos = true;
     if(e.target === master){
@@ -407,7 +412,7 @@ function validarLongitudUsuario(inputUsuario, spanAyuda) {
 function activarAcordeon(panel) {
   panel.addEventListener("click", function(e){
     if(e.target.classList.contains("faq-pregunta")){
-      e.target.ariaExpanded = !e.target.nextElementSibling.classList.toggle("hidden");   
+      e.target.ariaExpanded = !e.target.nextElementSibling.classList.toggle("hidden");
     }
 })
 }
@@ -426,11 +431,11 @@ function filtrarListaEnVivo(inputBusqueda, contenedorItems) {
 // 8) activarStepperCarrito(botonMas, botonMenos, spanCantidad)
 function activarStepperCarrito(botonMas, botonMenos, spanCantidad) {
   let num = Number(spanCantidad.textContent)
-  botonMas.addEventListener("click", function(e){ 
+  botonMas.addEventListener("click", function(e){
       num++;
       spanCantidad.textContent = num;
   })
-  botonMenos.addEventListener("click", function(e){ 
+  botonMenos.addEventListener("click", function(e){
     if(num > 0){
       num--;
       spanCantidad.textContent = num;
@@ -497,7 +502,7 @@ function datosProductoCard(tarjeta) {
   let categoria = tarjeta?.dataset?.categoria
   let stock = parseInt(tarjeta?.dataset?.stock)
   const producto = {precio: precio, categoria: categoria, stock: stock}
-  return producto; 
+  return producto;
 }
 
 // 6) alternarFavorito(boton)
@@ -513,7 +518,7 @@ function agregarTarea(lista, texto) {
   item.textContent = texto;
   lista.appendChild(item)
   return lista.querySelectorAll("li").length;
-  
+
 }
 
 // 8) eliminarTarea(lista, texto)
@@ -578,10 +583,12 @@ function datosFormulario(formulario) {
 
 // 15) validarConfirmacionEmail(email, confirmarEmail)
 function validarConfirmacionEmail(email, confirmarEmail) {
-    if (email.value !== confirmarEmail.value) {
-       confirmarEmail.setCustomValidity('Las contraseñas no coinciden');
-    }
-    else  confirmarEmail.setCustomValidity(''); 
+  if(email.value !== confirmarEmail.value){
+    confirmarEmail.setCustomValidity("Error los ee-mails no coinciden")
+  }else{
+    confirmarEmail.setCustomValidity("");
+  }
+
 }
 
 

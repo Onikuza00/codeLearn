@@ -93,6 +93,9 @@ nav:
           - "Viernes 11 — Bloque D cerrado + Flujo Global": waytoCode/2026/09/semana-2/2026-09-11.md
           - "Sábado 12 — Maquetación Tailwind cerrada": waytoCode/2026/09/semana-2/2026-09-12.md
           - "Domingo 13 — RAG y búsqueda agencial": waytoCode/2026/09/semana-2/2026-09-13.md
+        - "Semana 03 — Repaso JS: DOM":
+          - "Lunes 21 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-21.md
+          - "Miércoles 23 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-23.md
   - Web:
     - web/index.md
     - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
