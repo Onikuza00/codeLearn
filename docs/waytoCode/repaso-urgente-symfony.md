@@ -1,6 +1,6 @@
 # 🚨 Repaso urgente — Symfony
 
-> Repaso antes de tocar código. Sale del checkpoint S1 (rehacer el slice de `Product` de memoria), de los fallos **conceptuales** de Formularios (29/08) y del bloque de Servicios (30/08). Mirar esto antes de escribir el primer controlador.
+> Repaso antes de tocar código. Sale del checkpoint S1 (rehacer el slice de `Product` de memoria), de los fallos **conceptuales** de Formularios (29/08) y del bloque de Servicios (30/08). Mirar esto antes de escribir el primer controlador. Los bloques van de más a menos urgente (🔴 → 🟢).
 >
 > JS / DOM tiene su propia página: [Repaso urgente — JS / DOM](repaso-urgente-js.md).
 
@@ -16,26 +16,6 @@
 </style>
 
 <div class="repaso-compact" markdown>
-
-## 📊 Prioridad — de más a menos urgente
-
-| Nivel | Patrón | Dónde falló |
-|:---:|---|---|
-| 🔴 1 | El flujo del controlador `new`/`edit` no sale de memoria | S1 (2 respuestas seguidas mal) |
-| 🔴 2 | Tipo PHP vs tipo de columna Doctrine son dos capas | P1 |
-| 🟠 3 | `redirectToRoute()` recibe el **nombre** de la ruta, no la URL | P4 |
-| 🟠 4 | `persist()` solo para lo nuevo; `flush()` siempre | P5, S2 |
-| 🟠 5 | Las Constraints van sobre la **entidad**, no el formulario | P2 |
-| 🟠 6 | Un objeto no es su representación textual ni un campo suyo | **D1, D4 (30/08)** |
-| 🟠 7 | El contrato de la firma se cumple en el cuerpo | **D2, D4 (30/08)** |
-| 🟡 8 | Servicio = **transforma**, no valida; su resultado necesita hueco en la entidad | S2, D1 |
-| 🟡 9 | Autowiring: servicio por type-hint, escalar con `#[Autowire]` | S2, D3 |
-| 🟡 10 | CSRF a mano: la intención y el `name` idénticos en los dos extremos | P10 |
-| 🟡 11 | Form sin `data_class`: leer del **form**, no del `Request` | P12 |
-| 🟢 12 | Twig: `{% endblock %}`, `{% for X in LISTA %}`, `==` (no `===`) | S2, P7, P9 |
-| 🟢 13 | `.env` es de sintaxis estricta: `CLAVE="valor"`, sin espacios | **D3 (30/08)** |
-
----
 
 !!! danger "🔴 1 · El flujo del controlador `new` / `edit` — de memoria"
     El hueco del checkpoint S1. En dos preguntas seguidas salió `$form = new form()` y `$form->createForm(...)` — las dos mal.

@@ -1,31 +1,8 @@
 # 🚨 Repaso urgente — JS / DOM
 
-> Esta página no es teoría genérica: cada punto sale de un fallo **real** registrado en `GOTCHAS.md` (Fallos 37-67), ordenado por número de reincidencias. Lo primero que hay que mirar al empezar una sesión de JS, antes de escribir una sola línea.
+> Esta página no es teoría genérica: cada punto sale de un fallo **real** registrado en `GOTCHAS.md` (Fallos 37-67) o de las sesiones rehechas desde cero, como la del [21/09](2026/09/semana-3/2026-09-21.md), ordenado por número de reincidencias. Lo primero que hay que mirar al empezar una sesión de JS, antes de escribir una sola línea.
 >
-> Corte: cierre del 25/08/2026. · Symfony tiene su propia página: [Repaso urgente — Symfony](repaso-urgente-symfony.md).
-
----
-
-## 📊 Prioridad — de más a menos urgente
-
-| Nivel | Patrón | Veces que ha fallado |
-|:---:|---|:---:|
-| 🔴 1 | `setCustomValidity()` recibe un **string**, no un elemento | 3 (20/08, 23/08 ×2) |
-| 🔴 1 | Negar una expresión compuesta (`&&`/`||`) término por término — De Morgan | 2 (25/08 ×2, mismo ejercicio) |
-| 🔴 1 | Los tres `contains()` distintos | 4 (23/08 ×3, 25/08) |
-| 🟠 2 | Variable sin `let`/`const` — fuga a global implícita | 2 (20/08, 25/08) |
-| 🟠 2 | Rangos: `&&` para "dentro", `\|\|` para "fuera" | 2 (22/08, 23/08) |
-| 🟠 2 | `x++` dentro de una expresión que se reasigna | 2 (13/08, 23/08) |
-| 🟡 3 | Todo lo que sale del DOM es **texto** (`dataset`, `getAttribute`) | 2 (22/08, 23/08) |
-| 🟡 3 | `classList`/`closest()` — a cuál le va el punto y a cuál no | 3 (23/08 ×2, 25/08) |
-| 🟡 3 | `toggle(clase, booleano)` — el segundo argumento **fija**, no invierte (en cualquier sentido, marcar o desmarcar) | 4 (22/08, 23/08 ×2, 25/08) |
-| 🟡 3 | Acumulador declarado **fuera** del bucle o del listener (cuando debía ir dentro) | 4 (20/08, 22/08, 23/08 ×2) |
-| 🟢 4 | Elegir el elemento correcto para un listener "global" (`document` vs. un elemento puntual) | 1 (25/08) |
-| 🟢 4 | `insertBefore(nodoAMover, referencia)` con los argumentos invertidos | 1 (25/08, con retroceso respecto al 23/08) |
-| 🟢 4 | Selector de clase compuesta (`.a.b`) vs. clase con guion (`.a-b`) | 1 (25/08) |
-| 🟢 4 | Dos ramas de lógica compartiendo una sola variable | 1 (23/08) |
-| 🟢 4 | Confundir un elemento del DOM con el valor que contiene | 3 (22/08) |
-| 🟢 4 | Calcular algo y no usar el resultado | 3 (22/08) |
+> Corte: cierre del 21/09/2026. · Symfony tiene su propia página: [Repaso urgente — Symfony](repaso-urgente-symfony.md).
 
 ---
 
@@ -58,6 +35,11 @@ inputCodigo.setCustomValidity(""); // sin esto, el campo queda inválido para si
 !!! danger "Pregunta obligatoria antes de escribirlo"
     **"Lo que le estoy pasando, ¿es texto o es un elemento?"**
     `setCustomValidity()` solo existe en `input`/`select`/`textarea`, y su único argumento válido es un string. Un string vacío `""` significa "válido"; cualquier otro texto significa "inválido, y este es el motivo".
+
+!!! warning "Reincidencia 21/09 — tres formas más de fallar con `setCustomValidity`"
+    - **Leer antes de escribir:** `inputEdad.setCustomValidity(spanError.textContent)` con el span aún vacío pasa `""`, que significa "válido". Escribe el texto (o guárdalo en una `const mensaje`) y úsalo en los dos sitios.
+    - **Marcar el campo equivocado:** el que se marca y se limpia es el que señala el enunciado (`confirmarEmail`, no `email`), y el mismo en las dos ramas.
+    - **Cada rama toca los dos estados:** lo que ve el usuario (el `<span>`) y la validez del campo. Un `" "` en el span pasa un test flojo, pero no muestra nada.
 
 📖 Teoría: [Formularios y validación](/js/04-dom/03-eventos/03-pagina-formularios/)
 
@@ -328,6 +310,9 @@ if (menu.contains(e.target)) return;
 if (x.dataset.nombre.toLowerCase().includes(item)) { }
 ```
 
+!!! warning "21/09 — `includes` con los papeles al revés"
+    `a.includes(b)` pregunta **"¿`a` contiene entero a `b`?"**. `"0123456789".includes("12345")` es `true` (es un trozo seguido) y `"0123456789".includes("13579")` es `false`, aunque los dos sean dígitos. Para "¿todos los caracteres son dígitos?" hay que preguntar **carácter a carácter**: `codigo.split("").every(c => digitos.includes(c))`. Y `Element.contains(nodo)` es `true` también para el propio nodo (`boton.contains(boton)`).
+
 ---
 
 ### 11. Un elemento no es el valor que contiene
@@ -454,20 +439,30 @@ lista.insertBefore(hermano, item);
 
 ---
 
-### 17. Selector de clase compuesta (`.a.b`) vs. clase con guion (`.a-b`)
+## 🆕 Nuevos patrones — 21/09
+
+### 17. Un listener se registra una sola vez, fuera de cualquier otro handler
 
 ```js
-// ❌ Fallo 67 — busca elemento con clase "linea" Y clase "carrito" a la vez
-contenedor.querySelectorAll(".linea.carrito");
+// ❌ El click que abre el menú burbujea a document y ejecuta el listener recién registrado
+boton.addEventListener("click", () => {
+  menu.classList.toggle("hidden")
+  document.addEventListener("click", (e) => { /* ... */ })
+})
 ```
 
 ```js
-// ✅ Una sola clase, el guion es parte del nombre
-contenedor.querySelectorAll(".linea-carrito");
+// ✅ Dos listeners, los dos fuera. Cierra solo si el click no está en el menú NI en el botón
+boton.addEventListener("click", () => menu.classList.toggle("hidden"))
+
+document.addEventListener("click", (e) => {
+  if (!menu.contains(e.target) && !boton.contains(e.target)) menu.classList.add("hidden")
+})
 ```
 
-!!! tip "Antes de escribir un selector con guion"
-    Copiar el nombre EXACTO de la clase del HTML, sin puntos de más en el medio — `.a.b` y `.a-b` son selectores completamente distintos.
+!!! danger "Dos preguntas antes de escribirlo"
+    1. **"¿Este `addEventListener` está dentro de otro handler?"** Sácalo: cada click al botón registraría uno más, y el click que abre también burbujea hasta `document`.
+    2. **"¿Cierro cuando está fuera de A *y* de B?"** Es `!A && !B`, nunca `!A || B` (De Morgan, como en el nº 14).
 
 ---
 
@@ -487,6 +482,8 @@ Antes de dar cualquier función por terminada:
 - [ ] ¿Todas las variables llevan `const` o `let` delante?
 - [ ] Si negué una expresión con `&&`/`||`, ¿armé primero la versión en positivo y negué el resultado completo una sola vez?
 - [ ] Un listener para clics de "cualquier parte de la página", ¿está enganchado en `document`, no en un elemento puntual?
+- [ ] ¿Algún `addEventListener` está dentro de otro handler? Sácalo: se registra una sola vez.
+- [ ] Con `setCustomValidity`, ¿marco y limpio el campo que señala el enunciado, y escribo el texto antes de leerlo?
 
 ---
 
