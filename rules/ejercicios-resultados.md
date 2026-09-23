@@ -9,10 +9,11 @@
 **Ejercicios CON fallos** — llevan sección propia completa:
 
 - Encabezado: `### E# — \`función(args)\` — ✅ Completado (N fallos)`
-- Lista en bullets (`- **❌ Error/Intento N:**`) de cada error — NUNCA como párrafos en negrita seguidos sin lista.
-- Bloque `!!! failure "❌ Código de Pau (...)"` con el código REAL que escribió (completo, no fragmentos), con comentarios inline `// ❌ ...` marcando el error EXACTO en la línea donde ocurre — no alcanza con explicarlo aparte en prosa.
-- Bloque `!!! success "✅ Versión corregida (...)"` con el código completo y correcto.
-- Párrafo `🧠 **Lección:**` nombrando el principio/patrón general detrás del error (early return, off-by-one, etc.), no solo "estaba mal".
+- **Cada error en su propia card independiente** (norma vigente desde el 23/09/2026): un bloque `!!! failure "❌ Fallo N — título corto"` por error, nunca una lista de bullets con todos los errores juntos ni un único bloque de código para varios fallos. Cada card lleva:
+    - Una frase con qué falló.
+    - El código REAL que escribió Pau (el fragmento de ese error, con contexto suficiente), con comentarios inline `// ❌ ...` marcando el error EXACTO en la línea donde ocurre.
+    - Su propio `🧠 **Lección:**` nombrando el principio/patrón general detrás de ese error (early return, off-by-one, etc.), no solo "estaba mal".
+- Bloque `!!! success "✅ Versión corregida (...)"` con el código completo y correcto, una sola vez por ejercicio.
 
 **Ejercicios SIN fallos** — NO llevan sección propia, ni bloque de código, ni listado por ejercicio. Van resumidos en una cuadrícula compacta de totales al principio del grupo — solo el conteo de cuántos salieron bien, sin nombrarlos uno por uno:
 
@@ -32,6 +33,7 @@
 
 - Sección `## 🔎 Por qué fallaron — resumen del día` (o equivalente) al final, con los patrones/debilidades detectadas.
 - Pendientes se listan al final como checklist.
+- **Poda de Repaso Urgente al cerrar cada sesión** (norma vigente desde el 23/09/2026): si un error ya no persiste (el ejercicio salió bien esta vez, sin reincidir), se saca de [Repaso urgente — JS / DOM](/waytoCode/repaso-urgente-js/) o de [Repaso urgente — Symfony](/waytoCode/repaso-urgente-symfony/). Un error solo se queda mientras reincida. Se comprueba contra el resultado real del día, no de memoria.
 - **Actualizar también `docs/assessment/index.html`**: añadir fila nueva a la tabla "Historial de assessments" (fecha, ejercicio/bloque, resultado) — no alcanza con dejarlo solo en el daily log.
   - Si la fila es un examen con nota o resultado aprobado/no aprobado, recalcular las 4 métricas de `.stats-row` (Exámenes totales / Aprobados / Pendientes de calificar / Promedio calificados).
   - El promedio solo cuenta filas con nota numérica explícita — nunca inventar una nota; si no hay, dejar `—` y contarla aparte como aprobado/pendiente cualitativo.

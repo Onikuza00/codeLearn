@@ -6,6 +6,7 @@
 
 | Fecha | Cambio | Resumen |
 |---|---|---|
+| 2026-09-23 | [card-por-error](2026-09-23-card-por-error/) | Norma nueva para el daily log: cada error documentado va en su propia card `!!! failure` (frase + código con `// ❌` + su `🧠 Lección`), en vez de bullets + un único bloque de código por ejercicio. Además, al cerrar cada sesión un error que ya no persiste se saca de Repaso Urgente. Rige desde el 23/09; los logs anteriores no se tocan |
 | 2026-09-12 | [fix-mkdocs-serve-wdac](2026-09-12-fix-mkdocs-serve-wdac/) | El hook `SessionStart` dejó de levantar `mkdocs serve` sin avisar: una directiva de Control de aplicaciones de Windows (actualización reciente) bloquea `mkdocs.exe` directo, pero no `python.exe`. Fix: el hook lanza `python -m mkdocs serve` en vez de `mkdocs serve` |
 | 2026-09-06 | [github-pages](2026-09-06-github-pages/) | La documentación pasa a publicarse sola en `onikuza00.github.io/codeLearn` con GitHub Actions: `--strict` como puerta (si hay un enlace roto no publica), `site_url` corregido, versiones fijadas en `requirements.txt`, y `main` como única rama que publica — `develop` no. Añadido `README.md` de presentación |
 | 2026-08-29 | [php-startinline-highlight](2026-08-29-php-startinline-highlight/) | Los bloques ` ```php ` de la doc solo se coloreaban si empezaban con `<?php` (44 de 95 salían en gris). `pymdownx.highlight` con `extend_pygments_lang` redefine `php` con `startinline: true` → todo fragmento PHP se colorea, lleve o no la etiqueta, ahora y siempre |

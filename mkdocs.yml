@@ -197,6 +197,7 @@ nav:
       - "Valor vs. referencia": js/01-basico/05-paso-valor-referencia/index.md
       - "Try/Catch": js/01-basico/06-try-catch/index.md
       - "Errores personalizados": js/01-basico/07-custom-errors/index.md
+      - "Métodos básicos": js/01-basico/08-metodos-basicos/index.md
     - "Arrays":
       - "Fundamentos de los Arrays": js/02-arrays/index.md
       - "Métodos básicos": js/02-arrays/02-metodos-basicos/index.md
