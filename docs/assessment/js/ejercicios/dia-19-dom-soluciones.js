@@ -53,15 +53,59 @@ function validarTelefonoExacto(inputTelefono, spanError) {
 // 3) activarContadorConTope(botonMas, botonMenos, spanCantidad, spanRestante, minimo, maximo)
 function activarContadorConTope(botonMas, botonMenos, spanCantidad, spanRestante, minimo, maximo) {
 
+  const ver = (x) => {
+    spanCantidad.dataset.cantidad = x
+    spanCantidad.textContent = x
+    spanRestante.textContent = `${maximo - x}`
+  }
+
+  botonMas.addEventListener("click", () => {
+    const cantidad = Math.min(Number(spanCantidad.dataset.cantidad) +1, maximo)
+      ver(cantidad)
+  })
+  botonMenos.addEventListener("click", () => {
+    const cantidad = Math.max(Number(spanCantidad.dataset.cantidad) -1, minimo)
+        ver(cantidad)
+
+  })
 }
 
 // 4) alternarDetalleAccesible(boton, detalle, flecha)
 function alternarDetalleAccesible(boton, detalle, flecha) {
-
+  boton.addEventListener("click", () => {
+    const estAbierto = boton.getAttribute("aria-expanded") === "true"
+    boton.setAttribute("aria-expanded", !estAbierto)
+    detalle.classList.toggle("hidden", estAbierto)
+    flecha.textContent = !estAbierto ? "^" : "v"
+  })
 }
 
 // 5) activarFiltroEtiquetas(zona)
 function activarFiltroEtiquetas(zona) {
+  zona.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filtro")
+    if(!btn) return
+    const btns = zona.querySelectorAll(".filtro")
+    const maestro = zona.querySelector("[data-etiqueta='todos']")
+
+    btns.forEach(x => {
+      const esActivo = btn === x
+      x.classList.toggle("filtro--activo", esActivo)
+    })
+
+    zona.querySelectorAll(".articulo").forEach(x => {
+      const iguales = btn.dataset.etiqueta === x.dataset.etiqueta
+      x.classList.toggle("hidden", !iguales)
+
+      if(e.target === maestro){
+        x.classList.remove("hidden")
+      }
+    })
+
+
+  })
+
+
 
 }
 
@@ -72,21 +116,84 @@ function filtrarUsuariosPorTexto(inputBusqueda, listaUsuarios, spanResultados) {
 
 // 7) sincronizarCheckMaestro(zona)
 function sincronizarCheckMaestro(zona) {
+  zona.addEventListener("change", (e) => {
+    const maestro = zona.querySelector("#maestro-s7")
+    const checks = zona.querySelectorAll(".check-hijo")
+
+    if(e.target === maestro)
+      checks.forEach(x => x.checked = maestro.checked)
+    else{
+      const todosMarcados = [...checks].every(x => x.checked)
+      maestro.checked = todosMarcados
+    }
+    const span = zona.querySelector("#estado-s7")
+    const marcados = [...checks].filter(x => x.checked).length
+    span.textContent = marcados
+
+  })
+
 
 }
 
 // 8) marcarPestanaActiva(barraPestanas, contenedorPaneles)
 function marcarPestanaActiva(barraPestanas, contenedorPaneles) {
+  barraPestanas.addEventListener("click", (e) => {
+    const pestana = e.target.closest(".pestana")
+    if(!pestana) return
+    pestana.setAttribute("aria-selected", "true")
+    pestana.classList.add("pestana--activa")
+
+    barraPestanas.querySelectorAll(".pestana").forEach(x => {
+      if(pestana !== x){
+      x.setAttribute("aria-selected", "false")
+      x.classList.remove("pestana--activa")
+      }
+    })
+
+    contenedorPaneles.querySelectorAll(".panel-pestana").forEach(n => {
+        const iguales = pestana.dataset.panel === n.dataset.panel
+        n.classList.toggle("hidden", !iguales)
+    })
+  })
 
 }
 
 // 9) activarPopoverConCierreFuera(boton, popover)
 function activarPopoverConCierreFuera(boton, popover) {
+  boton.addEventListener("click", () => {
+    popover.classList.toggle("hidden")
+    boton.setAttribute("aria-expanded",!popover.classList.contains("hidden"))
+  })
 
+  document.addEventListener("click", (e) => {
+    if(!boton.contains(e.target) && !popover.contains(e.target)){
+      popover.classList.add("hidden")
+      boton.setAttribute("aria-expanded","false")
+    }
+  } )
 }
 
 // 10) cerrarNotificacionesYContar(zona)
 function cerrarNotificacionesYContar(zona) {
+  zona.addEventListener("click", (e) => {
+    const btn = e.target.closest(".btn-descartar")
+    if(!btn) return
+
+    const facturas = zona.querySelectorAll(".notificacion")
+    let importe = Number(zona.querySelector("#total-notif-s10").textContent)
+
+    facturas.forEach(x => {
+      if(x.contains(e.target) && !x.classList.contains("hidden")){
+        x.classList.add("hidden")
+        importe-=  Number(x.dataset.importe)
+      }
+    })
+    const total = [...facturas].filter(x => !x.classList.contains("hidden")).length
+    const importeMenos = importe < 100
+    zona.querySelector("#contador-notif-s10").textContent = Math.floor(total)
+    zona.querySelector("#total-notif-s10").textContent = importe
+    zona.querySelector("#aviso-limite-s10").classList.toggle("hidden", !importeMenos)
+  })
 
 }
 
@@ -251,25 +358,33 @@ function activarFiltroCategorias(contenedorBotones, contenedorProductos) {
 
 // 2) activarAcordeonExclusivo(panel)
 function activarAcordeonExclusivo(panel) {
-  panel.addEventListener("click", function(e){
-    let faq = e.target.closest(".faq-pregunta")
-    if(!faq) return;
-    let expansion = faq.getAttribute("aria-expanded")
+  panel.addEventListener("click", (e) => {
+    const btn = e.target.closest(".faq-pregunta")
+    if(!btn) return
+    const hermano = btn.nextElementSibling
+    const activo = hermano.classList.contains("hidden")
+
     panel.querySelectorAll(".faq-pregunta").forEach(x => {
-      x.nextElementSibling.classList.add("hidden")
       x.setAttribute("aria-expanded", "false")
+      x.nextElementSibling.classList.add("hidden")
     })
-    faq.setAttribute("aria-expanded", expansion === "false")
-    faq.nextElementSibling.classList.toggle("hidden", expansion === "true")
+    if(activo){
+      btn.setAttribute("aria-expanded", "true")
+      hermano.classList.remove("hidden")
+    }
   })
+
+
 }
 
 // 3) marcarTodosAgotados(contenedor)
 function marcarTodosAgotados(contenedor) {
   contenedor.querySelectorAll(".stock-card").forEach(x => {
-    if(Number(x.dataset.stock) === 0)
+    if(x.dataset.stock === "0")
       x.classList.add("ring-2", "ring-amber-500")
   })
+
+
 }
 
 // 4) mostrarBarraProgresoScroll(barra, scrollY, alturaTotal)
@@ -280,29 +395,26 @@ function mostrarBarraProgresoScroll(barra, scrollY, alturaTotal) {
 
 // 5) validarRangoNumerico(inputEdad, spanError)
 function validarRangoNumerico(inputEdad, spanError) {
-  const edad = Number(inputEdad.value)
-  const mensaje = "Error en el rango de edades"
-
-  if(edad >= 18 && edad <= 65){
-    spanError.textContent = "";
-    inputEdad.setCustomValidity('');
-  }else{
-    inputEdad.setCustomValidity(mensaje);
-    spanError.textContent = mensaje;
-  }
+    const edad = inputEdad.value
+    if(edad >= 18 && edad <= 65){
+      inputEdad.setCustomValidity("")
+      spanError.textContent=""
+    }else{
+      inputEdad.setCustomValidity(spanError.textContent = "Error de edades")
+    }
 }
 
 // 6) activarDropdownConCierre(boton, menu)
 function activarDropdownConCierre(boton, menu) {
+
   boton.addEventListener("click", () => {
     menu.classList.toggle("hidden")
   })
 
   document.addEventListener("click", (e) => {
-    if(!menu.contains(e.target) && !boton.contains(e.target))
-      menu.classList.add("hidden")
+    if (!boton.contains(e.target) && !menu.contains(e.target))
+    menu.classList.add("hidden")
   })
-
 
 }
 
@@ -343,31 +455,41 @@ function filtrarPorNombreOCategoria(inputBusqueda, contenedorItems) {
 
 // 9) moverArriba(lista)
 function moverArriba(lista) {
-  lista.addEventListener("click", function(e){
-    let btn = e.target.closest(".btn-subir")
-    let item = e.target.closest(".item-lista")
-    let brother = item.previousElementSibling;
-    if(!btn || !brother) return;
+  lista.addEventListener("click", (e) => {
+    const btn = e.target.matches(".btn-subir")
+    if(!btn) return
+    const item = e.target.closest(".item-lista")
+    const brother = item.previousElementSibling;
+    if(!brother) return
     lista.insertBefore(item, brother)
   })
+
 }
 
 // 10) activarSeleccionGrid(contenedor)
 function activarSeleccionGrid(contenedor) {
-  let master = contenedor.querySelector("#check-maestro-repaso")
+  contenedor.addEventListener("change", (e) => {
+    const esMaestro = e.target.matches("#check-maestro-repaso")
+    const esCheckbox = e.target.matches(".check-producto")
+    const listaCheck = contenedor.querySelectorAll(".check-producto")
 
-  contenedor.addEventListener("change", function(e){
-      let todasMarcadas = true
+    //Check del maestro ->
+    listaCheck.forEach(x => {
+      if(esMaestro)
+        x.checked = e.target.checked
+    })
 
-      contenedor.querySelectorAll(".check-producto").forEach(x => {
-        if(e.target === master)
-          x.checked = master.checked
-        else{
-          if(!x.checked) todasMarcadas = false;
-        }
-      });
-      if (e.target !== master) master.checked = todasMarcadas;
+    //Check individual ->
+    if(esCheckbox){
+      const checkMaestro = contenedor.querySelector("#check-maestro-repaso")
+      const todasMarcadas = [...listaCheck].every(x => x.checked)
+      checkMaestro.checked = todasMarcadas
+    }
+
+
   })
+
+
 
 }
 

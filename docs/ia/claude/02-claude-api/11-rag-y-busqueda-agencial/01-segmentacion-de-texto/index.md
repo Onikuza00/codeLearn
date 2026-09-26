@@ -84,57 +84,6 @@ function chunkBySentence(texto, maxSentencesPerChunk = 5, overlapSentences = 1) 
 !!! tip "Existe una cuarta: segmentación semántica"
     Divide el texto en frases y usa procesamiento de lenguaje natural para agrupar solo las que están relacionadas en significado. Da los fragmentos más coherentes, pero con un coste computacional alto y una implementación bastante más compleja que las tres anteriores — no hay una única estrategia "correcta", la elección depende del documento y de cuánta complejidad vale la pena asumir.
 
-## Buscar el chunk relevante { .topic-title }
-
-Sin usar embeddings ni ningún modelo: el enfoque léxico más simple es contar cuántas palabras de la pregunta aparecen en cada chunk, y quedarse con el que más tenga.
-
-```js
-function findRelevantChunk(chunks, query) {
-  let palabras = query.toLowerCase().split(' ');
-
-  let puntuados = chunks.map((chunk) => {
-    let contador = palabras.filter((p) => chunk.toLowerCase().includes(p)).length;
-    return { chunk, contador };
-  });
-
-  let ordenados = puntuados.sort((a, b) => b.contador - a.contador);
-  return ordenados[0].chunk;
-}
-```
-
-!!! tip "Minúsculas antes de partir, no al revés"
-    `query.toLowerCase().split(' ')` — primero se pasa a minúsculas el string completo, y recién después se parte en palabras. Al revés (`query.split(' ').toLowerCase()`) falla: `split()` ya devuelve un array, y `.toLowerCase()` es un método de string, no de array.
-
-!!! tip "`filter` + `length`, sin bucle"
-    `palabras.filter((p) => chunk.includes(p))` no cuenta nada por sí solo — devuelve un array con las palabras que sí aparecen en el chunk. `.length` es lo que convierte "cuáles coinciden" en "cuántas coinciden", sin necesidad de un `for` que sume una por una.
-
-!!! tip "Por qué el `.map()` necesita cuerpo con `{ }`"
-    Una arrow de una sola expresión (`(chunk) => ({ chunk, contador })`) no admite declarar variables antes del `return` — no tiene cuerpo, solo una expresión implícita. Para calcular `contador` primero y devolverlo después hace falta el cuerpo completo con llaves: `(chunk) => { let contador = ...; return { chunk, contador }; }`.
-
-!!! tip "La lógica del comparador de `sort()`"
-    `.sort()` compara elementos de dos en dos y decide el orden según el número que devuelve la función que le pasas:
-
-    - Negativo → el primer elemento (`a`) va antes.
-    - Positivo → el segundo elemento (`b`) va antes.
-    - Cero → no cambia el orden.
-
-    Con `b.contador - a.contador`: si `b` tiene más contador que `a`, el resultado es positivo, y `b` pasa a ir primero. Repetido para todos los pares, el array queda de mayor a menor contador — el chunk más relevante en la posición `[0]`. Con la resta al revés (`a.contador - b.contador`) el orden sería ascendente, y el más relevante quedaría al final.
-
-## Probar el flujo completo { .topic-title }
-
-```js
-const documento = readFileSync('./documento.txt', 'utf-8');
-const chunks = chunkByParagraph(documento);
-
-const chunkRelevante = findRelevantChunk(chunks, '¿cuántas horas duerme un gato?');
-console.log(chunkRelevante);
-```
-
-Con un documento de varios párrafos temáticos (gatos, perros, café, té), esa pregunta devuelve el párrafo de los gatos — es el único que contiene palabras como "gato" y "duerme".
-
-!!! warning "Punto de partida, no la opción de producción"
-    Contar palabras exactas es frágil: si la pregunta usa un sinónimo o una forma distinta de la palabra (plural, conjugada), no hay coincidencia aunque el chunk sea relevante. `findRelevantChunk` sirve para entender el problema de la búsqueda de relevancia con el mínimo código posible — la opción real a usar es la búsqueda semántica con [embeddings](../02-embeddings/index.md), que sí entiende significado y no solo texto exacto.
-
 ---
 
 ## 📖 Recursos oficiales

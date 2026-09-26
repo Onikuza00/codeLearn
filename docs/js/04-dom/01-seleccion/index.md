@@ -37,6 +37,43 @@ items.forEach(item => console.log(item.textContent));
 
 ---
 
+## Seleccionar por atributo `[atributo="valor"]` {: .topic-title }
+
+Cuando el elemento que buscas no se distingue por su clase o su id, sino por el **valor de un atributo** (un `data-*`, un `type`, un `aria-*`), el selector se escribe entre corchetes. Es un selector de CSS más, así que funciona igual en `querySelector()`, `querySelectorAll()`, `closest()` y `matches()`. Con este HTML de partida:
+
+```html
+<div class="filtros">
+    <button class="filtro" data-etiqueta="todos">Todos</button>
+    <button class="filtro" data-etiqueta="css">CSS</button>
+    <button class="filtro" data-etiqueta="js">JavaScript</button>
+</div>
+<input type="checkbox" checked>
+<button aria-expanded="false">Menú</button>
+```
+
+```js
+document.querySelector('[data-etiqueta="css"]');        // <button> de CSS — el primero que tenga ese valor
+document.querySelectorAll('[data-etiqueta]');           // los 3 botones — sin valor: "tiene el atributo, sea cual sea"
+document.querySelector('.filtro[data-etiqueta="js"]');  // clase + atributo, sin espacio entre los dos
+document.querySelector('input[type="checkbox"]');       // etiqueta + atributo
+document.querySelector('[aria-expanded="false"]');      // el botón del menú, con el valor como TEXTO
+```
+
+Se pueden buscar dentro de un contenedor, como cualquier otro selector:
+
+```js
+const zona = document.querySelector('.filtros');
+const botonTodos = zona.querySelector('[data-etiqueta="todos"]');
+```
+
+!!! tip "Elemento o valor: no lo confundas"
+    `zona.querySelector('[data-etiqueta="todos"]')` te devuelve **el botón** (el elemento). En cambio, `boton.dataset.etiqueta` te devuelve **el valor** (`"todos"`, un string). El selector de atributo sirve para *encontrar* el elemento a partir de un valor conocido; `dataset` sirve para *leer* el valor a partir de un elemento que ya tienes.
+
+!!! warning "El valor va entre comillas dentro del selector"
+    Las comillas del selector son distintas de las del string de JS: `'[data-etiqueta="css"]'` (simples fuera, dobles dentro) o al revés. Si el valor no lleva comillas y contiene un guion o un espacio, el selector puede fallar. Ponlas siempre.
+
+---
+
 ## `getElementById()` {: .topic-title }
 
 Localiza un elemento por su atributo `id`. Solo existe en `document` (no se puede llamar sobre otro elemento).

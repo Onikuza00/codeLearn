@@ -96,6 +96,8 @@ nav:
         - "Semana 03 — Repaso JS: DOM":
           - "Lunes 21 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-21.md
           - "Miércoles 23 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-23.md
+          - "Jueves 24 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-24.md
+          - "Sábado 26 — Consolidación de DOM": waytoCode/2026/09/semana-3/2026-09-26.md
   - Web:
     - web/index.md
     - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
@@ -414,10 +416,28 @@ nav:
           - "Conversaciones con herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/02-conversaciones-con-herramientas/index.md
           - "Streaming con herramientas": ia/claude/02-claude-api/10-uso-de-herramientas/03-streaming-de-herramientas/index.md
           - "Herramientas integradas": ia/claude/02-claude-api/10-uso-de-herramientas/04-herramientas-integradas/index.md
-        - "RAG y búsqueda agencial":
-          - "RAG y búsqueda agencial": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/index.md
+        - "RAG":
+          - "RAG": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/index.md
           - "Segmentación y búsqueda de texto": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/01-segmentacion-de-texto/index.md
           - "Embeddings": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/02-embeddings/index.md
+          - "Búsqueda léxica BM25": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/03-busqueda-lexica-bm25/index.md
+          - "Retriever": ia/claude/02-claude-api/11-rag-y-busqueda-agencial/04-canalizacion-indice-multiple/index.md
+        - "Features de Claude":
+          - "Features de Claude": ia/claude/02-claude-api/12-features-de-claude/index.md
+          - "Extended thinking": ia/claude/02-claude-api/12-features-de-claude/01-extended-thinking/index.md
+          - "Image support": ia/claude/02-claude-api/12-features-de-claude/02-image-support/index.md
+          - "PDF support": ia/claude/02-claude-api/12-features-de-claude/03-pdf-support/index.md
+          - "Citations": ia/claude/02-claude-api/12-features-de-claude/04-citations/index.md
+          - "Prompt caching": ia/claude/02-claude-api/12-features-de-claude/05-prompt-caching/index.md
+          - "Code execution y Files API": ia/claude/02-claude-api/12-features-de-claude/06-code-execution-y-files-api/index.md
+        - "MCP":
+          - "MCP": ia/claude/02-claude-api/13-mcp/index.md
+          - "Presentando MCP": ia/claude/02-claude-api/13-mcp/01-presentando-mcp/index.md
+          - "Clientes MCP": ia/claude/02-claude-api/13-mcp/02-clientes-mcp/index.md
+          - "Proyecto y herramientas MCP": ia/claude/02-claude-api/13-mcp/03-proyecto-y-herramientas/index.md
+          - "Inspector y cliente": ia/claude/02-claude-api/13-mcp/04-inspector-y-cliente/index.md
+          - "Recursos": ia/claude/02-claude-api/13-mcp/05-recursos/index.md
+          - "Prompts": ia/claude/02-claude-api/13-mcp/06-prompts/index.md
       - "Automatizaciones":
         - ia/claude/03-automatizaciones/index.md
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md
