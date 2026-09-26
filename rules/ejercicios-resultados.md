@@ -13,7 +13,7 @@
     - Una frase con qué falló.
     - El código REAL que escribió Pau (el fragmento de ese error, con contexto suficiente), con comentarios inline `// ❌ ...` marcando el error EXACTO en la línea donde ocurre.
     - Su propio `🧠 **Lección:**` nombrando el principio/patrón general detrás de ese error (early return, off-by-one, etc.), no solo "estaba mal".
-- Bloque `!!! success "✅ Versión corregida (...)"` con el código completo y correcto, una sola vez por ejercicio.
+- Bloque `!!! success "✅ Versión corregida (...)"` con el código completo y correcto, una sola vez por ejercicio. **Va ANTES de las cards de fallo** (primero el ✅, debajo un `!!! failure` por cada error).
 
 **Ejercicios SIN fallos** — NO llevan sección propia, ni bloque de código, ni listado por ejercicio. Van resumidos en una cuadrícula compacta de totales al principio del grupo — solo el conteo de cuántos salieron bien, sin nombrarlos uno por uno:
 
@@ -22,6 +22,14 @@
 |:---:|:---:|
 | 8 | 4 |
 ```
+
+## Formato de las páginas Repaso urgente (JS / DOM y Symfony)
+
+Mismo formato de código que el daily log (norma vigente desde el 26/09/2026):
+
+- **Todo código va en cards, nunca en bloques sueltos:** primero un `!!! success "✅ Versión correcta"` con el código bueno y debajo un `!!! failure "❌ Fallo N — título"` por cada error (código real con `// ❌` + su `🧠 Lección`). Un error = una card; nunca varios `// ❌` juntos en un mismo bloque.
+- **Los avisos NO cambian:** los `!!! tip`, `!!! danger` y `!!! warning` (incluidos los de «Reincidencia dd/mm») se mantienen tal cual y van **después** de las cards de código. Al reformatear una página existente solo se tocan los bloques de código; ningún aviso se quita, se funde en una lección ni se convierte en `failure`.
+- Las tablas de referencia y el checklist final quedan como están.
 
 ## Qué NO documentar
 

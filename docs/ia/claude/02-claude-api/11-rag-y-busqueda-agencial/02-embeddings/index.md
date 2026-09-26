@@ -11,7 +11,7 @@ Una **incrustación** (*embedding*) es la representación numérica del signific
 !!! tip "No se sabe qué representa cada número"
     Cada número es una especie de "puntuación" de alguna cualidad del texto, pero el significado exacto de cada posición lo aprende el modelo durante su entrenamiento y no es interpretable directamente por una persona. Lo que sí importa: dos textos parecidos en significado producen arrays de números parecidos entre sí — y eso es lo que se puede medir.
 
-Esto es lo que permite la **búsqueda semántica**: en vez de buscar coincidencias exactas de palabras (como hacía `findRelevantChunk` por conteo de palabras), comparas el *significado* de la pregunta contra el de cada chunk.
+Esto es lo que permite la **búsqueda semántica**: en vez de buscar coincidencias exactas de palabras, comparas el *significado* de la pregunta contra el de cada chunk.
 
 ## Generar embeddings con VoyageAI { .topic-title }
 

@@ -1,4 +1,4 @@
-# RAG y búsqueda agencial { .bloque-ia }
+# RAG { .bloque-ia }
 
 > Cuando el documento no cabe en el prompt: en vez de mandarle a Claude todo el texto, se parte en fragmentos y se le manda solo el fragmento relevante para cada pregunta.
 
@@ -35,8 +35,10 @@ Vale la pena la complejidad extra cuando el documento (o la colección de docume
 
 | Lección | Qué cubre |
 |---|---|
-| [Segmentación y búsqueda de texto](01-segmentacion-de-texto/index.md) | Partir un documento en párrafos y encontrar el más relevante para una pregunta, por coincidencia de palabras — sin embeddings todavía |
+| [Segmentación de texto](01-segmentacion-de-texto/index.md) | Partir un documento en fragmentos: por estructura, por frase, por tamaño con solapamiento y semántica |
 | [Embeddings](02-embeddings/index.md) | Convertir texto en números para buscar por significado con similitud coseno, y cerrar el flujo RAG mandándole a Claude el chunk relevante junto con la pregunta |
+| [Búsqueda léxica BM25](03-busqueda-lexica-bm25/index.md) | Encontrar coincidencias exactas de términos raros (IDs, códigos) ponderando por rareza, y por qué se combina con la búsqueda semántica |
+| [Retriever](04-canalizacion-indice-multiple/index.md) | Un `Retriever` que consulta varios índices y fusiona sus rankings con *reciprocal rank fusion* |
 
 ---
 

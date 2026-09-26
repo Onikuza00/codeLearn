@@ -704,3 +704,7 @@ h2.section-title, .section-title {
 .quick-links .exam-card .icon--done { background: var(--accent-green-dim); color: var(--accent-green); }
 .quick-links .exam-card h2 { margin-bottom: .3rem; font-size: 1.05rem; }
 .quick-links .exam-card p { margin-bottom: 0; }
+
+/* Live reload de ejercicios (js/ejercicios/live-reload.js) */
+.live-status { position: fixed; right: 1rem; bottom: 1rem; z-index: 50; padding: .35rem .7rem; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-elevated); color: var(--text-secondary); font-size: .75rem; }
+.live-status--error { border-color: var(--accent-red); background: var(--accent-red-dim); color: var(--accent-red); }

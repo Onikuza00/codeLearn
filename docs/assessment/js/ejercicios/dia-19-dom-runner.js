@@ -2993,7 +2993,9 @@ function setStatus(exEl, badge, status, text) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// Ejecuta todos los tests y pinta resultados. Se llama al cargar y
+// cada vez que live-reload.js detecta un cambio en las soluciones.
+function ejecutarTodo() {
   EJERCICIOS.forEach(ej => {
     const panel = document.querySelector('.ex-result[data-fn="' + ej.fn + '"]');
     if (!panel) return;
@@ -3224,4 +3226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     set('[data-count-review]', review);
     set('[data-count-pending]', pending);
   });
-});
+}
+
+document.addEventListener('DOMContentLoaded', ejecutarTodo);
