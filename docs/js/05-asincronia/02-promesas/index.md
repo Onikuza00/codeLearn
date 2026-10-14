@@ -2,6 +2,10 @@
 
 > Una promesa es un objeto que representa un valor que **todavía no existe**, pero que existirá (o fallará) en algún momento. En vez de entregar una función para que te avisen, recibes un objeto al que puedes suscribirte.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/frm0CHyeSbE" title="Callbacks vs Promises en JavaScript — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ---
 
 ## La idea {: .topic-title }

@@ -4,6 +4,39 @@
 
 ---
 
+## Estado tras el miércoles 14/10
+
+**Arranca React.** Montado el bloque en `docs/react/` (6 pilares → 25 subbloques → 51 capítulos, estructura espejo de JS), con identidad visual propia (degradado `#61DAFB → #149ECA`, logo en el menú), `repaso-urgente-react.md` y el track de ejercicios React vacíos. Detalle en el [registro del miércoles 14](/waytoCode/2026/10/semana-2/2026-10-14/).
+
+**Documentados:** 1.1 (Qué es React, Entorno con Vite fusionado con Anatomía, React sin dependencias) y 1.2 JSX completo (desde cero, con llaves, Fragments). Cada capítulo lleva vídeo de midudev/Gentleman, comparación Vue/React y tips.
+
+**Pendiente de decidir/arreglar:**
+
+- **Reordenar 1.1:** «React sin dependencias» (createElement) debería ir antes de Vite, y renombrarse «React sin JSX» con aviso de que no es uso profesional. Sin confirmar.
+- **Entorno con Vite (183 líneas):** más largo de lo pedido; comprobar en tu máquina el árbol real de `pnpm create vite@latest` y el renombrado `_gitignore`/`_oxlintrc.json`.
+- **Sin verificar en navegador:** el ejemplo del CDN de «React sin dependencias» y las dos afirmaciones sobre Vue (objeto en `{{ }}` pinta JSON; `<component :is>`).
+- Tabla de estado por pilar en `docs/react/index.md` sin actualizar.
+
+---
+
+## Estado tras el domingo 27/09
+
+**DOM cerrado (mañana):** tanda final contra reincidencias sin fallos (`filtrarUsuariosPorTexto`, `activarPanelLateral`, `validarCodigoPostal`). Poda: salen nº 1, 10, 15, 17 (probados hoy) y nº 3, 8, 14 (auditoría, sin reincidencia en +1 mes). Se queda el nº 18. `docs/waytoCode/repaso-urgente-js.md` se reseteó a 0 — DOM consolidado, los 4 niveles quedan como estructura fija para las reincidencias del bloque de Asincronía en adelante.
+
+**Reordenado el temario de Asincronía:** `04-fetch` usaba `await` sin haberlo explicado — se intercambió con `05-async-await`. Orden real: callbacks → promesas → promesas avanzado → **async/await → fetch** → websockets → capa de API → SSE.
+
+**Nuevo banco de ejercicios:** `docs/assessment/js/ejercicios/05-asincronia/dia-20-asincronia.html` (enlazado en `nav.js`, sección "🔄 Asincronía"). Bloque 1 (Promesas, 5 ejercicios: `pedirUsuario`, `mostrarUsuario`, `procesarPedido`, `pedirConFallback`, `buscarProductos`) y Bloque 2 (Promesas avanzado, 5 ejercicios: `obtenerUsuarioConCache`, `cargarDashboard`, `cargarCarrito`, `cargarWidgets`, `cargarConLimite`) completos y documentados en el [registro del domingo 27](/waytoCode/2026/09/semana-3/2026-09-27/). Live-reload activado en la ficha (mismo mecanismo que `dia-19-dom`, movido a `js/ejercicios/live-reload.js` compartido).
+
+**Nueva reincidencia en Repaso urgente (Nivel 1):** `Promise.all()`/`allSettled()` devuelven un array, no un objeto — reincidió en `cargarDashboard` y `cargarCarrito`, mismo bloque, mismo día.
+
+**Toda la carpeta `docs/assessment/js/ejercicios/` reorganizada** en subcarpetas por bloque (`01-basico`, `02-arrays`, `03-objetos`, `04-dom`, `05-asincronia`), espejo de `docs/js/`. Todas las rutas (nav.js, index.html, progreso.html, daily logs de agosto) corregidas.
+
+**Normas nuevas establecidas hoy** (ver también «Normas vigentes» abajo): revisar cada ejercicio automáticamente al decir "listo" (sin esperar a que se pregunte); mezclar contenido ya dominado en cada ejercicio nuevo, casos de uso web reales, pensando en preparar React; reincidencia en sesión larga (12h) = bloque distinto cuenta igual que día distinto; poda de Repaso urgente solo con los números, sin justificación larga por punto; iconos SVG reales (Material) en vez de emoji, técnica base64+mask-image para `nav:` de mkdocs.
+
+**Sesión 2 (tarde/noche) — Curso de la API de Claude CERRADO.** Reescritos a JS los 4 docs de MCP que habían quedado en Python (`13-mcp/03` a `06`, con el SDK oficial `@modelcontextprotocol/sdk`, `McpServer`/`registerTool`/`registerResource`/`registerPrompt` + Zod), con sus descripciones y mensajes de error traducidos al castellano. Nueva página `13-mcp/07-mejoras-claude-code` (cliente MCP integrado en Claude Code, `claude mcp add`, integraciones populares). Módulo nuevo completo `14-agentes-y-flujos-de-trabajo/` (índice + paralelización, encadenamiento, enrutamiento, agentes y herramientas, inspección del entorno) — la lección corta "Workflows vs agents" se fusionó como cierre del índice en vez de página aparte, por solapar con la intro. `mkdocs build --strict` limpio en ambos cambios. Insignia de LinkedIn redactada: **RAG sí lo construyó Pau desde cero** (`IA/practica/Claude/RAG/rag.js`); **MCP NO** — fue solo la teoría del curso, no hay carpeta MCP en su práctica local.
+
+---
+
 ## Estado tras el sábado 26/09
 
 **Consolidación de DOM contra los fallos de Repaso urgente.** Trece ejercicios hechos y documentados en el [registro del sábado 26](/waytoCode/2026/09/semana-3/2026-09-26/): del Bloque 2 los nº 2 a 6 y 10, y de «Refuerzo 2 · Reincidencias» `alternarDetalleAccesible`, `sincronizarCheckMaestro`, `activarPopoverConCierreFuera`, `activarContadorConTope`, `marcarPestanaActiva`, `cerrarNotificacionesYContar` y `activarFiltroEtiquetas`. Diez con fallos corregidos y tres sin fallos. La segunda tanda (E8, E9, E10 y `activarFiltroEtiquetas`) fue **sin pistas**: solo se dice si va bien, cuando lo pide, y qué falla, sin el porqué.
@@ -50,41 +83,15 @@ Teoría nueva: [Métodos básicos](/js/01-basico/08-metodos-basicos/) (números 
 
 ---
 
-## 📅 Plan — próxima sesión (fin de semana 26-27/09)
+## 📅 Plan — próxima sesión
 
-### Domingo 27/09 (12 h)
+**React (desde el 14/10):** seguir JSCamp, lección 4 «Componentes en React» (pilar 1.3), y cerrar antes lo pendiente de 1.1 (reorden y «React sin JSX»). Regla fija: temario = midudev; solo se completa con `es.react.dev` lo que falte; capítulos breves, claros y comparando con Vue; comentarios de código siempre en español.
 
-1. **Mañana: seguir con el repaso de DOM hasta dominarlo**, sin pistas y con el criterio de poda de siempre (bien y sin ayuda). Quedan `filtrarUsuariosPorTexto` y `activarPanelLateral`, más lo que siga en Repaso urgente (nº 1, 3, 4, 7, 10, 11, 12, 16). Antes de empezar, confirmar en el navegador los tests de los ejercicios del 21, 23, 24 y 26/09.
-2. **Si el DOM queda dominado** (Repaso urgente sin puntos vivos o con pocos), pasar a la **documentación de `fetch`** y todo lo necesario para trabajar con él (`async/await`, promesas, errores, JSON). Si no, se sigue con DOM: no se avanza a `fetch` sin dominarlo.
-3. **Tarde: terminar el curso de la API de Claude.** Faltan MCP review y el quiz, y las secciones siguientes: Claude Code, Agents and workflows y Final assessment.
+**JS, fecha sin fijar todavía:** seguir el bloque de Asincronía por `docs/js/05-asincronia/`, en orden — toca **Bloque 3, async/await** (teoría en `04-async-await/index.md`). Mismo patrón que los dos bloques anteriores: proponer la tabla de ejercicios primero y esperar confirmación antes de montar nada, casos de uso web reales, mezclando contenido ya dominado (arrays, objetos, callbacks, DOM), pensando en lo que luego se reutiliza en React. Revisar cada ejercicio en cuanto se diga "listo", sin esperar a que se pregunte.
 
-**Cuatro hábitos a aplicar** (salen de las debilidades detectadas el 23/09):
+**Curso de la API de Claude: CERRADO** (evaluación final aprobada, 27/09). No queda nada pendiente de este curso.
 
-1. **Trazar antes de decir «listo»:** un caso concreto del enunciado, línea a línea, en una tabla.
-2. **Leer el enunciado y el HTML enteros** y hacer una lista de 2-4 cosas que tienen que ocurrir antes de la primera línea.
-3. **Preguntar qué es cada cosa** al usar un punto: elemento, texto, número, evento o booleano.
-4. **Releer el bloque entero y ejecutar el test en el navegador** antes de avisar.
-
-**Ritmo esta semana:** sábado 26 y domingo 27 con **12 h cada día** para estudiar. Entre semana, en casa: JS.
-
-**Desde octubre:** sábado y domingo (12 h cada día) para sacar el certificado del curso de API de Claude (48 de 84 sesiones antes del 26/09; ese día se documentaron unas 20 más, contador por comprobar en Skilljar); entre semana sigue JS.
-
-**Objetivo único:** cerrar lo que queda de JS para empezar React cuanto antes.
-
-**Siguiente tanda (DOM, antes de `fetch`), sin pistas**, dirigida a los fallos que siguen en Repaso urgente. Al cerrar cada bloque se mira Repaso urgente y se poda lo que sale bien y sin ayuda. Candidatos:
-
-- **nº 7** (leer en el momento del evento) y **nº 4** (`dataset`/`getAttribute` como texto): contadores y `aria-expanded`.
-- **nº 11 y nº 12** (elemento frente a valor, `=` frente a `===`): checkboxes, contadores y colecciones.
-- **nº 1** (cada rama deja los dos estados): validaciones con span de error.
-- **nº 10** (`contains`, en vigilancia): un ejercicio con clic fuera, como `activarPanelLateral`.
-- **nº 3** (`x++`) y **nº 16** (`insertBefore`): no salieron hoy.
-- Quedan `filtrarUsuariosPorTexto` (Refuerzo 2) y `activarPanelLateral` (card «Refuerzo»).
-- Confirmar en el navegador los tests de los días 21, 23, 24 y 26/09.
-- Arreglar los enunciados del Bloque 2: nº 5 (`validarRangoNumerico`: la función se llama cada vez que cambia el valor, no escucha eventos) y nº 10 (quitar la referencia a «la tabla de hoy»).
-
-**JS después:** repaso de **`fetch`** y `async/await`, cuando el DOM esté consolidado.
-
-**React:** empieza en cuanto el bloque JS esté cerrado, sin esperar a octubre.
+**Objetivo único:** cerrar lo que queda de JS (Asincronía completa) para empezar React cuanto antes.
 
 **Sin prioridad esta semana:** implementar `BM25Index` y `Retriever` en la práctica del RAG (la teoría ya está documentada); Symfony (próximo bloque a confirmar contra el plan real).
 
@@ -102,7 +109,11 @@ Teoría nueva: [Métodos básicos](/js/01-basico/08-metodos-basicos/) (números 
 - **Disciplina — media corrección:** arreglar una parte y decir «¿así?» sin releer es el fallo que más pesa. Releer el bloque entero antes de dar algo por hecho.
 - **Leer el enunciado y el HTML entero antes de escribir**, y apuntar lo que debe ocurrir (en `activarFiltroCategorias` faltó rotar el botón activo por no leerlo entero).
 - **Daily log — una card por error** (desde el 23/09): cada error en su propio `!!! failure "❌ Fallo N — título"`, con su código real, `// ❌` y su propia `🧠 Lección`. Los ejercicios sin fallos van en cuadrícula de totales. Nada de typos ni de notas meta sobre cómo se escribió el log. En cada ejercicio va primero el ✅ código corregido y debajo las cards de fallo.
-- **Poda de Repaso urgente al cerrar cada sesión** (desde el 23/09): un error que ya no persiste se saca de Repaso urgente (JS/DOM o Symfony). Se comprueba contra el resultado real del día, no de memoria.
+- **Poda de Repaso urgente al cerrar cada sesión** (desde el 23/09): un error que ya no persiste se saca de Repaso urgente (JS/DOM o Symfony). Se comprueba contra el resultado real del día, no de memoria. **Poda: solo los números** (desde el 27/09) — sin justificación larga por punto.
+- **Reincidencia en sesión larga** (desde el 27/09): un mismo patrón que reaparece en un **bloque distinto** dentro del mismo día ya cuenta como reincidencia — no hace falta esperar a un día de calendario distinto.
+- **Revisar cada ejercicio al terminarlo** (desde el 27/09): en cuanto se dice "listo", se revisa el código sin esperar a que se pregunte.
+- **Ejercicios nuevos: casos web + mezcla + React** (desde el 27/09): cada bloque nuevo, casos de uso web reales, mezclando contenido ya dominado (arrays, objetos, callbacks, DOM), pensando en lo que se reutiliza en React (estado `{ cargando, error, datos }`, listas con `.map()`, inmutabilidad). Proponer la tabla de ejercicios y esperar confirmación antes de montar nada.
+- **Live-reload en toda ficha nueva** (desde el 27/09): el runner expone `ejecutarTodo()` como función global; `<script src="../live-reload.js">` justo después del runner.
 - **Registro el mismo día:** daily log + esta página se actualizan al cierre de cada sesión, no al día siguiente.
 
 ---

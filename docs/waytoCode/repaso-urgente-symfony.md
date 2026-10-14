@@ -2,7 +2,7 @@
 
 > Repaso antes de tocar código. Sale del checkpoint S1 (rehacer el slice de `Product` de memoria), de los fallos **conceptuales** de Formularios (29/08) y del bloque de Servicios (30/08). Mirar esto antes de escribir el primer controlador. Los bloques van de más a menos urgente (🔴 → 🟢).
 >
-> JS / DOM tiene su propia página: [Repaso urgente — JS / DOM](repaso-urgente-js.md).
+> JS / DOM tiene su propia página: [Repaso urgente — JS / DOM](repaso-urgente-js.md). React: [Repaso urgente — React](repaso-urgente-react.md).
 
 <style>
 .repaso-compact { font-size: .82rem; line-height: 1.45; }

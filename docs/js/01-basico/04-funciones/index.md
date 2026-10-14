@@ -229,6 +229,8 @@ const sumar = (a, b) => a + b;
     ```
     En cuanto agregas `{ }`, JavaScript entiende que ahí puede haber varias instrucciones — y ya no asume cuál es el resultado. Tienes que decírselo con `return`, igual que en una función normal.
 
+    La misma regla afecta a cualquier otra instrucción, no solo a `return`: `error => throw new Error("x")` también es inválido — `throw` es una instrucción, y sin llaves solo cabe una expresión. Hace falta `error => { throw new Error("x"); }`.
+
 <div class="demo-box">
 <p class="demo-box__label">Resultado en vivo — return implícito</p>
 <div id="demo-js-arrow-return"></div>

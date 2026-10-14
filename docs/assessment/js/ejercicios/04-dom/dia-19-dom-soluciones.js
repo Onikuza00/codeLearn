@@ -1,0 +1,769 @@
+// ============================================================
+// Día 19 — DOM · SOLUCIONES
+// ============================================================
+// ✏️ Escribí acá tus soluciones. Guardá el archivo y recargá
+// la página para ver los resultados.
+
+// ---------- 23/08 — Refuerzo 2 · Reincidencias ----------
+
+// 1) validarPrecioEnRango(inputPrecio, spanError)
+function validarPrecioEnRango(inputPrecio, spanError) {
+  function validar(){
+    const precio = Number(inputPrecio.value)
+    const mensaje = "Hay un error"
+
+    if(precio >= 10 && precio <= 500){
+      inputPrecio.setCustomValidity("");
+      spanError.textContent = ""
+    }else{
+      inputPrecio.setCustomValidity(mensaje)
+      spanError.textContent = mensaje
+    }
+
+  }
+  inputPrecio.addEventListener("input", validar)
+  validar();
+
+}
+
+// 2) validarTelefonoExacto(inputTelefono, spanError)
+function validarTelefonoExacto(inputTelefono, spanError) {
+  function validacion(){
+    const numeros = "0123456789"
+    const digito = inputTelefono.value.split("").every(x => numeros.includes(x))
+    const longi = inputTelefono.value.length === 9
+    const valido = digito && longi
+    const mensaje = "Hay un error"
+
+    if(valido){
+      inputTelefono.setCustomValidity("")
+      spanError.textContent = ""
+    }else{
+      inputTelefono.setCustomValidity(mensaje)
+      spanError.textContent = mensaje
+    }
+  }
+
+
+  inputTelefono.addEventListener("input", validacion)
+    validacion();
+
+}
+
+// 3) activarContadorConTope(botonMas, botonMenos, spanCantidad, spanRestante, minimo, maximo)
+function activarContadorConTope(botonMas, botonMenos, spanCantidad, spanRestante, minimo, maximo) {
+
+  const ver = (x) => {
+    spanCantidad.dataset.cantidad = x
+    spanCantidad.textContent = x
+    spanRestante.textContent = `${maximo - x}`
+  }
+
+  botonMas.addEventListener("click", () => {
+    const cantidad = Math.min(Number(spanCantidad.dataset.cantidad) +1, maximo)
+      ver(cantidad)
+  })
+  botonMenos.addEventListener("click", () => {
+    const cantidad = Math.max(Number(spanCantidad.dataset.cantidad) -1, minimo)
+        ver(cantidad)
+
+  })
+}
+
+// 4) alternarDetalleAccesible(boton, detalle, flecha)
+function alternarDetalleAccesible(boton, detalle, flecha) {
+  boton.addEventListener("click", () => {
+    const estAbierto = boton.getAttribute("aria-expanded") === "true"
+    boton.setAttribute("aria-expanded", !estAbierto)
+    detalle.classList.toggle("hidden", estAbierto)
+    flecha.textContent = !estAbierto ? "^" : "v"
+  })
+}
+
+// 5) activarFiltroEtiquetas(zona)
+function activarFiltroEtiquetas(zona) {
+  zona.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filtro")
+    if(!btn) return
+    const btns = zona.querySelectorAll(".filtro")
+    const maestro = zona.querySelector("[data-etiqueta='todos']")
+
+    btns.forEach(x => {
+      const esActivo = btn === x
+      x.classList.toggle("filtro--activo", esActivo)
+    })
+
+    zona.querySelectorAll(".articulo").forEach(x => {
+      const iguales = btn.dataset.etiqueta === x.dataset.etiqueta
+      x.classList.toggle("hidden", !iguales)
+
+      if(e.target === maestro){
+        x.classList.remove("hidden")
+      }
+    })
+
+
+  })
+
+
+
+}
+
+// 6) filtrarUsuariosPorTexto(inputBusqueda, listaUsuarios, spanResultados)
+function filtrarUsuariosPorTexto(inputBusqueda, listaUsuarios, spanResultados) {
+  inputBusqueda.addEventListener("input", () => {
+    const lista = listaUsuarios.querySelectorAll(".usuario")
+    lista.forEach(x => {
+      const nombre = x.dataset.nombre.toLowerCase()
+      const correo = x.dataset.correo.toLowerCase()
+      const visible = nombre.includes(inputBusqueda.value.toLowerCase()) || correo.includes(inputBusqueda.value.toLowerCase())
+      x.classList.toggle("hidden", !visible)
+    })
+    const conteo = [...lista].filter(x=> !x.classList.contains("hidden")).length
+     spanResultados.textContent = conteo
+  })
+
+
+}
+
+// 7) sincronizarCheckMaestro(zona)
+function sincronizarCheckMaestro(zona) {
+  zona.addEventListener("change", (e) => {
+    const maestro = zona.querySelector("#maestro-s7")
+    const checks = zona.querySelectorAll(".check-hijo")
+
+    if(e.target === maestro)
+      checks.forEach(x => x.checked = maestro.checked)
+    else{
+      const todosMarcados = [...checks].every(x => x.checked)
+      maestro.checked = todosMarcados
+    }
+    const span = zona.querySelector("#estado-s7")
+    const marcados = [...checks].filter(x => x.checked).length
+    span.textContent = marcados
+
+  })
+
+
+}
+
+// 8) marcarPestanaActiva(barraPestanas, contenedorPaneles)
+function marcarPestanaActiva(barraPestanas, contenedorPaneles) {
+  barraPestanas.addEventListener("click", (e) => {
+    const pestana = e.target.closest(".pestana")
+    if(!pestana) return
+    pestana.setAttribute("aria-selected", "true")
+    pestana.classList.add("pestana--activa")
+
+    barraPestanas.querySelectorAll(".pestana").forEach(x => {
+      if(pestana !== x){
+      x.setAttribute("aria-selected", "false")
+      x.classList.remove("pestana--activa")
+      }
+    })
+
+    contenedorPaneles.querySelectorAll(".panel-pestana").forEach(n => {
+        const iguales = pestana.dataset.panel === n.dataset.panel
+        n.classList.toggle("hidden", !iguales)
+    })
+  })
+
+}
+
+// 9) activarPopoverConCierreFuera(boton, popover)
+function activarPopoverConCierreFuera(boton, popover) {
+  boton.addEventListener("click", () => {
+    popover.classList.toggle("hidden")
+    boton.setAttribute("aria-expanded",!popover.classList.contains("hidden"))
+  })
+
+  document.addEventListener("click", (e) => {
+    if(!boton.contains(e.target) && !popover.contains(e.target)){
+      popover.classList.add("hidden")
+      boton.setAttribute("aria-expanded","false")
+    }
+  } )
+}
+
+// 10) cerrarNotificacionesYContar(zona)
+function cerrarNotificacionesYContar(zona) {
+  zona.addEventListener("click", (e) => {
+    const btn = e.target.closest(".btn-descartar")
+    if(!btn) return
+
+    const facturas = zona.querySelectorAll(".notificacion")
+    let importe = Number(zona.querySelector("#total-notif-s10").textContent)
+
+    facturas.forEach(x => {
+      if(x.contains(e.target) && !x.classList.contains("hidden")){
+        x.classList.add("hidden")
+        importe-=  Number(x.dataset.importe)
+      }
+    })
+    const total = [...facturas].filter(x => !x.classList.contains("hidden")).length
+    const importeMenos = importe < 100
+    zona.querySelector("#contador-notif-s10").textContent = Math.floor(total)
+    zona.querySelector("#total-notif-s10").textContent = importe
+    zona.querySelector("#aviso-limite-s10").classList.toggle("hidden", !importeMenos)
+  })
+
+}
+
+// ---------- 23/08 — Refuerzo DOM ----------
+
+// 1) resaltarFilaSeleccionada(tabla)
+function resaltarFilaSeleccionada(tabla) {
+  tabla.addEventListener("click", function(e){
+    let fila = e.target.closest(".fila-tabla")
+    if(!fila) return;
+    tabla.querySelectorAll(".fila-tabla").forEach(x => {
+      x.classList.toggle("fila--activa", x === fila)
+    })
+  })
+}
+
+// 2) sincronizarInterruptorTema(boton, panel)
+function sincronizarInterruptorTema(boton, panel) {
+  boton.addEventListener("click", function(e){
+   const activo = panel.classList.toggle("tema-oscuro")
+   boton.setAttribute("aria-pressed", activo)
+  })
+
+}
+
+// 3) activarCierreAvisos(zona)
+function activarCierreAvisos(zona) {
+  zona.addEventListener("click", function(e){
+    let btn = e.target.closest(".btn-cerrar")
+    if(!btn) return;
+    e.target.closest(".aviso").classList.add("hidden")
+    let contador = 0
+    zona.querySelectorAll(".aviso").forEach(x => {
+      if(!x.classList.contains("hidden")){
+      contador++
+      zona.dataset.restantes = contador
+      zona.querySelector("#contador-avisos-r3").textContent = contador
+      }
+    })
+  })
+
+}
+
+// 4) ajustarTemperatura(botonSubir, botonBajar, spanValor, minimo, maximo)
+function ajustarTemperatura(botonSubir, botonBajar, spanValor, minimo, maximo) {
+
+botonSubir.addEventListener("click", function(){
+  let contador = Number(spanValor.dataset.temperatura);
+  contador = Math.min(maximo, contador + 1)
+  spanValor.dataset.temperatura = contador
+  spanValor.textContent = contador;
+})
+
+botonBajar.addEventListener("click", function(){
+  let contador = Number(spanValor.dataset.temperatura);
+  contador = Math.max(minimo, contador - 1)
+  spanValor.dataset.temperatura = contador
+  spanValor.textContent = contador;
+})
+}
+
+// 5) validarCodigoPostal(inputCodigo, spanError)
+function validarCodigoPostal(inputCodigo, spanError) {
+    const digito = inputCodigo.value.split("").every(x => "0123456789".includes(x))
+    const cumple = digito && inputCodigo.value.length === 5
+    const mensaje = "Error en el formato"
+
+    if(cumple){
+      inputCodigo.setCustomValidity("")
+      spanError.textContent = ""
+    }else{
+      inputCodigo.setCustomValidity(mensaje)
+      spanError.textContent = mensaje
+    }
+}
+
+// 6) activarPanelLateral(botonAbrir, panel)
+function activarPanelLateral(botonAbrir, panel) {
+  botonAbrir.addEventListener("click", (e) => {
+    panel.classList.toggle("hidden")
+  } )
+
+  document.addEventListener("click", (e) => {
+    if(!botonAbrir.contains(e.target) && !panel.contains(e.target))
+      panel.classList.add("hidden")
+  })
+}
+
+// 7) filtrarTareasPorEstadoYTexto(inputBusqueda, selectEstado, contenedorTareas)
+function filtrarTareasPorEstadoYTexto(inputBusqueda, selectEstado, contenedorTareas) {
+const aplicarFiltros = () => {
+  contenedorTareas.querySelectorAll(".tarea").forEach(e => {
+  const titulo = e.dataset.titulo.toUpperCase().includes(inputBusqueda.value.toUpperCase())
+  const estado = e.dataset.estado.toUpperCase() === selectEstado.value.toUpperCase()
+  const todos = selectEstado.value.toUpperCase() === "TODOS"
+  const entra = titulo && (estado || todos)
+  e.classList.toggle("hidden", !entra)
+  })
+}
+  inputBusqueda.addEventListener("input", aplicarFiltros)
+  selectEstado.addEventListener("change", aplicarFiltros)
+}
+
+// 8) moverAbajo(lista)
+function moverAbajo(lista) {
+  lista.addEventListener("click", (e) => {
+    const btn = e.target.matches(".btn-bajar")
+    if(!btn) return
+      const item = e.target.closest(".item-lista")
+      const hermano = item.nextElementSibling
+      if(!hermano) return
+      if(item) lista.insertBefore(hermano, item)
+  })
+
+}
+
+// 9) activarValoracionEstrellas(contenedor)
+function activarValoracionEstrellas(contenedor) {
+  contenedor.addEventListener("click", function(e){
+    const estrella = e.target.closest(".estrella")
+    if(!estrella) return;
+    const valor = Number(estrella.dataset.valor)
+
+    contenedor.querySelectorAll(".estrella").forEach(x => {
+      const esActivo = x.dataset.valor <= valor
+      x.classList.toggle("estrella--activa", esActivo)
+    })
+      contenedor.dataset.valoracion = `${valor}`
+      contenedor.querySelector("#texto-valoracion-r9").textContent = `${valor} de 5`
+  })
+}
+
+// 10) resumirCarrito(contenedor)
+function resumirCarrito(contenedor) {
+  let total = 0;
+  contenedor.querySelectorAll(".linea-carrito").forEach(x => {
+    let precio = Number(x.dataset.precio)
+    let cantidad = Number(x.dataset.cantidad)
+    total += precio * cantidad
+  })
+  contenedor.querySelector("#total-r10").textContent = `${total.toFixed(2)}€`
+}
+
+// ---------- Bloque 2 — Repaso ----------
+
+// 1) activarFiltroCategorias(contenedorBotones, contenedorProductos)
+function activarFiltroCategorias(contenedorBotones, contenedorProductos) {
+  contenedorBotones.addEventListener("click", function(e) {
+    const btn = e.target.closest("button")
+    if(!btn) return
+      const categoria = btn.dataset.categoria
+      const todos = categoria === "todos"
+      contenedorProductos.querySelectorAll(".producto-card").forEach(x => {
+      const cat = x.dataset.categoria === categoria
+      const valido = cat || todos
+      x.classList.toggle("hidden", !valido)
+  })
+      contenedorBotones.querySelectorAll(".filtro-btn").forEach(x => {
+          x.classList.toggle("filtro-btn--activo", x === btn)
+      })
+
+})
+}
+
+// 2) activarAcordeonExclusivo(panel)
+function activarAcordeonExclusivo(panel) {
+  panel.addEventListener("click", (e) => {
+    const btn = e.target.closest(".faq-pregunta")
+    if(!btn) return
+    const hermano = btn.nextElementSibling
+    const activo = hermano.classList.contains("hidden")
+
+    panel.querySelectorAll(".faq-pregunta").forEach(x => {
+      x.setAttribute("aria-expanded", "false")
+      x.nextElementSibling.classList.add("hidden")
+    })
+    if(activo){
+      btn.setAttribute("aria-expanded", "true")
+      hermano.classList.remove("hidden")
+    }
+  })
+
+
+}
+
+// 3) marcarTodosAgotados(contenedor)
+function marcarTodosAgotados(contenedor) {
+  contenedor.querySelectorAll(".stock-card").forEach(x => {
+    if(x.dataset.stock === "0")
+      x.classList.add("ring-2", "ring-amber-500")
+  })
+
+
+}
+
+// 4) mostrarBarraProgresoScroll(barra, scrollY, alturaTotal)
+function mostrarBarraProgresoScroll(barra, scrollY, alturaTotal) {
+  let mida = Math.round((scrollY / alturaTotal) * 100)
+  barra.style.width = `${mida}%`
+}
+
+// 5) validarRangoNumerico(inputEdad, spanError)
+function validarRangoNumerico(inputEdad, spanError) {
+    const edad = inputEdad.value
+    if(edad >= 18 && edad <= 65){
+      inputEdad.setCustomValidity("")
+      spanError.textContent=""
+    }else{
+      inputEdad.setCustomValidity(spanError.textContent = "Error de edades")
+    }
+}
+
+// 6) activarDropdownConCierre(boton, menu)
+function activarDropdownConCierre(boton, menu) {
+
+  boton.addEventListener("click", () => {
+    menu.classList.toggle("hidden")
+  })
+
+  document.addEventListener("click", (e) => {
+    if (!boton.contains(e.target) && !menu.contains(e.target))
+    menu.classList.add("hidden")
+  })
+
+}
+
+// 7) activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite)
+function activarStepperConLimite(botonMas, botonMenos, spanCantidad, limite) {
+  botonMas.addEventListener("click", () => {
+    let valor = Number(spanCantidad.textContent)
+    if(valor < limite) {valor++
+     spanCantidad.textContent = valor;
+    }
+  })
+
+   botonMenos.addEventListener("click", () => {
+    let valor = Number(spanCantidad.textContent)
+    if(valor > 0) {valor--
+     spanCantidad.textContent = valor;
+    }
+  })
+
+
+
+}
+
+// 8) filtrarPorNombreOCategoria(inputBusqueda, contenedorItems)
+function filtrarPorNombreOCategoria(inputBusqueda, contenedorItems) {
+  inputBusqueda.addEventListener("input", () => {
+    const valor = inputBusqueda.value.toLowerCase()
+    contenedorItems.querySelectorAll(".item-producto").forEach(x =>
+      {
+        const esVisible =  x.dataset.nombre.toLowerCase().includes(valor) || x.dataset.categoria.toLowerCase().includes(valor);
+        x.classList.toggle("hidden", !esVisible);
+      }
+    )
+  }
+)
+  }
+
+
+// 9) moverArriba(lista)
+function moverArriba(lista) {
+  lista.addEventListener("click", (e) => {
+    const btn = e.target.matches(".btn-subir")
+    if(!btn) return
+    const item = e.target.closest(".item-lista")
+    const brother = item.previousElementSibling;
+    if(!brother) return
+    lista.insertBefore(item, brother)
+  })
+
+}
+
+// 10) activarSeleccionGrid(contenedor)
+function activarSeleccionGrid(contenedor) {
+  contenedor.addEventListener("change", (e) => {
+    const esMaestro = e.target.matches("#check-maestro-repaso")
+    const esCheckbox = e.target.matches(".check-producto")
+    const listaCheck = contenedor.querySelectorAll(".check-producto")
+
+    //Check del maestro ->
+    listaCheck.forEach(x => {
+      if(esMaestro)
+        x.checked = e.target.checked
+    })
+
+    //Check individual ->
+    if(esCheckbox){
+      const checkMaestro = contenedor.querySelector("#check-maestro-repaso")
+      const todasMarcadas = [...listaCheck].every(x => x.checked)
+      checkMaestro.checked = todasMarcadas
+    }
+
+
+  })
+
+
+
+}
+
+// ---------- 22/08 — DOM + Tailwind ----------
+
+// 1) renderizarProductos(contenedor, productos)
+function renderizarProductos(contenedor, productos) {
+  productos.forEach(box => {
+  let card = document.createElement("article")
+  contenedor.appendChild(card);
+  card.className = "product-card"
+
+  let titulo = document.createElement("h3")
+  titulo.textContent = `${box.nombre}`
+  titulo.className = "product-card-nombre"
+  card.appendChild(titulo)
+
+  let precio = document.createElement("span")
+  precio.textContent = `${box.precio.toFixed(2)}€`
+  precio.className = "product-card-precio"
+  card.appendChild(precio)
+
+  let esInferior = box.stock === 0
+  let badge = document.createElement("span")
+  badge.textContent = esInferior ? "Agotado" : "Disponible"
+  badge.className = esInferior ? "stock-badge bg-red-100 text-red-700" : "stock-badge bg-green-100 text-green-700"
+  card.appendChild(badge)
+  })
+}
+
+// 2) activarSeleccionMasiva(contenedorTabla)
+function activarSeleccionMasiva(contenedorTabla) {
+  let inputs = contenedorTabla.querySelectorAll(".check-fila")
+  let master = contenedorTabla.querySelector("#check-todos")
+
+  contenedorTabla.addEventListener("change", function(e){
+     let todos = true;
+    if(e.target === master){
+      inputs.forEach(box => box.checked = todos)
+    }
+    else{
+      inputs.forEach(box => {
+      if(!box.checked) todos = false;
+  })
+    master.checked = todos;
+    }
+  })
+}
+
+// 3) marcarPrimeraTarjetaAgotada(contenedor)
+function marcarPrimeraTarjetaAgotada(contenedor) {
+  let unica = true;
+  contenedor.querySelectorAll(".stock-card").forEach(card => {
+    if(card.dataset.stock == 0 && unica){
+      card.classList.add("ring-2", "ring-red-500");
+      unica = false;
+    }
+  })
+}
+
+// 4) mostrarTooltipEnCursor(tooltip, evento)
+function mostrarTooltipEnCursor(tooltip, evento) {
+tooltip.classList.remove("hidden")
+tooltip.style.left = evento.clientX + "px";
+tooltip.style.top = evento.clientY + "px";
+}
+
+// 5) validarLongitudUsuario(inputUsuario, spanAyuda)
+function validarLongitudUsuario(inputUsuario, spanAyuda) {
+  if(inputUsuario.value.length < 4 || inputUsuario.value.length > 12){
+    inputUsuario.setCustomValidity("Campo invàlido");
+    spanAyuda.textContent = "Campo invàlido"
+  }
+  else{
+    inputUsuario.setCustomValidity("")
+    spanAyuda.textContent = ""
+  }
+}
+
+// 6) activarAcordeon(panel)
+function activarAcordeon(panel) {
+  panel.addEventListener("click", function(e){
+    if(e.target.classList.contains("faq-pregunta")){
+      e.target.ariaExpanded = !e.target.nextElementSibling.classList.toggle("hidden");
+    }
+})
+}
+
+// 7) filtrarListaEnVivo(inputBusqueda, contenedorItems)
+function filtrarListaEnVivo(inputBusqueda, contenedorItems) {
+  inputBusqueda.addEventListener("input",function(e){
+    let valor = e.target.value.toLowerCase();
+      contenedorItems.querySelectorAll(".item-lista").forEach(x => {
+        x.dataset.nombre.toLowerCase().includes(valor) ? x.classList.remove("hidden") : x.classList.add("hidden")
+      })
+  })
+
+}
+
+// 8) activarStepperCarrito(botonMas, botonMenos, spanCantidad)
+function activarStepperCarrito(botonMas, botonMenos, spanCantidad) {
+  let num = Number(spanCantidad.textContent)
+  botonMas.addEventListener("click", function(e){
+      num++;
+      spanCantidad.textContent = num;
+  })
+  botonMenos.addEventListener("click", function(e){
+    if(num > 0){
+      num--;
+      spanCantidad.textContent = num;
+      }
+  })
+}
+
+// 9) activarCierreModalFuera(modal)
+function activarCierreModalFuera(modal) {
+  modal.addEventListener("click", function(e){
+    if(e.target == modal){
+      e.target.classList.add("hidden")
+    }
+  })
+}
+
+// 10) activarDragReordenable(lista)
+function activarDragReordenable(lista) {
+  let item = null;
+  lista.addEventListener("dragstart", function(e){
+    item = e.target;
+  })
+  lista.addEventListener("drop", function(e){
+    lista.insertBefore(item,e.target)
+  })
+  lista.addEventListener("dragover", (e) => e.preventDefault())
+
+
+}
+
+// ---------- Grupo 1 — Selección ----------
+
+// 1) textoBadge(tarjeta, alternativo)
+function textoBadge(tarjeta, alternativo) {
+ let badge = tarjeta.querySelector(".badge")
+ return badge ? badge.textContent : alternativo;
+}
+
+// 2) productosVisibles(lista)
+function productosVisibles(lista) {
+  let filtro = lista.querySelectorAll(".producto")
+  let listaNueva = [...filtro].filter(e => !e.classList.contains("oculto"))
+  return listaNueva.map(e => e.textContent)
+}
+
+// 3) siguienteItem(menu)
+function siguienteItem(menu) {
+  let opcion = menu.querySelector(".activo")
+  if(menu.lastElementChild === opcion || !opcion) return null
+  let hermano = opcion.nextElementSibling
+    return hermano.textContent
+}
+
+// ---------- Grupo 2 — Manipulación ----------
+
+// 4) mostrarNombreUsuario(parrafo, nombre)
+function mostrarNombreUsuario(parrafo, nombre) {
+  parrafo.textContent = nombre;
+}
+
+// 5) datosProductoCard(tarjeta)
+function datosProductoCard(tarjeta) {
+  let precio = parseFloat(tarjeta?.dataset?.precio)
+  let categoria = tarjeta?.dataset?.categoria
+  let stock = parseInt(tarjeta?.dataset?.stock)
+  const producto = {precio: precio, categoria: categoria, stock: stock}
+  return producto;
+}
+
+// 6) alternarFavorito(boton)
+function alternarFavorito(boton) {
+  boton.classList.toggle("like")
+  return boton.classList.contains("like");
+}
+
+
+// 7) agregarTarea(lista, texto)
+function agregarTarea(lista, texto) {
+  const item = document.createElement("li");
+  item.textContent = texto;
+  lista.appendChild(item)
+  return lista.querySelectorAll("li").length;
+
+}
+
+// 8) eliminarTarea(lista, texto)
+function eliminarTarea(lista, texto) {
+  const items = lista.querySelectorAll("li")
+  items.forEach(e => {
+    if(e.textContent === texto){
+       e.remove()
+    }
+  })
+  return lista.children.length;
+}
+
+// ---------- Grupo 3 — Eventos ----------
+
+// 9) evitarNavegacion(enlace)
+function evitarNavegacion(enlace) {
+  enlace.addEventListener("click", function(e){
+    e.preventDefault();
+  })
+}
+
+// 10) activarDelegacionTareas(lista)
+function activarDelegacionTareas(lista) {
+  lista.addEventListener("click", function(e){
+    e.target.classList.toggle("done");
+  })
+}
+
+// 11) activarEnvioConEnter(input, alEnviar)
+function activarEnvioConEnter(input, alEnviar) {
+  input.addEventListener("keydown", function(e){
+   if(e.key === "Enter") alEnviar(input.value);
+  })}
+
+// 12) activarArrastre(tarjeta)
+function activarArrastre(tarjeta) {
+  let arrastrar = false;
+  tarjeta.addEventListener("mousedown", () => { arrastrar = true })
+  tarjeta.addEventListener("mousemove", function(e){
+    if(!arrastrar) return;
+      tarjeta.style.left = e.clientX + "px";
+      tarjeta.style.top = e.clientY + "px";
+  })
+  tarjeta.addEventListener("mouseup", () => { arrastrar = false })
+}
+
+// 13) activarContadorCaracteres(input, contador)
+function activarContadorCaracteres(input, contador) {
+  input.addEventListener("input", function(e){
+    return contador.textContent = input.value.length;
+   })
+}
+
+// ---------- Grupo 4 — Formularios ----------
+
+// 14) datosFormulario(formulario)
+function datosFormulario(formulario) {
+  const datos = new FormData(formulario);
+  return Object.fromEntries(datos);
+}
+
+// 15) validarConfirmacionEmail(email, confirmarEmail)
+function validarConfirmacionEmail(email, confirmarEmail) {
+  if(email.value !== confirmarEmail.value){
+    confirmarEmail.setCustomValidity("Error los ee-mails no coinciden")
+  }else{
+    confirmarEmail.setCustomValidity("");
+  }
+
+}
+
+

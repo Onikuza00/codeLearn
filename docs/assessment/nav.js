@@ -36,17 +36,20 @@
   const dropdownJs =
     '<div class="megamenu__title">JS · Temarios</div>' +
     section('📘 Básico',
-      link(base + 'js/ejercicios/conceptos-basicos.html', 'code', 'Fundamentos', 'Variables · tipos · estructuras · lógica', 'js') +
-      link(base + 'js/ejercicios/dia-11-callbacks-closures.html', 'list', 'Funciones — Callbacks + Closures', 'Funciones como valor · closures', 'js'),
+      link(base + 'js/ejercicios/01-basico/conceptos-basicos.html', 'code', 'Fundamentos', 'Variables · tipos · estructuras · lógica', 'js') +
+      link(base + 'js/ejercicios/05-asincronia/dia-11-callbacks-closures.html', 'list', 'Funciones — Callbacks + Closures', 'Funciones como valor · closures', 'js'),
       { open: true }) +
     section('📊 Arrays',
-      link(base + 'js/ejercicios/dia-02-arrays.html', 'list', 'Métodos + reduce', 'map · filter · forEach · reduce', 'js')) +
+      link(base + 'js/ejercicios/02-arrays/dia-02-arrays.html', 'list', 'Métodos + reduce', 'map · filter · forEach · reduce', 'js')) +
     section('🧩 Objetos',
-      link(base + 'js/ejercicios/dia-10-objetos.html', 'list', 'Atajos · iterar · optional chaining · spread', 'keys · values · entries · ?. · {...}', 'js') +
-      link(base + 'js/ejercicios/dia-13-metodos-avanzados.html', 'zap', 'Día 13 — find/some/every · this · errores', '15 ejercicios, 5 grupos', 'js'),
+      link(base + 'js/ejercicios/03-objetos/dia-10-objetos.html', 'list', 'Atajos · iterar · optional chaining · spread', 'keys · values · entries · ?. · {...}', 'js') +
+      link(base + 'js/ejercicios/03-objetos/dia-13-metodos-avanzados.html', 'zap', 'Día 13 — find/some/every · this · errores', '15 ejercicios, 5 grupos', 'js'),
       { open: true }) +
     section('🌐 DOM',
-      link(base + 'js/ejercicios/dia-19-dom.html', 'zap', 'Día 19 — DOM, Eventos y Formularios', '55 ejercicios, 8 grupos', 'js'),
+      link(base + 'js/ejercicios/04-dom/dia-19-dom.html', 'zap', 'Día 19 — DOM, Eventos y Formularios', '55 ejercicios, 8 grupos', 'js'),
+      { open: true }) +
+    section('🔄 Asincronía',
+      link(base + 'js/ejercicios/05-asincronia/dia-20-asincronia.html', 'zap', 'Día 20 — Promesas, async/await, Fetch', 'Bloque a bloque, según teoría', 'js'),
       { open: true });
 
   const dropdownCss =
@@ -70,6 +73,12 @@
     section('🏗️ Fundamentos',
       link(base + 'symfony/ejercicios/fundamentos.html', 'code', 'Ejercicio combinado', 'Rutas · Controllers · Doctrine · Twig', 'symfony') +
       link(base + '../symfony/00-fundamentos/', 'list', 'Apuntes — Bloque 00', 'Teoría completa de Fundamentos', 'symfony'),
+      { open: true });
+
+  const dropdownReact =
+    '<div class="megamenu__title">React · Temarios</div>' +
+    section('⚛️ Ejercicios',
+      link(base + 'react/ejercicios/index.html', 'list', 'Ejercicios de React', 'Sin ejercicios todavía', 'js'),
       { open: true });
 
   const dropdownRuta =
@@ -100,6 +109,10 @@
           '<div class="megamenu" id="dropdown-symfony">' + dropdownSymfony + '</div>' +
         '</li>' +
         '<li class="nav__item">' +
+          '<button class="nav__btn" data-dropdown="react" aria-haspopup="true">React <span class="arrow">▼</span></button>' +
+          '<div class="megamenu" id="dropdown-react">' + dropdownReact + '</div>' +
+        '</li>' +
+        '<li class="nav__item">' +
           '<button class="nav__btn" data-dropdown="ruta" aria-haspopup="true">Ruta de Agosto <span class="arrow">▼</span></button>' +
           '<div class="megamenu" id="dropdown-ruta">' + dropdownRuta + '</div>' +
         '</li>' +
@@ -119,16 +132,19 @@
   const isJS = path.endsWith('js-basico.html') || path.endsWith('js-vanilla.html') || path.endsWith('.html') && /\/js\/ejercicios\//.test(path);
   const isCSS = path.endsWith('css-final.html') || path.endsWith('css-fundamentos.html') || /\/css\/ejercicios\//.test(path);
   const isSymfony = /\/symfony\/ejercicios\//.test(path);
+  const isReact = /\/react\/ejercicios\//.test(path);
   const isRuta = path.endsWith('progreso.html');
 
   const btnJs = siteNav.querySelector('[data-dropdown="js"]');
   const btnCss = siteNav.querySelector('[data-dropdown="css"]');
   const btnSymfony = siteNav.querySelector('[data-dropdown="symfony"]');
+  const btnReact = siteNav.querySelector('[data-dropdown="react"]');
   const btnRuta = siteNav.querySelector('[data-dropdown="ruta"]');
 
   btnJs.classList.toggle('nav__btn--active-js', isJS);
   btnCss.classList.toggle('nav__btn--active', isCSS);
   btnSymfony.classList.toggle('nav__btn--active-symfony', isSymfony);
+  btnReact.classList.toggle('nav__btn--active-js', isReact);
   btnRuta.classList.toggle('nav__btn--active-ruta', isRuta);
 
   let openDropdown = null;

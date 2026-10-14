@@ -125,7 +125,7 @@ try {
 !!! warning "`race` no cancela la promesa perdedora"
     Ganar la carrera solo significa que su resultado es el que se propaga. La petición lenta **sigue viajando por la red** y consumiendo recursos hasta que el servidor responda.
 
-    Para cancelar de verdad una petición HTTP necesitas `AbortController`, que se explica en la página de [Fetch](../04-fetch/index.md).
+    Para cancelar de verdad una petición HTTP necesitas `AbortController`, que se explica en la página de [Fetch](../05-fetch/index.md).
 
 Ojo con un detalle: si la primera en terminar es una que falla, `race` se rechaza, aunque otra hubiera funcionado. Para "la primera que funcione" existe otro método.
 

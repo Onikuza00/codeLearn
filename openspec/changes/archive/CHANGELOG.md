@@ -6,6 +6,7 @@
 
 | Fecha | Cambio | Resumen |
 |---|---|---|
+| 2026-10-14 | [tema-visual-react](2026-10-14-tema-visual-react/) | Bloque React con identidad visual propia: degradado cian del logo (`#61DAFB → #149ECA`, oscurecido en modo claro), clases `.section-react`/`.bloque-react` en los h1 de `docs/react/` e icono SVG real del logo en menú y tablas |
 | 2026-09-26 | [formato-repaso-urgente](2026-09-26-formato-repaso-urgente/) | Repaso urgente usa el formato de cards del daily: `✅` con el código bueno primero y un `❌` por error; los avisos (tip/danger/warning) no se tocan. Norma añadida a `rules/ejercicios-resultados.md`, que el hook ya inyecta al editar `docs/waytoCode/` |
 | 2026-09-26 | [live-reload-ejercicios](2026-09-26-live-reload-ejercicios/) | Las páginas de ejercicios re-ejecutan los tests al guardar el archivo de soluciones, sin recargar la página (`live-reload.js` + `ejecutarTodo()` en el runner). Limpia los listeners de `document`/`window` entre ejecuciones |
 | 2026-09-23 | [card-por-error](2026-09-23-card-por-error/) | Norma nueva para el daily log: cada error documentado va en su propia card `!!! failure` (frase + código con `// ❌` + su `🧠 Lección`), en vez de bullets + un único bloque de código por ejercicio. Además, al cerrar cada sesión un error que ya no persiste se saca de Repaso Urgente. Rige desde el 23/09; los logs anteriores no se tocan |

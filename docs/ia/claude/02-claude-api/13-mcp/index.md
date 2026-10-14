@@ -14,7 +14,7 @@
 |---|---|
 | [Presentando MCP](01-presentando-mcp/index.md) | Qué es MCP, qué problema resuelve y en qué se diferencia del uso de herramientas y de las llamadas directas a una API |
 | [Clientes MCP](02-clientes-mcp/index.md) | El cliente como puente hacia los servidores MCP, los transportes, los mensajes `ListTools` y `CallTool` y el flujo completo de una consulta |
-| [Proyecto y herramientas MCP](03-proyecto-y-herramientas/index.md) | Preparar un chatbot de línea de comandos con cliente y servidor MCP, y definir las herramientas del servidor con el SDK de Python |
+| [Proyecto y herramientas MCP](03-proyecto-y-herramientas/index.md) | Preparar un chatbot de línea de comandos con cliente y servidor MCP, y definir las herramientas del servidor con el SDK de JavaScript |
 | [Inspector y cliente](04-inspector-y-cliente/index.md) | Probar el servidor con el inspector del navegador e implementar el cliente con `list_tools()` y `call_tool()` |
 | [Recursos](05-recursos/index.md) | Exponer datos con `@mcp.resource()` (directos y con plantilla) y leerlos desde el cliente con `read_resource` |
 | [Prompts](06-prompts/index.md) | Ofrecer prompts predefinidos con `@mcp.prompt()` y usarlos desde el cliente con `list_prompts` y `get_prompt` |

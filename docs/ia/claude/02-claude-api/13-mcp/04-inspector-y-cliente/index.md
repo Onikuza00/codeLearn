@@ -6,14 +6,14 @@
 
 ## El inspector del servidor { .topic-title }
 
-Al crear un servidor MCP hace falta una forma de **probarlo sin montar la aplicación entera**. El SDK de Python incluye un **inspector** integrado, que se abre en el navegador y permite depurar el servidor en tiempo real.
+Al crear un servidor MCP hace falta una forma de **probarlo sin montar la aplicación entera**. MCP incluye un **inspector** oficial (`@modelcontextprotocol/inspector`), que se abre en el navegador y permite depurar el servidor en tiempo real.
 
 ### Arrancarlo
 
-Primero hay que tener **activado el entorno de Python** del proyecto (el README indica el comando exacto). Después:
+Primero hay que tener las dependencias del proyecto instaladas (`pnpm install`). Después:
 
 ```bash
-mcp dev mcp_server.py
+npx @modelcontextprotocol/inspector node mcp-server.js
 ```
 
 Esto inicia un servidor de desarrollo en el puerto `6277` y muestra una **URL local** para abrir en el navegador, donde aparece el panel del MCP Inspector.
@@ -55,7 +55,7 @@ En la mayoría de los proyectos reales se implementa un cliente **o** un servido
 | Componente | Qué es |
 |---|---|
 | **Cliente MCP** (`MCPClient`) | Una clase propia que se crea para facilitar el uso de la sesión. |
-| **Sesión del cliente** (`ClientSession`) | La conexión real con el servidor. Forma parte del SDK de Python. |
+| **Sesión del cliente** (`Client`) | La conexión real con el servidor. Forma parte del SDK oficial de JavaScript. |
 
 La sesión necesita **liberar sus recursos** correctamente cuando termina (cerrar la conexión, por ejemplo). Por eso se envuelve en la clase `MCPClient`, que se encarga de esa limpieza automáticamente.
 
@@ -66,29 +66,32 @@ El código de la aplicación necesita hacer **dos cosas** con el servidor MCP:
 1. **Obtener la lista de herramientas** disponibles, para enviarla a Claude.
 2. **Ejecutar una herramienta** cuando Claude la pida.
 
-El cliente ofrece las dos como métodos sencillos: `list_tools()` y `call_tool()`.
+El cliente ofrece las dos como métodos sencillos: `listTools()` y `callTool()`.
 
-### `list_tools()`
+### `listTools()`
 
 Obtiene todas las herramientas del servidor:
 
-```python
-async def list_tools(self) -> list[types.Tool]:
-    result = await self.session().list_tools()
-    return result.tools
+```js
+async listTools() {
+  const result = await this.session().listTools();
+  return result.tools;
+}
 ```
 
-Accede a la sesión (la conexión con el servidor), llama a su método `list_tools()` y devuelve las herramientas del resultado.
+Accede a la sesión (la conexión con el servidor), llama a su método `listTools()` y devuelve las herramientas del resultado.
 
-### `call_tool()`
+### `callTool()`
 
 Ejecuta una herramienta concreta en el servidor:
 
-```python
-async def call_tool(
-    self, tool_name: str, tool_input: dict
-) -> types.CallToolResult | None:
-    return await self.session().call_tool(tool_name, tool_input)
+```js
+async callTool(toolName, toolInput) {
+  return await this.session().callTool({
+    name: toolName,
+    arguments: toolInput
+  });
+}
 ```
 
 Envía al servidor el nombre de la herramienta y sus argumentos (que ha decidido Claude) y devuelve el resultado.
@@ -97,12 +100,15 @@ Envía al servidor el nombre de la herramienta y sus argumentos (que ha decidido
 
 El archivo incluye un pequeño entorno de prueba que se conecta al servidor y llama a los métodos:
 
-```python
-async with MCPClient(
-    command="uv", args=["run", "mcp_server.py"]
-) as client:
-    result = await client.list_tools()
-    print(result)
+```js
+const client = new MCPClient({ command: "node", args: ["mcp-server.js"] });
+
+try {
+  const result = await client.listTools();
+  console.log(result);
+} finally {
+  await client.close();
+}
 ```
 
 Al ejecutarlo se imprimen las definiciones de las herramientas, incluidas `read_doc_contents` y `edit_document`.
