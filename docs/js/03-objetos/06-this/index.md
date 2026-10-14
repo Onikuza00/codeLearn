@@ -2,6 +2,10 @@
 
 > `this` no apunta siempre a lo mismo — su valor depende de **cómo se llama la función**, no de dónde está escrita. Es la parte de JavaScript que más confunde a quien viene de otros lenguajes, porque en la mayoría de ellos `this`/`self` es fijo.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/byirHCoSPFY" title="¿Qué es this en JavaScript? Explicación fácil, directa y sencilla con ejemplos — midudev" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ---
 
 ## La regla real: importa cómo se llama, no dónde se define {: .topic-title }

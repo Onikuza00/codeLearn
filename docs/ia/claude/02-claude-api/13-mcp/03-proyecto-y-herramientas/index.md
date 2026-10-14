@@ -1,6 +1,6 @@
 # Proyecto y herramientas MCP { .bloque-ia }
 
-> Un chatbot de línea de comandos con un cliente y un servidor MCP propios, y cómo definir las herramientas del servidor con el SDK oficial de Python.
+> Un chatbot de línea de comandos con un cliente y un servidor MCP propios, y cómo definir las herramientas del servidor con el SDK oficial de JavaScript.
 
 ---
 
@@ -16,115 +16,120 @@ El servidor ofrece **dos herramientas**: una para **leer** el contenido de un do
 !!! info "En un proyecto real casi nunca se hacen los dos"
     Lo normal es implementar **un cliente o un servidor**, no ambos. Un servidor MCP sirve para exponer tu servicio a otros desarrolladores. Un cliente MCP sirve para conectarte a servidores que ya existen. Aquí se construyen los dos con fines educativos, para ver cómo se comunican.
 
-## Preparar el proyecto { .topic-title }
-
-El curso proporciona el proyecto como un archivo `cli_project.zip`. Se descarga desde la lección y se extrae en la carpeta de desarrollo que prefieras. Su archivo README trae las instrucciones completas; los pasos son:
-
-1. **Añadir la clave de la API de Anthropic** al archivo `.env`.
-2. **Instalar las dependencias** con UV (recomendado) o con pip.
-3. **Ejecutar la aplicación** para comprobar que todo funciona.
-
-Los archivos principales del proyecto son `main.py`, `mcp_client.py` y `mcp_server.py`.
-
-```bash
-# Con UV (recomendado)
-uv run main.py
-
-# Con Python estándar
-python main.py
-```
-
-Al arrancar aparece una ventana de chat. Se prueba con una pregunta sencilla, como «¿cuánto es 1+1?», y Claude debería responder enseguida. Con eso, el proyecto está listo para implementar las funciones de MCP.
-
 ## Crear el servidor MCP { .topic-title }
 
-Con el **SDK oficial de Python**, crear un servidor MCP es mucho más sencillo. En lugar de escribir a mano esquemas JSON complejos para cada herramienta, el SDK se encarga de generarlos a partir de **decoradores** y **anotaciones de tipo**.
+Con el **SDK oficial de JavaScript** (`@modelcontextprotocol/sdk`), crear un servidor MCP es mucho más sencillo. En lugar de escribir a mano esquemas JSON complejos para cada herramienta, el SDK se encarga de generarlos a partir de un **esquema de zod**.
 
-Un **decorador** es una función que se escribe encima de otra (con `@`) para añadirle comportamiento. Una **anotación de tipo** indica el tipo de un parámetro (`doc_id: str`).
+Instalar el SDK y `zod` (la librería de validación que describe la forma de cada parámetro):
 
-Un servidor completo se inicializa con una sola línea:
-
-```python
-from mcp.server.fastmcp import FastMCP
-
-mcp = FastMCP("DocumentMCP", log_level="ERROR")
+```bash
+pnpm add @modelcontextprotocol/sdk zod
 ```
 
-Los documentos se guardan en un diccionario simple de Python: las claves son los identificadores y los valores son el contenido.
+Un servidor completo se inicializa con una sola llamada a `McpServer`:
 
-```python
-docs = {
-    "deposition.md": "This deposition covers the testimony of Angela Smith, P.E.",
-    "report.pdf": "The report details the state of a 20m condenser tower.",
-    "financials.docx": "These financials outline the project's budget and expenditure",
-    "outlook.pdf": "This document presents the projected future performance of the",
-    "plan.md": "The plan outlines the steps for the project's implementation.",
-    "spec.txt": "These specifications define the technical requirements for the equipment",
-}
+```js
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
+const server = new McpServer({
+  name: "document-mcp",
+  version: "1.0.0"
+});
 ```
 
-## Definir las herramientas con decoradores { .topic-title }
+Los documentos se guardan en un objeto simple de JS: las claves son los identificadores y los valores son el contenido.
+
+```js
+const docs = {
+  "deposition.md": "Esta declaración recoge el testimonio de Angela Smith, P.E.",
+  "report.pdf": "El informe detalla el estado de una torre condensadora de 20 m.",
+  "financials.docx": "Estas cuentas resumen el presupuesto y los gastos del proyecto",
+  "outlook.pdf": "Este documento presenta el rendimiento futuro previsto de la",
+  "plan.md": "El plan describe los pasos para la implementación del proyecto.",
+  "spec.txt": "Estas especificaciones definen los requisitos técnicos del equipo"
+};
+```
+
+## Definir las herramientas con `registerTool` { .topic-title }
 
 ### Herramienta para leer un documento
 
 La primera herramienta permite a Claude leer cualquier documento a partir de su ID:
 
-```python
-from pydantic import Field
+```js
+import { z } from "zod";
 
-@mcp.tool(
-    name="read_doc_contents",
-    description="Read the contents of a document and return it as a string."
-)
-def read_document(
-    doc_id: str = Field(description="Id of the document to read")
-):
-    if doc_id not in docs:
-        raise ValueError(f"Doc with id {doc_id} not found")
+server.registerTool(
+  "read_doc_contents",
+  {
+    title: "Leer documento",
+    description: "Lee el contenido de un documento y lo devuelve como una cadena de texto.",
+    inputSchema: {
+      docId: z.string().describe("ID del documento que se quiere leer")
+    }
+  },
+  async ({ docId }) => {
+    if (!(docId in docs)) {
+      throw new Error(`No se encontró ningún documento con el id ${docId}`);
+    }
 
-    return docs[doc_id]
+    return {
+      content: [{ type: "text", text: docs[docId] }]
+    };
+  }
+);
 ```
 
-El decorador `@mcp.tool` **genera automáticamente el esquema JSON** que Claude necesita. La clase `Field` de Pydantic añade la descripción de cada parámetro, para que Claude entienda qué espera cada argumento.
+`registerTool()` **genera automáticamente el esquema JSON** que Claude necesita a partir del esquema de zod. El método `.describe()` de cada campo añade la descripción de ese parámetro, para que Claude entienda qué espera cada argumento.
 
 ### Herramienta para editar un documento
 
 La segunda hace una operación sencilla de buscar y reemplazar dentro de un documento:
 
-```python
-@mcp.tool(
-    name="edit_document",
-    description="Edit a document by replacing a string in the documents content with a new string."
-)
-def edit_document(
-    doc_id: str = Field(description="Id of the document that will be edited"),
-    old_str: str = Field(description="The text to replace. Must match exactly, including whitespace."),
-    new_str: str = Field(description="The new text to insert in place of the old text.")
-):
-    if doc_id not in docs:
-        raise ValueError(f"Doc with id {doc_id} not found")
+```js
+server.registerTool(
+  "edit_document",
+  {
+    title: "Editar documento",
+    description: "Edita un documento reemplazando una cadena de texto en su contenido por otra nueva.",
+    inputSchema: {
+      docId: z.string().describe("ID del documento que se va a editar"),
+      oldStr: z.string().describe("El texto que se quiere reemplazar. Debe coincidir exactamente, incluidos los espacios en blanco."),
+      newStr: z.string().describe("El texto nuevo que se insertará en lugar del anterior.")
+    }
+  },
+  async ({ docId, oldStr, newStr }) => {
+    if (!(docId in docs)) {
+      throw new Error(`No se encontró ningún documento con el id ${docId}`);
+    }
 
-    docs[doc_id] = docs[doc_id].replace(old_str, new_str)
+    docs[docId] = docs[docId].replace(oldStr, newStr);
+
+    return {
+      content: [{ type: "text", text: `Documento ${docId} actualizado.` }]
+    };
+  }
+);
 ```
 
-Necesita tres parámetros: el ID del documento, el texto que se busca y el texto de reemplazo. Para simplificar, usa el método `replace()` que ya trae Python para las cadenas.
+Necesita tres parámetros: el ID del documento, el texto que se busca y el texto de reemplazo. Para simplificar, usa el método `replace()` que ya trae JS para las cadenas.
 
 ### Manejo de errores
 
-Las dos herramientas gestionan el caso en que Claude pide un documento que no existe. Con un ID no válido lanzan una excepción `ValueError` con un mensaje descriptivo, que Claude puede entender y con el que puede actuar.
+Las dos herramientas gestionan el caso en que Claude pide un documento que no existe. Con un ID no válido lanzan una excepción `Error` con un mensaje descriptivo; el SDK la captura y se la devuelve a Claude como resultado con `isError`, para que pueda entenderla y actuar.
 
 ## Ventajas del SDK { .topic-title }
 
-- **Genera el esquema JSON automáticamente** a partir de las anotaciones de tipo de Python.
+- **Genera el esquema JSON automáticamente** a partir del esquema de zod.
 - **Código limpio y legible**, fácil de mantener.
-- **Valida los parámetros** gracias a Pydantic.
+- **Valida los parámetros** gracias a zod.
 - **Menos código repetitivo** que escribir los esquemas a mano.
 - **Seguridad de tipos** y soporte del editor durante el desarrollo.
 
 Tú te centras en la lógica del negocio y el SDK se ocupa de los detalles del protocolo.
 
-!!! tip "Existe un SDK también para JavaScript"
-    El curso usa el SDK de Python, pero MCP también tiene un SDK oficial para TypeScript y JavaScript. La idea es la misma: se definen las herramientas y el SDK genera los esquemas. Las instrucciones están en el [sitio oficial de MCP](https://modelcontextprotocol.io).
+!!! tip "Existe un SDK también para Python"
+    El curso usa el SDK de JavaScript, pero MCP también tiene un SDK oficial para Python. La idea es la misma: se definen las herramientas y el SDK genera los esquemas. Las instrucciones están en el [sitio oficial de MCP](https://modelcontextprotocol.io).
 
 ---
 

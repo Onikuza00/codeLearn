@@ -32,6 +32,30 @@ for (const property in spiderman) {
 
 ---
 
+## El operador `in` {: .topic-title }
+
+No recorre nada: comprueba si una clave existe en un objeto, y devuelve `true` o `false`.
+
+```js
+const cache = { 7: { nombre: 'Ana' } };
+
+7 in cache        // true  — existe la clave "7"
+3 in cache        // false — no existe
+```
+
+!!! warning "`in` comprueba si la clave EXISTE, no si el valor es útil"
+    ```js
+    const cache = { 7: null };
+
+    cache[7]      // null — es falsy, pero la clave SÍ existe
+    7 in cache    // true
+    if (cache[7]) { ... }   // ❌ entra como si no estuviera en caché
+    if (7 in cache) { ... } // ✅ comprueba lo que realmente quieres saber
+    ```
+    `cache[id]` te da el valor guardado; si ese valor es falsy (`0`, `null`, `""`), un `if (cache[id])` lo trata como "no está", aunque la clave exista. `id in cache` no mira el valor, solo si la clave está — es la comprobación correcta cuando el valor guardado podría ser falsy.
+
+---
+
 ## `Object.keys()` / `Object.values()` / `Object.entries()` {: .topic-title }
 
 Las tres devuelven un **array** — a partir de ahí podés usar todo lo que ya dominás de arrays (`.forEach`, `.map`, `.filter`...).

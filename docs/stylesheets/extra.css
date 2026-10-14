@@ -63,6 +63,7 @@ h1.bloque-js + blockquote,
 h1.bloque-ia + blockquote,
 h1.bloque-tailwind + blockquote,
 h1.bloque-devops + blockquote,
+h1.bloque-react + blockquote,
 h1.section-architecture + blockquote,
 h1.section-twig + blockquote,
 h1.section-live + blockquote,
@@ -86,6 +87,7 @@ h1.bloque-js + blockquote::before,
 h1.bloque-ia + blockquote::before,
 h1.bloque-tailwind + blockquote::before,
 h1.bloque-devops + blockquote::before,
+h1.bloque-react + blockquote::before,
 h1.section-architecture + blockquote::before,
 h1.section-twig + blockquote::before,
 h1.section-live + blockquote::before,
@@ -113,6 +115,9 @@ h1.bloque-js + blockquote::before {
 }
 h1.bloque-ia + blockquote::before {
     background: linear-gradient(135deg, #C15F3C 0%, #E8927C 100%);
+}
+h1.bloque-react + blockquote::before {
+    background: var(--react-gradient);
 }
 h1.section-architecture + blockquote::before {
     background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
@@ -320,6 +325,153 @@ h1.section-fundamentos ~ h2 {
     color: inherit;
     font-weight: 800;
 }
+
+/* ─── Repaso urgente — degradado de alerta para el h1 (sin emoji) ─── */
+.section-urgente {
+    background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-urgente::after {
+    background: linear-gradient(90deg, #dc2626, #f97316);
+}
+.section-urgente:hover {
+    background: linear-gradient(135deg, #f97316 0%, #dc2626 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ─── Iconos SVG por temática — menú "Way to Code" (solo estas 4 entradas) ───
+   mkdocs.yml no procesa shortcodes :material-x: en nav:, así que se dibuja el
+   icono con CSS mask + SVG real (mismo icon-set de Material, en base64) sobre
+   la clase que pone nav-toggle.js. currentColor para que respete claro/oscuro. */
+
+.md-nav__link.nav-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.md-nav__link.nav-icon::before {
+    content: "";
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+/* Plan de aprendizaje — clipboard-text-outline */
+.md-nav__link.nav-icon--plan::before {
+    -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDNoLTQuMThDMTQuMjUgMS40NCAxMi41My42NCAxMSAxLjJjLS44Ni4zLTEuNS45Ni0xLjgyIDEuOEg1YTIgMiAwIDAgMC0yIDJ2MTRhMiAyIDAgMCAwIDIgMmgxNGEyIDIgMCAwIDAgMi0yVjVhMiAyIDAgMCAwLTItMm0tNyAwYTEgMSAwIDAgMSAxIDEgMSAxIDAgMCAxLTEgMSAxIDEgMCAwIDEtMS0xIDEgMSAwIDAgMSAxLTFNNyA3aDEwVjVoMnYxNEg1VjVoMnptMTAgNEg3VjloMTB6bS0yIDRIN3YtMmg4eiIvPjwvc3ZnPg==");
+    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDNoLTQuMThDMTQuMjUgMS40NCAxMi41My42NCAxMSAxLjJjLS44Ni4zLTEuNS45Ni0xLjgyIDEuOEg1YTIgMiAwIDAgMC0yIDJ2MTRhMiAyIDAgMCAwIDIgMmgxNGEyIDIgMCAwIDAgMi0yVjVhMiAyIDAgMCAwLTItMm0tNyAwYTEgMSAwIDAgMSAxIDEgMSAxIDAgMCAxLTEgMSAxIDEgMCAwIDEtMS0xIDEgMSAwIDAgMSAxLTFNNyA3aDEwVjVoMnYxNEg1VjVoMnptMTAgNEg3VjloMTB6bS0yIDRIN3YtMmg4eiIvPjwvc3ZnPg==");
+}
+
+/* Próxima sesión — calendar-arrow-right */
+.md-nav__link.nav-icon--sesion::before {
+    -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDNoLTFWMWgtMnYySDhWMUg2djJINWMtMS4xMSAwLTIgLjg5LTIgMnYxNGEyIDIgMCAwIDAgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVhMiAyIDAgMCAwLTItMm0wIDE2SDVWOGgxNHptLTctMnYtMkg4di0zaDR2LTJsNCAzLjV6Ii8+PC9zdmc+");
+    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDNoLTFWMWgtMnYySDhWMUg2djJINWMtMS4xMSAwLTIgLjg5LTIgMnYxNGEyIDIgMCAwIDAgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVhMiAyIDAgMCAwLTItMm0wIDE2SDVWOGgxNHptLTctMnYtMkg4di0zaDR2LTJsNCAzLjV6Ii8+PC9zdmc+");
+}
+
+/* Repaso urgente — alert-circle-outline */
+.md-nav__link.nav-icon--urgente::before {
+    -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTExIDE1aDJ2MmgtMnptMC04aDJ2NmgtMnptMS01QzYuNDcgMiAyIDYuNSAyIDEyYTEwIDEwIDAgMCAwIDEwIDEwIDEwIDEwIDAgMCAwIDEwLTEwQTEwIDEwIDAgMCAwIDEyIDJtMCAxOGE4IDggMCAwIDEtOC04IDggOCAwIDAgMSA4LTggOCA4IDAgMCAxIDggOCA4IDggMCAwIDEtOCA4Ii8+PC9zdmc+");
+    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTExIDE1aDJ2MmgtMnptMC04aDJ2NmgtMnptMS01QzYuNDcgMiAyIDYuNSAyIDEyYTEwIDEwIDAgMCAwIDEwIDEwIDEwIDEwIDAgMCAwIDEwLTEwQTEwIDEwIDAgMCAwIDEyIDJtMCAxOGE4IDggMCAwIDEtOC04IDggOCAwIDAgMSA4LTggOCA4IDAgMCAxIDggOCA4IDggMCAwIDEtOCA4Ii8+PC9zdmc+");
+}
+
+/* Daily Log: 2026 — notebook-outline */
+.md-nav__link.nav-icon--log::before {
+    -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE3IDR2NmwtMi0yLTIgMlY0SDl2MTZoMTBWNHpNMyA3VjVoMlY0YTIgMiAwIDAgMSAyLTJoMTJjMS4wNSAwIDIgLjk1IDIgMnYxNmMwIDEuMDUtLjk1IDItMiAySDdjLTEuMDUgMC0yLS45NS0yLTJ2LTFIM3YtMmgydi00SDN2LTJoMlY3em0yLTJ2MmgyVjV6bTAgMTRoMnYtMkg1em0wLTZoMnYtMkg1eiIvPjwvc3ZnPg==");
+    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE3IDR2NmwtMi0yLTIgMlY0SDl2MTZoMTBWNHpNMyA3VjVoMlY0YTIgMiAwIDAgMSAyLTJoMTJjMS4wNSAwIDIgLjk1IDIgMnYxNmMwIDEuMDUtLjk1IDItMiAySDdjLTEuMDUgMC0yLS45NS0yLTJ2LTFIM3YtMmgydi00SDN2LTJoMlY3em0yLTJ2MmgyVjV6bTAgMTRoMnYtMkg1em0wLTZoMnYtMkg1eiIvPjwvc3ZnPg==");
+}
+
+/* ─── Info card — soft badge de bloque (metadata tipo "última actualización") ───
+   Uso: <div class="info-card" markdown="1"> texto </div> */
+
+.md-typeset .info-card {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 1.1rem 0 1.75rem;
+    padding: 0.9rem 1.15rem;
+    border-radius: 10px;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+.md-typeset .info-card p {
+    margin: 0;
+    color: inherit;
+}
+.md-typeset .info-card a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.md-typeset .info-card strong {
+    color: inherit;
+}
+.md-typeset .info-card code {
+    background: rgba(29, 78, 216, 0.1);
+    color: inherit;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .info-card {
+    background: rgba(59, 130, 246, 0.14);
+    border-color: rgba(96, 165, 250, 0.35);
+    color: #93c5fd;
+}
+[data-md-color-scheme="slate"] .md-typeset .info-card code {
+    background: rgba(147, 197, 253, 0.15);
+}
+
+/* ─── Repaso urgente — barras de nivel a ancho completo, soft badge ───
+   Uso: ## Título de sección {: .nivel-header .nivel-header--N data-n="0N" }
+   Fondo muy claro + texto del mismo tono, más oscuro (mismo patrón que un
+   badge de estado de dashboard: sin fondo sólido, sin texto blanco). */
+
+.md-typeset .nivel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 2.75rem 0 1.25rem !important;
+    padding: 0.75rem 1.1rem;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em;
+    box-shadow: none !important;
+}
+
+.md-typeset .nivel-header::before {
+    content: "Nivel " attr(data-n) " — ";
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+}
+
+.md-typeset .nivel-header--1 { background: #fef2f2; border-color: #fecaca; color: #b91c1c !important; }
+.md-typeset .nivel-header--2 { background: #fff7ed; border-color: #fed7aa; color: #c2410c !important; }
+.md-typeset .nivel-header--3 { background: #fffbeb; border-color: #fde68a; color: #92400e !important; }
+.md-typeset .nivel-header--4 { background: #ecfdf5; border-color: #a7f3d0; color: #047857 !important; }
+
+[data-md-color-scheme="slate"] .md-typeset .nivel-header--1 { background: rgba(220, 38, 38, 0.15); border-color: rgba(248, 113, 113, 0.35); color: #fca5a5 !important; }
+[data-md-color-scheme="slate"] .md-typeset .nivel-header--2 { background: rgba(234, 88, 12, 0.15); border-color: rgba(251, 146, 60, 0.35); color: #fdba74 !important; }
+[data-md-color-scheme="slate"] .md-typeset .nivel-header--3 { background: rgba(180, 83, 9, 0.15); border-color: rgba(251, 191, 36, 0.35); color: #fcd34d !important; }
+[data-md-color-scheme="slate"] .md-typeset .nivel-header--4 { background: rgba(4, 120, 87, 0.15); border-color: rgba(52, 211, 153, 0.35); color: #6ee7b7 !important; }
 
 /* ─── Admonitions ─── */
 
@@ -1036,6 +1188,20 @@ h1.section-bem ~ h2 {
     font-weight: 800;
 }
 
+/* ─── code inline dentro de cualquier h1.bloque-* — sin caja propia, hereda el degradado del h1 ─── */
+
+h1.bloque-css code,
+h1.bloque-js code,
+h1.bloque-ia code,
+h1.bloque-tailwind code,
+h1.bloque-devops code,
+h1.bloque-react code {
+    background: transparent !important;
+    -webkit-text-fill-color: inherit !important;
+    color: inherit !important;
+    font-weight: 800;
+}
+
 /* ─── Bloque CSS — h1 también en verde unificado (gana al color propio de section-X) ─── */
 
 h1.bloque-css {
@@ -1251,6 +1417,110 @@ h1.bloque-devops:hover {
     -webkit-text-fill-color: inherit;
     color: inherit;
     font-weight: 800;
+}
+
+/* ─── Bloque React — degradado cian del logo de React (#61DAFB → #149ECA) ───
+   Modo oscuro: los colores del logo tal cual (cian claro sobre fondo oscuro).
+   Modo claro: #61DAFB sobre blanco da ~1.5:1 (ilegible); se oscurece el tramo
+   a #149ECA → #0B7BA3 (3.1:1 → 4.8:1, válido para texto grande en negrita). */
+
+:root {
+    --react-from: #149ECA;
+    --react-to: #0B7BA3;
+    --react-logo: #61DAFB;
+    --react-gradient: linear-gradient(135deg, var(--react-from) 0%, var(--react-to) 100%);
+    --react-gradient-line: linear-gradient(90deg, var(--react-from), var(--react-to));
+    --react-gradient-hover: linear-gradient(135deg, var(--react-to) 0%, var(--react-from) 100%);
+}
+
+[data-md-color-scheme="slate"] {
+    --react-from: #61DAFB;
+    --react-to: #149ECA;
+}
+
+.section-react {
+    background: var(--react-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-react::after {
+    background: var(--react-gradient-line);
+}
+.section-react:hover {
+    background: var(--react-gradient-hover) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-react {
+    background: var(--react-gradient) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-react::after {
+    background: var(--react-gradient-line) !important;
+}
+
+h1.bloque-react:hover {
+    background: var(--react-gradient-hover) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Icono del logo en contenido (h1, tablas): cian original del logo en ambos modos */
+.react-icon .twemoji {
+    color: var(--react-logo);
+}
+
+.md-typeset .bloque-react ~ h2,
+.md-typeset .bloque-react ~ h2.topic-title {
+    background: var(--react-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-react ~ h2::after,
+.md-typeset .bloque-react ~ h2.topic-title::after {
+    background: var(--react-gradient-line);
+}
+
+.md-typeset .bloque-react ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* Icono React en el menú — logo real (Font Awesome brands vía Material), cian fijo #61DAFB (no currentColor) */
+.md-nav__link.nav-icon--react::before,
+.md-tabs__link.nav-icon--react::before {
+    background-color: var(--react-logo);
+    -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDE4LjIgMTc3LjJxLTguMS0yLjctMTYuMi01LjFjLjktMy43IDEuNy03LjQgMi41LTExLjEgMTIuMy01OS42IDQuMi0xMDcuNS0yMy4xLTEyMy4zLTI2LjMtMTUuMS02OS4yLjYtMTEyLjYgMzguNC00LjMgMy43LTguNSA3LjYtMTIuNSAxMS41LTIuNy0yLjYtNS41LTUuMi04LjMtNy43LTQ1LjUtNDAuNC05MS4xLTU3LjQtMTE4LjQtNDEuNS0yNi4yIDE1LjItMzQgNjAuMy0yMyAxMTYuNyAxLjEgNS42IDIuMyAxMS4xIDMuNyAxNi43LTYuNCAxLjgtMTIuNyAzLjgtMTguNiA1LjlDMzguMyAxOTYuMiAwIDIyNS40IDAgMjU1LjZjMCAzMS4yIDQwLjggNjIuNSA5Ni4zIDgxLjUgNC41IDEuNSA5IDMgMTMuNiA0LjMtMS41IDYtMi44IDExLjktNCAxOC0xMC41IDU1LjUtMi4zIDk5LjUgMjMuOSAxMTQuNiAyNyAxNS42IDcyLjQtLjQgMTE2LjYtMzkuMSAzLjUtMy4xIDctNi4zIDEwLjUtOS43IDQuNCA0LjMgOSA4LjQgMTMuNiAxMi40IDQyLjggMzYuOCA4NS4xIDUxLjcgMTExLjIgMzYuNiAyNy0xNS42IDM1LjgtNjIuOSAyNC40LTEyMC41cS0xLjM1LTYuNi0zLTEzLjVjMy4yLS45IDYuMy0xLjkgOS40LTIuOSA1Ny43LTE5LjEgOTkuNS01MCA5OS41LTgxLjcgMC0zMC4zLTM5LjQtNTkuNy05My44LTc4LjRNMjgyLjkgOTIuM2MzNy4yLTMyLjQgNzEuOS00NS4xIDg3LjctMzYgMTYuOSA5LjcgMjMuNCA0OC45IDEyLjggMTAwLjQtLjcgMy40LTEuNCA2LjctMi4zIDEwLTIyLjItNS00NC43LTguNi02Ny4zLTEwLjYtMTMtMTguNi0yNy4yLTM2LjQtNDIuNi01My4xIDMuOS0zLjcgNy43LTcuMiAxMS43LTEwLjdNMTY3LjIgMzA3LjVjNS4xIDguNyAxMC4zIDE3LjQgMTUuOCAyNS45LTE1LjYtMS43LTMxLjEtNC4yLTQ2LjQtNy41IDQuNC0xNC40IDkuOS0yOS4zIDE2LjMtNDQuNSA0LjYgOC44IDkuMyAxNy41IDE0LjMgMjYuMW0tMzAuMy0xMjAuM2MxNC40LTMuMiAyOS43LTUuOCA0NS42LTcuOC01LjMgOC4zLTEwLjUgMTYuOC0xNS40IDI1LjQtNC45IDguNS05LjcgMTcuMi0xNC4yIDI2LTYuMy0xNC45LTExLjYtMjkuNS0xNi00My42bTI3LjQgNjguOWM2LjYtMTMuOCAxMy44LTI3LjMgMjEuNC00MC42czE1LjgtMjYuMiAyNC40LTM4LjljMTUtMS4xIDMwLjMtMS43IDQ1LjktMS43czMxIC42IDQ1LjkgMS43cTEyLjc1IDE4LjkgMjQuMyAzOC43YzExLjU1IDE5LjggMTQuOSAyNi43IDIxLjcgNDAuNHEtMTAuMDUgMjAuNy0yMS42IDQwLjhjLTcuNiAxMy4zLTE1LjcgMjYuMi0yNC4yIDM5LTE0LjkgMS4xLTMwLjQgMS42LTQ2LjEgMS42cy0zMC45LS41LTQ1LjYtMS40cS0xMy4wNS0xOS4wNS0yNC42LTM5Yy0xMS41NS0xOS45NS0xNC44LTI2LjgtMjEuNS00MC42bTE4MC42IDUxLjJjNS4xLTguOCA5LjktMTcuNyAxNC42LTI2LjcgNi40IDE0LjUgMTIgMjkuMiAxNi45IDQ0LjMtMTUuNSAzLjUtMzEuMiA2LjItNDcgOCA1LjQtOC40IDEwLjUtMTcgMTUuNS0yNS42bTE0LjQtNzYuNWMtNC43LTguOC05LjUtMTcuNi0xNC41LTI2LjJxLTcuMzUtMTIuNzUtMTUuMy0yNS4yYzE2LjEgMiAzMS41IDQuNyA0NS45IDgtNC42IDE0LjgtMTAgMjkuMi0xNi4xIDQzLjRNMjU2LjIgMTE4LjNjMTAuNSAxMS40IDIwLjQgMjMuNCAyOS42IDM1LjgtMTkuOC0uOS0zOS43LS45LTU5LjUgMCA5LjgtMTIuOSAxOS45LTI0LjkgMjkuOS0zNS44TTE0MC4yIDU3YzE2LjgtOS44IDU0LjEgNC4yIDkzLjQgMzkgMi41IDIuMiA1IDQuNiA3LjYgNy0xNS41IDE2LjctMjkuOCAzNC41LTQyLjkgNTMuMS0yMi42IDItNDUgNS41LTY3LjIgMTAuNC0xLjMtNS4xLTIuNC0xMC4zLTMuNS0xNS41LTkuNC00OC40LTMuMi04NC45IDEyLjYtOTRtLTI0LjUgMjYzLjZjLTQuMi0xLjItOC4zLTIuNS0xMi40LTMuOS0yMS4zLTYuNy00NS41LTE3LjMtNjMtMzEuMi0xMC4xLTctMTYuOS0xNy44LTE4LjgtMjkuOSAwLTE4LjMgMzEuNi00MS43IDc3LjItNTcuNiA1LjctMiAxMS41LTMuOCAxNy4zLTUuNSA2LjggMjEuNyAxNSA0MyAyNC41IDYzLjYtOS42IDIwLjktMTcuOSA0Mi41LTI0LjggNjQuNW0xMTYuNiA5OGMtMTYuNSAxNS4xLTM1LjYgMjcuMS01Ni40IDM1LjMtMTEuMSA1LjMtMjMuOSA1LjgtMzUuMyAxLjMtMTUuOS05LjItMjIuNS00NC41LTEzLjUtOTIgMS4xLTUuNiAyLjMtMTEuMiAzLjctMTYuNyAyMi40IDQuOCA0NSA4LjEgNjcuOSA5LjggMTMuMiAxOC43IDI3LjcgMzYuNiA0My4yIDUzLjQtMy4yIDMuMS02LjQgNi4xLTkuNiA4LjltMjQuNS0yNC4zYy0xMC4yLTExLTIwLjQtMjMuMi0zMC4zLTM2LjMgOS42LjQgMTkuNS42IDI5LjUuNiAxMC4zIDAgMjAuNC0uMiAzMC40LS43LTkuMiAxMi43LTE5LjEgMjQuOC0yOS42IDM2LjRtMTMwLjcgMzBjLS45IDEyLjItNi45IDIzLjYtMTYuNSAzMS4zLTE1LjkgOS4yLTQ5LjgtMi44LTg2LjQtMzQuMi00LjItMy42LTguNC03LjUtMTIuNy0xMS41IDE1LjMtMTYuOSAyOS40LTM0LjggNDIuMi01My42IDIyLjktMS45IDQ1LjctNS40IDY4LjItMTAuNSAxIDQuMSAxLjkgOC4yIDIuNyAxMi4yIDQuOSAyMS42IDUuNyA0NC4xIDIuNSA2Ni4zbTE4LjItMTA3LjVjLTIuOC45LTUuNiAxLjgtOC41IDIuNi03LTIxLjgtMTUuNi00My4xLTI1LjUtNjMuOCA5LjYtMjAuNCAxNy43LTQxLjQgMjQuNS02Mi45IDUuMiAxLjUgMTAuMiAzLjEgMTUgNC43IDQ2LjYgMTYgNzkuMyAzOS44IDc5LjMgNTggMCAxOS42LTM0LjkgNDQuOS04NC44IDYxLjRtLTE0OS43LTE1YTQ1LjggNDUuOCAwIDEgMCAwLTkxLjYgNDUuOCA0NS44IDAgMSAwIDAgOTEuNiIvPjwvc3ZnPg==");
+    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDE4LjIgMTc3LjJxLTguMS0yLjctMTYuMi01LjFjLjktMy43IDEuNy03LjQgMi41LTExLjEgMTIuMy01OS42IDQuMi0xMDcuNS0yMy4xLTEyMy4zLTI2LjMtMTUuMS02OS4yLjYtMTEyLjYgMzguNC00LjMgMy43LTguNSA3LjYtMTIuNSAxMS41LTIuNy0yLjYtNS41LTUuMi04LjMtNy43LTQ1LjUtNDAuNC05MS4xLTU3LjQtMTE4LjQtNDEuNS0yNi4yIDE1LjItMzQgNjAuMy0yMyAxMTYuNyAxLjEgNS42IDIuMyAxMS4xIDMuNyAxNi43LTYuNCAxLjgtMTIuNyAzLjgtMTguNiA1LjlDMzguMyAxOTYuMiAwIDIyNS40IDAgMjU1LjZjMCAzMS4yIDQwLjggNjIuNSA5Ni4zIDgxLjUgNC41IDEuNSA5IDMgMTMuNiA0LjMtMS41IDYtMi44IDExLjktNCAxOC0xMC41IDU1LjUtMi4zIDk5LjUgMjMuOSAxMTQuNiAyNyAxNS42IDcyLjQtLjQgMTE2LjYtMzkuMSAzLjUtMy4xIDctNi4zIDEwLjUtOS43IDQuNCA0LjMgOSA4LjQgMTMuNiAxMi40IDQyLjggMzYuOCA4NS4xIDUxLjcgMTExLjIgMzYuNiAyNy0xNS42IDM1LjgtNjIuOSAyNC40LTEyMC41cS0xLjM1LTYuNi0zLTEzLjVjMy4yLS45IDYuMy0xLjkgOS40LTIuOSA1Ny43LTE5LjEgOTkuNS01MCA5OS41LTgxLjcgMC0zMC4zLTM5LjQtNTkuNy05My44LTc4LjRNMjgyLjkgOTIuM2MzNy4yLTMyLjQgNzEuOS00NS4xIDg3LjctMzYgMTYuOSA5LjcgMjMuNCA0OC45IDEyLjggMTAwLjQtLjcgMy40LTEuNCA2LjctMi4zIDEwLTIyLjItNS00NC43LTguNi02Ny4zLTEwLjYtMTMtMTguNi0yNy4yLTM2LjQtNDIuNi01My4xIDMuOS0zLjcgNy43LTcuMiAxMS43LTEwLjdNMTY3LjIgMzA3LjVjNS4xIDguNyAxMC4zIDE3LjQgMTUuOCAyNS45LTE1LjYtMS43LTMxLjEtNC4yLTQ2LjQtNy41IDQuNC0xNC40IDkuOS0yOS4zIDE2LjMtNDQuNSA0LjYgOC44IDkuMyAxNy41IDE0LjMgMjYuMW0tMzAuMy0xMjAuM2MxNC40LTMuMiAyOS43LTUuOCA0NS42LTcuOC01LjMgOC4zLTEwLjUgMTYuOC0xNS40IDI1LjQtNC45IDguNS05LjcgMTcuMi0xNC4yIDI2LTYuMy0xNC45LTExLjYtMjkuNS0xNi00My42bTI3LjQgNjguOWM2LjYtMTMuOCAxMy44LTI3LjMgMjEuNC00MC42czE1LjgtMjYuMiAyNC40LTM4LjljMTUtMS4xIDMwLjMtMS43IDQ1LjktMS43czMxIC42IDQ1LjkgMS43cTEyLjc1IDE4LjkgMjQuMyAzOC43YzExLjU1IDE5LjggMTQuOSAyNi43IDIxLjcgNDAuNHEtMTAuMDUgMjAuNy0yMS42IDQwLjhjLTcuNiAxMy4zLTE1LjcgMjYuMi0yNC4yIDM5LTE0LjkgMS4xLTMwLjQgMS42LTQ2LjEgMS42cy0zMC45LS41LTQ1LjYtMS40cS0xMy4wNS0xOS4wNS0yNC42LTM5Yy0xMS41NS0xOS45NS0xNC44LTI2LjgtMjEuNS00MC42bTE4MC42IDUxLjJjNS4xLTguOCA5LjktMTcuNyAxNC42LTI2LjcgNi40IDE0LjUgMTIgMjkuMiAxNi45IDQ0LjMtMTUuNSAzLjUtMzEuMiA2LjItNDcgOCA1LjQtOC40IDEwLjUtMTcgMTUuNS0yNS42bTE0LjQtNzYuNWMtNC43LTguOC05LjUtMTcuNi0xNC41LTI2LjJxLTcuMzUtMTIuNzUtMTUuMy0yNS4yYzE2LjEgMiAzMS41IDQuNyA0NS45IDgtNC42IDE0LjgtMTAgMjkuMi0xNi4xIDQzLjRNMjU2LjIgMTE4LjNjMTAuNSAxMS40IDIwLjQgMjMuNCAyOS42IDM1LjgtMTkuOC0uOS0zOS43LS45LTU5LjUgMCA5LjgtMTIuOSAxOS45LTI0LjkgMjkuOS0zNS44TTE0MC4yIDU3YzE2LjgtOS44IDU0LjEgNC4yIDkzLjQgMzkgMi41IDIuMiA1IDQuNiA3LjYgNy0xNS41IDE2LjctMjkuOCAzNC41LTQyLjkgNTMuMS0yMi42IDItNDUgNS41LTY3LjIgMTAuNC0xLjMtNS4xLTIuNC0xMC4zLTMuNS0xNS41LTkuNC00OC40LTMuMi04NC45IDEyLjYtOTRtLTI0LjUgMjYzLjZjLTQuMi0xLjItOC4zLTIuNS0xMi40LTMuOS0yMS4zLTYuNy00NS41LTE3LjMtNjMtMzEuMi0xMC4xLTctMTYuOS0xNy44LTE4LjgtMjkuOSAwLTE4LjMgMzEuNi00MS43IDc3LjItNTcuNiA1LjctMiAxMS41LTMuOCAxNy4zLTUuNSA2LjggMjEuNyAxNSA0MyAyNC41IDYzLjYtOS42IDIwLjktMTcuOSA0Mi41LTI0LjggNjQuNW0xMTYuNiA5OGMtMTYuNSAxNS4xLTM1LjYgMjcuMS01Ni40IDM1LjMtMTEuMSA1LjMtMjMuOSA1LjgtMzUuMyAxLjMtMTUuOS05LjItMjIuNS00NC41LTEzLjUtOTIgMS4xLTUuNiAyLjMtMTEuMiAzLjctMTYuNyAyMi40IDQuOCA0NSA4LjEgNjcuOSA5LjggMTMuMiAxOC43IDI3LjcgMzYuNiA0My4yIDUzLjQtMy4yIDMuMS02LjQgNi4xLTkuNiA4LjltMjQuNS0yNC4zYy0xMC4yLTExLTIwLjQtMjMuMi0zMC4zLTM2LjMgOS42LjQgMTkuNS42IDI5LjUuNiAxMC4zIDAgMjAuNC0uMiAzMC40LS43LTkuMiAxMi43LTE5LjEgMjQuOC0yOS42IDM2LjRtMTMwLjcgMzBjLS45IDEyLjItNi45IDIzLjYtMTYuNSAzMS4zLTE1LjkgOS4yLTQ5LjgtMi44LTg2LjQtMzQuMi00LjItMy42LTguNC03LjUtMTIuNy0xMS41IDE1LjMtMTYuOSAyOS40LTM0LjggNDIuMi01My42IDIyLjktMS45IDQ1LjctNS40IDY4LjItMTAuNSAxIDQuMSAxLjkgOC4yIDIuNyAxMi4yIDQuOSAyMS42IDUuNyA0NC4xIDIuNSA2Ni4zbTE4LjItMTA3LjVjLTIuOC45LTUuNiAxLjgtOC41IDIuNi03LTIxLjgtMTUuNi00My4xLTI1LjUtNjMuOCA5LjYtMjAuNCAxNy43LTQxLjQgMjQuNS02Mi45IDUuMiAxLjUgMTAuMiAzLjEgMTUgNC43IDQ2LjYgMTYgNzkuMyAzOS44IDc5LjMgNTggMCAxOS42LTM0LjkgNDQuOS04NC44IDYxLjRtLTE0OS43LTE1YTQ1LjggNDUuOCAwIDEgMCAwLTkxLjYgNDUuOCA0NS44IDAgMSAwIDAgOTEuNiIvPjwvc3ZnPg==");
+}
+.md-tabs__link.nav-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.md-tabs__link.nav-icon::before {
+    content: "";
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
 }
 
 /* ─── Tabla compacta Haz / No hagas (celdas en vez de listas largas) ─── */

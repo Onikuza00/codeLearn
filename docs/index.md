@@ -8,6 +8,7 @@
 |-------|--------------|--------|
 | 🎨 CSS | 01 — `:has()` | En curso |
 | ⚡ Frontend JS | 01 — JS Vanilla | Pendiente |
+| <span class="react-icon">:fontawesome-brands-react:</span> React | 01 — Fundamentos | Pendiente |
 | 🔧 Backend Symfony | 01 — Web Components | En curso |
 | 🎞️ GSAP | — | Dominado (producción real) |
 | 🐳 DevOps | — | Pendiente |

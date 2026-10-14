@@ -20,46 +20,52 @@ La idea es que los usuarios *podrían* hacerlo por sí mismos, pero obtienen res
 
 Cuando un cliente pide un prompt, el servidor le devuelve una **lista de mensajes** que se pueden enviar tal cual a Claude. La estructura básica es:
 
-1. Se define el prompt con el decorador `@mcp.prompt()`.
+1. Se define el prompt con `server.registerPrompt()`.
 2. Se le da un **nombre** y una **descripción**.
 3. Se devuelve una **lista de mensajes** que forma la petición completa.
 
 ## Definir un prompt de formato { .topic-title }
 
-Primero se importan los tipos de mensaje base:
+En JS no hace falta importar ningún tipo de mensaje: el prompt devuelve directamente un objeto `{ messages: [...] }`, donde cada mensaje es un objeto plano con `role` y `content`.
 
-```python
-from mcp.server.fastmcp import base
-```
+```js
+import { z } from "zod";
 
-Después se define la función del prompt:
+server.registerPrompt(
+  "format",
+  {
+    title: "Formatear documento",
+    description: "Reescribe el contenido del documento en formato Markdown.",
+    argsSchema: {
+      docId: z.string().describe("ID del documento que se quiere formatear")
+    }
+  },
+  ({ docId }) => {
+    const prompt = `
+Tu objetivo es reformatear un documento para que esté escrito con sintaxis Markdown.
 
-```python
-@mcp.prompt(
-    name="format",
-    description="Rewrites the contents of the document in Markdown format."
-)
-def format_document(
-    doc_id: str = Field(description="Id of the document to format")
-) -> list[base.Message]:
-    prompt = f"""
-Your goal is to reformat a document to be written with markdown syntax.
-
-The id of the document you need to reformat is:
+El id del documento que tienes que reformatear es:
 <document_id>
-{doc_id}
+${docId}
 </document_id>
 
-Add in headers, bullet points, tables, etc as necessary. Feel free to add in extra formatting.
-Use the 'edit_document' tool to edit the document. After the document has been reformatted...
-"""
+Añade encabezados, viñetas, tablas, etc., según haga falta. Siéntete libre de añadir formato adicional.
+Usa la herramienta 'edit_document' para editar el documento. Después de que el documento se haya reformateado...
+`;
 
-    return [
-        base.UserMessage(prompt)
-    ]
+    return {
+      messages: [
+        {
+          role: "user",
+          content: { type: "text", text: prompt }
+        }
+      ]
+    };
+  }
+);
 ```
 
-La función acepta parámetros (aquí `doc_id`), que se **interpolan** dentro del texto del prompt para insertar contenido dinámico.
+La función acepta parámetros (aquí `docId`), que se **interpolan** dentro del texto del prompt para insertar contenido dinámico.
 
 ### Probarlo en el inspector
 
@@ -71,39 +77,45 @@ Así compruebas que el prompt interpola bien las variables y produce la estructu
 
 ### Listar los prompts
 
-El cliente necesita un método `list_prompts` para recuperar todos los prompts disponibles en el servidor:
+El cliente necesita un método `listPrompts` para recuperar todos los prompts disponibles en el servidor:
 
-```python
-async def list_prompts(self) -> list[types.Prompt]:
-    result = await self.session().list_prompts()
-    return result.prompts
+```js
+async listPrompts() {
+  const result = await this.session().listPrompts();
+  return result.prompts;
+}
 ```
 
 Llama al método de la sesión y devuelve el array de prompts del resultado.
 
 ### Obtener un prompt concreto
 
-El método `get_prompt` recupera un prompt con sus argumentos ya interpolados:
+El método `getPrompt` recupera un prompt con sus argumentos ya interpolados:
 
-```python
-async def get_prompt(self, prompt_name, args: dict[str, str]):
-    result = await self.session().get_prompt(prompt_name, args)
-    return result.messages
+```js
+async getPrompt(promptName, args) {
+  const result = await this.session().getPrompt({
+    name: promptName,
+    arguments: args
+  });
+  return result.messages;
+}
 ```
 
 Devuelve los mensajes del resultado, que forman una conversación lista para pasarla a Claude.
 
 ### Cómo llegan los argumentos
 
-La función del prompt en el servidor puede aceptar parámetros; por ejemplo, el de formato espera un `doc_id`:
+La función del prompt en el servidor puede aceptar parámetros; por ejemplo, el de formato espera un `docId`:
 
-```python
-def format_document(doc_id: str):
-    # El doc_id se interpola en el prompt
-    ...
+```js
+({ docId }) => {
+  // El docId se interpola en el prompt
+  // ...
+}
 ```
 
-Al llamar a `get_prompt`, el diccionario de argumentos tiene que contener **las claves que la función espera**. El servidor MCP las pasa como **argumentos con nombre** a la función, y así se inserta contenido dinámico en la plantilla.
+Al llamar a `getPrompt`, el objeto de argumentos tiene que contener **las claves que la función espera**. El servidor MCP las pasa como **argumentos con nombre** a la función, y así se inserta contenido dinámico en la plantilla.
 
 ### Probarlo en la línea de comandos
 

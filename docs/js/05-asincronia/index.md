@@ -98,8 +98,8 @@ La asincronía en JavaScript no se inventó de golpe. Se resolvió tres veces, y
 | [Callbacks](01-callbacks/index.md) | Función como argumento, `setTimeout`, `setInterval`, `clearInterval`, *callback hell* |
 | [Promesas](02-promesas/index.md) | Estados, `new Promise`, `resolve`/`reject`, `.then()`, `.catch()`, `.finally()`, encadenado |
 | [Promesas — composición](03-promesas-avanzado/index.md) | `Promise.all`, `allSettled`, `race`, `any`, `resolve`/`reject`, patrón de timeout |
-| [Fetch API](04-fetch/index.md) | `fetch()`, objeto `Response`, `response.ok`, verbos HTTP, cabeceras, `AbortController` |
-| [async / await](05-async-await/index.md) | `async`, `await`, `try`/`catch`, secuencial vs. paralelo, errores típicos |
+| [async / await](04-async-await/index.md) | `async`, `await`, `try`/`catch`, secuencial vs. paralelo, errores típicos |
+| [Fetch API](05-fetch/index.md) | `fetch()`, objeto `Response`, `response.ok`, verbos HTTP, cabeceras, `AbortController` |
 | [WebSockets](06-websockets/index.md) | Conexión persistente y bidireccional, eventos `open`/`message`/`close`, tiempo real |
 | [Capa de API](07-capa-de-api/index.md) | Cliente centralizado, errores con contexto, renovar el token, estados de interfaz, *debounce* |
 | [Server-Sent Events](08-server-sent-events/index.md) | `EventSource`, formato del flujo, reconexión automática, SSE frente a WebSocket |

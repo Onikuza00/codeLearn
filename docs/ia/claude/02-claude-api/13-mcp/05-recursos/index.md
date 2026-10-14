@@ -31,52 +31,78 @@ Los recursos siguen un patrón de **petición y respuesta**. El cliente envía u
 | **Directo** | Una URI estática, que no cambia | `docs://documents` |
 | **Con plantilla** | Una URI con parámetros | `docs://documents/{doc_id}` |
 
-En los recursos con plantilla, el SDK de Python **extrae automáticamente los parámetros** de la URI y los pasa como argumentos con nombre a tu función. Los nombres de los parámetros de la URI se convierten en los argumentos de la función.
+En los recursos con plantilla, el SDK de JavaScript **extrae automáticamente los parámetros** de la URI y los pasa como argumentos con nombre a tu función. Los nombres de los parámetros de la URI se convierten en los argumentos de la función.
 
 ## Definir recursos en el servidor { .topic-title }
 
-Se definen con el decorador `@mcp.resource()`.
+Se definen con `server.registerResource()`.
 
 ### Recurso directo: la lista de documentos
 
-```python
-@mcp.resource(
-    "docs://documents",
-    mime_type="application/json"
-)
-def list_docs() -> list[str]:
-    return list(docs.keys())
+```js
+server.registerResource(
+  "documents-list",
+  "docs://documents",
+  {
+    title: "Lista de documentos",
+    description: "Lista de todos los IDs de documentos disponibles.",
+    mimeType: "application/json"
+  },
+  async (uri) => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: "application/json",
+        text: JSON.stringify(Object.keys(docs))
+      }
+    ]
+  })
+);
 ```
 
 ### Recurso con plantilla: un documento
 
-```python
-@mcp.resource(
-    "docs://documents/{doc_id}",
-    mime_type="text/plain"
-)
-def fetch_doc(doc_id: str) -> str:
-    if doc_id not in docs:
-        raise ValueError(f"Doc with id {doc_id} not found")
-    return docs[doc_id]
+```js
+import { ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
+
+server.registerResource(
+  "document",
+  new ResourceTemplate("docs://documents/{docId}", { list: undefined }),
+  {
+    title: "Documento",
+    description: "Contenido de un único documento.",
+    mimeType: "text/plain"
+  },
+  async (uri, { docId }) => {
+    if (!(docId in docs)) {
+      throw new Error(`No se encontró ningún documento con el id ${docId}`);
+    }
+
+    return {
+      contents: [{ uri: uri.href, mimeType: "text/plain", text: docs[docId] }]
+    };
+  }
+);
 ```
+
+`ResourceTemplate` es la clase del SDK que reconoce los parámetros entre llaves (`{docId}`) y se los pasa a la función como segundo argumento, ya extraídos de la URI.
 
 ### Tipos MIME
 
-Un recurso puede devolver cualquier tipo de dato: cadenas, JSON, binarios... El parámetro `mime_type` le da al cliente una **pista** sobre qué tipo de dato recibe. Los más habituales:
+Un recurso puede devolver cualquier tipo de dato: cadenas, JSON, binarios... El campo `mimeType` le da al cliente una **pista** sobre qué tipo de dato recibe. Los más habituales:
 
 - `application/json`: datos JSON estructurados.
 - `text/plain`: texto plano.
 - Cualquier otro tipo MIME válido para otros formatos.
 
-El SDK **serializa automáticamente** los valores de retorno: no hace falta convertirlos a mano en cadenas JSON.
+En JS, el propio código arma el campo `text` de cada elemento de `contents` (por ejemplo con `JSON.stringify()`) — a diferencia de otros SDKs, `registerResource` no serializa el valor de retorno por ti.
 
 ### Probarlos en el inspector
 
 Arranca el servidor con el inspector:
 
 ```bash
-uv run mcp dev mcp_server.py
+npx @modelcontextprotocol/inspector node mcp-server.js
 ```
 
 Al conectar, el inspector muestra:
@@ -92,40 +118,32 @@ Una vez definidos, el cliente necesita una forma de pedirlos y usarlos. El clien
 
 Cuando el usuario quiere referirse a un documento (por ejemplo, escribiendo `@report.pdf`), la aplicación usa el cliente MCP para **obtener ese recurso** e **incluir su contenido directamente** en el mensaje que se envía a Claude.
 
-### El método `read_resource`
+### El método `readResource`
 
 Recibe una URI que identifica el recurso que se quiere leer:
 
-```python
-import json
-from typing import Any
+```js
+async readResource(uri) {
+  const result = await this.session().readResource({ uri });
+  const [resource] = result.contents;
 
-from mcp import types
-from pydantic import AnyUrl
+  if (resource.mimeType === "application/json") {
+    return JSON.parse(resource.text);
+  }
 
-async def read_resource(self, uri: str) -> Any:
-    result = await self.session().read_resource(AnyUrl(uri))
-    resource = result.contents[0]
-
-    if isinstance(resource, types.TextResourceContents):
-        if resource.mimeType == "application/json":
-            return json.loads(resource.text)
-
-        return resource.text
+  return resource.text;
+}
 ```
 
 Qué hace, paso a paso:
 
-1. Llama a `read_resource` de la sesión con la URI.
+1. Llama a `readResource` de la sesión con la URI.
 2. La respuesta trae una lista `contents`. Normalmente solo hace falta el **primer elemento**, que contiene los datos y metadatos como el tipo MIME.
-3. Según el **tipo MIME**, decide cómo interpretar el contenido: si es `application/json`, lo convierte en un objeto de Python con `json.loads`; si es texto plano, lo devuelve como cadena.
+3. Según el **tipo MIME**, decide cómo interpretar el contenido: si es `application/json`, lo convierte en un objeto de JS con `JSON.parse`; si es texto plano, lo devuelve como cadena.
 
-### Las importaciones
+### Sin importaciones extra
 
-| Importación | Para qué sirve |
-|---|---|
-| `json` | Analizar las respuestas JSON. |
-| `AnyUrl` (de `pydantic`) | Asegurar el tipo correcto del parámetro URI. |
+`JSON.parse()` es una función global de JS, no hace falta importarla. Y `readResource` acepta directamente el URI como string — el SDK de JavaScript no necesita una clase aparte (como la `AnyUrl` de Pydantic) para asegurar su tipo.
 
 ### Probarlo en la aplicación
 
@@ -146,7 +164,7 @@ La ventaja principal es que Claude recibe el contenido del documento directament
 - Los recursos **exponen datos**; las herramientas **realizan acciones**.
 - Recursos **directos** para datos estáticos; recursos **con plantilla** para consultas con parámetros.
 - Los **tipos MIME** ayudan al cliente a entender el formato de la respuesta.
-- El SDK **serializa automáticamente**.
+- En JS, tu código **arma el campo `text`** de cada elemento de `contents` (por ejemplo con `JSON.stringify()`).
 - Los nombres de los parámetros de una URI con plantilla se convierten en **argumentos de la función**.
 
 ---

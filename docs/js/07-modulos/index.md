@@ -242,7 +242,7 @@ try {
     // configuracion.js — módulo
     export const config = await fetch("/config.json").then(r => r.json());
     ```
-    Los módulos que importen este esperarán a que la configuración esté lista antes de ejecutarse. Es la excepción que se mencionaba en la página de [async/await](../05-asincronia/05-async-await/index.md), y solo existe en módulos: en un `<script>` normal es un error de sintaxis.
+    Los módulos que importen este esperarán a que la configuración esté lista antes de ejecutarse. Es la excepción que se mencionaba en la página de [async/await](../05-asincronia/04-async-await/index.md), y solo existe en módulos: en un `<script>` normal es un error de sintaxis.
 
     Úsalo con cuidado: bloquea la carga de todo lo que dependa de ese módulo.
 

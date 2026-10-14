@@ -30,14 +30,15 @@ theme:
 
 nav:
   - Inicio: index.md
-  - 🗺️ Way to Code:
+  - Way to Code:
     - waytoCode/index.md
-    - 📋 Plan de aprendizaje: waytoCode/plan.md
-    - 🎯 Próxima sesión: waytoCode/proxima-sesion.md
-    - 🚨 Repaso urgente:
-      - "JS / DOM": waytoCode/repaso-urgente-js.md
+    - Plan de aprendizaje: waytoCode/plan.md
+    - Próxima sesión: waytoCode/proxima-sesion.md
+    - Repaso urgente:
+      - Javascript: waytoCode/repaso-urgente-js.md
       - Symfony: waytoCode/repaso-urgente-symfony.md
-    - 2026:
+      - React: waytoCode/repaso-urgente-react.md
+    - "Daily Log: 2026":
       - waytoCode/2026/index.md
       - "Mes 06 — Junio":
         - waytoCode/2026/06/index.md
@@ -98,6 +99,10 @@ nav:
           - "Miércoles 23 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-23.md
           - "Jueves 24 — Repaso urgente de DOM": waytoCode/2026/09/semana-3/2026-09-24.md
           - "Sábado 26 — Consolidación de DOM": waytoCode/2026/09/semana-3/2026-09-26.md
+          - "Domingo 27 — Cierre de DOM + inicio de fetch": waytoCode/2026/09/semana-3/2026-09-27.md
+      - "Mes 10 — Octubre":
+        - "Semana 02":
+          - "Miércoles 14 — Arranque de React": waytoCode/2026/10/semana-2/2026-10-14.md
   - Web:
     - web/index.md
     - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
@@ -238,8 +243,8 @@ nav:
       - "Callbacks": js/05-asincronia/01-callbacks/index.md
       - "Promesas": js/05-asincronia/02-promesas/index.md
       - "Promesas — composición": js/05-asincronia/03-promesas-avanzado/index.md
-      - "Fetch API": js/05-asincronia/04-fetch/index.md
-      - "async / await": js/05-asincronia/05-async-await/index.md
+      - "async / await": js/05-asincronia/04-async-await/index.md
+      - "Fetch API": js/05-asincronia/05-fetch/index.md
       - "WebSockets": js/05-asincronia/06-websockets/index.md
       - "Capa de API": js/05-asincronia/07-capa-de-api/index.md
       - "Server-Sent Events": js/05-asincronia/08-server-sent-events/index.md
@@ -249,6 +254,120 @@ nav:
       - "Cookies": js/06-almacenamiento/02-cookies/index.md
     - "Módulos": js/07-modulos/index.md
     - "Expresiones regulares": js/08-regex/index.md
+  - React:
+    - react/index.md
+    - "01 - Fundamentos":
+      - react/01-fundamentos/index.md
+      - "1.1 Inicio":
+        - react/01-fundamentos/01-inicio/index.md
+        - "Qué es React y por qué": react/01-fundamentos/01-inicio/01-que-es-react/index.md
+        - "Entorno con Vite": react/01-fundamentos/01-inicio/03-entorno-vite/index.md
+        - "React sin dependencias (createElement)": react/01-fundamentos/01-inicio/05-react-sin-dependencias/index.md
+      - "1.2 JSX":
+        - react/01-fundamentos/02-jsx/index.md
+        - "JSX desde cero": react/01-fundamentos/02-jsx/01-jsx-desde-cero/index.md
+        - "JSX con llaves": react/01-fundamentos/02-jsx/02-javascript-en-jsx/index.md
+        - "Fragments": react/01-fundamentos/02-jsx/03-fragments/index.md
+      - "1.3 Componentes":
+        - react/01-fundamentos/03-componentes/index.md
+        - "Tu primer componente": react/01-fundamentos/03-componentes/01-primer-componente/index.md
+        - "Importar y exportar": react/01-fundamentos/03-componentes/02-importar-exportar/index.md
+        - "Tu UI como un árbol": react/01-fundamentos/03-componentes/03-ui-como-arbol/index.md
+        - "Componentes puros": react/01-fundamentos/03-componentes/04-componentes-puros/index.md
+      - "1.4 Props":
+        - react/01-fundamentos/04-props/index.md
+        - "Pasar props": react/01-fundamentos/04-props/01-pasar-props/index.md
+        - "La prop children": react/01-fundamentos/04-props/02-prop-children/index.md
+        - "Props inmutables": react/01-fundamentos/04-props/03-props-inmutables/index.md
+        - "Funciones y elementos como props": react/01-fundamentos/04-props/04-funciones-elementos-como-props/index.md
+      - "1.5 Renderizado":
+        - react/01-fundamentos/05-renderizado/index.md
+        - "Renderizado condicional": react/01-fundamentos/05-renderizado/01-renderizado-condicional/index.md
+        - "Listas y key": react/01-fundamentos/05-renderizado/02-listas-key/index.md
+    - "02 - Estado":
+      - react/02-estado/index.md
+      - "2.1 Eventos":
+        - react/02-estado/01-eventos/index.md
+        - "Responder a eventos": react/02-estado/01-eventos/01-responder-eventos/index.md
+      - "2.2 useState":
+        - react/02-estado/02-usestate/index.md
+        - "El estado como memoria del componente": react/02-estado/02-usestate/01-estado-como-memoria/index.md
+        - "El estado como instantánea": react/02-estado/02-usestate/02-estado-como-instantanea/index.md
+        - "Cola de actualizaciones": react/02-estado/02-usestate/03-cola-actualizaciones/index.md
+      - "2.3 Render y commit":
+        - react/02-estado/03-render-commit/index.md
+        - "Renderizado y confirmación": react/02-estado/03-render-commit/01-renderizado-confirmacion/index.md
+      - "2.4 Inmutabilidad":
+        - react/02-estado/04-inmutabilidad/index.md
+        - "Actualizar objetos en el estado": react/02-estado/04-inmutabilidad/01-actualizar-objetos/index.md
+        - "Actualizar arrays en el estado": react/02-estado/04-inmutabilidad/02-actualizar-arrays/index.md
+    - "03 - Efectos":
+      - react/03-efectos/index.md
+      - "3.1 Refs":
+        - react/03-efectos/01-refs/index.md
+        - "Referenciar valores con refs": react/03-efectos/01-refs/01-referenciar-valores/index.md
+        - "Manipular el DOM con refs": react/03-efectos/01-refs/02-manipular-dom/index.md
+      - "3.2 useEffect":
+        - react/03-efectos/02-useeffect/index.md
+        - "Sincronizar con Efectos": react/03-efectos/02-useeffect/01-sincronizar-efectos/index.md
+        - "Dependencias": react/03-efectos/02-useeffect/02-dependencias/index.md
+        - "Cleanup": react/03-efectos/02-useeffect/03-cleanup/index.md
+        - "Ciclo de vida de los Efectos": react/03-efectos/02-useeffect/04-ciclo-vida-efectos/index.md
+      - "3.3 Cuándo no usar un Efecto":
+        - react/03-efectos/03-cuando-no-efecto/index.md
+        - "Quizás no necesites un Efecto": react/03-efectos/03-cuando-no-efecto/01-quizas-no-necesitas-efecto/index.md
+        - "Separar eventos de Efectos": react/03-efectos/03-cuando-no-efecto/02-separar-eventos-de-efectos/index.md
+      - "3.4 Hooks personalizados":
+        - react/03-efectos/04-hooks-personalizados/index.md
+        - "Reutilizar lógica con hooks personalizados": react/03-efectos/04-hooks-personalizados/01-reutilizar-logica-hooks/index.md
+      - "3.5 Datos":
+        - react/03-efectos/05-datos/index.md
+        - "Fetch de datos en React": react/03-efectos/05-datos/01-fetch-de-datos/index.md
+    - "04 - Arquitectura":
+      - react/04-arquitectura/index.md
+      - "4.1 Estructurar el estado":
+        - react/04-arquitectura/01-estructurar-estado/index.md
+        - "Reaccionar a las entradas con el estado": react/04-arquitectura/01-estructurar-estado/01-reaccionar-a-entradas/index.md
+        - "Elección de la estructura del estado": react/04-arquitectura/01-estructurar-estado/02-eleccion-estructura-estado/index.md
+        - "Preservar y reiniciar el estado": react/04-arquitectura/01-estructurar-estado/03-preservar-reiniciar-estado/index.md
+      - "4.2 Compartir estado":
+        - react/04-arquitectura/02-compartir-estado/index.md
+        - "Elevar el estado": react/04-arquitectura/02-compartir-estado/01-elevar-estado/index.md
+      - "4.3 Reducer":
+        - react/04-arquitectura/03-reducer/index.md
+        - "Extraer lógica de estado en un reducer": react/04-arquitectura/03-reducer/01-extraer-logica-reducer/index.md
+      - "4.4 Context":
+        - react/04-arquitectura/04-context/index.md
+        - "Pasar datos en profundidad con contexto": react/04-arquitectura/04-context/01-pasar-datos-contexto/index.md
+        - "Escalar con reducer y contexto": react/04-arquitectura/04-context/02-escalar-reducer-contexto/index.md
+      - "4.5 Composición":
+        - react/04-arquitectura/05-composicion/index.md
+        - "Patrón de composición": react/04-arquitectura/05-composicion/01-patron-composicion/index.md
+    - "05 - Aplicaciones reales":
+      - react/05-aplicaciones-reales/index.md
+      - "5.1 Formularios":
+        - react/05-aplicaciones-reales/01-formularios/index.md
+        - "Inputs controlados": react/05-aplicaciones-reales/01-formularios/01-inputs-controlados/index.md
+      - "5.2 Validación":
+        - react/05-aplicaciones-reales/02-validacion/index.md
+        - "Validación con Zod": react/05-aplicaciones-reales/02-validacion/01-validacion-zod/index.md
+      - "5.3 HTTP":
+        - react/05-aplicaciones-reales/03-http/index.md
+        - "Axios e interceptors": react/05-aplicaciones-reales/03-http/01-axios-interceptors/index.md
+      - "5.4 Routing":
+        - react/05-aplicaciones-reales/04-routing/index.md
+        - "React Router": react/05-aplicaciones-reales/04-routing/01-react-router/index.md
+    - "06 - Calidad y rendimiento":
+      - react/06-calidad-rendimiento/index.md
+      - "6.1 Rendimiento":
+        - react/06-calidad-rendimiento/01-rendimiento/index.md
+        - "useCallback y memo": react/06-calidad-rendimiento/01-rendimiento/01-usecallback-memo/index.md
+      - "6.2 Portals":
+        - react/06-calidad-rendimiento/02-portals/index.md
+        - "Portals": react/06-calidad-rendimiento/02-portals/01-portals/index.md
+      - "6.3 Errores":
+        - react/06-calidad-rendimiento/03-errores/index.md
+        - "Error Boundaries": react/06-calidad-rendimiento/03-errores/01-error-boundaries/index.md
   - Frontend:
     - frontend/index.md
     - JS Vanilla:
@@ -438,6 +557,14 @@ nav:
           - "Inspector y cliente": ia/claude/02-claude-api/13-mcp/04-inspector-y-cliente/index.md
           - "Recursos": ia/claude/02-claude-api/13-mcp/05-recursos/index.md
           - "Prompts": ia/claude/02-claude-api/13-mcp/06-prompts/index.md
+          - "Mejoras con Claude Code": ia/claude/02-claude-api/13-mcp/07-mejoras-claude-code/index.md
+        - "Agentes y flujos de trabajo":
+          - "Agentes y flujos de trabajo": ia/claude/02-claude-api/14-agentes-y-flujos-de-trabajo/index.md
+          - "Paralelización": ia/claude/02-claude-api/14-agentes-y-flujos-de-trabajo/01-paralelizacion/index.md
+          - "Encadenamiento": ia/claude/02-claude-api/14-agentes-y-flujos-de-trabajo/02-encadenamiento/index.md
+          - "Enrutamiento": ia/claude/02-claude-api/14-agentes-y-flujos-de-trabajo/03-enrutamiento/index.md
+          - "Agentes y herramientas": ia/claude/02-claude-api/14-agentes-y-flujos-de-trabajo/04-agentes-y-herramientas/index.md
+          - "Inspección del entorno": ia/claude/02-claude-api/14-agentes-y-flujos-de-trabajo/05-inspeccion-de-entorno/index.md
       - "Automatizaciones":
         - ia/claude/03-automatizaciones/index.md
         - "Hook de inicio": ia/claude/03-automatizaciones/01-hook-inicio/index.md

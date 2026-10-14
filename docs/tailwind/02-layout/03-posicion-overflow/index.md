@@ -81,6 +81,37 @@ Solo funcionan sobre un elemento posicionado (`relative`, `absolute`, `fixed` o 
 
 ---
 
+## Scroll snap — carruseles sin JS {: .topic-title }
+
+El scroll "se engancha" a puntos concretos en vez de quedarse a medias. Necesita tres piezas: scroll en el contenedor, snap en el contenedor y un punto de enganche en cada hijo.
+
+```html
+<ul class="flex snap-x snap-mandatory gap-4 overflow-x-auto">
+  <li class="w-48 shrink-0 snap-start">Slide 1</li>
+  <li class="w-48 shrink-0 snap-start">Slide 2</li>
+  <li class="w-48 shrink-0 snap-start">Slide 3</li>
+</ul>
+```
+
+| Clase | CSS | Dónde va |
+|---|---|---|
+| `snap-x`, `snap-y`, `snap-both` | `scroll-snap-type` (eje) | Contenedor |
+| `snap-mandatory` | Siempre engancha | Contenedor |
+| `snap-proximity` | Engancha solo si está cerca | Contenedor |
+| `snap-start`, `snap-center`, `snap-end` | `scroll-snap-align` | Hijos |
+| `snap-always` | `scroll-snap-stop: always` (no saltarse slides) | Hijos |
+| `scroll-px-`, `scroll-pl-`, … | `scroll-padding` | Contenedor |
+
+!!! warning "`snap-x` y `snap-mandatory` van siempre juntas"
+    `snap-x` fija el eje y `snap-mandatory` la rigidez. Tailwind las combina por debajo con una variable CSS (`--tw-scroll-snap-strictness`), así que con solo una de las dos no obtienes el comportamiento esperado.
+
+!!! note "Sin `overflow-x-auto` el snap no hace nada"
+    El snap necesita un contenedor con scroll. Con `overflow-hidden` o sin overflow no hay nada en lo que enganchar.
+
+Las flechas de navegación no existen en CSS: se hacen con dos botones y `element.scrollBy({ left, behavior: "smooth" })`. Ver la guía de CSS en `css/comportamiento/01-scroll-snap`.
+
+---
+
 ## object-fit — encajar imágenes/vídeos {: .topic-title }
 
 Se usa junto a `aspect-` para que una imagen rellene un contenedor de proporción fija sin deformarse:
@@ -103,4 +134,5 @@ Se usa junto a `aspect-` para que una imagen rellene un contenedor de proporció
 - 📘 **Documentación oficial — Position** — https://tailwindcss.com/docs/position
 - 📘 **Documentación oficial — Z-index** — https://tailwindcss.com/docs/z-index
 - 📘 **Documentación oficial — Overflow** — https://tailwindcss.com/docs/overflow
+- 📘 **Documentación oficial — Scroll snap** — https://tailwindcss.com/docs/scroll-snap-type
 - 📘 **Documentación oficial — Object fit** — https://tailwindcss.com/docs/object-fit
