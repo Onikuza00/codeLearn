@@ -8,8 +8,8 @@
 
 | Subbloque | Capítulos |
 |-----------|-----------|
-| [1.1 Inicio](01-inicio/index.md) | Qué es React y por qué; Entorno con Vite (con la anatomía del proyecto); React sin dependencias (createElement) |
-| [1.2 JSX](02-jsx/index.md) | JSX desde cero; JSX con llaves; Fragments |
-| [1.3 Componentes](03-componentes/index.md) | Tu primer componente; Importar y exportar; Tu UI como un árbol; Componentes puros |
-| [1.4 Props](04-props/index.md) | Pasar props; La prop children; Props inmutables; Funciones y elementos como props |
-| [1.5 Renderizado](05-renderizado/index.md) | Renderizado condicional; Listas y key |
+| [1.1 Inicio](01-inicio/index.md) | Qué es React y por qué; React sin JSX (createElement); Entorno con Vite (con la anatomía del proyecto) |
+| [1.2 JSX](02-jsx/index.md) | JSX desde cero; JSX con llaves; Fragments; Estilos en JSX |
+| [1.3 Componentes](03-componentes/index.md) | Tu primer componente; Componentes vs funciones; Importar y exportar; Un componente real: JobCard; Migrar un proyecto a componentes |
+| [1.4 Props](04-props/index.md) | Props; Valores por defecto y spread |
+| [1.5 Estilaje](05-estilaje/index.md) | CSS en React; Tailwind en React; CSS Modules |

@@ -6,6 +6,8 @@
 
 | Fecha | Cambio | Resumen |
 |---|---|---|
+| 2026-10-17 | [repaso-react-por-reincidencia](2026-10-17-repaso-react-por-reincidencia/) | Repaso urgente de React sin niveles: una card por fallo con código ❌/✅, teoría y enlace, ordenadas por reincidencia y coloreadas 🟢 1 · 🟡 2 · 🟠 3 · 🔴 4+ ejercicios. `.repaso-compact` pasa a `extra.css` |
+| 2026-10-17 | [tema-visual-python](2026-10-17-tema-visual-python/) | Andamiaje visual del bloque Python: degradado azul → amarillo del logo (ocre `#A87F00` en modo claro por contraste), clases `.section-python`/`.bloque-python`, logo bicolor `docs/assets/python-logo.svg` en el menú y fila en `docs/index.md`. Sin capítulos aún |
 | 2026-10-14 | [tema-visual-react](2026-10-14-tema-visual-react/) | Bloque React con identidad visual propia: degradado cian del logo (`#61DAFB → #149ECA`, oscurecido en modo claro), clases `.section-react`/`.bloque-react` en los h1 de `docs/react/` e icono SVG real del logo en menú y tablas |
 | 2026-09-26 | [formato-repaso-urgente](2026-09-26-formato-repaso-urgente/) | Repaso urgente usa el formato de cards del daily: `✅` con el código bueno primero y un `❌` por error; los avisos (tip/danger/warning) no se tocan. Norma añadida a `rules/ejercicios-resultados.md`, que el hook ya inyecta al editar `docs/waytoCode/` |
 | 2026-09-26 | [live-reload-ejercicios](2026-09-26-live-reload-ejercicios/) | Las páginas de ejercicios re-ejecutan los tests al guardar el archivo de soluciones, sin recargar la página (`live-reload.js` + `ejecutarTodo()` en el runner). Limpia los listeners de `document`/`window` entre ejecuciones |

@@ -19,7 +19,7 @@ pnpm install
 pnpm dev
 ```
 
-El servidor de desarrollo queda en `http://localhost:5173/`. Los pasos explicados uno a uno, las alternativas con npm y yarn y los avisos están en el [capítulo Entorno con Vite](03-entorno-vite/index.md).
+El servidor de desarrollo queda en `http://localhost:5173/`. Los pasos explicados uno a uno, las alternativas con npm y yarn y los avisos están en el [capítulo Entorno con Vite](05-entorno-vite/index.md).
 
 ---
 
@@ -28,5 +28,5 @@ El servidor de desarrollo queda en `http://localhost:5173/`. Los pasos explicado
 | Capítulo | Estado |
 |----------|--------|
 | [Qué es React y por qué](01-que-es-react/index.md) | Redactado |
-| [Entorno con Vite](03-entorno-vite/index.md) | Redactado |
-| [React sin dependencias (createElement)](05-react-sin-dependencias/index.md) | Redactado |
+| [React sin JSX](03-react-sin-jsx/index.md) | Redactado |
+| [Entorno con Vite](05-entorno-vite/index.md) | Redactado |

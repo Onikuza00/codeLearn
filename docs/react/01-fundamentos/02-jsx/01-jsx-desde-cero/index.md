@@ -54,6 +54,110 @@ Por eso JSX es **azúcar sintáctico**: la misma aplicación, escrita de forma m
 !!! warning "`className`, no `class`"
     `class` es palabra reservada de JavaScript, así que el atributo se escribe `className`.
 
+---
+
+## Comentarios en JSX {: .topic-title }
+
+En HTML los comentarios se escriben así:
+
+```html
+<!-- Este es un comentario en HTML -->
+<div>Contenido</div>
+```
+
+Si los copias tal cual dentro de JSX, la aplicación da error:
+
+```jsx
+// Mal: esto no funciona
+function App() {
+    return (
+        <div>
+            <!-- Este comentario rompe JSX -->
+            <h1>Hola</h1>
+        </div>
+    );
+}
+```
+
+JSX no es HTML, es JavaScript que se transforma en llamadas a `createElement`, y `<!-- ... -->` no es JavaScript válido. En JSX los comentarios se escriben como una expresión de JavaScript entre llaves:
+
+```jsx
+function App() {
+    return (
+        <div>
+            {/* Este es un comentario en JSX */}
+            <h1>Hola</h1>
+            {/*
+                Los comentarios también
+                pueden ocupar varias líneas
+            */}
+            <p>Contenido</p>
+        </div>
+    );
+}
+```
+
+La sintaxis es siempre `{/* tu comentario */}`: abre con `{/*` y cierra con `*/}`.
+
+!!! tip "Busca los comentarios al migrar HTML"
+    Si pasas una página de HTML a React, busca `<!--` en el editor y reemplaza cada comentario por `{/* */}`.
+
+!!! warning "Un comentario sin llaves se pinta como texto"
+    Un `/* comentario */` suelto dentro del JSX, sin las llaves, no se trata como comentario: aparece escrito en la pantalla. Las llaves son las que abren JavaScript.
+
+---
+
+## Paréntesis cuando el JSX ocupa varias líneas {: .topic-title }
+
+Si el JSX cabe en la misma línea que el `return`, no hace falta nada. Si lo bajas a la línea siguiente, ponlo **entre paréntesis**:
+
+```jsx
+function Saludar() {
+    return (
+        <div>
+            <h1>Hola, Miguel</h1>
+            <p>Vives en Madrid</p>
+        </div>
+    );
+}
+```
+
+!!! warning "Sin paréntesis no se pinta nada"
+    JavaScript da el `return` por terminado al final de esa línea y todo lo de debajo se ignora. La función devuelve `undefined`, así que no aparece nada en pantalla.
+
+---
+
+## Un solo elemento en lo más alto {: .topic-title }
+
+JSX devuelve **un solo elemento** en lo más alto. Esto falla:
+
+```jsx
+function Saludar() {
+    return (
+        <h1>Hola, Miguel</h1>
+        <p>Vives en Madrid</p>
+    );
+}
+```
+
+!!! warning "Error típico"
+    React lo rechaza con un error parecido a «Adjacent JSX elements must be wrapped in an enclosing tag» (los elementos JSX contiguos deben ir dentro de una etiqueta contenedora).
+
+Es como una función que solo puede devolver un valor. Lo arreglas envolviéndolo todo en un `<div>`:
+
+```jsx
+function Saludar() {
+    return (
+        <div>
+            <h1>Hola, Miguel</h1>
+            <p>Vives en Madrid</p>
+        </div>
+    );
+}
+```
+
+Si no quieres añadir un `<div>` de más al HTML, usa un Fragment `<>...</>` (lo ves en [Fragments](../03-fragments/index.md)).
+
 | En Vue | En React |
 |---|---|
 | `<template>` en un archivo `.vue` | JSX dentro del `.jsx` |

@@ -64,6 +64,7 @@ h1.bloque-ia + blockquote,
 h1.bloque-tailwind + blockquote,
 h1.bloque-devops + blockquote,
 h1.bloque-react + blockquote,
+h1.bloque-python + blockquote,
 h1.section-architecture + blockquote,
 h1.section-twig + blockquote,
 h1.section-live + blockquote,
@@ -88,6 +89,7 @@ h1.bloque-ia + blockquote::before,
 h1.bloque-tailwind + blockquote::before,
 h1.bloque-devops + blockquote::before,
 h1.bloque-react + blockquote::before,
+h1.bloque-python + blockquote::before,
 h1.section-architecture + blockquote::before,
 h1.section-twig + blockquote::before,
 h1.section-live + blockquote::before,
@@ -118,6 +120,9 @@ h1.bloque-ia + blockquote::before {
 }
 h1.bloque-react + blockquote::before {
     background: var(--react-gradient);
+}
+h1.bloque-python + blockquote::before {
+    background: var(--python-gradient);
 }
 h1.section-architecture + blockquote::before {
     background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
@@ -472,6 +477,34 @@ h1.section-fundamentos ~ h2 {
 [data-md-color-scheme="slate"] .md-typeset .nivel-header--2 { background: rgba(234, 88, 12, 0.15); border-color: rgba(251, 146, 60, 0.35); color: #fdba74 !important; }
 [data-md-color-scheme="slate"] .md-typeset .nivel-header--3 { background: rgba(180, 83, 9, 0.15); border-color: rgba(251, 191, 36, 0.35); color: #fcd34d !important; }
 [data-md-color-scheme="slate"] .md-typeset .nivel-header--4 { background: rgba(4, 120, 87, 0.15); border-color: rgba(52, 211, 153, 0.35); color: #6ee7b7 !important; }
+
+/* ─── Repaso urgente — bloques compactos por reincidencia (React) ─── */
+
+.repaso-compact { font-size: .82rem; line-height: 1.45; }
+.repaso-compact .admonition { font-size: .8rem; margin-block: .55rem; }
+.repaso-compact .admonition > .admonition-title { font-size: .8rem; }
+.repaso-compact :is(pre, code) { font-size: .78em; }
+.repaso-compact :is(ul, ol) { margin-block: .3rem; }
+.repaso-compact li + li { margin-top: .15rem; }
+
+/* Color por urgencia (reincidencia): verde 1 · amarillo 2 · naranja 3 · rojo 4+
+   Se usan en lugar de note/tip/warning/danger, cuyo color por defecto no sigue esa gama. */
+.md-typeset .admonition.rep-verde    { --rep-color: #00c853; --rep-icon: var(--md-admonition-icon--success); }
+.md-typeset .admonition.rep-amarillo { --rep-color: #ffd600; --rep-icon: var(--md-admonition-icon--tip); }
+.md-typeset .admonition.rep-naranja  { --rep-color: #ff9100; --rep-icon: var(--md-admonition-icon--warning); }
+.md-typeset .admonition.rep-rojo     { --rep-color: #ff1744; --rep-icon: var(--md-admonition-icon--danger); }
+
+.md-typeset .admonition:is(.rep-verde, .rep-amarillo, .rep-naranja, .rep-rojo) {
+    border-color: var(--rep-color);
+}
+.md-typeset .admonition:is(.rep-verde, .rep-amarillo, .rep-naranja, .rep-rojo) > .admonition-title {
+    background-color: color-mix(in srgb, var(--rep-color) 14%, transparent);
+}
+.md-typeset .admonition:is(.rep-verde, .rep-amarillo, .rep-naranja, .rep-rojo) > .admonition-title::before {
+    background-color: var(--rep-color);
+    -webkit-mask-image: var(--rep-icon);
+    mask-image: var(--rep-icon);
+}
 
 /* ─── Admonitions ─── */
 
@@ -1195,7 +1228,8 @@ h1.bloque-js code,
 h1.bloque-ia code,
 h1.bloque-tailwind code,
 h1.bloque-devops code,
-h1.bloque-react code {
+h1.bloque-react code,
+h1.bloque-python code {
     background: transparent !important;
     -webkit-text-fill-color: inherit !important;
     color: inherit !important;
@@ -1504,6 +1538,98 @@ h1.bloque-react:hover {
     background-color: var(--react-logo);
     -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDE4LjIgMTc3LjJxLTguMS0yLjctMTYuMi01LjFjLjktMy43IDEuNy03LjQgMi41LTExLjEgMTIuMy01OS42IDQuMi0xMDcuNS0yMy4xLTEyMy4zLTI2LjMtMTUuMS02OS4yLjYtMTEyLjYgMzguNC00LjMgMy43LTguNSA3LjYtMTIuNSAxMS41LTIuNy0yLjYtNS41LTUuMi04LjMtNy43LTQ1LjUtNDAuNC05MS4xLTU3LjQtMTE4LjQtNDEuNS0yNi4yIDE1LjItMzQgNjAuMy0yMyAxMTYuNyAxLjEgNS42IDIuMyAxMS4xIDMuNyAxNi43LTYuNCAxLjgtMTIuNyAzLjgtMTguNiA1LjlDMzguMyAxOTYuMiAwIDIyNS40IDAgMjU1LjZjMCAzMS4yIDQwLjggNjIuNSA5Ni4zIDgxLjUgNC41IDEuNSA5IDMgMTMuNiA0LjMtMS41IDYtMi44IDExLjktNCAxOC0xMC41IDU1LjUtMi4zIDk5LjUgMjMuOSAxMTQuNiAyNyAxNS42IDcyLjQtLjQgMTE2LjYtMzkuMSAzLjUtMy4xIDctNi4zIDEwLjUtOS43IDQuNCA0LjMgOSA4LjQgMTMuNiAxMi40IDQyLjggMzYuOCA4NS4xIDUxLjcgMTExLjIgMzYuNiAyNy0xNS42IDM1LjgtNjIuOSAyNC40LTEyMC41cS0xLjM1LTYuNi0zLTEzLjVjMy4yLS45IDYuMy0xLjkgOS40LTIuOSA1Ny43LTE5LjEgOTkuNS01MCA5OS41LTgxLjcgMC0zMC4zLTM5LjQtNTkuNy05My44LTc4LjRNMjgyLjkgOTIuM2MzNy4yLTMyLjQgNzEuOS00NS4xIDg3LjctMzYgMTYuOSA5LjcgMjMuNCA0OC45IDEyLjggMTAwLjQtLjcgMy40LTEuNCA2LjctMi4zIDEwLTIyLjItNS00NC43LTguNi02Ny4zLTEwLjYtMTMtMTguNi0yNy4yLTM2LjQtNDIuNi01My4xIDMuOS0zLjcgNy43LTcuMiAxMS43LTEwLjdNMTY3LjIgMzA3LjVjNS4xIDguNyAxMC4zIDE3LjQgMTUuOCAyNS45LTE1LjYtMS43LTMxLjEtNC4yLTQ2LjQtNy41IDQuNC0xNC40IDkuOS0yOS4zIDE2LjMtNDQuNSA0LjYgOC44IDkuMyAxNy41IDE0LjMgMjYuMW0tMzAuMy0xMjAuM2MxNC40LTMuMiAyOS43LTUuOCA0NS42LTcuOC01LjMgOC4zLTEwLjUgMTYuOC0xNS40IDI1LjQtNC45IDguNS05LjcgMTcuMi0xNC4yIDI2LTYuMy0xNC45LTExLjYtMjkuNS0xNi00My42bTI3LjQgNjguOWM2LjYtMTMuOCAxMy44LTI3LjMgMjEuNC00MC42czE1LjgtMjYuMiAyNC40LTM4LjljMTUtMS4xIDMwLjMtMS43IDQ1LjktMS43czMxIC42IDQ1LjkgMS43cTEyLjc1IDE4LjkgMjQuMyAzOC43YzExLjU1IDE5LjggMTQuOSAyNi43IDIxLjcgNDAuNHEtMTAuMDUgMjAuNy0yMS42IDQwLjhjLTcuNiAxMy4zLTE1LjcgMjYuMi0yNC4yIDM5LTE0LjkgMS4xLTMwLjQgMS42LTQ2LjEgMS42cy0zMC45LS41LTQ1LjYtMS40cS0xMy4wNS0xOS4wNS0yNC42LTM5Yy0xMS41NS0xOS45NS0xNC44LTI2LjgtMjEuNS00MC42bTE4MC42IDUxLjJjNS4xLTguOCA5LjktMTcuNyAxNC42LTI2LjcgNi40IDE0LjUgMTIgMjkuMiAxNi45IDQ0LjMtMTUuNSAzLjUtMzEuMiA2LjItNDcgOCA1LjQtOC40IDEwLjUtMTcgMTUuNS0yNS42bTE0LjQtNzYuNWMtNC43LTguOC05LjUtMTcuNi0xNC41LTI2LjJxLTcuMzUtMTIuNzUtMTUuMy0yNS4yYzE2LjEgMiAzMS41IDQuNyA0NS45IDgtNC42IDE0LjgtMTAgMjkuMi0xNi4xIDQzLjRNMjU2LjIgMTE4LjNjMTAuNSAxMS40IDIwLjQgMjMuNCAyOS42IDM1LjgtMTkuOC0uOS0zOS43LS45LTU5LjUgMCA5LjgtMTIuOSAxOS45LTI0LjkgMjkuOS0zNS44TTE0MC4yIDU3YzE2LjgtOS44IDU0LjEgNC4yIDkzLjQgMzkgMi41IDIuMiA1IDQuNiA3LjYgNy0xNS41IDE2LjctMjkuOCAzNC41LTQyLjkgNTMuMS0yMi42IDItNDUgNS41LTY3LjIgMTAuNC0xLjMtNS4xLTIuNC0xMC4zLTMuNS0xNS41LTkuNC00OC40LTMuMi04NC45IDEyLjYtOTRtLTI0LjUgMjYzLjZjLTQuMi0xLjItOC4zLTIuNS0xMi40LTMuOS0yMS4zLTYuNy00NS41LTE3LjMtNjMtMzEuMi0xMC4xLTctMTYuOS0xNy44LTE4LjgtMjkuOSAwLTE4LjMgMzEuNi00MS43IDc3LjItNTcuNiA1LjctMiAxMS41LTMuOCAxNy4zLTUuNSA2LjggMjEuNyAxNSA0MyAyNC41IDYzLjYtOS42IDIwLjktMTcuOSA0Mi41LTI0LjggNjQuNW0xMTYuNiA5OGMtMTYuNSAxNS4xLTM1LjYgMjcuMS01Ni40IDM1LjMtMTEuMSA1LjMtMjMuOSA1LjgtMzUuMyAxLjMtMTUuOS05LjItMjIuNS00NC41LTEzLjUtOTIgMS4xLTUuNiAyLjMtMTEuMiAzLjctMTYuNyAyMi40IDQuOCA0NSA4LjEgNjcuOSA5LjggMTMuMiAxOC43IDI3LjcgMzYuNiA0My4yIDUzLjQtMy4yIDMuMS02LjQgNi4xLTkuNiA4LjltMjQuNS0yNC4zYy0xMC4yLTExLTIwLjQtMjMuMi0zMC4zLTM2LjMgOS42LjQgMTkuNS42IDI5LjUuNiAxMC4zIDAgMjAuNC0uMiAzMC40LS43LTkuMiAxMi43LTE5LjEgMjQuOC0yOS42IDM2LjRtMTMwLjcgMzBjLS45IDEyLjItNi45IDIzLjYtMTYuNSAzMS4zLTE1LjkgOS4yLTQ5LjgtMi44LTg2LjQtMzQuMi00LjItMy42LTguNC03LjUtMTIuNy0xMS41IDE1LjMtMTYuOSAyOS40LTM0LjggNDIuMi01My42IDIyLjktMS45IDQ1LjctNS40IDY4LjItMTAuNSAxIDQuMSAxLjkgOC4yIDIuNyAxMi4yIDQuOSAyMS42IDUuNyA0NC4xIDIuNSA2Ni4zbTE4LjItMTA3LjVjLTIuOC45LTUuNiAxLjgtOC41IDIuNi03LTIxLjgtMTUuNi00My4xLTI1LjUtNjMuOCA5LjYtMjAuNCAxNy43LTQxLjQgMjQuNS02Mi45IDUuMiAxLjUgMTAuMiAzLjEgMTUgNC43IDQ2LjYgMTYgNzkuMyAzOS44IDc5LjMgNTggMCAxOS42LTM0LjkgNDQuOS04NC44IDYxLjRtLTE0OS43LTE1YTQ1LjggNDUuOCAwIDEgMCAwLTkxLjYgNDUuOCA0NS44IDAgMSAwIDAgOTEuNiIvPjwvc3ZnPg==");
     mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDE4LjIgMTc3LjJxLTguMS0yLjctMTYuMi01LjFjLjktMy43IDEuNy03LjQgMi41LTExLjEgMTIuMy01OS42IDQuMi0xMDcuNS0yMy4xLTEyMy4zLTI2LjMtMTUuMS02OS4yLjYtMTEyLjYgMzguNC00LjMgMy43LTguNSA3LjYtMTIuNSAxMS41LTIuNy0yLjYtNS41LTUuMi04LjMtNy43LTQ1LjUtNDAuNC05MS4xLTU3LjQtMTE4LjQtNDEuNS0yNi4yIDE1LjItMzQgNjAuMy0yMyAxMTYuNyAxLjEgNS42IDIuMyAxMS4xIDMuNyAxNi43LTYuNCAxLjgtMTIuNyAzLjgtMTguNiA1LjlDMzguMyAxOTYuMiAwIDIyNS40IDAgMjU1LjZjMCAzMS4yIDQwLjggNjIuNSA5Ni4zIDgxLjUgNC41IDEuNSA5IDMgMTMuNiA0LjMtMS41IDYtMi44IDExLjktNCAxOC0xMC41IDU1LjUtMi4zIDk5LjUgMjMuOSAxMTQuNiAyNyAxNS42IDcyLjQtLjQgMTE2LjYtMzkuMSAzLjUtMy4xIDctNi4zIDEwLjUtOS43IDQuNCA0LjMgOSA4LjQgMTMuNiAxMi40IDQyLjggMzYuOCA4NS4xIDUxLjcgMTExLjIgMzYuNiAyNy0xNS42IDM1LjgtNjIuOSAyNC40LTEyMC41cS0xLjM1LTYuNi0zLTEzLjVjMy4yLS45IDYuMy0xLjkgOS40LTIuOSA1Ny43LTE5LjEgOTkuNS01MCA5OS41LTgxLjcgMC0zMC4zLTM5LjQtNTkuNy05My44LTc4LjRNMjgyLjkgOTIuM2MzNy4yLTMyLjQgNzEuOS00NS4xIDg3LjctMzYgMTYuOSA5LjcgMjMuNCA0OC45IDEyLjggMTAwLjQtLjcgMy40LTEuNCA2LjctMi4zIDEwLTIyLjItNS00NC43LTguNi02Ny4zLTEwLjYtMTMtMTguNi0yNy4yLTM2LjQtNDIuNi01My4xIDMuOS0zLjcgNy43LTcuMiAxMS43LTEwLjdNMTY3LjIgMzA3LjVjNS4xIDguNyAxMC4zIDE3LjQgMTUuOCAyNS45LTE1LjYtMS43LTMxLjEtNC4yLTQ2LjQtNy41IDQuNC0xNC40IDkuOS0yOS4zIDE2LjMtNDQuNSA0LjYgOC44IDkuMyAxNy41IDE0LjMgMjYuMW0tMzAuMy0xMjAuM2MxNC40LTMuMiAyOS43LTUuOCA0NS42LTcuOC01LjMgOC4zLTEwLjUgMTYuOC0xNS40IDI1LjQtNC45IDguNS05LjcgMTcuMi0xNC4yIDI2LTYuMy0xNC45LTExLjYtMjkuNS0xNi00My42bTI3LjQgNjguOWM2LjYtMTMuOCAxMy44LTI3LjMgMjEuNC00MC42czE1LjgtMjYuMiAyNC40LTM4LjljMTUtMS4xIDMwLjMtMS43IDQ1LjktMS43czMxIC42IDQ1LjkgMS43cTEyLjc1IDE4LjkgMjQuMyAzOC43YzExLjU1IDE5LjggMTQuOSAyNi43IDIxLjcgNDAuNHEtMTAuMDUgMjAuNy0yMS42IDQwLjhjLTcuNiAxMy4zLTE1LjcgMjYuMi0yNC4yIDM5LTE0LjkgMS4xLTMwLjQgMS42LTQ2LjEgMS42cy0zMC45LS41LTQ1LjYtMS40cS0xMy4wNS0xOS4wNS0yNC42LTM5Yy0xMS41NS0xOS45NS0xNC44LTI2LjgtMjEuNS00MC42bTE4MC42IDUxLjJjNS4xLTguOCA5LjktMTcuNyAxNC42LTI2LjcgNi40IDE0LjUgMTIgMjkuMiAxNi45IDQ0LjMtMTUuNSAzLjUtMzEuMiA2LjItNDcgOCA1LjQtOC40IDEwLjUtMTcgMTUuNS0yNS42bTE0LjQtNzYuNWMtNC43LTguOC05LjUtMTcuNi0xNC41LTI2LjJxLTcuMzUtMTIuNzUtMTUuMy0yNS4yYzE2LjEgMiAzMS41IDQuNyA0NS45IDgtNC42IDE0LjgtMTAgMjkuMi0xNi4xIDQzLjRNMjU2LjIgMTE4LjNjMTAuNSAxMS40IDIwLjQgMjMuNCAyOS42IDM1LjgtMTkuOC0uOS0zOS43LS45LTU5LjUgMCA5LjgtMTIuOSAxOS45LTI0LjkgMjkuOS0zNS44TTE0MC4yIDU3YzE2LjgtOS44IDU0LjEgNC4yIDkzLjQgMzkgMi41IDIuMiA1IDQuNiA3LjYgNy0xNS41IDE2LjctMjkuOCAzNC41LTQyLjkgNTMuMS0yMi42IDItNDUgNS41LTY3LjIgMTAuNC0xLjMtNS4xLTIuNC0xMC4zLTMuNS0xNS41LTkuNC00OC40LTMuMi04NC45IDEyLjYtOTRtLTI0LjUgMjYzLjZjLTQuMi0xLjItOC4zLTIuNS0xMi40LTMuOS0yMS4zLTYuNy00NS41LTE3LjMtNjMtMzEuMi0xMC4xLTctMTYuOS0xNy44LTE4LjgtMjkuOSAwLTE4LjMgMzEuNi00MS43IDc3LjItNTcuNiA1LjctMiAxMS41LTMuOCAxNy4zLTUuNSA2LjggMjEuNyAxNSA0MyAyNC41IDYzLjYtOS42IDIwLjktMTcuOSA0Mi41LTI0LjggNjQuNW0xMTYuNiA5OGMtMTYuNSAxNS4xLTM1LjYgMjcuMS01Ni40IDM1LjMtMTEuMSA1LjMtMjMuOSA1LjgtMzUuMyAxLjMtMTUuOS05LjItMjIuNS00NC41LTEzLjUtOTIgMS4xLTUuNiAyLjMtMTEuMiAzLjctMTYuNyAyMi40IDQuOCA0NSA4LjEgNjcuOSA5LjggMTMuMiAxOC43IDI3LjcgMzYuNiA0My4yIDUzLjQtMy4yIDMuMS02LjQgNi4xLTkuNiA4LjltMjQuNS0yNC4zYy0xMC4yLTExLTIwLjQtMjMuMi0zMC4zLTM2LjMgOS42LjQgMTkuNS42IDI5LjUuNiAxMC4zIDAgMjAuNC0uMiAzMC40LS43LTkuMiAxMi43LTE5LjEgMjQuOC0yOS42IDM2LjRtMTMwLjcgMzBjLS45IDEyLjItNi45IDIzLjYtMTYuNSAzMS4zLTE1LjkgOS4yLTQ5LjgtMi44LTg2LjQtMzQuMi00LjItMy42LTguNC03LjUtMTIuNy0xMS41IDE1LjMtMTYuOSAyOS40LTM0LjggNDIuMi01My42IDIyLjktMS45IDQ1LjctNS40IDY4LjItMTAuNSAxIDQuMSAxLjkgOC4yIDIuNyAxMi4yIDQuOSAyMS42IDUuNyA0NC4xIDIuNSA2Ni4zbTE4LjItMTA3LjVjLTIuOC45LTUuNiAxLjgtOC41IDIuNi03LTIxLjgtMTUuNi00My4xLTI1LjUtNjMuOCA5LjYtMjAuNCAxNy43LTQxLjQgMjQuNS02Mi45IDUuMiAxLjUgMTAuMiAzLjEgMTUgNC43IDQ2LjYgMTYgNzkuMyAzOS44IDc5LjMgNTggMCAxOS42LTM0LjkgNDQuOS04NC44IDYxLjRtLTE0OS43LTE1YTQ1LjggNDUuOCAwIDEgMCAwLTkxLjYgNDUuOCA0NS44IDAgMSAwIDAgOTEuNiIvPjwvc3ZnPg==");
+}
+
+/* ─── Bloque Python — degradado azul → amarillo del logo de Python ───
+   Logo oficial: azul #387EB8 → #366994 y amarillo #FFE052 → #FFC331.
+   Modo oscuro: azul del logo (3.0:1) → amarillo #FFD43B (9.2:1) sobre el fondo slate.
+   Modo claro: el amarillo sobre blanco da ~1.4:1 (ilegible); se oscurece el
+   tramo a azul #366994 (5.8:1) → ocre #A87F00 (3.7:1, válido para texto grande en negrita). */
+
+:root {
+    --python-from: #366994;
+    --python-to: #A87F00;
+    --python-blue: #3776AB;
+    --python-gradient: linear-gradient(135deg, var(--python-from) 0%, var(--python-to) 100%);
+    --python-gradient-line: linear-gradient(90deg, var(--python-from), var(--python-to));
+    --python-gradient-hover: linear-gradient(135deg, var(--python-to) 0%, var(--python-from) 100%);
+}
+
+[data-md-color-scheme="slate"] {
+    --python-from: #387EB8;
+    --python-to: #FFD43B;
+}
+
+.section-python {
+    background: var(--python-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.section-python::after {
+    background: var(--python-gradient-line);
+}
+.section-python:hover {
+    background: var(--python-gradient-hover) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-python {
+    background: var(--python-gradient) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+h1.bloque-python::after {
+    background: var(--python-gradient-line) !important;
+}
+
+h1.bloque-python:hover {
+    background: var(--python-gradient-hover) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Icono del logo en contenido (h1, tablas): azul base del logo en ambos modos
+   (el icono de Font Awesome es monocolor; el logo bicolor vive en el menú) */
+.python-icon .twemoji {
+    color: var(--python-blue);
+}
+
+.md-typeset .bloque-python ~ h2,
+.md-typeset .bloque-python ~ h2.topic-title {
+    background: var(--python-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.md-typeset .bloque-python ~ h2::after,
+.md-typeset .bloque-python ~ h2.topic-title::after {
+    background: var(--python-gradient-line);
+}
+
+.md-typeset .bloque-python ~ h2 code {
+    background: transparent;
+    -webkit-text-fill-color: inherit;
+    color: inherit;
+    font-weight: 800;
+}
+
+/* Icono Python en el menú — logo bicolor real (docs/assets/python-logo.svg, base64) como
+   background-image: un mask solo admite un color y perdería el azul/amarillo */
+.md-nav__link.nav-icon--python::before,
+.md-tabs__link.nav-icon--python::before {
+    background-color: transparent;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTEwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlB5dGhvbiBsb2dvIj4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icHl0aG9uLWJsdWUiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMzg3RUI4Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzM2Njk5NCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InB5dGhvbi15ZWxsb3ciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkZFMDUyIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGQzMzMSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxwYXRoIGZpbGw9InVybCgjcHl0aG9uLWJsdWUpIiBkPSJNNTQuOTE5IDBjLTQuNTg0LjAyMS04Ljk2MS40MTMtMTIuODEzIDEuMDk1QzMwLjc2IDMuMDk5IDI4LjcgNy4yOTUgMjguNyAxNS4wMzJ2MTAuMjE5aDI2LjgxM3YzLjQwNkgxOC42MzhjLTcuNzkzIDAtMTQuNjE2IDQuNjg0LTE2Ljc1IDEzLjU5NC0yLjQ2MiAxMC4yMTMtMi41NzEgMTYuNTg2IDAgMjcuMjUgMS45MDUgNy45MzggNi40NTcgMTMuNTk0IDE0LjI1IDEzLjU5NGg5LjIxOHYtMTIuMjVjMC04Ljg1IDcuNjU3LTE2LjY1NyAxNi43NS0xNi42NTdoMjYuNzgyYzcuNDU0IDAgMTMuNDA2LTYuMTM4IDEzLjQwNi0xMy42MjV2LTI1LjUzMWMwLTcuMjY2LTYuMTMtMTIuNzI2LTEzLjQwNi0xMy45MzhDNjQuMjgyLjMyOCA1OS41MDItLjAyIDU0LjkxOC4wMDF6bS0xNC41IDguMjJjMi43NyAwIDUuMDMxIDIuMjk4IDUuMDMxIDUuMTI1IDAgMi44MTYtMi4yNjIgNS4wOTMtNS4wMzEgNS4wOTMtMi43OCAwLTUuMDMxLTIuMjc3LTUuMDMxLTUuMDkzIDAtMi44MjcgMi4yNTEtNS4xMjUgNS4wMzEtNS4xMjV6Ii8+CjxwYXRoIGZpbGw9InVybCgjcHl0aG9uLXllbGxvdykiIGQ9Ik04NS42MzggMjguNjU3djExLjkwNmMwIDkuMjMxLTcuODI2IDE2Ljk5OS0xNi43NSAxNi45OTlINDIuMTA2Yy03LjMzNiAwLTEzLjQwNiA2LjI3OS0xMy40MDYgMTMuNjI1djI1LjUzMWMwIDcuMjY2IDYuMzE5IDExLjU0IDEzLjQwNiAxMy42MjUgOC40ODggMi40OTUgMTYuNjI3IDIuOTQ2IDI2Ljc4MiAwIDYuNzUtMS45NTUgMTMuNDA2LTUuODg4IDEzLjQwNi0xMy42MjVWODYuNUg1NS41MTN2LTMuNDA1aDI2Ljc4MmM3Ljc5MyAwIDEwLjY5Ni01LjQzNiAxMy40MDYtMTMuNTk0IDIuNzk5LTguMzk5IDIuNjgtMTYuNDc2IDAtMjcuMjUtMS45MjUtNy43NTgtNS42MDQtMTMuNTk0LTEzLjQwNi0xMy41OTR6TTcwLjU3NSA5My4zMTNjMi43OCAwIDUuMDMxIDIuMjc4IDUuMDMxIDUuMDk0IDAgMi44MjctMi4yNTEgNS4xMjUtNS4wMzEgNS4xMjUtMi43NyAwLTUuMDMxLTIuMjk4LTUuMDMxLTUuMTI1IDAtMi44MTYgMi4yNjEtNS4wOTQgNS4wMzEtNS4wOTR6Ii8+Cjwvc3ZnPgo=");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 .md-tabs__link.nav-icon {
     display: inline-flex;

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python — Ejercicios — CodeLearn</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-css); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-css); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open > .exercise-card-header .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open > .exercise-card-body {
+      display: block;
+    }
+
+    /* Card maestra: agrupa los bloques del mismo tema */
+    .exercise-card--master {
+      border-color: var(--accent-css-dim);
+      background: var(--bg-elevated);
+      margin-bottom: 1rem;
+    }
+    .exercise-card--master > .exercise-card-header h3 {
+      font-size: 1.15rem;
+      color: var(--accent-css);
+    }
+    .exercise-card--master > .exercise-card-body {
+      padding-top: 1rem;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-css-dim);
+      color: var(--accent-css);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-css-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-css-dim);
+      border: 1px solid var(--accent-css);
+      color: var(--accent-css);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-css);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  
+    .ex-steps { margin: 0 0 .75rem 1.25rem; padding: 0; color: var(--text-secondary); font-size: .9rem; line-height: 1.6; }
+    .ex-steps li { margin-bottom: .35rem; }
+    .ex-theory { font-size: .8rem; color: var(--text-muted); margin-bottom: .75rem; }
+    .ex-theory a { color: var(--accent-css); }
+    .ex-intro { color: var(--text-secondary); font-size: .9rem; line-height: 1.6; margin-bottom: 1rem; }
+    .ex-intro li { margin-bottom: .25rem; }
+    .ex-samples pre.sample { margin: 0; padding: 0; background: none !important; border: 0; font: inherit; white-space: pre-wrap; color: #e2e8f0; }
+</style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div class="megamenu-overlay" id="megamenu-overlay"></div>
+
+<main>
+  <section class="hero-exercise">
+    <h1>🐍 <span>Ejercicios de Python</span></h1>
+    <p class="subtitle">Fundamentos de Python practicados en la terminal: scripts pequeños, uno por ejercicio.</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ===== MAESTRA: Fundamentos de Python ===== -->
+    <div class="exercise-card exercise-card--master is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>🐍 Fundamentos de Python</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">0✅</span>
+          <span style="font-size:.75rem;color:#eab308;">0🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">0⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <div class="ex-intro">
+          <p><strong>Cómo trabajar estos ejercicios.</strong></p>
+          <ul>
+            <li>Todos se hacen en <strong>tu terminal</strong>, dentro de una carpeta local, con un <strong>entorno virtual</strong> (<code>python -m venv .venv</code>) activado. No hace falta ningún framework ni navegador.</li>
+            <li>Cada ejercicio es un archivo propio: <code>ejercicios/ex01.py</code>, <code>ex02.py</code>… Lo ejecutas con <code>python ex01.py</code>.</li>
+            <li>Si quieres comprobar tu solución con pruebas, puedes usar <code>pytest</code> de forma opcional.</li>
+            <li>La solución está oculta tras un botón. Inténtalo antes de abrirla.</li>
+            <li>🟢 fácil · 🟡 medio. Los ejercicios irán de menos a más dentro de cada bloque.</li>
+          </ul>
+        </div>
+
+        <p class="ex-desc">Sin ejercicios todavía: se añadirán por tandas, la más nueva primero.</p>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
+<script src="../../nav.js"></script>
+
+</body>
+</html>

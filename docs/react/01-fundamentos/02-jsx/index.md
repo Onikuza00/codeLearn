@@ -11,3 +11,4 @@
 | [JSX desde cero](01-jsx-desde-cero/index.md) | Redactado |
 | [JSX con llaves](02-javascript-en-jsx/index.md) | Redactado |
 | [Fragments](03-fragments/index.md) | Redactado |
+| [Estilos en JSX](04-estilos-en-jsx/index.md) | Redactado |

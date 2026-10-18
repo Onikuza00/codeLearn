@@ -35,7 +35,7 @@
   - El `<code>` inline dentro de un heading hereda el color del degradado de ese heading.
   - `method-title` nunca lleva `section-*`; las subsecciones que no son de método nunca llevan `method-title`.
 - "Buenas prácticas Haz/No hagas" → tabla compacta de 2 columnas clase `.pros-cons`, no dos listas largas.
-- Admonitions (`note/tip/info/warning/danger`) con criterio, solo en gotchas reales — no en cada párrafo.
+- Admonitions (`note/tip/info/warning/danger`) con criterio, solo en consejos y errores típicos reales — no en cada párrafo. **Excepción: el bloque React** (ver «React — método de documentación»), donde van en casi cada sección.
 - Modo claro: contenedores de contenido (code blocks, tablas, tabs, admonitions) con borde sutil + sombra chica vía `[data-md-color-scheme="default"]`, para diferenciarse del fondo blanco (en modo oscuro no hace falta, ya hay contraste).
 - Admonitions personalizadas por tecnología (Symfony): clases `.architecture`, `.twig`, `.live`, `.stimulus`, cada una con `border-left-color`, fondo del `admonition-title` y color del `::before`.
 - Sintaxis `!!! tipo "Tít" { .clase }` con `attr_list` — si no renderiza, usar HTML directo: `<div class="admonition clase"><p class="admonition-title">Tít</p><p>...</p></div>`.
@@ -50,6 +50,40 @@ Las páginas de Symfony siguen una variante propia (inspirada en los apuntes del
 - Tipografía: peso 700 en h1/h2 (no 800).
 - Admonitions: usar también `!!! info` (contexto informativo sin acción a tomar) además de `example`, `tip`, `warning`, `danger`.
 - Los `<div class="video-embed">` existentes nunca se tocan — este trabajo de estilo es solo CSS/estructura.
+
+## React — método de documentación (norma 17/10/2026, aplica a TODO capítulo de `docs/react/`)
+
+Modelo de referencia: `docs/react/01-fundamentos/03-componentes/01-primer-componente/` («Tu primer componente»), aprobado por Pau.
+
+1. **Base = midudev** (JSCamp, módulos 04 y 05, + su vídeo). Se sigue su orden, ideas y ejemplos (`Saludar`, `nombre`, Miguel, Ana, Madrid…). Todo lo que él explique entra.
+2. **Se complementa, nunca se sustituye:** lo que midudev no cubre y la doc oficial (es.react.dev) o los enlaces de Pau sí, se añade, colocado en el capítulo donde encaje. Si falta algo más que ayude a entender, también se añade.
+3. **Siempre en el registro de midudev**, incluso lo que viene de la oficial: palabras llanas, frases cortas, una idea por frase, término definido la primera vez, analogías (HTML, funciones, Vue), ejemplo mínimo y concreto justo después de cada idea, resultado visible. No copiar ni parafrasear de cerca la redacción de la oficial (a Pau le cuesta). Ejemplos propios de la oficial (Katherine Johnson, Gallery…) se sustituyen por los de midudev.
+4. **Consejos, errores típicos y avisos repartidos por el capítulo**, pegados al concepto que aclaran (`!!! tip`, `!!! warning`), en cada bloque o casi cada bloque; el bloque final «Consejos» solo recoge lo que no tiene sección propia. Nunca la palabra «gotcha».
+5. **Comparación con Vue** en todo capítulo (tabla «En Vue / En React»). Lo que sea conocimiento propio y no venga de una fuente se marca al informar a Pau.
+6. **Cada concepto en su sitio:** lo que es de JSX va en JSX (p. ej. paréntesis tras `return`), no en componentes.
+7. **Lo que midudev hace de forma poco real** (react.html con CDN y Babel en el navegador) se deja como nota breve enlazando al capítulo donde ya se explica, y el ejemplo principal usa el proyecto de Vite.
+8. **Fuentes: texto real, nunca resumen.** Nunca `WebFetch` para leer una lección: bajar el HTML con `curl`, limpiarlo a texto y leerlo con `Read`; a los subagentes se les pasa esa ruta. Tras redactar, contrastar con la fuente y no fiarse del informe del subagente.
+9. **Al terminar, informar a Pau** de qué se añadió que NO está en midudev y sí en la oficial (por capítulo), y de las afirmaciones sin fuente (sobre todo Vue).
+10. **Flujo completo en cada ejemplo** (Pau, 17/10/2026): nunca enseñar solo la función y lo que devuelve. Mostrar de principio a fin: el componente en su archivo, dónde se usa (`App.jsx` completo con el `import`), qué recibe o hace React por dentro (p. ej. el objeto `{ nombre: "Miguel" }` que llega como `props`) y el resultado (HTML). Si no se ve de dónde sale un valor, el ejemplo no vale.
+11. **Alcance:** hacer solo el capítulo o las secciones que Pau pide en ese momento, paso a paso. No ampliar a otros capítulos ni mover contenido entre bloques sin que lo pida; ante la duda, preguntar una sola cosa.
+12. Capítulo completo antes que breve cuando eso implique incluir todos los ejemplos de midudev; aun así, sin repetir reglas varias veces ni relleno.
+
+## Python — método de documentación (norma 17/10/2026, aplica a TODO capítulo de `docs/python/`)
+
+Modelo de estructura y tono: el de React (ver arriba), adaptado a Python. Primer pilar redactado: `docs/python/01-fundamentos/`.
+
+1. **Hilo principal = apuntes del Institut Montilivi (ASIX)** (`apunts.institutmontilivi.cat/ASIX-OPTNB/pyASIX/` y `/python/`). Se sigue su orden de temas. Todo lo que expliquen entra.
+2. **Se contrasta SIEMPRE con la documentación oficial** (`docs.python.org/3/`: tutorial, library, reference). Las imprecisiones de los apuntes se corrigen en el capítulo (con aviso breve si ayuda a entender) y se informan a Pau. Lo que los apuntes no cubren y la oficial sí (venv, `match`, `enumerate`, `zip`…), se añade donde encaje.
+3. **Tono midudev**, no el seco del curso ni el denso de la oficial: palabras llanas, frases cortas, una idea por frase, término definido en negrita la primera vez, analogías, ejemplo mínimo justo tras cada idea. No copiar ni parafrasear de cerca ninguna de las dos fuentes.
+4. **Código y nombres:** identificadores y archivos en inglés (`temperature`, `chat_toy.py`), comentarios y textos en español de España. Primera línea de cada bloque: `# archivo.py`. Hilo de ejemplos del pilar 01: un «prompt builder / chat de juguete» (modelo, temperatura, system prompt, f-strings, bucles sobre mensajes).
+5. **Cada ejemplo se ejecuta de verdad** con Python y la salida pegada en el capítulo es la real (si se acorta un traceback, se marca con `...`). Para `input()` se simula la entrada y se muestra lo que vería la terminal.
+6. **Flujo completo en cada ejemplo** (igual que en React): «1. El script», «2. Cómo se ejecuta», «3. Qué pasa por dentro», «4. La salida».
+7. **Estructura del capítulo:** h1 con `{ .section-python .bloque-python }`, blockquote de 1-2 frases, h2 con `{: .topic-title }` separados por `---`, `!!! tip` / `!!! warning` pegados al concepto (el título del warning dice el error), sección `## Python en IA` (consejos, errores y cómo aparece al llamar a un LLM, montar prompts o RAG), tabla «En JS / En Python» (la comparación del bloque es con JavaScript), tip final «Consejos» solo con lo que no tiene sección propia y `## Recursos`.
+8. **Recursos con fuente exacta:** tabla `| Recurso | Enlace |` con dos grupos rotulados, «Apuntes de la escuela» (URL exacta de la página, título en el texto y ancla de la sección si existe) y «Documentación oficial» (página de `docs.python.org/3/` + ancla de la sección, nunca el índice). Cada URL y cada ancla se comprueban antes de darlas por buenas. Si un tema no tiene fuente en los apuntes, se dice en la fila.
+9. **Cada capítulo con su propio hilo:** no repetir lo explicado en capítulos anteriores; enlazar con rutas relativas. Entre 120 y 250 líneas aproximadamente, sin relleno.
+10. **Fuentes: texto real, nunca resumen** (igual que React): `curl` + limpieza a texto + `Read`; nunca `WebFetch` para leer una lección.
+11. **Al terminar, informar a Pau** de: qué se añadió que NO está en los apuntes, qué afirmaciones no tienen fuente (sobre todo las de IA y las comparaciones con JavaScript), y qué errores de los apuntes se corrigieron.
+12. Nunca la palabra «gotcha»; nunca nombrar el ejercicio concreto ni el nivel o progreso del lector.
 
 ## Symfony — estructura de contenido
 

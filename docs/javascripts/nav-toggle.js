@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'Repaso urgente': 'nav-icon--urgente',
     'Daily Log: 2026': 'nav-icon--log',
     'React': 'nav-icon--react',
+    'Python': 'nav-icon--python',
   };
   document.querySelectorAll('.md-nav__link, .md-tabs__link').forEach((link) => {
     if (link.matches('label[for="__toc"]')) return;

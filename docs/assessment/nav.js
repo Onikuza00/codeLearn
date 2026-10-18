@@ -78,15 +78,13 @@
   const dropdownReact =
     '<div class="megamenu__title">React · Temarios</div>' +
     section('⚛️ Ejercicios',
-      link(base + 'react/ejercicios/index.html', 'list', 'Ejercicios de React', 'Sin ejercicios todavía', 'js'),
+      link(base + 'react/ejercicios/index.html', 'list', 'Ejercicios de React', 'Sáb 17/10 · Fundamentos (25 ejercicios)', 'js'),
       { open: true });
 
-  const dropdownRuta =
-    '<div class="megamenu__title">Ruta · Semanas + Library</div>' +
-    section('Progreso',
-      link(base + 'progreso.html#track-js', 'code', 'JS Progression', 'Arrays → Objetos → DOM → Proyecto', 'js') +
-      link(base + 'progreso.html#track-css', 'grid', 'CSS + Tailwind', 'Tailwind desde 0 → Landing', 'css') +
-      link(base + 'progreso.html#track-library', 'chat', 'Assessment Library', 'Todos los exámenes', 'done'),
+  const dropdownPython =
+    '<div class="megamenu__title">Python · Temarios</div>' +
+    section('🐍 Ejercicios',
+      link(base + 'python/ejercicios/index.html', 'list', 'Ejercicios de Python', 'Fundamentos · Estructuras de datos', 'js'),
       { open: true });
 
   const siteNav = document.getElementById('site-nav');
@@ -113,8 +111,8 @@
           '<div class="megamenu" id="dropdown-react">' + dropdownReact + '</div>' +
         '</li>' +
         '<li class="nav__item">' +
-          '<button class="nav__btn" data-dropdown="ruta" aria-haspopup="true">Ruta de Agosto <span class="arrow">▼</span></button>' +
-          '<div class="megamenu" id="dropdown-ruta">' + dropdownRuta + '</div>' +
+          '<button class="nav__btn" data-dropdown="python" aria-haspopup="true">Python <span class="arrow">▼</span></button>' +
+          '<div class="megamenu" id="dropdown-python">' + dropdownPython + '</div>' +
         '</li>' +
       '</ul>' +
       '<a href="/" class="nav__back">← Docs</a>' +
@@ -133,19 +131,19 @@
   const isCSS = path.endsWith('css-final.html') || path.endsWith('css-fundamentos.html') || /\/css\/ejercicios\//.test(path);
   const isSymfony = /\/symfony\/ejercicios\//.test(path);
   const isReact = /\/react\/ejercicios\//.test(path);
-  const isRuta = path.endsWith('progreso.html');
+  const isPython = /\/python\/ejercicios\//.test(path);
 
   const btnJs = siteNav.querySelector('[data-dropdown="js"]');
   const btnCss = siteNav.querySelector('[data-dropdown="css"]');
   const btnSymfony = siteNav.querySelector('[data-dropdown="symfony"]');
   const btnReact = siteNav.querySelector('[data-dropdown="react"]');
-  const btnRuta = siteNav.querySelector('[data-dropdown="ruta"]');
+  const btnPython = siteNav.querySelector('[data-dropdown="python"]');
 
   btnJs.classList.toggle('nav__btn--active-js', isJS);
   btnCss.classList.toggle('nav__btn--active', isCSS);
   btnSymfony.classList.toggle('nav__btn--active-symfony', isSymfony);
   btnReact.classList.toggle('nav__btn--active-js', isReact);
-  btnRuta.classList.toggle('nav__btn--active-ruta', isRuta);
+  btnPython.classList.toggle('nav__btn--active-js', isPython);
 
   let openDropdown = null;
   siteNav.querySelectorAll('[data-dropdown]').forEach((btn) => {

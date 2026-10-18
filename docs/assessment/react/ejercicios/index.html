@@ -5,6 +5,225 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>React — Ejercicios — CodeLearn</title>
   <link rel="stylesheet" href="../../style.css">
+  <style>
+    .hero-exercise {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    .hero-exercise h1 { font-size: 2rem; margin-bottom: .25rem; }
+    .hero-exercise h1 span { color: var(--accent-css); }
+    .hero-exercise .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    .exercise-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .exercise-card:hover { border-color: var(--accent-css); }
+    .exercise-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .exercise-card-header h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text-primary);
+    }
+    .exercise-card-header .arrow-fold {
+      color: var(--text-muted);
+      transition: transform .2s;
+      font-size: .8rem;
+    }
+    .exercise-card.is-open > .exercise-card-header .arrow-fold {
+      transform: rotate(180deg);
+    }
+    .exercise-card-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .exercise-card.is-open > .exercise-card-body {
+      display: block;
+    }
+
+    /* Card maestra: agrupa los bloques del mismo tema */
+    .exercise-card--master {
+      border-color: var(--accent-css-dim);
+      background: var(--bg-elevated);
+      margin-bottom: 1rem;
+    }
+    .exercise-card--master > .exercise-card-header h3 {
+      font-size: 1.15rem;
+      color: var(--accent-css);
+    }
+    .exercise-card--master > .exercise-card-body {
+      padding-top: 1rem;
+    }
+    .ex {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #475569;
+      transition: border-color .2s;
+    }
+    .ex[data-done]    { border-left-color: #22c55e; }
+    .ex[data-review]  { border-left-color: #eab308; }
+    .ex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .ex-title {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem; height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent-css-dim);
+      color: var(--accent-css);
+      font-weight: 700;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+    .ex-status {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .ex-status.done    { color: #22c55e; border-color: #22c55e33; background: #22c55e11; }
+    .ex-status.review  { color: #eab308; border-color: #eab30833; background: #eab30811; }
+    .ex-status.pending { color: #64748b; border-color: #64748b33; background: #64748b11; }
+    .ex-desc {
+      color: var(--text-secondary);
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-explanation {
+      background: var(--bg-elevated);
+      border-left: 4px solid var(--accent-css-dim);
+      padding: .6rem .75rem;
+      font-size: .85rem;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: .75rem;
+      line-height: 1.5;
+    }
+    .ex-samples {
+      background: #0f0f0f;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+      border: 1px solid #1e1e1e;
+    }
+    .ex-samples code {
+      color: #93c5fd;
+      background: none !important;
+      padding: 0;
+    }
+    .ex-samples .arrow-sample {
+      color: #64748b;
+    }
+    .ex-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--accent-css-dim);
+      border: 1px solid var(--accent-css);
+      color: var(--accent-css);
+      padding: .4rem 1rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      font-weight: 600;
+    }
+    .ex-solution-btn:hover {
+      background: var(--accent-css);
+      color: #fff;
+    }
+    .ex-code {
+      display: none;
+      margin-top: .75rem;
+    }
+    .ex-code.is-visible {
+      display: block;
+    }
+    .ex-code pre {
+      background: #0a0a0a !important;
+      color: #e2e8f0 !important;
+      padding: 1rem !important;
+      border-radius: 6px !important;
+      font-size: .82rem !important;
+      overflow-x: auto;
+      border: 1px solid #1a1a1a;
+    }
+    .ex-code .kw   { color: #c084fc; }  /* function, let, const, return */
+    .ex-code .fn   { color: #93c5fd; }  /* function name */
+    .ex-code .str  { color: #86efac; }  /* strings */
+    .ex-code .num  { color: #fde047; }  /* numbers */
+    .ex-code .cmt  { color: #64748b; font-style: italic; }  /* comments */
+    .ex-code .op   { color: #fca5a5; }  /* operators */
+    .ex-result {
+      background: #0f0f0f;
+      border: 1px solid #1e1e1e;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      margin-top: .75rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+    }
+    .ex-result code {
+      background: none !important;
+      color: #93c5fd;
+      padding: 0;
+    }
+    .ex-result .line {
+      margin-bottom: .25rem;
+      white-space: nowrap;
+    }
+    .ex-result .ok   { color: #22c55e; }
+    .ex-result .bad  { color: #ef4444; }
+    .exercise-footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem;
+      font-size: .85rem;
+    }
+  
+    .ex-steps { margin: 0 0 .75rem 1.25rem; padding: 0; color: var(--text-secondary); font-size: .9rem; line-height: 1.6; }
+    .ex-steps li { margin-bottom: .35rem; }
+    .ex-theory { font-size: .8rem; color: var(--text-muted); margin-bottom: .75rem; }
+    .ex-theory a { color: var(--accent-css); }
+    .ex-intro { color: var(--text-secondary); font-size: .9rem; line-height: 1.6; margin-bottom: 1rem; }
+    .ex-intro li { margin-bottom: .25rem; }
+    .ex-samples pre.sample { margin: 0; padding: 0; background: none !important; border: 0; font: inherit; white-space: pre-wrap; color: #e2e8f0; }
+</style>
 </head>
 <body>
 
@@ -12,11 +231,1712 @@
 
 <div class="megamenu-overlay" id="megamenu-overlay"></div>
 
-<main class="container">
-  <h1>React — Ejercicios</h1>
-  <p>Sin ejercicios todavía. Los temarios se añadirán aquí cuando exista su teoría documentada.</p>
+<main>
+  <section class="hero-exercise">
+    <h1>⚛️ <span>React — Ejercicios</span></h1>
+    <p class="subtitle">Fundamentos de React aplicados a landings y aplicaciones web: componentes, JSX, props y estilos con Tailwind y CSS.</p>
+  </section>
+
+  <div style="max-width:720px;margin:auto;padding:0 1.5rem 4rem;">
+
+    <!-- ===== MAESTRA: sábado 17/10/2026 ===== -->
+    <div class="exercise-card exercise-card--master is-open">
+      <div class="exercise-card-header" onclick="toggleExercise(this)">
+        <h3>⚛️ Sábado 17/10 — Fundamentos de React</h3>
+        <span style="display:flex;align-items:center;gap:.3rem;">
+          <span style="font-size:.75rem;color:#22c55e;">0✅</span>
+          <span style="font-size:.75rem;color:#eab308;">0🔁</span>
+          <span style="font-size:.75rem;color:#64748b;">25⏳</span>
+          <span class="arrow-fold">▼</span>
+        </span>
+      </div>
+      <div class="exercise-card-body">
+
+        <div class="ex-intro">
+          <p><strong>Cómo trabajar estos ejercicios.</strong></p>
+          <ul>
+            <li>Hay <strong>cinco ejercicios por subbloque</strong> de Fundamentos, pensados para piezas que se repiten en una landing o en una aplicación: barras de navegación, héroes, precios, testimonios, formularios…</li>
+            <li>Todos se hacen en <strong>un único proyecto</strong>, el que creas en el primero. Cada ejercicio vive en su carpeta: <code>src/ejercicios/ex12/</code> es el 2.º del subbloque 1, <code>ex34/</code> el 4.º del subbloque 3, y así.</li>
+            <li>Para ver un ejercicio en el navegador, impórtalo en <code>App.jsx</code> y pinta ese componente.</li>
+            <li>El aspecto se describe con palabras: las clases de Tailwind las buscas tú.</li>
+            <li>La solución está oculta tras un botón. Inténtalo antes de abrirla.</li>
+            <li>🟢 fácil · 🟡 medio. Los ejercicios van de menos a más dentro de cada subbloque.</li>
+          </ul>
+        </div>
+
+        <div class="exercise-card">
+          <div class="exercise-card-header" onclick="toggleExercise(this)">
+            <h3>🚀 1.1 Inicio</h3>
+            <span style="display:flex;align-items:center;gap:.3rem;">
+              <span style="font-size:.75rem;color:#64748b;">5⏳</span>
+              <span class="arrow-fold">▼</span>
+            </span>
+          </div>
+          <div class="exercise-card-body">
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>1 · 🟢 Proyecto base con Vite y Tailwind</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status done">✅ Completado</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Vas a crear el proyecto donde harás <strong>todos</strong> los ejercicios, y que te servirá de punto de partida para una landing. Un proyecto de React es una carpeta con herramientas ya preparadas: <em>Vite</em> lo crea y lo arranca, y <em>Tailwind</em> te permite dar estilo con clases.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea un proyecto de Vite con la plantilla de React, llamado <code>ejercicios-react</code>, e instala sus dependencias.</li>
+                  <li>Instala Tailwind en ese proyecto y déjalo conectado, de modo que se pueda usar en cualquier componente.</li>
+                  <li>Limpia lo que trae la plantilla: borra los estilos de ejemplo y deja <code>App.jsx</code> mostrando solo un título.</li>
+                  <li>Crea la carpeta <code>src/ejercicios</code>. En ella irás metiendo una carpeta por ejercicio: <code>ex12</code>, <code>ex13</code>…</li>
+                  <li>Arranca el servidor y comprueba en el navegador que el título se ve con estilo.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Un título «Hola React» en letra muy grande y en negrita, de color azul, centrado en la página y con algo de espacio por encima. Si el título se ve con la letra por defecto del navegador, Tailwind no está bien conectado.</p>
+                <div class="ex-samples"><pre class="sample">http://localhost:5173
+
+              Hola React        ← grande, negrita, azul, centrado</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/01-inicio/05-entorno-vite/">Entorno con Vite</a> · <a href="../../../react/01-fundamentos/05-estilaje/02-tailwind-en-react/">Tailwind en React</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// terminal</span>
+pnpm create vite@latest ejercicios-react --template react
+cd ejercicios-react
+pnpm install
+pnpm add tailwindcss @tailwindcss/vite
+pnpm dev</pre>
+<pre><span class="cmt">// vite.config.js</span>
+<span class="kw">import</span> { defineConfig } <span class="kw">from</span> <span class="str">&quot;vite&quot;</span>;
+<span class="kw">import</span> react <span class="kw">from</span> <span class="str">&quot;@vitejs/plugin-react&quot;</span>;
+<span class="kw">import</span> tailwindcss <span class="kw">from</span> <span class="str">&quot;@tailwindcss/vite&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> defineConfig({
+    plugins: [react(), tailwindcss()],
+});</pre>
+<pre><span class="cmt">// src/index.css</span>
+@<span class="kw">import</span> <span class="str">&quot;tailwindcss&quot;</span>;</pre>
+<pre><span class="cmt">// src/App.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> App() {
+    <span class="kw">return</span> &lt;h1 className=<span class="str">&quot;mt-10 text-center text-4xl font-bold text-blue-600&quot;</span>&gt;Hola React&lt;/h1&gt;;
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>2 · 🟢 Personaliza el index.html y el logo</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status done">✅ Completado</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Lo primero que ve un visitante de una landing es la pestaña del navegador: el título y el icono. Eso no se cambia dentro de React, sino en el archivo HTML que sirve Vite.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Abre el <code>index.html</code> de la raíz del proyecto y cambia el idioma de la página a español.</li>
+                  <li>Cambia el título de la pestaña a «Mi landing».</li>
+                  <li>Añade una descripción de la página, la que leen los buscadores.</li>
+                  <li>Pon un icono propio en la pestaña, sustituyendo el que trae Vite. Sirve cualquier imagen pequeña o un SVG sencillo.</li>
+                  <li>Consigue un logo (una imagen cualquiera) y muéstralo en <code>App.jsx</code> con una etiqueta <code>&lt;img&gt;</code>. Tú decides si lo guardas en <code>public/</code> o en <code>src/assets/</code>; en un comentario del archivo explica por qué.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> En la pestaña del navegador se ve tu icono y el texto «Mi landing». En la página, el logo pequeño (unos 64 píxeles de ancho), centrado y con algo de espacio por encima.</p>
+                <div class="ex-samples"><pre class="sample">Pestaña:  [icono] Mi landing
+
+Página:
+              [logo 64px]</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/01-inicio/05-entorno-vite/">Entorno con Vite</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// index.html</span>
+&lt;!doctype html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/favicon.svg&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;Landing de ejemplo hecha con React.&quot; /&gt;
+    &lt;title&gt;Mi landing&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;module&quot; src=&quot;/src/main.jsx&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<pre><span class="cmt">// src/App.jsx</span>
+<span class="cmt">// El logo va en src/assets porque se importa: Vite lo procesa y le añade un hash.</span>
+<span class="cmt">// El favicon va en public/ porque el navegador lo pide con su nombre exacto.</span>
+<span class="kw">import</span> logo <span class="kw">from</span> <span class="str">&quot;./assets/logo.svg&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> App() {
+    <span class="kw">return</span> &lt;img src={logo} alt=<span class="str">&quot;Logo de Mi landing&quot;</span> className=<span class="str">&quot;mx-auto mt-10 w-16&quot;</span> /&gt;;
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>3 · 🟢 Hero sin JSX</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status done">✅ Completado</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">JSX es una comodidad: por debajo, todo son llamadas a <code>createElement</code>. Para entenderlo, escribe la cabecera principal de una landing (un <em>hero</em>) sin usar ninguna etiqueta JSX.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex13/Hero.jsx</code> con un componente <code>Hero</code> que no tenga ninguna etiqueta JSX dentro.</li>
+                  <li>Debe contener un contenedor con: un título «Lanza tu proyecto», un párrafo «Una landing rápida con React.» y un enlace «Empezar» que apunte a <code>#planes</code>.</li>
+                  <li>Dale las clases de estilo desde las propiedades de cada elemento.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Todo centrado y en una columna estrecha, con bastante espacio por encima. El título muy grande y en negrita; el párrafo en gris, con un poco de separación; el enlace con forma de píldora azul, texto blanco en seminegrita y separado del párrafo.</p>
+                <div class="ex-samples"><pre class="sample">      Lanza tu proyecto        ← muy grande, negrita
+  Una landing rápida con React.   ← gris
+          ( Empezar )              ← píldora azul</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/01-inicio/03-react-sin-jsx/">React sin JSX</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex13/Hero.jsx</span>
+<span class="kw">import</span> { createElement } <span class="kw">from</span> <span class="str">&quot;react&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Hero() {
+    <span class="kw">return</span> createElement(
+        <span class="str">&quot;div&quot;</span>,
+        { className: <span class="str">&quot;mx-auto mt-16 max-w-xl text-center&quot;</span> },
+        createElement(<span class="str">&quot;h1&quot;</span>, { className: <span class="str">&quot;text-4xl font-bold text-gray-900&quot;</span> }, <span class="str">&quot;Lanza tu proyecto&quot;</span>),
+        createElement(<span class="str">&quot;p&quot;</span>, { className: <span class="str">&quot;mt-3 text-gray-500&quot;</span> }, <span class="str">&quot;Una landing rápida con React.&quot;</span>),
+        createElement(
+            <span class="str">&quot;a&quot;</span>,
+            { href: <span class="str">&quot;#planes&quot;</span>, className: <span class="str">&quot;mt-6 inline-block rounded-full bg-blue-600 px-6 py-2 font-semibold text-white&quot;</span> },
+            <span class="str">&quot;Empezar&quot;</span>,
+        ),
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>4 · 🟡 Ventajas: la misma lista de dos formas</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status done">✅ Completado</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Cuando los elementos se anidan, <code>createElement</code> se vuelve difícil de leer. Escribe la misma sección de ventajas de una landing de las dos maneras y compáralas.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex14/VentajasSinJsx.jsx</code>: una sección con un título «Por qué elegirnos» y una lista de tres ventajas («✓ Rápido», «✓ Seguro», «✓ Accesible»), escrita <strong>sin JSX</strong>.</li>
+                  <li>Crea <code>VentajasJsx.jsx</code> con exactamente lo mismo, esta vez <strong>con JSX</strong>.</li>
+                  <li>Crea <code>Ex14.jsx</code> que muestre una versión encima de la otra, y muéstralo desde <code>App.jsx</code>.</li>
+                  <li>Comprueba en el navegador que las dos se ven exactamente igual.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Cada sección en una tarjeta estrecha y centrada, con borde fino, esquinas redondeadas y espacio interior. Título en seminegrita; lista sin viñetas, con las ventajas una debajo de otra y con poca separación. Las dos tarjetas separadas entre sí.</p>
+                <div class="ex-samples"><pre class="sample">Por qué elegirnos
+✓ Rápido
+✓ Seguro
+✓ Accesible
+
+(la misma tarjeta, repetida)</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/01-inicio/03-react-sin-jsx/">React sin JSX</a> · <a href="../../../react/01-fundamentos/02-jsx/01-jsx-desde-cero/">JSX desde cero</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex14/VentajasSinJsx.jsx</span>
+<span class="kw">import</span> { createElement } <span class="kw">from</span> <span class="str">&quot;react&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> VentajasSinJsx() {
+    <span class="kw">return</span> createElement(
+        <span class="str">&quot;section&quot;</span>,
+        { className: <span class="str">&quot;mx-auto my-4 max-w-sm rounded-lg border border-gray-200 p-4&quot;</span> },
+        createElement(<span class="str">&quot;h2&quot;</span>, { className: <span class="str">&quot;font-semibold&quot;</span> }, <span class="str">&quot;Por qué elegirnos&quot;</span>),
+        createElement(
+            <span class="str">&quot;ul&quot;</span>,
+            { className: <span class="str">&quot;mt-2 list-none space-y-1&quot;</span> },
+            createElement(<span class="str">&quot;li&quot;</span>, null, <span class="str">&quot;✓ Rápido&quot;</span>),
+            createElement(<span class="str">&quot;li&quot;</span>, null, <span class="str">&quot;✓ Seguro&quot;</span>),
+            createElement(<span class="str">&quot;li&quot;</span>, null, <span class="str">&quot;✓ Accesible&quot;</span>),
+        ),
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex14/VentajasJsx.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> VentajasJsx() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;mx-auto my-4 max-w-sm rounded-lg border border-gray-200 p-4&quot;</span>&gt;
+            &lt;h2 className=<span class="str">&quot;font-semibold&quot;</span>&gt;Por qué elegirnos&lt;/h2&gt;
+            &lt;ul className=<span class="str">&quot;mt-2 list-none space-y-1&quot;</span>&gt;
+                &lt;li&gt;✓ Rápido&lt;/li&gt;
+                &lt;li&gt;✓ Seguro&lt;/li&gt;
+                &lt;li&gt;✓ Accesible&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex14/Ex14.jsx</span>
+<span class="kw">import</span> VentajasSinJsx <span class="kw">from</span> <span class="str">&quot;./VentajasSinJsx.jsx&quot;</span>;
+<span class="kw">import</span> VentajasJsx <span class="kw">from</span> <span class="str">&quot;./VentajasJsx.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex14() {
+    <span class="kw">return</span> (
+        &lt;&gt;
+            &lt;VentajasSinJsx /&gt;
+            &lt;VentajasJsx /&gt;
+        &lt;/&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>5 · 🟢 De desarrollo a producción</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status done">✅ Completado</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Una landing no se publica con el servidor de desarrollo, sino con una versión ya preparada. Vas a generarla, mirarla por dentro y comprobar que no se comporta igual que en desarrollo.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>En <code>App.jsx</code> escribe un mensaje por la consola del navegador cada vez que se pinta el componente.</li>
+                  <li>Con el servidor de desarrollo arrancado, abre la consola y apunta cuántas veces sale el mensaje al cargar la página.</li>
+                  <li>Genera la versión de producción del proyecto y abre la carpeta <code>dist/</code>: apunta qué archivos hay y qué tienen de raro los nombres de los de dentro de <code>assets/</code>.</li>
+                  <li>Arranca el servidor que sirve <strong>esa</strong> versión (no el de desarrollo), ábrela en el navegador y vuelve a contar los mensajes.</li>
+                  <li>Escribe en <code>src/ejercicios/ex15/notas.md</code> qué has visto y a qué crees que se debe la diferencia.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> No hay nada que ver en la página: el resultado es el archivo de notas, con tus observaciones (cuántas veces sale el mensaje en cada caso y qué hay dentro de <code>dist/</code>).</p>
+                <div class="ex-samples"><pre class="sample">Desarrollo:  mensaje ×2
+Producción:  mensaje ×1
+dist/  →  index.html + assets/ (con un código en el nombre)</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/01-inicio/05-entorno-vite/">Entorno con Vite</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// terminal</span>
+pnpm build     # genera dist/
+pnpm preview   # sirve la versión de producción</pre>
+<pre><span class="cmt">// src/ejercicios/ex15/notas.md</span>
+En desarrollo el mensaje sale dos veces: main.jsx envuelve la app en StrictMode, que
+en desarrollo ejecuta los componentes dos veces para detectar errores. En producción
+sale una sola vez, porque StrictMode no actúa.
+
+dist/ contiene index.html y la carpeta assets/ con el JavaScript y el CSS ya
+empaquetados. Los nombres llevan un código (hash) que cambia cuando cambia el
+contenido, para que el navegador no use una copia vieja guardada en caché.</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+        <div class="exercise-card">
+          <div class="exercise-card-header" onclick="toggleExercise(this)">
+            <h3>🧩 1.2 JSX</h3>
+            <span style="display:flex;align-items:center;gap:.3rem;">
+              <span style="font-size:.75rem;color:#64748b;">5⏳</span>
+              <span class="arrow-fold">▼</span>
+            </span>
+          </div>
+          <div class="exercise-card-body">
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>1 · 🟢 Formulario de suscripción: del HTML al JSX</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">JSX se parece al HTML, pero no es HTML: tiene unas pocas reglas distintas. Aquí tienes el trozo de HTML de una suscripción a una newsletter que, copiado tal cual dentro de un componente, daría errores.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex21/Suscripcion.jsx</code> con un componente <code>Suscripcion</code> que devuelva este mismo contenido ya convertido a JSX, sin errores ni avisos en la consola del navegador.</li>
+                  <li>Cambia el aspecto (descrito abajo) con Tailwind en lugar de la clase <code>suscripcion</code>. El estilo en línea del párrafo se queda, convertido a JSX.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> El formulario dentro de una tarjeta centrada y estrecha, con borde fino, esquinas redondeadas y sombra suave. El logo con algo de margen. Etiqueta, campo y botón en columna con poca separación; el campo con borde gris y esquinas redondeadas, y el botón azul con texto blanco que se oscurece al pasar el ratón. «Sin spam.» pequeño y gris. El pie, centrado y separado de la tarjeta.</p>
+                <div class="ex-samples"><pre class="sample">&lt;!-- Formulario de suscripción --&gt;
+&lt;section class=&quot;suscripcion&quot;&gt;
+  &lt;h2&gt;Suscríbete&lt;/h2&gt;
+  &lt;img src=&quot;https://placehold.co/80x80&quot; alt=&quot;Logo&quot;&gt;
+  &lt;form&gt;
+    &lt;label for=&quot;email&quot;&gt;Tu correo&lt;/label&gt;
+    &lt;input id=&quot;email&quot; type=&quot;email&quot; placeholder=&quot;tu@correo.com&quot;&gt;
+    &lt;button type=&quot;submit&quot;&gt;Enviar&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;p style=&quot;color: gray&quot;&gt;Sin spam.&lt;/p&gt;
+&lt;/section&gt;
+&lt;footer&gt;
+  &lt;small&gt;© 2026&lt;/small&gt;
+&lt;/footer&gt;</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/02-jsx/01-jsx-desde-cero/">JSX desde cero</a> · <a href="../../../react/01-fundamentos/02-jsx/03-fragments/">Fragments</a> · <a href="../../../react/01-fundamentos/02-jsx/04-estilos-en-jsx/">Estilos en JSX</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex21/Suscripcion.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Suscripcion() {
+    <span class="kw">return</span> (
+        &lt;&gt;
+            {<span class="cmt">/* Formulario de suscripción */</span>}
+            &lt;section className=<span class="str">&quot;mx-auto mt-10 max-w-sm rounded-xl border border-gray-200 p-6 shadow-md&quot;</span>&gt;
+                &lt;h2 className=<span class="str">&quot;text-xl font-semibold&quot;</span>&gt;Suscríbete&lt;/h2&gt;
+                &lt;img src=<span class="str">&quot;https://placehold.co/80x80&quot;</span> alt=<span class="str">&quot;Logo&quot;</span> className=<span class="str">&quot;my-3&quot;</span> /&gt;
+                &lt;form className=<span class="str">&quot;flex flex-col gap-2&quot;</span>&gt;
+                    &lt;label htmlFor=<span class="str">&quot;email&quot;</span>&gt;Tu correo&lt;/label&gt;
+                    &lt;input
+                        id=<span class="str">&quot;email&quot;</span>
+                        type=<span class="str">&quot;email&quot;</span>
+                        placeholder=<span class="str">&quot;tu@correo.com&quot;</span>
+                        className=<span class="str">&quot;rounded-md border border-gray-300 px-3 py-2&quot;</span>
+                    /&gt;
+                    &lt;button
+                        type=<span class="str">&quot;submit&quot;</span>
+                        className=<span class="str">&quot;rounded-md bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700&quot;</span>
+                    &gt;
+                        Enviar
+                    &lt;/button&gt;
+                &lt;/form&gt;
+                &lt;p style={{ color: <span class="str">&quot;gray&quot;</span> }} className=<span class="str">&quot;mt-3 text-sm&quot;</span>&gt;Sin spam.&lt;/p&gt;
+            &lt;/section&gt;
+            &lt;footer className=<span class="str">&quot;mt-6 text-center&quot;</span>&gt;
+                &lt;small&gt;© <span class="num">2026</span>&lt;/small&gt;
+            &lt;/footer&gt;
+        &lt;/&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>2 · 🟢 Pie de página con datos</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">El pie de una landing repite datos que no conviene escribir a mano: el año actual, el nombre del negocio, el correo. Vas a generarlos con JavaScript dentro del JSX.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex22/Pie.jsx</code> con un componente <code>Pie</code>.</li>
+                  <li>Dentro, guarda en variables: el nombre del negocio («Mi Estudio»), su correo («hola@miestudio.com») y el año en que se fundó (2019).</li>
+                  <li>Muestra: «© {año actual} MI ESTUDIO» (el nombre en mayúsculas) y, debajo, «Más de {N} años creando webs», donde N son los años que han pasado desde la fundación.</li>
+                  <li>Muestra el correo como un enlace que, al pulsarlo, abra el programa de correo con esa dirección.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Un pie a todo lo ancho, con fondo gris muy claro, texto centrado, pequeño y gris, y espacio interior arriba y abajo. El enlace del correo en azul y subrayado al pasar el ratón.</p>
+                <div class="ex-samples"><pre class="sample">© 2026 MI ESTUDIO
+Más de 7 años creando webs
+hola@miestudio.com   ← enlace azul</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/02-jsx/02-javascript-en-jsx/">JSX con llaves</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex22/Pie.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Pie() {
+    <span class="kw">const</span> negocio = <span class="str">&quot;Mi Estudio&quot;</span>;
+    <span class="kw">const</span> correo = <span class="str">&quot;hola@miestudio.com&quot;</span>;
+    <span class="kw">const</span> fundacion = <span class="num">2019</span>;
+    <span class="kw">const</span> anioActual = <span class="kw">new</span> Date().getFullYear();
+
+    <span class="kw">return</span> (
+        &lt;footer className=<span class="str">&quot;bg-gray-50 py-6 text-center text-sm text-gray-500&quot;</span>&gt;
+            &lt;p&gt;© {anioActual} {negocio.toUpperCase()}&lt;/p&gt;
+            &lt;p&gt;Más de {anioActual - fundacion} años creando webs&lt;/p&gt;
+            &lt;a href={<span class="str">`mailto:${correo}`</span>} className=<span class="str">&quot;text-blue-600 hover:underline&quot;</span>&gt;{correo}&lt;/a&gt;
+        &lt;/footer&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>3 · 🟡 Banner de oferta con días restantes</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Muchas landings muestran una franja superior con una oferta que caduca. El texto depende de cuántos días quedan, y eso se calcula con JavaScript.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex23/BannerOferta.jsx</code> con un componente <code>BannerOferta</code>.</li>
+                  <li>Dentro, guarda la fecha en que termina la oferta, escrita como texto con formato «2026-12-31».</li>
+                  <li>Calcula cuántos días faltan desde hoy hasta esa fecha, redondeando hacia arriba.</li>
+                  <li>El texto debe ser: «Quedan N días de oferta» si faltan 2 o más; «¡Último día de oferta!» si falta 1; «La oferta ha terminado» si ya pasó.</li>
+                  <li>Comprueba los tres casos cambiando la fecha, y muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Una franja a todo lo ancho en la parte de arriba, con fondo ámbar, texto centrado, en seminegrita y con espacio interior arriba y abajo.</p>
+                <div class="ex-samples"><pre class="sample">Quedan 76 días de oferta
+¡Último día de oferta!
+La oferta ha terminado</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/02-jsx/02-javascript-en-jsx/">JSX con llaves</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex23/BannerOferta.jsx</span>
+<span class="kw">function</span> textoRestante(fechaFin) {
+    <span class="kw">const</span> msPorDia = <span class="num">1000</span> * <span class="num">60</span> * <span class="num">60</span> * <span class="num">24</span>;
+    <span class="kw">const</span> dias = Math.ceil((<span class="kw">new</span> Date(fechaFin) - <span class="kw">new</span> Date()) / msPorDia);
+
+    <span class="kw">if</span> (dias &lt;= <span class="num">0</span>) <span class="kw">return</span> <span class="str">&quot;La oferta ha terminado&quot;</span>;
+    <span class="kw">if</span> (dias === <span class="num">1</span>) <span class="kw">return</span> <span class="str">&quot;¡Último día de oferta!&quot;</span>;
+    <span class="kw">return</span> <span class="str">`Quedan ${dias} días de oferta`</span>;
+}
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> BannerOferta() {
+    <span class="kw">const</span> fechaFin = <span class="str">&quot;2026-12-31&quot;</span>;
+
+    <span class="kw">return</span> (
+        &lt;div className=<span class="str">&quot;bg-amber-300 py-2 text-center font-semibold text-amber-950&quot;</span>&gt;
+            {textoRestante(fechaFin)}
+        &lt;/div&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>4 · 🟢 Datos de contacto sin envoltorios</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Una lista de definición (<code>&lt;dl&gt;</code>) solo admite pares <code>&lt;dt&gt;</code> (término) y <code>&lt;dd&gt;</code> (valor) como hijos directos. Si un componente los envuelve en otra etiqueta, el HTML deja de ser correcto.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex24/Dato.jsx</code>: un componente que escriba un término y su valor, es decir, un <code>&lt;dt&gt;</code> y un <code>&lt;dd&gt;</code> seguidos.</li>
+                  <li>Crea <code>Ex24.jsx</code> con un <code>&lt;dl&gt;</code> y tres usos de <code>Dato</code>: Email («hola@miestudio.com»), Teléfono («600 000 000») y Dirección («Calle Mayor 1, Barcelona»).</li>
+                  <li>Abre las herramientas de desarrollo del navegador y comprueba que dentro del <code>&lt;dl&gt;</code> no hay ninguna etiqueta intermedia, solo los <code>&lt;dt&gt;</code> y <code>&lt;dd&gt;</code>.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Una rejilla de dos columnas: a la izquierda los términos en negrita, a la derecha los valores en gris, con un poco de separación vertical entre filas. Todo dentro de una tarjeta estrecha y centrada, con borde fino y esquinas redondeadas.</p>
+                <div class="ex-samples"><pre class="sample">Email       hola@miestudio.com
+Teléfono    600 000 000
+Dirección   Calle Mayor 1, Barcelona</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/02-jsx/03-fragments/">Fragments</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex24/Dato.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Dato({ termino, valor }) {
+    <span class="kw">return</span> (
+        &lt;&gt;
+            &lt;dt className=<span class="str">&quot;font-bold&quot;</span>&gt;{termino}&lt;/dt&gt;
+            &lt;dd className=<span class="str">&quot;text-gray-500&quot;</span>&gt;{valor}&lt;/dd&gt;
+        &lt;/&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex24/Ex24.jsx</span>
+<span class="kw">import</span> Dato <span class="kw">from</span> <span class="str">&quot;./Dato.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex24() {
+    <span class="kw">return</span> (
+        &lt;dl className=<span class="str">&quot;mx-auto mt-10 grid max-w-sm grid-cols-2 gap-y-1 rounded-lg border border-gray-200 p-4&quot;</span>&gt;
+            &lt;Dato termino=<span class="str">&quot;Email&quot;</span> valor=<span class="str">&quot;hola@miestudio.com&quot;</span> /&gt;
+            &lt;Dato termino=<span class="str">&quot;Teléfono&quot;</span> valor=<span class="str">&quot;600 000 000&quot;</span> /&gt;
+            &lt;Dato termino=<span class="str">&quot;Dirección&quot;</span> valor=<span class="str">&quot;Calle Mayor 1, Barcelona&quot;</span> /&gt;
+        &lt;/dl&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>5 · 🟡 Barras de habilidades</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">En un portfolio es muy típico mostrar el nivel de cada habilidad con una barra. El ancho de la barra depende de un número, y por eso no puede ser una clase fija.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex25/Barra.jsx</code> con un componente <code>Barra</code> que recibe un <code>nombre</code> y un <code>nivel</code> (un número).</li>
+                  <li>El ancho de la parte rellena es el nivel como porcentaje. Si el nivel es menor que 0, vale 0; si es mayor que 100, vale 100.</li>
+                  <li>El color del relleno depende del nivel: por debajo de 30, rojo; de 30 a 69, ámbar; de 70 en adelante, verde.</li>
+                  <li>Escribe a la derecha el valor como «45 %».</li>
+                  <li>Crea <code>Ex25.jsx</code> con cinco barras: HTML (95), CSS (85), JavaScript (60), React (25) y «Valor erróneo» (150). Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Cada habilidad en una fila: el nombre encima, y debajo una pista gris clara con las esquinas muy redondeadas, con el relleno de color dentro y el porcentaje a la derecha. La última barra debe llegar justo al final de la pista, sin salirse.</p>
+                <div class="ex-samples"><pre class="sample">HTML        [██████████████████░] 95 %
+React       [█████░░░░░░░░░░░░░░] 25 %
+Valor err.  [████████████████████] 100 %</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/02-jsx/04-estilos-en-jsx/">Estilos en JSX</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex25/Barra.jsx</span>
+<span class="kw">function</span> colorPara(valor) {
+    <span class="kw">if</span> (valor &lt; <span class="num">30</span>) <span class="kw">return</span> <span class="str">&quot;#ef4444&quot;</span>;
+    <span class="kw">if</span> (valor &lt; <span class="num">70</span>) <span class="kw">return</span> <span class="str">&quot;#f59e0b&quot;</span>;
+    <span class="kw">return</span> <span class="str">&quot;#22c55e&quot;</span>;
+}
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Barra({ nombre, nivel }) {
+    <span class="kw">const</span> valor = Math.min(<span class="num">100</span>, Math.max(<span class="num">0</span>, nivel));
+
+    <span class="kw">return</span> (
+        &lt;div className=<span class="str">&quot;mb-3&quot;</span>&gt;
+            &lt;p className=<span class="str">&quot;text-sm font-semibold text-gray-700&quot;</span>&gt;{nombre}&lt;/p&gt;
+            &lt;div className=<span class="str">&quot;flex items-center gap-3&quot;</span>&gt;
+                &lt;div className=<span class="str">&quot;h-3 flex-1 overflow-hidden rounded-full bg-gray-200&quot;</span>&gt;
+                    &lt;div
+                        className=<span class="str">&quot;h-full rounded-full&quot;</span>
+                        style={{ width: <span class="str">`${valor}%`</span>, backgroundColor: colorPara(valor) }}
+                    /&gt;
+                &lt;/div&gt;
+                &lt;span className=<span class="str">&quot;w-12 text-sm text-gray-600&quot;</span>&gt;{valor} %&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex25/Ex25.jsx</span>
+<span class="kw">import</span> Barra <span class="kw">from</span> <span class="str">&quot;./Barra.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex25() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;mx-auto mt-10 max-w-sm&quot;</span>&gt;
+            &lt;Barra nombre=<span class="str">&quot;HTML&quot;</span> nivel={<span class="num">95</span>} /&gt;
+            &lt;Barra nombre=<span class="str">&quot;CSS&quot;</span> nivel={<span class="num">85</span>} /&gt;
+            &lt;Barra nombre=<span class="str">&quot;JavaScript&quot;</span> nivel={<span class="num">60</span>} /&gt;
+            &lt;Barra nombre=<span class="str">&quot;React&quot;</span> nivel={<span class="num">25</span>} /&gt;
+            &lt;Barra nombre=<span class="str">&quot;Valor erróneo&quot;</span> nivel={<span class="num">150</span>} /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+        <div class="exercise-card">
+          <div class="exercise-card-header" onclick="toggleExercise(this)">
+            <h3>📦 1.3 Componentes</h3>
+            <span style="display:flex;align-items:center;gap:.3rem;">
+              <span style="font-size:.75rem;color:#64748b;">5⏳</span>
+              <span class="arrow-fold">▼</span>
+            </span>
+          </div>
+          <div class="exercise-card-body">
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>1 · 🟢 Un logo reutilizable</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">El logo aparece en la barra de arriba y en el pie de la página. En vez de escribirlo dos veces, se hace un componente y se usa donde haga falta.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex31/Logo.jsx</code> con un componente <code>Logo</code>: un círculo con la letra «M» dentro y, a su lado, el texto «MiMarca».</li>
+                  <li>Crea <code>Ex31.jsx</code> con una barra superior y un pie, y usa <code>Logo</code> en los dos sitios.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> El círculo azul, con la «M» blanca y en negrita centrada dentro; al lado, «MiMarca» en seminegrita. Círculo y texto alineados en el centro vertical y con un pequeño espacio entre ellos. La barra superior con borde inferior fino; el pie con fondo gris claro.</p>
+                <div class="ex-samples"><pre class="sample">(M) MiMarca            ← barra superior
+...
+(M) MiMarca            ← pie</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/03-componentes/01-primer-componente/">Tu primer componente</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex31/Logo.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Logo() {
+    <span class="kw">return</span> (
+        &lt;div className=<span class="str">&quot;flex items-center gap-2&quot;</span>&gt;
+            &lt;span className=<span class="str">&quot;flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 font-bold text-white&quot;</span>&gt;
+                M
+            &lt;/span&gt;
+            &lt;span className=<span class="str">&quot;font-semibold&quot;</span>&gt;MiMarca&lt;/span&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex31/Ex31.jsx</span>
+<span class="kw">import</span> Logo <span class="kw">from</span> <span class="str">&quot;./Logo.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex31() {
+    <span class="kw">return</span> (
+        &lt;&gt;
+            &lt;header className=<span class="str">&quot;border-b border-gray-200 px-6 py-3&quot;</span>&gt;
+                &lt;Logo /&gt;
+            &lt;/header&gt;
+            &lt;footer className=<span class="str">&quot;mt-10 bg-gray-100 px-6 py-3&quot;</span>&gt;
+                &lt;Logo /&gt;
+            &lt;/footer&gt;
+        &lt;/&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>2 · 🟢 Tres componentes rotos</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Estos tres componentes tienen un fallo cada uno. Cópialos tal cual en un archivo, mira qué pasa en el navegador y la consola, y arréglalos.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex32/Ex32.jsx</code> con el código de abajo, sin cambiar nada.</li>
+                  <li>Muéstralo desde <code>App.jsx</code> y fíjate en qué falla.</li>
+                  <li>Corrige cada componente para que se vea correctamente. El texto del aviso debe seguir saliendo de ese objeto.</li>
+                  <li>Escribe en un comentario, encima de cada uno, cuál era el fallo.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Un enlace con forma de botón azul «Empezar ahora»; debajo, un título «Rápido» con su párrafo «Carga en menos de un segundo.»; y al final el aviso «Oferta limitada» en rojo y seminegrita.</p>
+                <div class="ex-samples"><pre class="sample">function botonCta() {
+    return &lt;a href=&quot;#planes&quot;&gt;Empezar ahora&lt;/a&gt;;
+}
+
+function Ventaja() {
+    return (
+        &lt;h3&gt;Rápido&lt;/h3&gt;
+        &lt;p&gt;Carga en menos de un segundo.&lt;/p&gt;
+    );
+}
+
+function Aviso() {
+    return { texto: &quot;Oferta limitada&quot; };
+}
+
+export default function Ex32() {
+    return (
+        &lt;section&gt;
+            &lt;botonCta /&gt;
+            &lt;Ventaja /&gt;
+            &lt;Aviso /&gt;
+        &lt;/section&gt;
+    );
+}</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/03-componentes/02-componentes-vs-funciones/">Componentes vs funciones</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex32/Ex32.jsx</span>
+<span class="cmt">// Fallo: el nombre empezaba en minúscula, y React lo trata como una etiqueta HTML.</span>
+<span class="kw">function</span> BotonCta() {
+    <span class="kw">return</span> (
+        &lt;a href=<span class="str">&quot;#planes&quot;</span> className=<span class="str">&quot;inline-block rounded-full bg-blue-600 px-5 py-2 font-semibold text-white&quot;</span>&gt;
+            Empezar ahora
+        &lt;/a&gt;
+    );
+}
+
+<span class="cmt">// Fallo: devolvía dos elementos hermanos sin un único elemento que los envolviera.</span>
+<span class="kw">function</span> Ventaja() {
+    <span class="kw">return</span> (
+        &lt;&gt;
+            &lt;h3 className=<span class="str">&quot;mt-4 font-semibold&quot;</span>&gt;Rápido&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;text-gray-500&quot;</span>&gt;Carga en menos de un segundo.&lt;/p&gt;
+        &lt;/&gt;
+    );
+}
+
+<span class="cmt">// Fallo: devolvía un objeto, y un componente tiene que devolver JSX.</span>
+<span class="kw">function</span> Aviso() {
+    <span class="kw">const</span> aviso = { texto: <span class="str">&quot;Oferta limitada&quot;</span> };
+    <span class="kw">return</span> &lt;p className=<span class="str">&quot;mt-4 font-semibold text-red-600&quot;</span>&gt;{aviso.texto}&lt;/p&gt;;
+}
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex32() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;mx-auto mt-10 max-w-sm&quot;</span>&gt;
+            &lt;BotonCta /&gt;
+            &lt;Ventaja /&gt;
+            &lt;Aviso /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>3 · 🟡 Botones de la landing en un solo archivo</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Los botones de una landing se parecen mucho, así que es cómodo guardarlos juntos. Practicas las dos formas de exportar un componente.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex33/Botones.jsx</code>, que contiene <strong>dos</strong> componentes exportados con su nombre: <code>BotonPrimario</code> («Empezar») y <code>BotonSecundario</code> («Saber más»).</li>
+                  <li>Crea <code>BotonContacto.jsx</code>, con un único componente exportado como exportación por defecto, que escribe «Contacto».</li>
+                  <li>Crea <code>Ex33.jsx</code>, que importe los tres y los coloque en una fila.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Tres botones en fila con un pequeño espacio entre ellos y esquinas redondeadas. «Empezar» con fondo azul y texto blanco; «Saber más» sin relleno, con borde azul y texto azul; «Contacto» con fondo gris oscuro y texto blanco.</p>
+                <div class="ex-samples"><pre class="sample">[ Empezar ]  [ Saber más ]  [ Contacto ]
+  azul         borde azul    gris oscuro</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/03-componentes/03-importar-exportar/">Importar y exportar</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex33/Botones.jsx</span>
+<span class="kw">export</span> <span class="kw">function</span> BotonPrimario() {
+    <span class="kw">return</span> &lt;button className=<span class="str">&quot;rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white&quot;</span>&gt;Empezar&lt;/button&gt;;
+}
+
+<span class="kw">export</span> <span class="kw">function</span> BotonSecundario() {
+    <span class="kw">return</span> (
+        &lt;button className=<span class="str">&quot;rounded-lg border border-blue-600 px-4 py-2 font-semibold text-blue-600&quot;</span>&gt;
+            Saber más
+        &lt;/button&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex33/BotonContacto.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> BotonContacto() {
+    <span class="kw">return</span> &lt;button className=<span class="str">&quot;rounded-lg bg-gray-800 px-4 py-2 font-semibold text-white&quot;</span>&gt;Contacto&lt;/button&gt;;
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex33/Ex33.jsx</span>
+<span class="kw">import</span> { BotonPrimario, BotonSecundario } <span class="kw">from</span> <span class="str">&quot;./Botones.jsx&quot;</span>;
+<span class="kw">import</span> BotonContacto <span class="kw">from</span> <span class="str">&quot;./BotonContacto.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex33() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;flex gap-3 p-6&quot;</span>&gt;
+            &lt;BotonPrimario /&gt;
+            &lt;BotonSecundario /&gt;
+            &lt;BotonContacto /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>4 · 🟡 Tarjeta de plan de precios</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">La sección de precios de una landing son varias tarjetas iguales con datos distintos. Es el caso típico de un componente que se reutiliza.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex34/PlanCard.jsx</code>. Recibe tres datos: <code>nombre</code>, <code>precio</code> (un número) y <code>descripcion</code>.</li>
+                  <li>Muestra el nombre, el precio como «{precio} €/mes», la descripción y un botón «Elegir plan».</li>
+                  <li>Crea <code>Ex34.jsx</code> con tres planes: Básico (9 €, «Para empezar»), Pro (19 €, «Para equipos pequeños») y Empresa (49 €, «Sin límites»).</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Cada plan es una tarjeta con borde fino, esquinas redondeadas y espacio interior generoso. El nombre en seminegrita; el precio, muy grande y en negrita; la descripción en gris; el botón a todo el ancho de la tarjeta, azul con texto blanco. En móvil, una tarjeta debajo de otra; en pantallas medianas, las tres en fila con el mismo ancho.</p>
+                <div class="ex-samples"><pre class="sample">Básico       |  Pro          |  Empresa
+9 €/mes      |  19 €/mes     |  49 €/mes
+Para empezar |  Para equipos…|  Sin límites
+[Elegir plan] |  [Elegir plan] |  [Elegir plan]</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/03-componentes/04-un-componente-real/">Un componente real</a> · <a href="../../../react/01-fundamentos/04-props/01-props/">Props</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex34/PlanCard.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> PlanCard({ nombre, precio, descripcion }) {
+    <span class="kw">return</span> (
+        &lt;article className=<span class="str">&quot;rounded-xl border border-gray-200 p-6&quot;</span>&gt;
+            &lt;h3 className=<span class="str">&quot;font-semibold text-gray-900&quot;</span>&gt;{nombre}&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;mt-2 text-4xl font-bold&quot;</span>&gt;{precio} €/mes&lt;/p&gt;
+            &lt;p className=<span class="str">&quot;mt-2 text-gray-500&quot;</span>&gt;{descripcion}&lt;/p&gt;
+            &lt;button className=<span class="str">&quot;mt-4 w-full rounded-lg bg-blue-600 py-2 font-semibold text-white&quot;</span>&gt;Elegir plan&lt;/button&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex34/Ex34.jsx</span>
+<span class="kw">import</span> PlanCard <span class="kw">from</span> <span class="str">&quot;./PlanCard.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex34() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid gap-4 p-6 md:grid-cols-3&quot;</span>&gt;
+            &lt;PlanCard nombre=<span class="str">&quot;Básico&quot;</span> precio={<span class="num">9</span>} descripcion=<span class="str">&quot;Para empezar&quot;</span> /&gt;
+            &lt;PlanCard nombre=<span class="str">&quot;Pro&quot;</span> precio={<span class="num">19</span>} descripcion=<span class="str">&quot;Para equipos pequeños&quot;</span> /&gt;
+            &lt;PlanCard nombre=<span class="str">&quot;Empresa&quot;</span> precio={<span class="num">49</span>} descripcion=<span class="str">&quot;Sin límites&quot;</span> /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>5 · 🟡 Partir una landing en componentes</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Un componente muy largo es difícil de leer. Aquí tienes una landing entera en uno solo; tu trabajo es repartirla en piezas pequeñas, cada una en su archivo.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex35/Ex35.jsx</code> con el componente de abajo, tal cual.</li>
+                  <li>Sácalo a tres componentes, cada uno en su archivo: <code>Navbar.jsx</code> (la barra superior), <code>Hero.jsx</code> (la cabecera principal) y <code>Footer.jsx</code> (el pie).</li>
+                  <li><code>Navbar</code> y <code>Footer</code> se exportan como exportación por defecto. <code>Hero</code> se exporta con nombre.</li>
+                  <li><code>Ex35</code> debe quedar solo con las tres piezas importadas y colocadas. Muéstralo desde <code>App.jsx</code>.</li>
+                  <li>Dale el aspecto descrito abajo con Tailwind.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Una barra superior a todo lo ancho, de fondo azul oscuro y texto blanco: el nombre «MiMarca» a la izquierda en negrita y los dos enlaces a la derecha, en fila. Debajo, el hero centrado: título muy grande, párrafo gris y botón azul. Al final, un pie de fondo gris claro con el texto centrado, pequeño y gris.</p>
+                <div class="ex-samples"><pre class="sample">export default function Ex35() {
+    return (
+        &lt;div&gt;
+            &lt;header&gt;
+                &lt;h1&gt;MiMarca&lt;/h1&gt;
+                &lt;nav&gt;
+                    &lt;a href=&quot;#planes&quot;&gt;Planes&lt;/a&gt;
+                    &lt;a href=&quot;#contacto&quot;&gt;Contacto&lt;/a&gt;
+                &lt;/nav&gt;
+            &lt;/header&gt;
+            &lt;main&gt;
+                &lt;h2&gt;Lanza tu proyecto&lt;/h2&gt;
+                &lt;p&gt;Una landing rápida con React.&lt;/p&gt;
+                &lt;a href=&quot;#planes&quot;&gt;Empezar&lt;/a&gt;
+            &lt;/main&gt;
+            &lt;footer&gt;
+                &lt;small&gt;© 2026 MiMarca&lt;/small&gt;
+            &lt;/footer&gt;
+        &lt;/div&gt;
+    );
+}</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/03-componentes/03-importar-exportar/">Importar y exportar</a> · <a href="../../../react/01-fundamentos/03-componentes/05-migrar-un-proyecto/">Migrar un proyecto a componentes</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex35/Navbar.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Navbar() {
+    <span class="kw">return</span> (
+        &lt;header className=<span class="str">&quot;flex items-center justify-between bg-slate-800 px-6 py-4 text-white&quot;</span>&gt;
+            &lt;h1 className=<span class="str">&quot;text-xl font-bold&quot;</span>&gt;MiMarca&lt;/h1&gt;
+            &lt;nav className=<span class="str">&quot;flex gap-4&quot;</span>&gt;
+                &lt;a href=<span class="str">&quot;#planes&quot;</span>&gt;Planes&lt;/a&gt;
+                &lt;a href=<span class="str">&quot;#contacto&quot;</span>&gt;Contacto&lt;/a&gt;
+            &lt;/nav&gt;
+        &lt;/header&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex35/Hero.jsx</span>
+<span class="kw">export</span> <span class="kw">function</span> Hero() {
+    <span class="kw">return</span> (
+        &lt;main className=<span class="str">&quot;mx-auto max-w-xl py-16 text-center&quot;</span>&gt;
+            &lt;h2 className=<span class="str">&quot;text-4xl font-bold text-gray-900&quot;</span>&gt;Lanza tu proyecto&lt;/h2&gt;
+            &lt;p className=<span class="str">&quot;mt-3 text-gray-500&quot;</span>&gt;Una landing rápida con React.&lt;/p&gt;
+            &lt;a href=<span class="str">&quot;#planes&quot;</span> className=<span class="str">&quot;mt-6 inline-block rounded-full bg-blue-600 px-6 py-2 font-semibold text-white&quot;</span>&gt;
+                Empezar
+            &lt;/a&gt;
+        &lt;/main&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex35/Footer.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Footer() {
+    <span class="kw">return</span> (
+        &lt;footer className=<span class="str">&quot;bg-gray-100 py-4 text-center text-gray-500&quot;</span>&gt;
+            &lt;small&gt;© <span class="num">2026</span> MiMarca&lt;/small&gt;
+        &lt;/footer&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex35/Ex35.jsx</span>
+<span class="kw">import</span> Navbar <span class="kw">from</span> <span class="str">&quot;./Navbar.jsx&quot;</span>;
+<span class="kw">import</span> { Hero } <span class="kw">from</span> <span class="str">&quot;./Hero.jsx&quot;</span>;
+<span class="kw">import</span> Footer <span class="kw">from</span> <span class="str">&quot;./Footer.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex35() {
+    <span class="kw">return</span> (
+        &lt;div&gt;
+            &lt;Navbar /&gt;
+            &lt;Hero /&gt;
+            &lt;Footer /&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+        <div class="exercise-card">
+          <div class="exercise-card-header" onclick="toggleExercise(this)">
+            <h3>🎁 1.4 Props</h3>
+            <span style="display:flex;align-items:center;gap:.3rem;">
+              <span style="font-size:.75rem;color:#64748b;">5⏳</span>
+              <span class="arrow-fold">▼</span>
+            </span>
+          </div>
+          <div class="exercise-card-body">
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>1 · 🟢 Equipo: tarjetas de persona</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Las <em>props</em> son los datos que un componente recibe desde fuera, igual que una función recibe argumentos. Crea la tarjeta de persona de la sección «Equipo» de una web.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex41/PerfilCard.jsx</code>. Recibe tres datos: <code>nombre</code>, <code>rol</code> y <code>ciudad</code>.</li>
+                  <li>La ciudad es opcional: si no se indica, el perfil debe mostrar «Remoto».</li>
+                  <li>Crea <code>src/ejercicios/ex41/Ex41.jsx</code> y úsalo con estos tres perfiles: Ana, Desarrolladora Frontend, Madrid · Luis, Diseñador UX, Barcelona · Marta, Analista de datos, sin ciudad.</li>
+                  <li>Muestra <code>Ex41</code> desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Cada perfil es una tarjeta con borde fino y esquinas redondeadas: el nombre en negrita y más grande, el rol debajo en gris y la ciudad en una etiqueta pequeña redondeada de fondo gris claro. En el móvil las tarjetas van una debajo de otra; a partir de una pantalla mediana, las tres van en una fila, con el mismo ancho y separación entre ellas.</p>
+                <div class="ex-samples"><pre class="sample">Ana             | Luis         | Marta
+Desarrolladora… | Diseñador UX | Analista de datos
+[Madrid]        | [Barcelona]  | [Remoto]</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/04-props/01-props/">Props</a> · <a href="../../../react/01-fundamentos/04-props/02-valores-por-defecto-y-spread/">Valores por defecto</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex41/PerfilCard.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> PerfilCard({ nombre, rol, ciudad = <span class="str">&quot;Remoto&quot;</span> }) {
+    <span class="kw">return</span> (
+        &lt;article className=<span class="str">&quot;rounded-lg border border-gray-200 p-4 shadow-sm&quot;</span>&gt;
+            &lt;h3 className=<span class="str">&quot;text-lg font-bold text-gray-900&quot;</span>&gt;{nombre}&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;text-gray-500&quot;</span>&gt;{rol}&lt;/p&gt;
+            &lt;span className=<span class="str">&quot;mt-2 inline-block rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700&quot;</span>&gt;
+                {ciudad}
+            &lt;/span&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex41/Ex41.jsx</span>
+<span class="kw">import</span> PerfilCard <span class="kw">from</span> <span class="str">&quot;./PerfilCard.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex41() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid gap-4 p-4 md:grid-cols-3&quot;</span>&gt;
+            &lt;PerfilCard nombre=<span class="str">&quot;Ana&quot;</span> rol=<span class="str">&quot;Desarrolladora Frontend&quot;</span> ciudad=<span class="str">&quot;Madrid&quot;</span> /&gt;
+            &lt;PerfilCard nombre=<span class="str">&quot;Luis&quot;</span> rol=<span class="str">&quot;Diseñador UX&quot;</span> ciudad=<span class="str">&quot;Barcelona&quot;</span> /&gt;
+            &lt;PerfilCard nombre=<span class="str">&quot;Marta&quot;</span> rol=<span class="str">&quot;Analista de datos&quot;</span> /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>2 · 🟢 Precio de un plan</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">En una web de precios, el mismo componente muestra importes con distinta moneda y periodo. Lo habitual es que casi siempre sean euros y mensual, así que esos datos tienen un valor de reserva.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex42/Precio.jsx</code>. Recibe <code>valor</code> (un número), <code>moneda</code> y <code>periodo</code>. Si no llega la moneda, es «€»; si no llega el periodo, es «mes».</li>
+                  <li>Muestra el importe con siempre dos decimales y coma decimal, seguido de la moneda, y a continuación «/ periodo» en pequeño.</li>
+                  <li>Crea <code>Ex42.jsx</code> con tres precios: 9,9 sin más datos; 19 en «$» y por «año»; y 7,5 con solo la moneda «£».</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> El importe grande y en negrita, y justo a su lado «/ mes» (o el periodo que sea) pequeño, en gris y en letra normal. Los tres precios en columna, con separación entre ellos.</p>
+                <div class="ex-samples"><pre class="sample">9,90 € / mes
+19,00 $ / año
+7,50 £ / mes</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/04-props/01-props/">Props</a> · <a href="../../../react/01-fundamentos/04-props/02-valores-por-defecto-y-spread/">Valores por defecto</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex42/Precio.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Precio({ valor, moneda = <span class="str">&quot;€&quot;</span>, periodo = <span class="str">&quot;mes&quot;</span> }) {
+    <span class="kw">const</span> importe = valor.toFixed(<span class="num">2</span>).replace(<span class="str">&quot;.&quot;</span>, <span class="str">&quot;,&quot;</span>);
+
+    <span class="kw">return</span> (
+        &lt;p className=<span class="str">&quot;text-3xl font-bold text-gray-900&quot;</span>&gt;
+            {importe} {moneda}
+            &lt;span className=<span class="str">&quot;ml-1 text-sm font-normal text-gray-500&quot;</span>&gt;/ {periodo}&lt;/span&gt;
+        &lt;/p&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex42/Ex42.jsx</span>
+<span class="kw">import</span> Precio <span class="kw">from</span> <span class="str">&quot;./Precio.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex42() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid gap-3 p-6&quot;</span>&gt;
+            &lt;Precio valor={<span class="num">9.9</span>} /&gt;
+            &lt;Precio valor={<span class="num">19</span>} moneda=<span class="str">&quot;$&quot;</span> periodo=<span class="str">&quot;año&quot;</span> /&gt;
+            &lt;Precio valor={<span class="num">7.5</span>} moneda=<span class="str">&quot;£&quot;</span> /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>3 · 🟡 Ficha de producto con descuento</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Los datos de un producto de una tienda suelen vivir juntos en un objeto. Aquí practicas dos formas de entregárselo a un componente y un poco de cálculo con JavaScript.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>En <code>src/ejercicios/ex43/Ex43.jsx</code> declara este objeto: <code>{ nombre: "Teclado mecánico", precio: 89.9, descuento: 20, stock: 3 }</code> (el descuento es un porcentaje).</li>
+                  <li>Crea <code>ProductoCard.jsx</code>, que recibe <code>nombre</code>, <code>precio</code>, <code>descuento</code> y <code>stock</code> como datos <strong>sueltos</strong>. Si no llega descuento, vale 0. Calcula el precio final aplicando el descuento.</li>
+                  <li>Muestra los precios en euros con formato español (coma decimal y el símbolo €). Si quedan 5 unidades o menos, escribe «Quedan N unidades»; si no, «En stock».</li>
+                  <li>Pásale al componente todos los datos del objeto <strong>sin escribirlos uno a uno</strong>.</li>
+                  <li>Crea también <code>ProductoResumen.jsx</code>, que recibe el objeto <strong>entero</strong> en un solo dato llamado <code>producto</code> y escribe una línea con el nombre en negrita y, entre paréntesis, las unidades.</li>
+                  <li>Muestra las dos cosas desde <code>Ex43</code> y <code>Ex43</code> desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Una tarjeta con borde fino, esquinas redondeadas y sombra suave. El nombre en seminegrita; debajo, el precio original pequeño, gris y tachado; después, el precio final en verde oscuro, grande y en negrita; y al final el aviso de unidades en gris pequeño. Debajo de la tarjeta, la línea de resumen. El conjunto no ocupa todo el ancho de la pantalla.</p>
+                <div class="ex-samples"><pre class="sample">Teclado mecánico
+89,90 €  (tachado)
+71,92 €
+Quedan 3 unidades
+
+Teclado mecánico (3 unidades)</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/04-props/01-props/">Props</a> · <a href="../../../react/01-fundamentos/04-props/02-valores-por-defecto-y-spread/">Valores por defecto y spread</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex43/ProductoCard.jsx</span>
+<span class="kw">const</span> formatoEuros = (valor) =&gt;
+    valor.toLocaleString(<span class="str">&quot;es-ES&quot;</span>, { style: <span class="str">&quot;currency&quot;</span>, currency: <span class="str">&quot;EUR&quot;</span> });
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> ProductoCard({ nombre, precio, descuento = <span class="num">0</span>, stock }) {
+    <span class="kw">const</span> precioFinal = precio * (<span class="num">1</span> - descuento / <span class="num">100</span>);
+    <span class="kw">const</span> aviso = stock &lt;= <span class="num">5</span> ? <span class="str">`Quedan ${stock} unidades`</span> : <span class="str">&quot;En stock&quot;</span>;
+
+    <span class="kw">return</span> (
+        &lt;article className=<span class="str">&quot;rounded-lg border border-gray-200 p-4 shadow-sm&quot;</span>&gt;
+            &lt;h3 className=<span class="str">&quot;font-semibold text-gray-900&quot;</span>&gt;{nombre}&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;text-sm text-gray-400 line-through&quot;</span>&gt;{formatoEuros(precio)}&lt;/p&gt;
+            &lt;p className=<span class="str">&quot;text-2xl font-bold text-green-700&quot;</span>&gt;{formatoEuros(precioFinal)}&lt;/p&gt;
+            &lt;small className=<span class="str">&quot;text-gray-500&quot;</span>&gt;{aviso}&lt;/small&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex43/ProductoResumen.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> ProductoResumen({ producto }) {
+    <span class="kw">return</span> (
+        &lt;p&gt;
+            &lt;strong&gt;{producto.nombre}&lt;/strong&gt; ({producto.stock} unidades)
+        &lt;/p&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex43/Ex43.jsx</span>
+<span class="kw">import</span> ProductoCard <span class="kw">from</span> <span class="str">&quot;./ProductoCard.jsx&quot;</span>;
+<span class="kw">import</span> ProductoResumen <span class="kw">from</span> <span class="str">&quot;./ProductoResumen.jsx&quot;</span>;
+
+<span class="kw">const</span> producto = { nombre: <span class="str">&quot;Teclado mecánico&quot;</span>, precio: <span class="num">89.9</span>, descuento: <span class="num">20</span>, stock: <span class="num">3</span> };
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex43() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid max-w-xs gap-3 p-4&quot;</span>&gt;
+            &lt;ProductoCard {...producto} /&gt;
+            &lt;ProductoResumen producto={producto} /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>4 · 🟡 Testimonio de cliente</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Los testimonios de una landing llegan como un objeto con varios datos. Vas a mostrarlos, incluida una valoración en estrellas que se calcula con JavaScript.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex44/Testimonio.jsx</code>. Recibe <strong>un solo dato</strong>, llamado <code>testimonio</code>, que es un objeto con: <code>autor</code>, <code>cargo</code>, <code>empresa</code>, <code>texto</code> y <code>valoracion</code> (de 1 a 5).</li>
+                  <li>Muestra la valoración como cinco estrellas: tantas rellenas (★) como indique el número, y el resto vacías (☆).</li>
+                  <li>Después, el texto entre comillas, y debajo el autor y, en pequeño, «cargo, empresa».</li>
+                  <li>Crea <code>Ex44.jsx</code> con dos testimonios: uno de valoración 5 y otro de 3. Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Cada testimonio en una tarjeta estrecha con borde fino, esquinas redondeadas y espacio interior. Las estrellas en ámbar y algo grandes; el texto en cursiva; el autor en negrita y, debajo, el cargo y la empresa en gris pequeño. Los dos testimonios, uno debajo del otro.</p>
+                <div class="ex-samples"><pre class="sample">★★★★★
+«Nos cambió la forma de trabajar.»
+Lucía Pérez
+CEO, Estudio Norte
+
+★★★☆☆
+«Cumple lo que promete.»
+Marc Soler
+Diseñador, Taller 21</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/04-props/01-props/">Props</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex44/Testimonio.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Testimonio({ testimonio }) {
+    <span class="kw">const</span> { autor, cargo, empresa, texto, valoracion } = testimonio;
+    <span class="kw">const</span> estrellas = <span class="str">&quot;★&quot;</span>.repeat(valoracion) + <span class="str">&quot;☆&quot;</span>.repeat(<span class="num">5</span> - valoracion);
+
+    <span class="kw">return</span> (
+        &lt;figure className=<span class="str">&quot;mx-auto my-4 max-w-sm rounded-lg border border-gray-200 p-4&quot;</span>&gt;
+            &lt;p className=<span class="str">&quot;text-xl text-amber-500&quot;</span>&gt;{estrellas}&lt;/p&gt;
+            &lt;blockquote className=<span class="str">&quot;mt-2 italic&quot;</span>&gt;«{texto}»&lt;/blockquote&gt;
+            &lt;figcaption className=<span class="str">&quot;mt-3&quot;</span>&gt;
+                &lt;strong&gt;{autor}&lt;/strong&gt;
+                &lt;p className=<span class="str">&quot;text-sm text-gray-500&quot;</span>&gt;{cargo}, {empresa}&lt;/p&gt;
+            &lt;/figcaption&gt;
+        &lt;/figure&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex44/Ex44.jsx</span>
+<span class="kw">import</span> Testimonio <span class="kw">from</span> <span class="str">&quot;./Testimonio.jsx&quot;</span>;
+
+<span class="kw">const</span> lucia = {
+    autor: <span class="str">&quot;Lucía Pérez&quot;</span>,
+    cargo: <span class="str">&quot;CEO&quot;</span>,
+    empresa: <span class="str">&quot;Estudio Norte&quot;</span>,
+    texto: <span class="str">&quot;Nos cambió la forma de trabajar.&quot;</span>,
+    valoracion: <span class="num">5</span>,
+};
+
+<span class="kw">const</span> marc = {
+    autor: <span class="str">&quot;Marc Soler&quot;</span>,
+    cargo: <span class="str">&quot;Diseñador&quot;</span>,
+    empresa: <span class="str">&quot;Taller 21&quot;</span>,
+    texto: <span class="str">&quot;Cumple lo que promete.&quot;</span>,
+    valoracion: <span class="num">3</span>,
+};
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex44() {
+    <span class="kw">return</span> (
+        &lt;section&gt;
+            &lt;Testimonio testimonio={lucia} /&gt;
+            &lt;Testimonio testimonio={marc} /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>5 · 🟡 Plan destacado que reenvía sus datos</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">En una tabla de precios, el plan «más popular» suele ser el mismo que los demás pero con un marco y una etiqueta. Se hace envolviendo el componente normal y pasándole todo lo que se reciba.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex45/PlanCard.jsx</code>: recibe <code>nombre</code> y <code>precio</code>, y muestra el nombre y «{precio} €/mes».</li>
+                  <li>Crea <code>PlanDestacado.jsx</code>: recibe <strong>los mismos datos</strong> que <code>PlanCard</code>, pero no debe nombrarlos uno por uno; se los pasa todos a <code>PlanCard</code>. Lo envuelve en un contenedor con una etiqueta «Más popular» encima.</li>
+                  <li>Crea <code>Ex45.jsx</code>: guarda los datos de un plan (Pro, 19) en un objeto. Muestra un <code>PlanCard</code> normal (Básico, 9) y un <code>PlanDestacado</code> al que le pasas el objeto sin escribir cada dato.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Las dos tarjetas una al lado de la otra, con borde fino y esquinas redondeadas. La destacada, además, con un marco ámbar más grueso a su alrededor y, encima, una etiqueta pequeña en forma de píldora de fondo ámbar con «Más popular» en seminegrita.</p>
+                <div class="ex-samples"><pre class="sample">Básico        | [Más popular]
+9 €/mes        |   Pro
+               |   19 €/mes (marco ámbar)</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/04-props/02-valores-por-defecto-y-spread/">Valores por defecto y spread</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex45/PlanCard.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> PlanCard({ nombre, precio }) {
+    <span class="kw">return</span> (
+        &lt;article className=<span class="str">&quot;rounded-xl border border-gray-200 p-5&quot;</span>&gt;
+            &lt;h3 className=<span class="str">&quot;font-semibold text-gray-900&quot;</span>&gt;{nombre}&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;mt-1 text-2xl font-bold&quot;</span>&gt;{precio} €/mes&lt;/p&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex45/PlanDestacado.jsx</span>
+<span class="kw">import</span> PlanCard <span class="kw">from</span> <span class="str">&quot;./PlanCard.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> PlanDestacado(props) {
+    <span class="kw">return</span> (
+        &lt;div className=<span class="str">&quot;rounded-2xl border-2 border-amber-400 p-1&quot;</span>&gt;
+            &lt;span className=<span class="str">&quot;mb-2 inline-block rounded-full bg-amber-100 px-3 py-0.5 text-xs font-semibold text-amber-800&quot;</span>&gt;
+                Más popular
+            &lt;/span&gt;
+            &lt;PlanCard {...props} /&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex45/Ex45.jsx</span>
+<span class="kw">import</span> PlanCard <span class="kw">from</span> <span class="str">&quot;./PlanCard.jsx&quot;</span>;
+<span class="kw">import</span> PlanDestacado <span class="kw">from</span> <span class="str">&quot;./PlanDestacado.jsx&quot;</span>;
+
+<span class="kw">const</span> pro = { nombre: <span class="str">&quot;Pro&quot;</span>, precio: <span class="num">19</span> };
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex45() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid gap-4 p-6 sm:grid-cols-2&quot;</span>&gt;
+            &lt;PlanCard nombre=<span class="str">&quot;Básico&quot;</span> precio={<span class="num">9</span>} /&gt;
+            &lt;PlanDestacado {...pro} /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+        <div class="exercise-card">
+          <div class="exercise-card-header" onclick="toggleExercise(this)">
+            <h3>🎨 1.5 Estilaje</h3>
+            <span style="display:flex;align-items:center;gap:.3rem;">
+              <span style="font-size:.75rem;color:#64748b;">5⏳</span>
+              <span class="arrow-fold">▼</span>
+            </span>
+          </div>
+          <div class="exercise-card-body">
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>1 · 🟡 Botón de llamada a la acción con CSS propio</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">No todo se hace con Tailwind. Aquí das estilo al botón principal de una landing con un archivo CSS normal, escrito por ti, y lo conectas al componente.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>En <code>src/index.css</code>, debajo de la línea de Tailwind, define dos variables de color en <code>:root</code>: un azul para el botón y uno más oscuro para cuando el ratón pasa por encima.</li>
+                  <li>Crea <code>src/ejercicios/ex51/Boton.jsx</code> y <code>Boton.css</code>. El componente recibe <code>texto</code> y un dato opcional <code>secundario</code> (falso por defecto).</li>
+                  <li>En <code>Boton.css</code> no uses valores de color sueltos para el azul: usa las variables. No uses clases de Tailwind en el botón.</li>
+                  <li>Crea <code>Ex51.jsx</code> con dos botones en fila, «Empezar ahora» (normal) y «Saber más» (secundario), y muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> El botón normal: fondo azul, texto blanco en seminegrita, relleno cómodo, esquinas redondeadas, borde del mismo azul y el cursor en forma de mano. Al pasar el ratón, el fondo se oscurece. Al llegar con el teclado (Tab) se ve un contorno claro alrededor. El botón secundario: fondo transparente, texto y borde azules; al pasar el ratón, fondo azul muy pálido.</p>
+                <div class="ex-samples"><pre class="sample">[ Empezar ahora ]  [ Saber más ]
+  relleno azul        solo borde azul</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/05-estilaje/01-css-en-react/">CSS en React</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/index.css</span>
+@<span class="kw">import</span> <span class="str">&quot;tailwindcss&quot;</span>;
+
+:root {
+    --color-primario: #2563eb;
+    --color-primario-oscuro: #1d4ed8;
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex51/Boton.css</span>
+.boton {
+    padding: <span class="num">0</span>.5rem 1rem;
+    border: 2px solid var(--color-primario);
+    border-radius: <span class="num">0</span>.5rem;
+    background-color: var(--color-primario);
+    color: white;
+    font-weight: <span class="num">600</span>;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background-color: var(--color-primario-oscuro);
+}
+
+.boton:focus-visible {
+    outline: 3px solid var(--color-primario-oscuro);
+    outline-offset: 2px;
+}
+
+.secundario {
+    background-color: transparent;
+    color: var(--color-primario);
+}
+
+.secundario:hover {
+    background-color: #eff6ff;
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex51/Boton.jsx</span>
+<span class="kw">import</span> <span class="str">&quot;./Boton.css&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Boton({ texto, secundario = <span class="kw">false</span> }) {
+    <span class="kw">return</span> &lt;button className={secundario ? <span class="str">&quot;boton secundario&quot;</span> : <span class="str">&quot;boton&quot;</span>}&gt;{texto}&lt;/button&gt;;
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex51/Ex51.jsx</span>
+<span class="kw">import</span> Boton <span class="kw">from</span> <span class="str">&quot;./Boton.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex51() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;flex gap-3 p-4&quot;</span>&gt;
+            &lt;Boton texto=<span class="str">&quot;Empezar ahora&quot;</span> /&gt;
+            &lt;Boton texto=<span class="str">&quot;Saber más&quot;</span> secundario={<span class="kw">true</span>} /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>2 · 🟢 Rejilla de características responsive</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">La sección de «características» de una landing es una rejilla de tarjetas que se reorganiza según el ancho de la pantalla. Se diseña primero para el móvil.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex52/Caracteristica.jsx</code>. Recibe <code>icono</code> (un emoji), <code>titulo</code> y <code>texto</code>.</li>
+                  <li>Crea <code>Ex52.jsx</code> con seis características (por ejemplo: ⚡ Rápido, 🔒 Seguro, 📱 Móvil primero, 🎨 Personalizable, 🔍 Buscable, 🌍 Accesible), cada una con una frase corta.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>, empezando por el diseño de móvil.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> En móvil, una tarjeta debajo de otra; a partir de una pantalla pequeña, dos columnas; a partir de una pantalla grande, tres. Cada tarjeta con borde fino, esquinas bien redondeadas y espacio interior. El emoji grande; el título en seminegrita; el texto en gris. Al pasar el ratón, la tarjeta sube un poco y aparece una sombra más marcada, con una animación suave.</p>
+                <div class="ex-samples"><pre class="sample">móvil:    [⚡] / [🔒] / [📱] / …
+pequeña:  [⚡][🔒] / [📱][🎨] / …
+grande:   [⚡][🔒][📱] / [🎨][🔍][🌍]</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/05-estilaje/02-tailwind-en-react/">Tailwind en React</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex52/Caracteristica.jsx</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Caracteristica({ icono, titulo, texto }) {
+    <span class="kw">return</span> (
+        &lt;article className=<span class="str">&quot;rounded-xl border border-gray-200 p-5 transition hover:-translate-y-1 hover:shadow-lg&quot;</span>&gt;
+            &lt;p className=<span class="str">&quot;text-3xl&quot;</span>&gt;{icono}&lt;/p&gt;
+            &lt;h3 className=<span class="str">&quot;mt-2 font-semibold text-gray-900&quot;</span>&gt;{titulo}&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;mt-1 text-gray-500&quot;</span>&gt;{texto}&lt;/p&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex52/Ex52.jsx</span>
+<span class="kw">import</span> Caracteristica <span class="kw">from</span> <span class="str">&quot;./Caracteristica.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex52() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3&quot;</span>&gt;
+            &lt;Caracteristica icono=<span class="str">&quot;⚡&quot;</span> titulo=<span class="str">&quot;Rápido&quot;</span> texto=<span class="str">&quot;Carga en menos de un segundo.&quot;</span> /&gt;
+            &lt;Caracteristica icono=<span class="str">&quot;🔒&quot;</span> titulo=<span class="str">&quot;Seguro&quot;</span> texto=<span class="str">&quot;Tus datos, siempre protegidos.&quot;</span> /&gt;
+            &lt;Caracteristica icono=<span class="str">&quot;📱&quot;</span> titulo=<span class="str">&quot;Móvil primero&quot;</span> texto=<span class="str">&quot;Pensado para pantallas pequeñas.&quot;</span> /&gt;
+            &lt;Caracteristica icono=<span class="str">&quot;🎨&quot;</span> titulo=<span class="str">&quot;Personalizable&quot;</span> texto=<span class="str">&quot;Adáptalo a tu marca.&quot;</span> /&gt;
+            &lt;Caracteristica icono=<span class="str">&quot;🔍&quot;</span> titulo=<span class="str">&quot;Buscable&quot;</span> texto=<span class="str">&quot;Bien posicionado en buscadores.&quot;</span> /&gt;
+            &lt;Caracteristica icono=<span class="str">&quot;🌍&quot;</span> titulo=<span class="str">&quot;Accesible&quot;</span> texto=<span class="str">&quot;Para todo tipo de usuarios.&quot;</span> /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>3 · 🟡 Insignias de producto</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">En una tienda o en una lista de planes aparecen pequeñas insignias que cambian de color según el estado. Vas a hacer una cuyo color depende de un dato.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex53/Insignia.jsx</code>. Recibe un dato <code>tipo</code>, que solo puede valer <code>"nuevo"</code>, <code>"oferta"</code> o <code>"agotado"</code>.</li>
+                  <li>El texto que se ve debe llevar mayúscula inicial: «Nuevo», «Oferta», «Agotado».</li>
+                  <li>Crea <code>Ex53.jsx</code> que muestre las tres insignias, una al lado de otra, y muéstralo desde <code>App.jsx</code>.</li>
+                  <li>Comprueba en el navegador que <strong>las tres</strong> tienen su color. Si alguna sale sin color, revisa cómo escribes las clases.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> Cada insignia es una píldora (esquinas totalmente redondeadas), con relleno pequeño y letra pequeña en seminegrita. «Nuevo» con fondo verde muy suave y texto verde oscuro; «Oferta» con fondo rojo suave y texto rojo oscuro; «Agotado» con fondo gris claro y texto gris oscuro. Las tres en una fila, con un pequeño espacio entre ellas.</p>
+                <div class="ex-samples"><pre class="sample">[ Nuevo ]  [ Oferta ]  [ Agotado ]
+  verde       rojo        gris</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/05-estilaje/02-tailwind-en-react/">Tailwind en React</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex53/Insignia.jsx</span>
+<span class="kw">const</span> estilos = {
+    nuevo: <span class="str">&quot;bg-green-100 text-green-800&quot;</span>,
+    oferta: <span class="str">&quot;bg-red-100 text-red-800&quot;</span>,
+    agotado: <span class="str">&quot;bg-gray-200 text-gray-700&quot;</span>,
+};
+
+<span class="kw">const</span> nombres = {
+    nuevo: <span class="str">&quot;Nuevo&quot;</span>,
+    oferta: <span class="str">&quot;Oferta&quot;</span>,
+    agotado: <span class="str">&quot;Agotado&quot;</span>,
+};
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Insignia({ tipo }) {
+    <span class="kw">return</span> (
+        &lt;span className={<span class="str">`rounded-full px-2 py-0.5 text-xs font-semibold ${estilos[tipo]}`</span>}&gt;
+            {nombres[tipo]}
+        &lt;/span&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex53/Ex53.jsx</span>
+<span class="kw">import</span> Insignia <span class="kw">from</span> <span class="str">&quot;./Insignia.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex53() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;flex gap-2 p-4&quot;</span>&gt;
+            &lt;Insignia tipo=<span class="str">&quot;nuevo&quot;</span> /&gt;
+            &lt;Insignia tipo=<span class="str">&quot;oferta&quot;</span> /&gt;
+            &lt;Insignia tipo=<span class="str">&quot;agotado&quot;</span> /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>4 · 🟡 Tarjeta de plan con variantes</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Una tarjeta de plan puede ser «destacada», «popular» y estar «agotada», y esas variantes se suman. Hay que combinarlas sin que el código se vuelva un lío.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea <code>src/ejercicios/ex54/PlanVariantes.jsx</code>. Recibe <code>nombre</code>, <code>precio</code> y tres datos que son verdadero o falso: <code>destacado</code>, <code>popular</code> y <code>agotado</code>. Los tres son opcionales.</li>
+                  <li>Crea <code>Ex54.jsx</code> con cuatro tarjetas: una sin ninguna variante, una destacada, una destacada y popular, y una agotada.</li>
+                  <li>Muéstralo desde <code>App.jsx</code>.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> La tarjeta base tiene borde fino gris, esquinas redondeadas y relleno. «Destacado»: fondo ámbar muy suave. «Popular»: un aro azul alrededor de la tarjeta. «Agotado»: la tarjeta entera medio transparente. Las variantes se pueden sumar (destacado y popular a la vez). Las cuatro tarjetas van en columna, con separación entre ellas.</p>
+                <div class="ex-samples"><pre class="sample">PlanVariantes nombre=&quot;Básico&quot; precio={9}                  → base
+PlanVariantes … destacado                             → fondo ámbar
+PlanVariantes … destacado popular                     → fondo ámbar + aro azul
+PlanVariantes … agotado                               → medio transparente</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/05-estilaje/01-css-en-react/">CSS en React (sección clsx)</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// terminal</span>
+pnpm add clsx</pre>
+<pre><span class="cmt">// src/ejercicios/ex54/PlanVariantes.jsx</span>
+<span class="kw">import</span> clsx <span class="kw">from</span> <span class="str">&quot;clsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> PlanVariantes({ nombre, precio, destacado, popular, agotado }) {
+    <span class="kw">return</span> (
+        &lt;article
+            className={clsx(
+                <span class="str">&quot;rounded-lg border border-gray-200 p-4&quot;</span>,
+                destacado &amp;&amp; <span class="str">&quot;bg-amber-50&quot;</span>,
+                popular &amp;&amp; <span class="str">&quot;ring-2 ring-blue-500&quot;</span>,
+                agotado &amp;&amp; <span class="str">&quot;opacity-50&quot;</span>,
+            )}
+        &gt;
+            &lt;h3 className=<span class="str">&quot;font-semibold text-gray-900&quot;</span>&gt;{nombre}&lt;/h3&gt;
+            &lt;p className=<span class="str">&quot;text-gray-500&quot;</span>&gt;{precio} €/mes&lt;/p&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex54/Ex54.jsx</span>
+<span class="kw">import</span> PlanVariantes <span class="kw">from</span> <span class="str">&quot;./PlanVariantes.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex54() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid max-w-sm gap-3 p-4&quot;</span>&gt;
+            &lt;PlanVariantes nombre=<span class="str">&quot;Básico&quot;</span> precio={<span class="num">9</span>} /&gt;
+            &lt;PlanVariantes nombre=<span class="str">&quot;Pro&quot;</span> precio={<span class="num">19</span>} destacado={<span class="kw">true</span>} /&gt;
+            &lt;PlanVariantes nombre=<span class="str">&quot;Equipo&quot;</span> precio={<span class="num">29</span>} destacado={<span class="kw">true</span>} popular={<span class="kw">true</span>} /&gt;
+            &lt;PlanVariantes nombre=<span class="str">&quot;Empresa&quot;</span> precio={<span class="num">49</span>} agotado={<span class="kw">true</span>} /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-card-header" onclick="toggleExercise(this)">
+              <h3>5 · 🟡 Dos tarjetas, mismas clases</h3>
+              <span style="display:flex;align-items:center;gap:.3rem;">
+                <span class="ex-status pending">⏳ Pendiente</span>
+                <span class="arrow-fold">▼</span>
+              </span>
+            </div>
+            <div class="exercise-card-body">
+              <div class="ex" style="margin-bottom:0;">
+                <p class="ex-desc">Cuando dos componentes usan el mismo nombre de clase en su CSS, no deberían pisarse. Aquí lo compruebas con dos tarjetas de una landing.</p>
+                <p class="ex-desc"><strong>Qué tienes que hacer</strong></p>
+                <ol class="ex-steps">
+                  <li>Crea dos componentes en <code>src/ejercicios/ex55/</code>: <code>TarjetaPlan</code> (recibe <code>nombre</code>, <code>precio</code> y <code>destacada</code>, opcional) y <code>TarjetaTestimonio</code> (recibe <code>autor</code> y <code>texto</code>).</li>
+                  <li>Cada uno tiene su propio archivo de estilos, y <strong>los dos usan las mismas clases</strong>: <code>tarjeta</code> y <code>titulo</code>. Además, <code>TarjetaPlan</code> tiene una clase <code>destacada</code> que se suma a <code>tarjeta</code> solo cuando recibe ese dato.</li>
+                  <li>Crea <code>Ex55.jsx</code> con una <code>TarjetaPlan</code> destacada y una <code>TarjetaTestimonio</code>, y muéstralo desde <code>App.jsx</code>.</li>
+                  <li>Comprueba que los títulos de las dos tarjetas son <strong>distintos</strong> entre sí aunque la clase se llame igual. Mira el HTML en las herramientas de desarrollo y fíjate en el nombre de la clase.</li>
+                </ol>
+                <p class="ex-explanation"><strong>Cómo debe verse.</strong> La tarjeta de plan: borde fino gris, esquinas redondeadas y relleno; título en azul oscuro de letra grande. Cuando es destacada, el borde pasa a dorado y el fondo a un amarillo muy pálido. La tarjeta de testimonio: fondo verde muy pálido con borde verde claro; título en verde oscuro, más pequeño y todo en mayúsculas. Las dos, una debajo de la otra.</p>
+                <div class="ex-samples"><pre class="sample">Plan Pro                 → azul, grande, fondo amarillo pálido
+19 €/mes
+
+LUCÍA PÉREZ              → verde, pequeño, mayúsculas
+«Nos cambió la forma de trabajar.»</pre></div>
+                <p class="ex-theory">📖 Teoría: <a href="../../../react/01-fundamentos/05-estilaje/03-css-modules/">CSS Modules</a></p>
+                <button class="ex-solution-btn" onclick="toggleSolution(this)">👁️ Ver solución</button>
+                <div class="ex-code">
+<pre><span class="cmt">// src/ejercicios/ex55/TarjetaPlan.module.css</span>
+.tarjeta {
+    border: 1px solid #ddd;
+    border-radius: <span class="num">0</span>.5rem;
+    padding: 1rem;
+}
+
+.titulo {
+    margin: <span class="num">0</span>;
+    font-size: <span class="num">1</span>.25rem;
+    color: #1d4ed8;
+}
+
+.destacada {
+    border-color: gold;
+    background-color: #fffbe6;
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex55/TarjetaTestimonio.module.css</span>
+.tarjeta {
+    border: 1px solid #bbf7d0;
+    border-radius: <span class="num">0</span>.5rem;
+    padding: 1rem;
+    background-color: #f0fdf4;
+}
+
+.titulo {
+    margin: <span class="num">0</span>;
+    font-size: 1rem;
+    color: #15803d;
+    text-transform: uppercase;
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex55/TarjetaPlan.jsx</span>
+<span class="kw">import</span> clsx <span class="kw">from</span> <span class="str">&quot;clsx&quot;</span>;
+<span class="kw">import</span> styles <span class="kw">from</span> <span class="str">&quot;./TarjetaPlan.module.css&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> TarjetaPlan({ nombre, precio, destacada }) {
+    <span class="kw">return</span> (
+        &lt;article className={clsx(styles.tarjeta, destacada &amp;&amp; styles.destacada)}&gt;
+            &lt;h3 className={styles.titulo}&gt;{nombre}&lt;/h3&gt;
+            &lt;small&gt;{precio} €/mes&lt;/small&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex55/TarjetaTestimonio.jsx</span>
+<span class="kw">import</span> styles <span class="kw">from</span> <span class="str">&quot;./TarjetaTestimonio.module.css&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> TarjetaTestimonio({ autor, texto }) {
+    <span class="kw">return</span> (
+        &lt;article className={styles.tarjeta}&gt;
+            &lt;h3 className={styles.titulo}&gt;{autor}&lt;/h3&gt;
+            &lt;small&gt;«{texto}»&lt;/small&gt;
+        &lt;/article&gt;
+    );
+}</pre>
+<pre><span class="cmt">// src/ejercicios/ex55/Ex55.jsx</span>
+<span class="kw">import</span> TarjetaPlan <span class="kw">from</span> <span class="str">&quot;./TarjetaPlan.jsx&quot;</span>;
+<span class="kw">import</span> TarjetaTestimonio <span class="kw">from</span> <span class="str">&quot;./TarjetaTestimonio.jsx&quot;</span>;
+
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> Ex55() {
+    <span class="kw">return</span> (
+        &lt;section className=<span class="str">&quot;grid max-w-sm gap-3 p-4&quot;</span>&gt;
+            &lt;TarjetaPlan nombre=<span class="str">&quot;Plan Pro&quot;</span> precio={<span class="num">19</span>} destacada={<span class="kw">true</span>} /&gt;
+            &lt;TarjetaTestimonio autor=<span class="str">&quot;Lucía Pérez&quot;</span> texto=<span class="str">&quot;Nos cambió la forma de trabajar.&quot;</span> /&gt;
+        &lt;/section&gt;
+    );
+}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </main>
 
+<script>
+// Toggle ejercicio (click en header)
+function toggleExercise(el) {
+  const card = el.closest('.exercise-card');
+  card.classList.toggle('is-open');
+}
+
+// Toggle solución (ver 'Ver solución')
+function toggleSolution(btn) {
+  const code = btn.nextElementSibling;
+  code.classList.toggle('is-visible');
+  btn.textContent = code.classList.contains('is-visible') ? '👁️ Ocultar solución' : '👁️ Ver solución';
+}
+</script>
 <script src="../../nav.js"></script>
 
 </body>
