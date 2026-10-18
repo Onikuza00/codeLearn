@@ -21,7 +21,7 @@ const jobs = ["Frontend", "Backend", "Full Stack"];
 <p>Empleos disponibles: {jobs.length}</p>
 ```
 
-No valen las **sentencias** (`if`, `for`, `while`): no producen un valor. Para decidir o repetir se usan expresiones, como el operador ternario o `.map()`, que se ven en el bloque de renderizado.
+No valen las **sentencias** (`if`, `for`, `while`): no producen un valor. Para decidir o repetir se usan expresiones, como el operador ternario o `.map()`.
 
 Las llaves solo valen en dos sitios:
 
@@ -69,8 +69,20 @@ Para pasar un valor de JavaScript a un atributo, las llaves van **sin comillas**
 
 Reglas del objeto: propiedades en **camelCase** (`fontSize`, no `font-size`) y valores como cadenas con su unidad (`"24px"`).
 
+El objeto también se puede guardar en una variable y pasar con una sola pareja de llaves. Si la propiedad y la variable se llaman igual, vale la forma abreviada:
+
+```jsx
+const color = "tomato";
+const styles = { color, fontSize: "24px" }; // abreviado: color: color
+
+<h1 style={styles}>Empleos</h1>
+```
+
 !!! tip "No es una sintaxis especial"
     `{{ }}` son unas llaves de JSX que contienen un objeto literal. Nada más.
+
+!!! warning "Solo para entender la doble llave"
+    En proyectos reales los estilos van en archivos CSS aparte. Esta sección explica por qué existe la doble llave, no es la forma recomendada de dar estilo.
 
 ---
 
@@ -102,4 +114,5 @@ La solución es elegir qué propiedad quieres mostrar.
 | Recurso | Enlace |
 |---|---|
 | JSCamp (midudev) — JSX: La sintaxis de React | <https://www.jscamp.dev/introduccion-a-react/jsx> |
+| JSCamp (midudev) — Componentes (apartado Estilos en JSX) | <https://www.jscamp.dev/introduccion-a-react/componentes> |
 | React — JavaScript en JSX con llaves (complemento: llaves en atributos y error con objetos) | <https://es.react.dev/learn/javascript-in-jsx-with-curly-braces> |

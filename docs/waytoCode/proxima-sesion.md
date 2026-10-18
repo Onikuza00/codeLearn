@@ -4,18 +4,52 @@
 
 ---
 
-## Estado tras el miércoles 14/10
+## Estado tras el domingo 18/10 (parcial, sesión en pausa)
 
-**Arranca React.** Montado el bloque en `docs/react/` (6 pilares → 25 subbloques → 51 capítulos, estructura espejo de JS), con identidad visual propia (degradado `#61DAFB → #149ECA`, logo en el menú), `repaso-urgente-react.md` y el track de ejercicios React vacíos. Detalle en el [registro del miércoles 14](/waytoCode/2026/10/semana-2/2026-10-14/).
+**E5 cerrado** (De desarrollo a producción): notas corregidas tras dos fallos (creer que el build quita los `console.log`; sacar conclusiones de un `dist/` obsoleto). Detalle en el [registro del domingo 18](/waytoCode/2026/10/semana-2/2026-10-18/). Estado en el banco: ✅ Completado.
 
-**Documentados:** 1.1 (Qué es React, Entorno con Vite fusionado con Anatomía, React sin dependencias) y 1.2 JSX completo (desde cero, con llaves, Fragments). Cada capítulo lleva vídeo de midudev/Gentleman, comparación Vue/React y tips.
+**Siguiente:** E6, «Formulario de suscripción: del HTML al JSX» (subbloque 1.2 JSX, primero de sus cinco). Pau iba a decir qué dos cosas darían error al copiar el HTML tal cual a un componente. El plan del día es mitad React, mitad Python (pendiente de empezar).
 
-**Pendiente de decidir/arreglar:**
+**Sigue pendiente:** los cierres de E4 (`Ex14.jsx`, nombres cruzados, colores de las tarjetas) y lo que se lista en el estado del 17/10.
 
-- **Reordenar 1.1:** «React sin dependencias» (createElement) debería ir antes de Vite, y renombrarse «React sin JSX» con aviso de que no es uso profesional. Sin confirmar.
-- **Entorno con Vite (183 líneas):** más largo de lo pedido; comprobar en tu máquina el árbol real de `pnpm create vite@latest` y el renombrado `_gitignore`/`_oxlintrc.json`.
-- **Sin verificar en navegador:** el ejemplo del CDN de «React sin dependencias» y las dos afirmaciones sobre Vue (objeto en `{{ }}` pinta JSON; `<component :is>`).
-- Tabla de estado por pilar en `docs/react/index.md` sin actualizar.
+---
+
+## Estado tras el sábado 17/10
+
+**React, pilar 1 (Fundamentos) CERRADO.** Detalle en el [registro del sábado 17](/waytoCode/2026/10/semana-2/2026-10-17/).
+
+| Subbloque | Capítulos |
+|---|---|
+| 1.1 Inicio | Qué es React y por qué; React sin JSX; Entorno con Vite |
+| 1.2 JSX | JSX desde cero; JSX con llaves; Fragments; Estilos en JSX |
+| 1.3 Componentes | Tu primer componente; Componentes vs funciones; Importar y exportar; Un componente real: JobCard; Migrar un proyecto a componentes |
+| 1.4 Props | Props; Valores por defecto y spread (`children` descartado) |
+| 1.5 Estilaje (borradores) | CSS en React (con `clsx`); Tailwind en React; CSS Modules |
+
+**Decisiones de hoy:**
+
+- **Renderizado condicional descartado** de Fundamentos (a Pau no le aportaba). Se quitaron las referencias colgadas en otros capítulos. `.map()` con `key` se queda **sin sitio**: decidir si va en el pilar 2 junto a la lección «Keys» de midudev.
+- **Estilaje: Tailwind es el estándar** (State of CSS 2026: sigue siendo el referente; sin cifras de CSS Modules). Orden: CSS en React (mecánica) → Tailwind → CSS Modules (última opción). `clsx` se explica una sola vez, en CSS en React, paso a paso en cards.
+- **Eventos va en el pilar 2** (2.1), antes de `useState`, como en JSCamp.
+- **Banco de ejercicios** nuevo: `docs/assessment/react/ejercicios/index.html` (enlazado en `nav.js`), **25 ejercicios, cinco por subbloque** de Fundamentos, agrupados en cards plegables dentro de la card del día y orientados a landings y aplicaciones (hero, pie, banner de oferta, planes de precios, testimonios, insignias…). Más Tailwind que CSS. **Sin hacer todavía.** No tiene runner ni live-reload (no hay tests automáticos): el estado queda en «Pendiente».
+
+**Ejercicios hechos hoy (4 de 25):** E1 (proyecto base Vite + Tailwind en `Frontend/assessment/React/ejercicios-react/`), E2 (`index.html` y logo), E3 (Hero sin JSX) y E4 (Ventajas dos formas, **cerrado con pendientes**: falta `Ex14.jsx`, los nombres de los archivos están cruzados y los colores de las dos tarjetas no coinciden). Fallos y lecciones en el [registro del sábado 17](/waytoCode/2026/10/semana-2/2026-10-17/) y en [Repaso urgente — React](/waytoCode/repaso-urgente-react/). Añadido un `!!! danger` en «React sin JSX» sobre el 2.º argumento de `createElement` (`null` si no hay props: error en desarrollo, elemento vacío en producción).
+
+**Plan de Pau para mañana (18/10):** continuar los ejercicios por donde se quedaron (regex, según dijo; confirmar cuáles) y **empezar Python**.
+
+**Norma nueva, repaso urgente de React:** una card por fallo, ordenada y coloreada por reincidencia (🟢 1 · 🟡 2 · 🟠 3 · 🔴 4+ ejercicios) con los tipos `rep-verde`/`rep-amarillo`/`rep-naranja`/`rep-rojo` de `extra.css`; sin niveles. Pau quiere este estilo siempre. Detalle en `openspec/changes/archive/2026-10-17-repaso-react-por-reincidencia/`.
+
+**Pendiente:**
+
+- **Seguir con los ejercicios desde el E5** (último del subbloque 1 Inicio) y anotar fallos en el registro del día. Vigilar si reincide `class`/`className` y el reparto props/hijos de `createElement`.
+- **Vídeo de CSS en React** (midulive, desde 1:02:50) sin poder leerlo (los subtítulos de YouTube vienen vacíos): cuando Pau pegue los capítulos, ajustar «CSS en React» a su orden.
+- **Podar la duplicación** del ternario entre «CSS en React» y «Tailwind en React».
+- **Revisar por Pau:** los tres borradores de Estilaje, «Estilos en JSX» (1.2) y «Componentes puros» (2.2).
+- **Orden de JobCard y Migrar:** están en 1.3 pero usan props (1.4). Valorar moverlos tras 1.4.
+- **Menciones adelantadas en 1.3** (`return null`, estado, CSS Modules y un `{children}` suelto en «Un componente real»), que Pau dejó «de momento».
+- **Sin verificar:** comparaciones con Vue (conocimiento propio), que React congela las props en desarrollo, los comandos de Vite/Tailwind y los ejemplos de Estilaje en un proyecto real.
+- Siguiente pilar: **2 Estado** (Eventos → useState). Luego, TypeScript como bloque propio y «React con TypeScript».
+- Tema nuevo (sin daily) media hora antes del reset de cuota: sigue sin hacerse.
 
 ---
 
@@ -85,7 +119,7 @@ Teoría nueva: [Métodos básicos](/js/01-basico/08-metodos-basicos/) (números 
 
 ## 📅 Plan — próxima sesión
 
-**React (desde el 14/10):** seguir JSCamp, lección 4 «Componentes en React» (pilar 1.3), y cerrar antes lo pendiente de 1.1 (reorden y «React sin JSX»). Regla fija: temario = midudev; solo se completa con `es.react.dev` lo que falte; capítulos breves, claros y comparando con Vue; comentarios de código siempre en español.
+**React (desde el 14/10):** seguir con 1.4 (redactar `children`) y pasar a 1.5 Renderizado (condicional y listas con `key`, que arranca con la sección «Datos desde un array»). Después, el pilar 2 (Estado). Aplicar siempre el método de `rules/documentacion.md` («React — método de documentación») y, antes de escribir, bajar el texto real de la lección de JSCamp y de `es.react.dev`. TypeScript va como bloque propio tras los pilares 1 y 2, y luego «React con TypeScript».
 
 **JS, fecha sin fijar todavía:** seguir el bloque de Asincronía por `docs/js/05-asincronia/`, en orden — toca **Bloque 3, async/await** (teoría en `04-async-await/index.md`). Mismo patrón que los dos bloques anteriores: proponer la tabla de ejercicios primero y esperar confirmación antes de montar nada, casos de uso web reales, mezclando contenido ya dominado (arrays, objetos, callbacks, DOM), pensando en lo que luego se reutiliza en React. Revisar cada ejercicio en cuanto se diga "listo", sin esperar a que se pregunte.
 

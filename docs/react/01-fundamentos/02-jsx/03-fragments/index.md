@@ -70,7 +70,7 @@ import { Fragment } from "react";
 `<Fragment>` y `<>...</>` hacen lo mismo; la única diferencia es que solo la forma completa acepta `key`.
 
 !!! tip "Cuándo usar cada uno"
-    Usa `<>...</>` por defecto. Cambia a `<Fragment key={...}>` solo cuando estés repitiendo el grupo con `.map()`. La lista y la `key` se explican en el capítulo de renderizado de listas.
+    Usa `<>...</>` por defecto. Cambia a `<Fragment key={...}>` solo cuando estés repitiendo el grupo con `.map()`.
 
 **Caso 1: un grupo que se escribe una sola vez → `<>...</>`**
 

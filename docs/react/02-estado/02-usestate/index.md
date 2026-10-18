@@ -8,6 +8,7 @@ Pendiente de redactar.
 
 | Capítulo | Estado |
 |----------|--------|
-| [El estado como memoria del componente](01-estado-como-memoria/index.md) | Pendiente |
-| [El estado como instantánea](02-estado-como-instantanea/index.md) | Pendiente |
-| [Cola de actualizaciones](03-cola-actualizaciones/index.md) | Pendiente |
+| [Componentes puros](01-componentes-puros/index.md) | Redactado |
+| [El estado como memoria del componente](02-estado-como-memoria/index.md) | Pendiente |
+| [El estado como instantánea](03-estado-como-instantanea/index.md) | Pendiente |
+| [Cola de actualizaciones](04-cola-actualizaciones/index.md) | Pendiente |

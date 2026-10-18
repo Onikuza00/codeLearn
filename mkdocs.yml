@@ -1,6 +1,6 @@
 ﻿site_name: CodeLearn — Pau
 site_author: Pau Crosas Batista
-site_description: Documentación de aprendizaje — CSS, Frontend, Backend, GSAP, DevOps
+site_description: Documentación de aprendizaje — CSS, Frontend, Backend, GSAP, DevOps, Python
 site_url: https://onikuza00.github.io/codeLearn/
 
 theme:
@@ -38,6 +38,7 @@ nav:
       - Javascript: waytoCode/repaso-urgente-js.md
       - Symfony: waytoCode/repaso-urgente-symfony.md
       - React: waytoCode/repaso-urgente-react.md
+      - Python: waytoCode/repaso-urgente-python.md
     - "Daily Log: 2026":
       - waytoCode/2026/index.md
       - "Mes 06 — Junio":
@@ -103,6 +104,8 @@ nav:
       - "Mes 10 — Octubre":
         - "Semana 02":
           - "Miércoles 14 — Arranque de React": waytoCode/2026/10/semana-2/2026-10-14.md
+          - "Sábado 17 — React: componentes y props": waytoCode/2026/10/semana-2/2026-10-17.md
+          - "Domingo 18 — React: ejercicios de Inicio": waytoCode/2026/10/semana-2/2026-10-18.md
   - Web:
     - web/index.md
     - "01 - Petición y respuesta": web/01-ciclo-peticion-respuesta/index.md
@@ -261,39 +264,42 @@ nav:
       - "1.1 Inicio":
         - react/01-fundamentos/01-inicio/index.md
         - "Qué es React y por qué": react/01-fundamentos/01-inicio/01-que-es-react/index.md
-        - "Entorno con Vite": react/01-fundamentos/01-inicio/03-entorno-vite/index.md
-        - "React sin dependencias (createElement)": react/01-fundamentos/01-inicio/05-react-sin-dependencias/index.md
+        - "React sin JSX": react/01-fundamentos/01-inicio/03-react-sin-jsx/index.md
+        - "Entorno con Vite": react/01-fundamentos/01-inicio/05-entorno-vite/index.md
       - "1.2 JSX":
         - react/01-fundamentos/02-jsx/index.md
         - "JSX desde cero": react/01-fundamentos/02-jsx/01-jsx-desde-cero/index.md
         - "JSX con llaves": react/01-fundamentos/02-jsx/02-javascript-en-jsx/index.md
         - "Fragments": react/01-fundamentos/02-jsx/03-fragments/index.md
+        - "Estilos en JSX": react/01-fundamentos/02-jsx/04-estilos-en-jsx/index.md
       - "1.3 Componentes":
         - react/01-fundamentos/03-componentes/index.md
         - "Tu primer componente": react/01-fundamentos/03-componentes/01-primer-componente/index.md
-        - "Importar y exportar": react/01-fundamentos/03-componentes/02-importar-exportar/index.md
-        - "Tu UI como un árbol": react/01-fundamentos/03-componentes/03-ui-como-arbol/index.md
-        - "Componentes puros": react/01-fundamentos/03-componentes/04-componentes-puros/index.md
+        - "Componentes vs funciones": react/01-fundamentos/03-componentes/02-componentes-vs-funciones/index.md
+        - "Importar y exportar": react/01-fundamentos/03-componentes/03-importar-exportar/index.md
+        - "Un componente real: JobCard": react/01-fundamentos/03-componentes/04-un-componente-real/index.md
+        - "Migrar un proyecto a componentes": react/01-fundamentos/03-componentes/05-migrar-un-proyecto/index.md
       - "1.4 Props":
         - react/01-fundamentos/04-props/index.md
-        - "Pasar props": react/01-fundamentos/04-props/01-pasar-props/index.md
-        - "La prop children": react/01-fundamentos/04-props/02-prop-children/index.md
-        - "Props inmutables": react/01-fundamentos/04-props/03-props-inmutables/index.md
-        - "Funciones y elementos como props": react/01-fundamentos/04-props/04-funciones-elementos-como-props/index.md
-      - "1.5 Renderizado":
-        - react/01-fundamentos/05-renderizado/index.md
-        - "Renderizado condicional": react/01-fundamentos/05-renderizado/01-renderizado-condicional/index.md
-        - "Listas y key": react/01-fundamentos/05-renderizado/02-listas-key/index.md
+        - "Props": react/01-fundamentos/04-props/01-props/index.md
+        - "Valores por defecto y spread": react/01-fundamentos/04-props/02-valores-por-defecto-y-spread/index.md
+      - "1.5 Estilaje":
+        - react/01-fundamentos/05-estilaje/index.md
+        - "CSS en React": react/01-fundamentos/05-estilaje/01-css-en-react/index.md
+        - "Tailwind en React": react/01-fundamentos/05-estilaje/02-tailwind-en-react/index.md
+        - "CSS Modules": react/01-fundamentos/05-estilaje/03-css-modules/index.md
     - "02 - Estado":
       - react/02-estado/index.md
       - "2.1 Eventos":
         - react/02-estado/01-eventos/index.md
         - "Responder a eventos": react/02-estado/01-eventos/01-responder-eventos/index.md
+        - "Funciones y elementos como props": react/02-estado/01-eventos/02-funciones-como-props/index.md
       - "2.2 useState":
         - react/02-estado/02-usestate/index.md
-        - "El estado como memoria del componente": react/02-estado/02-usestate/01-estado-como-memoria/index.md
-        - "El estado como instantánea": react/02-estado/02-usestate/02-estado-como-instantanea/index.md
-        - "Cola de actualizaciones": react/02-estado/02-usestate/03-cola-actualizaciones/index.md
+        - "Componentes puros": react/02-estado/02-usestate/01-componentes-puros/index.md
+        - "El estado como memoria del componente": react/02-estado/02-usestate/02-estado-como-memoria/index.md
+        - "El estado como instantánea": react/02-estado/02-usestate/03-estado-como-instantanea/index.md
+        - "Cola de actualizaciones": react/02-estado/02-usestate/04-cola-actualizaciones/index.md
       - "2.3 Render y commit":
         - react/02-estado/03-render-commit/index.md
         - "Renderizado y confirmación": react/02-estado/03-render-commit/01-renderizado-confirmacion/index.md
@@ -483,6 +489,164 @@ nav:
       - "Ver y buscar": devops/02-linux/02-ver-buscar/index.md
       - "Permisos": devops/02-linux/03-permisos/index.md
       - "Procesos y servicios": devops/02-linux/04-procesos/index.md
+  - Python:
+    - python/index.md
+    - "01 - Fundamentos":
+      - python/01-fundamentos/index.md
+      - "1.1 Inicio":
+        - python/01-fundamentos/01-inicio/index.md
+        - "Qué es Python": python/01-fundamentos/01-inicio/01-que-es-python/index.md
+        - "Entorno: venv y pip": python/01-fundamentos/01-inicio/02-entorno-venv-pip/index.md
+        - "Primer script y REPL": python/01-fundamentos/01-inicio/03-primer-script-y-repl/index.md
+      - "1.2 Datos básicos":
+        - python/01-fundamentos/02-datos-basicos/index.md
+        - "Variables y tipos": python/01-fundamentos/02-datos-basicos/01-variables-y-tipos/index.md
+        - "Strings y f-strings": python/01-fundamentos/02-datos-basicos/02-strings-y-f-strings/index.md
+        - "Entrada y conversión": python/01-fundamentos/02-datos-basicos/03-entrada-y-conversion/index.md
+      - "1.3 Decisiones":
+        - python/01-fundamentos/03-decisiones/index.md
+        - "if / elif / else": python/01-fundamentos/03-decisiones/01-if-elif-else/index.md
+        - "match / case": python/01-fundamentos/03-decisiones/02-match-case/index.md
+      - "1.4 Bucles":
+        - python/01-fundamentos/04-bucles/index.md
+        - "for y range": python/01-fundamentos/04-bucles/01-for-y-range/index.md
+        - "while": python/01-fundamentos/04-bucles/02-while/index.md
+        - "enumerate y zip": python/01-fundamentos/04-bucles/03-enumerate-y-zip/index.md
+      - "1.5 Python en IA":
+        - python/01-fundamentos/05-python-en-ia/index.md
+        - "Del script al prompt": python/01-fundamentos/05-python-en-ia/01-del-script-al-prompt/index.md
+    - "02 - Estructuras de datos":
+      - python/02-estructuras-de-datos/index.md
+      - "2.1 Listas y tuplas":
+        - python/02-estructuras-de-datos/01-listas-y-tuplas/index.md
+        - "Listas": python/02-estructuras-de-datos/01-listas-y-tuplas/01-listas/index.md
+        - "Tuplas": python/02-estructuras-de-datos/01-listas-y-tuplas/02-tuplas/index.md
+      - "2.2 Diccionarios":
+        - python/02-estructuras-de-datos/02-diccionarios/index.md
+        - "Diccionarios": python/02-estructuras-de-datos/02-diccionarios/01-diccionarios/index.md
+        - "Diccionarios anidados y JSON": python/02-estructuras-de-datos/02-diccionarios/02-diccionarios-anidados-y-json/index.md
+      - "2.3 Sets":
+        - python/02-estructuras-de-datos/03-sets/index.md
+        - "Sets": python/02-estructuras-de-datos/03-sets/01-sets/index.md
+      - "2.4 Comprensiones":
+        - python/02-estructuras-de-datos/04-comprensiones/index.md
+        - "Comprensiones de lista": python/02-estructuras-de-datos/04-comprensiones/01-comprensiones-de-lista/index.md
+        - "Comprensiones de dict y set": python/02-estructuras-de-datos/04-comprensiones/02-comprensiones-dict-set-generadores/index.md
+      - "2.5 Desempaquetado":
+        - python/02-estructuras-de-datos/05-desempaquetado/index.md
+        - "Desempaquetado": python/02-estructuras-de-datos/05-desempaquetado/01-desempaquetado/index.md
+      - "2.6 Python en IA":
+        - python/02-estructuras-de-datos/06-python-en-ia/index.md
+        - "Datos de ofertas a un prompt": python/02-estructuras-de-datos/06-python-en-ia/01-ofertas-a-un-prompt/index.md
+    - "03 - Funciones":
+      - python/03-funciones/index.md
+      - "3.1 Funciones básicas":
+        - python/03-funciones/01-funciones-basicas/index.md
+        - "Funciones y retorno": python/03-funciones/01-funciones-basicas/01-funciones-y-retorno/index.md
+        - "Parámetros": python/03-funciones/01-funciones-basicas/02-parametros/index.md
+        - "Scope y closures": python/03-funciones/01-funciones-basicas/03-scope-y-closures/index.md
+      - "3.2 *args y **kwargs":
+        - python/03-funciones/02-args-y-kwargs/index.md
+        - "*args y **kwargs": python/03-funciones/02-args-y-kwargs/01-args-y-kwargs/index.md
+      - "3.3 Type hints":
+        - python/03-funciones/03-type-hints/index.md
+        - "Type hints": python/03-funciones/03-type-hints/01-type-hints/index.md
+      - "3.4 Funciones como valores":
+        - python/03-funciones/04-funciones-como-valores/index.md
+        - "Lambdas y orden superior": python/03-funciones/04-funciones-como-valores/01-lambdas-y-orden-superior/index.md
+      - "3.5 Decoradores":
+        - python/03-funciones/05-decoradores/index.md
+        - "Decoradores": python/03-funciones/05-decoradores/01-decoradores/index.md
+      - "3.6 Generadores":
+        - python/03-funciones/06-generadores/index.md
+        - "Generadores": python/03-funciones/06-generadores/01-generadores/index.md
+      - "3.7 Python en IA":
+        - python/03-funciones/07-python-en-ia/index.md
+        - "Un cliente de prompts reutilizable": python/03-funciones/07-python-en-ia/01-cliente-de-prompts/index.md
+    - "04 - Ficheros y errores":
+      - python/04-ficheros-y-errores/index.md
+      - "4.1 Rutas y ficheros":
+        - python/04-ficheros-y-errores/01-rutas-y-ficheros/index.md
+        - "pathlib": python/04-ficheros-y-errores/01-rutas-y-ficheros/01-pathlib/index.md
+        - "open y with": python/04-ficheros-y-errores/01-rutas-y-ficheros/02-open-y-with/index.md
+      - "4.2 Formatos":
+        - python/04-ficheros-y-errores/02-formatos/index.md
+        - "CSV": python/04-ficheros-y-errores/02-formatos/01-csv/index.md
+        - "JSON": python/04-ficheros-y-errores/02-formatos/02-json/index.md
+        - "XML": python/04-ficheros-y-errores/02-formatos/03-xml/index.md
+      - "4.3 SQLite":
+        - python/04-ficheros-y-errores/03-sqlite/index.md
+        - "sqlite3": python/04-ficheros-y-errores/03-sqlite/01-sqlite3/index.md
+      - "4.4 Errores":
+        - python/04-ficheros-y-errores/04-errores/index.md
+        - "Excepciones": python/04-ficheros-y-errores/04-errores/01-excepciones/index.md
+        - "logging": python/04-ficheros-y-errores/04-errores/02-logging/index.md
+      - "4.5 Python en IA":
+        - python/04-ficheros-y-errores/05-python-en-ia/index.md
+        - "Guardar conversaciones": python/04-ficheros-y-errores/05-python-en-ia/01-guardar-conversaciones/index.md
+    - "05 - Objetos":
+      - python/05-objetos/index.md
+      - "5.1 Clases":
+        - python/05-objetos/01-clases/index.md
+        - "Clases": python/05-objetos/01-clases/01-clases/index.md
+      - "5.2 dataclass":
+        - python/05-objetos/02-dataclass/index.md
+        - "dataclass": python/05-objetos/02-dataclass/01-dataclasses/index.md
+      - "5.3 Herencia y protocolos":
+        - python/05-objetos/03-herencia-y-protocolos/index.md
+        - "Herencia y protocolos": python/05-objetos/03-herencia-y-protocolos/01-herencia-y-protocolos/index.md
+      - "5.4 Enums":
+        - python/05-objetos/04-enums/index.md
+        - "Enums": python/05-objetos/04-enums/01-enums/index.md
+      - "5.5 Pydantic":
+        - python/05-objetos/05-pydantic/index.md
+        - "Pydantic": python/05-objetos/05-pydantic/01-pydantic/index.md
+      - "5.6 Python en IA":
+        - python/05-objetos/06-python-en-ia/index.md
+        - "Modelar una conversación": python/05-objetos/06-python-en-ia/01-modelar-una-conversacion/index.md
+    - "06 - Ecosistema":
+      - python/06-ecosistema/index.md
+      - "6.1 Módulos y paquetes":
+        - python/06-ecosistema/01-modulos-y-paquetes/index.md
+        - "Módulos y paquetes": python/06-ecosistema/01-modulos-y-paquetes/01-modulos-y-paquetes/index.md
+      - "6.2 Proyecto y configuración":
+        - python/06-ecosistema/02-proyecto-y-configuracion/index.md
+        - "Proyecto y configuración": python/06-ecosistema/02-proyecto-y-configuracion/01-proyecto-y-configuracion/index.md
+      - "6.3 HTTP":
+        - python/06-ecosistema/03-http/index.md
+        - "HTTP con httpx": python/06-ecosistema/03-http/01-http-con-httpx/index.md
+      - "6.4 Asincronía":
+        - python/06-ecosistema/04-asincronia/index.md
+        - "async y await": python/06-ecosistema/04-asincronia/01-async-await/index.md
+      - "6.5 Tests":
+        - python/06-ecosistema/05-tests/index.md
+        - "Tests con pytest": python/06-ecosistema/05-tests/01-pytest/index.md
+      - "6.6 CLI":
+        - python/06-ecosistema/06-cli/index.md
+        - "argparse": python/06-ecosistema/06-cli/01-argparse/index.md
+      - "6.7 Python en IA":
+        - python/06-ecosistema/07-python-en-ia/index.md
+        - "Un CLI de chat testeado": python/06-ecosistema/07-python-en-ia/01-cli-de-chat-testeado/index.md
+    - "07 - Python para IA":
+      - python/07-python-para-ia/index.md
+      - "7.1 API de Claude":
+        - python/07-python-para-ia/01-api-de-claude/index.md
+        - "Llamar a la API de Claude": python/07-python-para-ia/01-api-de-claude/01-llamar-a-claude/index.md
+      - "7.2 Embeddings":
+        - python/07-python-para-ia/02-embeddings/index.md
+        - "Embeddings y similitud": python/07-python-para-ia/02-embeddings/01-embeddings-y-similitud/index.md
+      - "7.3 Chunking":
+        - python/07-python-para-ia/03-chunking/index.md
+        - "Chunking": python/07-python-para-ia/03-chunking/01-chunking/index.md
+      - "7.4 Mini-RAG":
+        - python/07-python-para-ia/04-mini-rag/index.md
+        - "Mini-RAG": python/07-python-para-ia/04-mini-rag/01-mini-rag/index.md
+      - "7.5 Evals":
+        - python/07-python-para-ia/05-evals/index.md
+        - "Evals": python/07-python-para-ia/05-evals/01-evals/index.md
+      - "7.6 Python en IA":
+        - python/07-python-para-ia/06-python-en-ia/index.md
+        - "RAG de documentos propios": python/07-python-para-ia/06-python-en-ia/01-rag-de-documentos-propios/index.md
   - IA:
     - ia/index.md
     - "Flujos de trabajo":

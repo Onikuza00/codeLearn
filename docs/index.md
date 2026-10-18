@@ -12,6 +12,7 @@
 | 🔧 Backend Symfony | 01 — Web Components | En curso |
 | 🎞️ GSAP | — | Dominado (producción real) |
 | 🐳 DevOps | — | Pendiente |
+| <span class="python-icon">:fontawesome-brands-python:</span> Python | — | Pendiente |
 
 ## 📁 Estructura del repo
 

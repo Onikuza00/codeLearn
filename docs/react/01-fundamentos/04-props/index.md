@@ -1,6 +1,6 @@
 # Props { .section-react .bloque-react }
 
-Pendiente de redactar.
+> Las props son los datos que un padre entrega a sus hijos. Aquí aprendes a pasarlas y a darles valores de reserva.
 
 ---
 
@@ -8,7 +8,5 @@ Pendiente de redactar.
 
 | Capítulo | Estado |
 |----------|--------|
-| [Pasar props](01-pasar-props/index.md) | Pendiente |
-| [La prop children](02-prop-children/index.md) | Pendiente |
-| [Props inmutables](03-props-inmutables/index.md) | Pendiente |
-| [Funciones y elementos como props](04-funciones-elementos-como-props/index.md) | Pendiente |
+| [Props](01-props/index.md) | Redactado |
+| [Valores por defecto y spread](02-valores-por-defecto-y-spread/index.md) | Redactado |
