@@ -16,3 +16,6 @@ npm-debug.log*
 
 # Build
 site/
+
+# Company work notes never belong in this learning repo
+voradata-*.md
