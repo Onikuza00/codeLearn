@@ -2,6 +2,10 @@
 
 > Hay dos formas de ejecutar Python: guardar un archivo `.py` o escribir línea a línea en el REPL. Aquí usas las dos, aprendes `print` y los comentarios, y ves cómo leer los errores.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/TkN2i-_4N4g?start=1282" title="Hola mundo (desde 00:21:22) — Curso completo de Python" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ---
 
 ## Tu primer script {: .topic-title }
@@ -195,3 +199,5 @@ Y `print` va a ser tu herramienta de depuración número uno: antes de enviar un
 | Referencia — Comentarios | <https://docs.python.org/3/reference/lexical_analysis.html#comments> |
 | Referencia — Indentación | <https://docs.python.org/3/reference/lexical_analysis.html#indentation> |
 | Tutorial — Errores y excepciones | <https://docs.python.org/3/tutorial/errors.html#handling-exceptions> |
+| **Vídeo** | |
+| Vídeo de apoyo — «Hola mundo» (desde 00:21:22) | <https://www.youtube.com/watch?v=TkN2i-_4N4g&t=1282s> |
