@@ -22,7 +22,7 @@ const getCurrentDatetimeSchema = {
   },
 };
 
-//Funcion para añadir a la array de mensajes los mensajes del usuario
+//Funcion para añadir a la array hola de mensajes los mensajes del usuario
 function addUserMessage(messages, text){
     messages.push({role: 'user', content: text})
 }

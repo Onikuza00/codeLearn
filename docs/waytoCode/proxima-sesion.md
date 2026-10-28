@@ -4,7 +4,9 @@
 
 ---
 
-## Estado tras el domingo 18/10 (parcial, sesión en pausa)
+## Estado tras el domingo 18/10 (sesión cerrada antes de tiempo)
+
+**Sesión cortada por falta de concentración; se retoma el finde que viene.** Python: repaso con el vídeo «Curso completo de Python desde cero» (`TkN2i-_4N4g`). Hechas 2 páginas de `01-fundamentos/01-inicio/` (Qué es Python, Primer script y REPL). **Siguiente página sin vídeo aún:** Entorno venv y pip (capítulos «IDEs y entornos de desarrollo» 0:13:43 e «Intérprete» 0:18:08, lo decide Pau). Mecánica: Pau da sección y minuto; el vídeo va incrustado bajo la introducción (`<div class="video-embed">`, `?start=` en segundos) y como fila «Vídeo de apoyo» en Recursos. No se puede leer el contenido hablado (subtítulos 404): hay que pegar transcripción si se quiere contenido nuevo.
 
 **E5 cerrado** (De desarrollo a producción): notas corregidas tras dos fallos (creer que el build quita los `console.log`; sacar conclusiones de un `dist/` obsoleto). Detalle en el [registro del domingo 18](/waytoCode/2026/10/semana-2/2026-10-18/). Estado en el banco: ✅ Completado.
 

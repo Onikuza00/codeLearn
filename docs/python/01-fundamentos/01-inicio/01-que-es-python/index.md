@@ -2,6 +2,10 @@
 
 > Python es un lenguaje pensado para que el código se lea casi como una frase. Aquí ves qué es, cómo se ejecuta un script por dentro y por qué su tipado sorprende a quien viene de JavaScript.
 
+<div class="video-embed">
+<iframe src="https://www.youtube.com/embed/TkN2i-_4N4g?start=32" title="¿Qué es Python y sus características? (00:32 – 05:31) — Curso completo de Python" loading="lazy" allowfullscreen></iframe>
+</div>
+
 ---
 
 ## Un lenguaje que se lee {: .topic-title }
@@ -181,3 +185,5 @@ Dos razones prácticas:
 | `sys.implementation` | <https://docs.python.org/3/library/sys.html#sys.implementation> |
 | `python -m` (opciones de línea de comandos) | <https://docs.python.org/3/using/cmdline.html#cmdoption-m> |
 | Python 2 ha llegado al final de su vida | <https://www.python.org/doc/sunset-python-2/> |
+| **Vídeo** | |
+| Vídeo de apoyo — «¿Qué es Python y sus características?» (desde 00:32) | <https://www.youtube.com/watch?v=TkN2i-_4N4g&t=32s> |
